@@ -49,6 +49,10 @@ body {
     box-shadow: var(--shadow-card);
 }
 
+.game-card {
+    position: relative;
+}
+
 .legal-card {
     max-width: 760px;
 }
