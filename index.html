@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharky - Jump and Swim</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Page Layout -->
+    <main class="page-layout">
+        <section class="game-card">
+            <header class="game-header">
+                <div>
+                    <p class="eyebrow">Sharky Projekt</p>
+                    <h1>Sharky - Jump and Swim</h1>
+                </div>
+
+                <nav class="game-navigation" aria-label="Hauptnavigation">
+                    <a href="impressum.html">Impressum</a>
+                </nav>
+            </header>
+
+            <!-- Start Screen -->
+            <section id="startScreen" class="menu-overlay">
+                <div class="menu-content">
+                    <p class="eyebrow">Mission starten</p>
+                    <h2>Rette Sharkys Riff</h2>
+                    <p>
+                        Sammle Münzen, weiche Gegnern aus und kämpfe dich durch die Tiefsee.
+                    </p>
+
+                    <div class="menu-actions">
+                        <button class="primary-button" data-level="1">Level 1 starten</button>
+                        <button class="secondary-button" data-level="2">Level 2 starten</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pause Screen -->
+            <section id="pauseScreen" class="menu-overlay hidden">
+                <div class="menu-content">
+                    <p class="eyebrow">Pause</p>
+                    <h2>Spiel pausiert</h2>
+                    <p>Atme kurz durch. Auch Haie brauchen mal eine Sekunde.</p>
+
+                    <div class="menu-actions">
+                        <button id="resumeButton" class="primary-button">Weiter</button>
+                        <button id="restartButton" class="secondary-button">Neu starten</button>
+                        <button id="mainMenuButton" class="secondary-button">Hauptmenü</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game Area -->
+            <section class="game-area" aria-label="Spielfläche">
+                <div class="game-hud">
+                    <span id="levelDisplay">Level: 1</span>
+                    <span id="coinDisplay">Münzen: 0</span>
+                    <button id="pauseButton" class="hud-button" disabled>Pause</button>
+                </div>
+
+                <canvas id="gameCanvas" width="960" height="540">
+                    Dein Browser unterstützt kein Canvas.
+                </canvas>
+
+                <div class="mobile-controls" aria-label="Mobile Steuerung">
+                    <div class="mobile-movement-control">↕ ↔</div>
+
+                    <div class="mobile-action-controls">
+                        <button class="mobile-action-button">Blase</button>
+                        <button class="mobile-action-button">Gift</button>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/config/game-config.js"></script>
+    <script src="js/classes/keyboard.class.js"></script>
+    <script src="js/classes/game-state.class.js"></script>
+    <script src="js/classes/game-renderer.class.js"></script>
+    <script src="js/classes/game.class.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

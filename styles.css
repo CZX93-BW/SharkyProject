@@ -1,0 +1,292 @@
+/* Global Settings */
+
+:root {
+    --color-background: #041923;
+    --color-surface: rgba(6, 42, 58, 0.92);
+    --color-surface-light: rgba(15, 82, 110, 0.85);
+    --color-primary: #29d3ff;
+    --color-primary-dark: #049cc2;
+    --color-text: #f1fbff;
+    --color-muted: #a9d6e5;
+    --color-border: rgba(255, 255, 255, 0.16);
+    --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.35);
+    --border-radius-large: 28px;
+    --border-radius-medium: 18px;
+    --font-main: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--font-main);
+    color: var(--color-text);
+    background:
+        radial-gradient(circle at top, rgba(41, 211, 255, 0.2), transparent 32rem),
+        linear-gradient(135deg, #041923, #052d3f 48%, #020b10);
+}
+
+/* Page Layout */
+
+.page-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.game-card,
+.legal-card {
+    width: min(100%, 1100px);
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-large);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.legal-card {
+    max-width: 760px;
+}
+
+/* Header */
+
+.game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    color: var(--color-primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+h1,
+h2 {
+    margin: 0;
+    line-height: 1.1;
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+}
+
+h2 {
+    font-size: clamp(1.7rem, 4vw, 3rem);
+}
+
+p {
+    color: var(--color-muted);
+    line-height: 1.6;
+}
+
+.game-navigation a,
+.back-link {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.game-navigation a:hover,
+.back-link:hover {
+    color: var(--color-primary);
+}
+
+/* Game Area */
+
+.game-area {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius-medium);
+    background: #052638;
+}
+
+.game-hud {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.24);
+}
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(#0a6f91, #06334d);
+}
+
+/* Menus */
+
+.menu-overlay {
+    position: absolute;
+    inset: 24px;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    border-radius: var(--border-radius-medium);
+    background: rgba(2, 14, 22, 0.82);
+    backdrop-filter: blur(10px);
+}
+
+.menu-content {
+    width: min(100%, 560px);
+    padding: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-large);
+    background: var(--color-surface-light);
+    text-align: center;
+}
+
+.menu-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Buttons */
+
+button {
+    font: inherit;
+}
+
+.primary-button,
+.secondary-button,
+.hud-button,
+.mobile-action-button {
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.primary-button,
+.secondary-button {
+    padding: 12px 20px;
+}
+
+.primary-button {
+    color: #021018;
+    background: var(--color-primary);
+}
+
+.secondary-button {
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.hud-button {
+    padding: 8px 14px;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.primary-button:hover {
+    background: #75e6ff;
+}
+
+.secondary-button:hover,
+.hud-button:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+/* Mobile Controls */
+
+.mobile-controls {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.24);
+}
+
+.mobile-movement-control {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+.mobile-action-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.mobile-action-button {
+    min-width: 76px;
+    padding: 12px 14px;
+    color: var(--color-text);
+    background: rgba(41, 211, 255, 0.22);
+}
+
+/* Legal Page */
+
+.legal-card h2 {
+    margin-top: 28px;
+    font-size: 1.35rem;
+}
+
+.back-link {
+    display: inline-flex;
+    margin-top: 28px;
+    font-weight: 700;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 760px) {
+    .page-layout {
+        padding: 12px;
+    }
+
+    .game-card,
+    .legal-card {
+        padding: 16px;
+    }
+
+    .game-header,
+    .game-hud {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .menu-overlay {
+        inset: 16px;
+    }
+
+    .menu-content {
+        padding: 24px;
+    }
+
+    .mobile-controls {
+        display: flex;
+    }
+}
