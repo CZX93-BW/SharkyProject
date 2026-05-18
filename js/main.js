@@ -71,7 +71,9 @@ function restartGame() {
 function returnToMainMenu() {
     sharkyGame.stop();
     disablePauseButton();
+    hidePauseScreen();
     showStartScreen();
+    updateGameHud();
 }
 
 function showGameScreen() {

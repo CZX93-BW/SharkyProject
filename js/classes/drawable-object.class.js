@@ -13,11 +13,17 @@ class DrawableObject {
 
     loadImage(imagePath) {
         if (!imagePath) {
+            this.clearImage();
             return;
         }
 
         this.imagePath = imagePath;
         this.image = this.getCachedImage(imagePath);
+    }
+
+    clearImage() {
+        this.image = null;
+        this.imagePath = '';
     }
 
     getCachedImage(imagePath) {

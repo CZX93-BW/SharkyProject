@@ -18,6 +18,7 @@ class Character extends MovableObject {
     update(keyboard, bounds) {
         this.resetVelocity();
         this.applyKeyboardMovement(keyboard);
+        this.normalizeDiagonalMovement();
         this.updatePosition();
         this.keepInsideBounds(bounds);
     }
@@ -50,6 +51,19 @@ class Character extends MovableObject {
         if (keyboard.isMovingDown()) {
             this.moveDown();
         }
+    }
+
+    normalizeDiagonalMovement() {
+        if (!this.hasDiagonalVelocity()) {
+            return;
+        }
+
+        this.velocityX *= GAME_CONFIG.diagonalMovementFactor;
+        this.velocityY *= GAME_CONFIG.diagonalMovementFactor;
+    }
+
+    hasDiagonalVelocity() {
+        return this.velocityX !== 0 && this.velocityY !== 0;
     }
 
     draw(context) {

@@ -8,6 +8,7 @@ const GAME_CONFIG = {
     playerWidth: 78,
     playerHeight: 48,
     playerSpeed: 4,
+    diagonalMovementFactor: 0.7071,
     playerFallbackColor: '#29d3ff',
     playerEyeColor: '#021018',
     debugParameter: 'debug',

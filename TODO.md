@@ -1,9 +1,9 @@
 # Sharky Projekt – Tagesplanung ohne Commits
 
-Stand: 17.05.2026  
+Stand: 18.05.2026  
 Zeitrahmen: ca. 10 Tage  
 Arbeitszeit: maximal ca. 8 Stunden pro Tag  
-Ziel: Ein sauberes, spielbares und portfolio-taugliches Jump-and-Run-Spiel mit Sharky.
+Ziel: Ein sauberes, spielbares und portfolio-taugliches Unterwasser-Canvas-Spiel mit Sharky.
 
 ---
 
@@ -11,40 +11,50 @@ Ziel: Ein sauberes, spielbares und portfolio-taugliches Jump-and-Run-Spiel mit S
 
 ### Ziel des Tages
 
-Das Projekt soll sauber aufgesetzt werden, damit ich später nicht im Chaos lande.  
-Heute geht es vor allem darum, eine stabile Basis zu schaffen.
+Das Projekt wird sauber aufgesetzt, damit die spätere Entwicklung nicht im Chaos landet.  
+Heute entsteht die technische und strukturelle Basis für das Spiel.
 
 ### Aufgaben
 
 - [x] Projektordner erstellen
+- [x] Git-Repository initialisieren
 - [x] Grundstruktur für das Projekt anlegen
 - [x] `index.html` erstellen
-- [x] `imprint.html` erstellen
+- [ ] `imprint.html` erstellen
 - [x] `styles.css` erstellen
 - [x] Erste JavaScript-Dateien anlegen
 - [x] Canvas-Grundstruktur in HTML vorbereiten
-- [x] Sharky-Grafiken sichten
-- [x] Assets sinnvoll in den Projektordner einsortieren
 - [x] Erste Spielfläche sichtbar machen
 - [x] Grundlayout für Startscreen vorbereiten
+- [x] Grundlayout für Pause-Menü vorbereiten
+- [x] Levelauswahl im Startscreen vorbereiten
+- [x] HUD mit Level, Münzen und Pause-Button vorbereiten
+- [x] Mobile-Control-Bereich als Platzhalter vorbereiten
+- [ ] Sharky-Grafiken sichten
+- [ ] Assets sinnvoll in den Projektordner einsortieren
 - [x] Prüfen, ob das Projekt im Browser sauber startet
+- [x] Prüfen, ob keine Fehler in der Konsole auftauchen
 
 ### Tagesergebnis
 
 - [x] Projekt startet im Browser
 - [x] Canvas ist sichtbar
 - [x] Ordnerstruktur ist sauber
-- [x] Erste Assets sind sortiert
+- [x] Grundlayout steht
+- [x] Startscreen ist vorbereitet
+- [x] Pause-Menü ist vorbereitet
+- [ ] Erste Assets sind sortiert
 - [x] Grundbasis steht
 
 ---
 
-## Tag 2 – Game Loop und Sharky-Bewegung
+## Tag 2 – Game Loop, Sharky-Bewegung und Objektbasis
 
 ### Ziel des Tages
 
 Sharky soll sichtbar sein und sich grundsätzlich bewegen können.  
-Das Spiel soll sich zum ersten Mal wie ein echtes Spiel anfühlen.
+Das Spiel soll sich zum ersten Mal wie ein echtes Spiel anfühlen.  
+Da Sharky ein Unterwasser-Spiel ist, wird keine klassische Sprung- und Gravity-Logik verwendet, sondern freie Bewegung in vier Richtungen.
 
 ### Aufgaben
 
@@ -54,20 +64,40 @@ Das Spiel soll sich zum ersten Mal wie ein echtes Spiel anfühlen.
 - [x] Tastatursteuerung einbauen
 - [x] Bewegung nach links einbauen
 - [x] Bewegung nach rechts einbauen
-- [x] Sprunglogik vorbereiten
-- [x] Gravity einbauen
-- [x] Fallbewegung testen
-- [x] Erste einfache Animation testen
+- [x] Bewegung nach oben einbauen
+- [x] Bewegung nach unten einbauen
+- [x] Unterwasserbewegung vorbereiten
 - [x] Bewegungsgeschwindigkeit abstimmen
+- [x] Sharky innerhalb der Canvas-Grenzen halten
+- [x] Spiel pausierbar machen
+- [x] Spiel fortsetzbar machen
+- [x] Spiel neustartbar machen
+- [x] Rückkehr zum Hauptmenü ermöglichen
+- [x] Debug-Modus über URL vorbereiten
+- [x] Debug-Hitbox für Sharky vorbereiten
+- [x] FPS-Anzeige im Debug-Modus vorbereiten
+- [x] `DrawableObject` als Basisklasse vorbereiten
+- [x] `MovableObject` als bewegliche Basisklasse vorbereiten
+- [x] `Character` als Sharky-Klasse vorbereiten
+- [x] Klassendateien nach `name.class.js`-Konvention benennen
 - [x] Code frühzeitig klein und lesbar halten
 - [x] Prüfen, ob Fehler in der Konsole auftauchen
+
+### Bewusst nicht verwendet
+
+- [x] Klassische Sprunglogik wurde entfernt oder nicht weiterverfolgt
+- [x] Gravity wurde nicht eingebaut, weil Sharky frei unter Wasser schwimmt
+- [x] Fallbewegung wurde durch vertikale Schwimmbewegung ersetzt
 
 ### Tagesergebnis
 
 - [x] Sharky ist sichtbar
-- [x] Sharky kann sich bewegen
-- [x] Sprunglogik ist vorhanden oder vorbereitet
+- [x] Sharky kann sich nach links und rechts bewegen
+- [x] Sharky kann sich nach oben und unten bewegen
 - [x] Game Loop läuft stabil
+- [x] Unterwasserbewegung ist technisch vorbereitet
+- [x] Objektarchitektur ist vorbereitet
+- [x] Debug-Modus ist vorhanden
 - [x] Keine unnötigen Fehler in der Konsole
 
 ---
@@ -77,78 +107,109 @@ Das Spiel soll sich zum ersten Mal wie ein echtes Spiel anfühlen.
 ### Ziel des Tages
 
 Die Spielwelt soll entstehen.  
-Sharky soll sich nicht nur auf einem leeren Canvas bewegen, sondern in einem echten Level unterwegs sein.
+Sharky soll sich nicht mehr nur auf einem leeren Canvas bewegen, sondern in einem echten Level unterwegs sein.  
+Die Kamera soll Sharky sinnvoll folgen und die Welt soll breiter als der sichtbare Canvas werden.
 
 ### Aufgaben
 
-- [ ] Hintergrundgrafiken einbauen
 - [ ] Levelbreite definieren
-- [ ] Kamera / Viewport-Bewegung umsetzen
+- [ ] Levelhöhe definieren
 - [ ] Levelgrenzen einbauen
-- [ ] Bodenlogik vorbereiten
-- [ ] Plattformen oder feste Bereiche vorbereiten
+- [ ] Sharky innerhalb der Levelgrenzen halten
+- [ ] Kamera / Viewport-Bewegung umsetzen
+- [ ] Kamera an Sharkys Position koppeln
+- [ ] Kamera am linken Levelrand stoppen
+- [ ] Kamera am rechten Levelrand stoppen
+- [ ] Hintergrundgrafiken einbauen
+- [ ] Hintergrund über die Levelbreite darstellen
+- [ ] Parallax-Hintergrund vorbereiten oder grob vormerken
 - [ ] Leveldaten sauber strukturieren
-- [ ] Assets sinnvoll laden
+- [ ] Erste `Level`-Klasse vorbereiten
+- [ ] Erste `BackgroundObject`-Klasse vorbereiten
+- [ ] Level 1 als Datenstruktur anlegen
+- [ ] Level 2 als spätere Datenstruktur vorbereiten
+- [ ] Feste Bereiche oder Hinderniszonen vorbereiten
+- [ ] Bodenlogik durch Unterwasser-Levelgrenzen ersetzen
+- [ ] Plattformlogik durch Hindernisse oder feste Kollisionsbereiche ersetzen
+- [ ] Assets sinnvoll über zentrale Konfiguration laden
 - [ ] Spielfeld optisch prüfen
+- [ ] Debug-Anzeige um Kamera- und Levelwerte erweitern
 - [ ] Performance grob prüfen
 - [ ] Code bei Bedarf direkt aufteilen
 
 ### Tagesergebnis
 
 - [ ] Erste Spielwelt ist sichtbar
+- [ ] Level ist breiter als der sichtbare Canvas
 - [ ] Kamera folgt Sharky sinnvoll
+- [ ] Kamera bleibt innerhalb der Levelgrenzen
 - [ ] Sharky bleibt innerhalb der Levelgrenzen
 - [ ] Levelstruktur ist technisch vorbereitet
+- [ ] Hintergrund ist vorbereitet oder sichtbar
 - [ ] Projekt wirkt nicht mehr wie ein leerer Testscreen
 
 ---
 
-## Tag 4 – Gegner und Kollisionen
+## Tag 4 – Gegner, Kollisionen und erste Gefahren
 
 ### Ziel des Tages
 
 Das Spiel braucht Gefahr.  
-Gegner sollen im Level erscheinen und mit Sharky kollidieren können.
+Gegner sollen im Level erscheinen, sich bewegen und mit Sharky kollidieren können.
 
 ### Aufgaben
 
+- [ ] `Enemy`-Basisklasse vorbereiten
+- [ ] Erste Gegnerklasse erstellen
 - [ ] Gegnerlogik vorbereiten
 - [ ] Erste Gegner anzeigen
+- [ ] Gegner über Leveldaten platzieren
+- [ ] Gegner relativ zur Kamera anzeigen
 - [ ] Gegnerbewegung einbauen
-- [ ] Gegner im Level platzieren
 - [ ] Kollisionslogik auslagern
 - [ ] Kollision zwischen Sharky und Gegnern prüfen
+- [ ] Kollisionen mit Kamera- und Levelposition testen
 - [ ] Schaden vorbereiten
 - [ ] Lebenssystem vorbereiten
+- [ ] Unverwundbarkeitszeit nach Treffer vorbereiten
 - [ ] Hitboxen testen
 - [ ] Kollisionen möglichst einfach und nachvollziehbar halten
 - [ ] Fehlerfälle testen
+- [ ] Debug-Modus für Gegner-Hitboxen erweitern
 
 ### Tagesergebnis
 
 - [ ] Gegner erscheinen im Level
+- [ ] Gegner werden korrekt in der Welt platziert
 - [ ] Gegner bewegen sich
 - [ ] Kollisionen werden erkannt
 - [ ] Sharky kann Schaden bekommen
 - [ ] Kollisionscode ist sauber ausgelagert
+- [ ] Debug-Hitboxen helfen beim Testen
 
 ---
 
-## Tag 5 – UI, Leben, Coins und Spielstatus
+## Tag 5 – UI, Leben, Coins, Ressourcen und Spielstatus
 
 ### Ziel des Tages
 
 Das Spiel bekommt klare Rückmeldung für den Spieler.  
-Man soll sehen, was passiert, wie viel Leben Sharky hat und ob man gewinnt oder verliert.
+Man soll sehen, was passiert, wie viel Leben Sharky hat, wie viele Münzen gesammelt wurden und welche Ressourcen verfügbar sind.
 
 ### Aufgaben
 
 - [ ] Lebensanzeige einbauen
-- [ ] Coin-Anzeige einbauen
+- [ ] Coin-Anzeige weiter ausbauen
 - [ ] Coins im Level platzieren
+- [ ] Coins über Leveldaten verwalten
+- [ ] Coins relativ zur Kamera anzeigen
 - [ ] Coins einsammelbar machen
+- [ ] Giftflaschen als Ressource vorbereiten
+- [ ] Anzeige für Giftflaschen vorbereiten
+- [ ] Blasenangriff im UI berücksichtigen
 - [ ] Spielstatus vorbereiten
-- [ ] Startscreen einbauen
+- [ ] Startscreen optisch verbessern
+- [ ] Startscreen mit Levelauswahl und Storytext verfeinern
 - [ ] Game Over Screen vorbereiten
 - [ ] Win Screen vorbereiten
 - [ ] Neustart vorbereiten
@@ -159,6 +220,8 @@ Man soll sehen, was passiert, wie viel Leben Sharky hat und ob man gewinnt oder 
 
 - [ ] Leben wird angezeigt
 - [ ] Coins können gesammelt werden
+- [ ] Giftflaschen sind als Ressource vorbereitet
+- [ ] Bubble- und Giftangriff sind im UI berücksichtigt
 - [ ] Start, Sieg und Niederlage sind vorbereitet
 - [ ] Spieler bekommt klare Rückmeldung
 - [ ] Das Spiel hat eine erkennbare Struktur
@@ -175,12 +238,18 @@ Heute geht es darum, aus der Technik ein echtes kleines Spielerlebnis zu machen.
 ### Aufgaben
 
 - [ ] Level 1 final aufbauen
+- [ ] Hintergrund und Levelobjekte passend platzieren
 - [ ] Gegner sinnvoll platzieren
 - [ ] Coins sinnvoll platzieren
+- [ ] Giftflaschen sinnvoll platzieren
 - [ ] Ziel / Levelende definieren
+- [ ] Endboss für Level 1 vorbereiten
+- [ ] Endboss in Level 1 platzieren
+- [ ] Siegbedingung über Endboss oder Levelende definieren
 - [ ] Schwierigkeit testen
 - [ ] Spielfluss prüfen
-- [ ] Animationen verbessern
+- [ ] Sharky-Animationen verbessern
+- [ ] Gegner-Animationen grob vorbereiten
 - [ ] Kleinere Bugs beheben
 - [ ] Performance prüfen
 - [ ] Code bei Bedarf aufteilen
@@ -191,17 +260,18 @@ Heute geht es darum, aus der Technik ein echtes kleines Spielerlebnis zu machen.
 - [ ] Level 1 ist komplett spielbar
 - [ ] Man kann Level 1 gewinnen
 - [ ] Man kann in Level 1 verlieren
+- [ ] Endboss für Level 1 ist vorbereitet oder spielbar
 - [ ] Schwierigkeit fühlt sich fair an
 - [ ] Keine offensichtlichen Bugs im ersten Level
 
 ---
 
-## Tag 7 – Level 2 und kleine Lore
+## Tag 7 – Level 2, Shop und kleine Lore
 
 ### Ziel des Tages
 
 Das Spiel soll größer und runder wirken.  
-Ein zweites Level und eine kleine Story geben dem Projekt mehr Charakter, ohne es unnötig aufzublasen.
+Ein zweites Level, eine kleine Story und ein einfacher Shop geben dem Projekt mehr Charakter, ohne es unnötig aufzublasen.
 
 ### Aufgaben
 
@@ -210,7 +280,13 @@ Ein zweites Level und eine kleine Story geben dem Projekt mehr Charakter, ohne e
 - [ ] Schwierigkeit leicht steigern
 - [ ] Gegnerplatzierung für Level 2 testen
 - [ ] Coins sinnvoll verteilen
+- [ ] Giftflaschen sinnvoll verteilen
 - [ ] Levelwechsel einbauen
+- [ ] Shop zwischen Level 1 und Level 2 vorbereiten
+- [ ] Einfache Upgrades definieren
+- [ ] Coins als Kaufressource nutzen
+- [ ] Gekaufte Upgrades während der Spielsession anwenden
+- [ ] Level 2 Endboss vorbereiten
 - [ ] Kleine Lore / Story einbauen
 - [ ] Spieltexte auf Deutsch sauber formulieren
 - [ ] Level 2 testweise durchspielen
@@ -220,6 +296,8 @@ Ein zweites Level und eine kleine Story geben dem Projekt mehr Charakter, ohne e
 
 - [ ] Level 2 ist spielbar
 - [ ] Levelwechsel funktioniert
+- [ ] Shop zwischen den Leveln ist vorbereitet
+- [ ] Erste Upgrades sind vorbereitet oder nutzbar
 - [ ] Kleine Story ist eingebaut
 - [ ] Das Spiel wirkt vollständiger
 - [ ] Beide Level passen vom Stil zusammen
@@ -235,14 +313,22 @@ Die mobile Steuerung muss benutzbar sein und das Layout darf nicht auseinanderfa
 
 ### Aufgaben
 
-- [ ] Mobile Buttons einbauen
+- [ ] Mobile-Control-Bereich finalisieren
+- [ ] Bewegung per mobilem Cursor oder Joystick einbauen
 - [ ] Touch Events umsetzen
-- [ ] Bewegung per Touch testen
-- [ ] Springen per Touch testen
+- [ ] Bewegung nach links per Touch testen
+- [ ] Bewegung nach rechts per Touch testen
+- [ ] Bewegung nach oben per Touch testen
+- [ ] Bewegung nach unten per Touch testen
+- [ ] Blasenangriff per Touch testen
+- [ ] Giftangriff per Touch testen
+- [ ] Angriffbuttons für linke und rechte Hand gut erreichbar platzieren
 - [ ] Canvas responsiv machen
 - [ ] Startscreen mobil prüfen
+- [ ] Pause-Menü mobil prüfen
 - [ ] Game Over Screen mobil prüfen
 - [ ] Win Screen mobil prüfen
+- [ ] Shop mobil prüfen
 - [ ] Querformat prüfen
 - [ ] Kleine Displays testen
 - [ ] CSS aufräumen
@@ -251,6 +337,8 @@ Die mobile Steuerung muss benutzbar sein und das Layout darf nicht auseinanderfa
 ### Tagesergebnis
 
 - [ ] Mobile Steuerung funktioniert
+- [ ] Sharky kann mobil in vier Richtungen bewegt werden
+- [ ] Bubble- und Giftangriff funktionieren per Touch
 - [ ] Spiel ist auf kleinen Displays nutzbar
 - [ ] UI bleibt lesbar
 - [ ] Touch Buttons fühlen sich nicht fummelig an
@@ -269,49 +357,73 @@ Alles, was wackelt, soll stabil werden. Alles, was unfertig wirkt, soll aufgerä
 
 - [ ] Animationen final prüfen
 - [ ] Bewegungsgefühl verbessern
+- [ ] Unterwasserbewegung feinjustieren
+- [ ] Diagonale Bewegung prüfen und bei Bedarf normalisieren
 - [ ] Ladezeiten prüfen
 - [ ] Performance grob testen
-- [ ] Debug-Modus ergänzen
-- [ ] Hitbox-Anzeige optional einbauen
+- [ ] Debug-Modus final prüfen
+- [ ] Debug-Modus mit Hitboxen, FPS, Kamera und Levelwerten final prüfen
 - [ ] Kollisionen gezielt testen
+- [ ] Gegnerverhalten testen
+- [ ] Coin-Sammlung testen
+- [ ] Giftflaschen-Sammlung testen
+- [ ] Bubble-Angriff testen
+- [ ] Giftangriff testen
+- [ ] Shop testen
 - [ ] Steuerung testen
+- [ ] Mobile Steuerung testen
 - [ ] Neustart testen
+- [ ] Pause-Menü testen
 - [ ] Levelwechsel testen
+- [ ] Game Over testen
+- [ ] Win Screen testen
 - [ ] Konsole auf Fehler prüfen
 - [ ] Unnötigen Code entfernen
+- [ ] Doppelte Logik reduzieren
 - [ ] JSDoc für fertige JS-Dateien ergänzen
 - [ ] CSS und HTML auf saubere Struktur prüfen
+- [ ] Dateien auf sinnvolle Länge prüfen
+- [ ] Code bei Bedarf weiter aufteilen
 
 ### Tagesergebnis
 
 - [ ] Spiel läuft stabil
-- [ ] Debugging-Hilfen sind vorhanden
+- [ ] Debugging-Hilfen sind vorhanden und geprüft
 - [ ] Keine offensichtlichen Konsolenfehler
 - [ ] Code wirkt sauber und wartbar
 - [ ] Spielgefühl ist flüssig
+- [ ] Mobile Steuerung ist brauchbar
+- [ ] Das Spiel wirkt deutlich polierter
 
 ---
 
 ## Tag 10 – Finale Prüfung und Abgabevorbereitung
 
 ### Ziel des Tages
-
-Heute wird nichts mehr wild umgebaut.  
+ 
 Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 
 ### Aufgaben
 
 - [ ] Komplette Projektcheckliste durchgehen
 - [ ] Alle Muss-Kriterien prüfen
+- [ ] Alle eigenen Projektregeln prüfen
 - [ ] README erstellen
 - [ ] Projektbeschreibung schreiben
 - [ ] Steuerung dokumentieren
 - [ ] Features dokumentieren
+- [ ] Debug-Modus dokumentieren
+- [ ] Shop und Upgrades dokumentieren
 - [ ] Screenshots für Portfolio vorbereiten
-- [ ] Impressum prüfen
+- [ ] Kurzen Portfolio-Text vorbereiten
+- [ ] `imprint.html` prüfen
+- [ ] Keine echten personenbezogenen Daten im Impressum verwenden
 - [ ] Responsive Test final durchführen
 - [ ] Browser-Test durchführen
+- [ ] Performance final grob prüfen
 - [ ] Projektstruktur final prüfen
+- [ ] Dateinamen und Konventionen final prüfen
+- [ ] Kommentare und JSDoc final prüfen
 - [ ] Letzte kleine Bugs beheben
 - [ ] Projekt für Abgabe vorbereiten
 
@@ -321,6 +433,8 @@ Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 - [ ] README ist vorhanden
 - [ ] Impressum ist vorhanden
 - [ ] Spiel läuft stabil
+- [ ] Projektstruktur ist sauber
+- [ ] Code ist nachvollziehbar
 - [ ] Das Projekt kann guten Gewissens ins Portfolio
 
 ---
