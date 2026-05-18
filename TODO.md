@@ -20,7 +20,7 @@ Heute entsteht die technische und strukturelle Basis für das Spiel.
 - [x] Git-Repository initialisieren
 - [x] Grundstruktur für das Projekt anlegen
 - [x] `index.html` erstellen
-- [ ] `imprint.html` erstellen
+- [x] `imprint.html` erstellen
 - [x] `styles.css` erstellen
 - [x] Erste JavaScript-Dateien anlegen
 - [x] Canvas-Grundstruktur in HTML vorbereiten
@@ -68,6 +68,7 @@ Da Sharky ein Unterwasser-Spiel ist, wird keine klassische Sprung- und Gravity-L
 - [x] Bewegung nach unten einbauen
 - [x] Unterwasserbewegung vorbereiten
 - [x] Bewegungsgeschwindigkeit abstimmen
+- [x] Diagonale Bewegung normalisieren
 - [x] Sharky innerhalb der Canvas-Grenzen halten
 - [x] Spiel pausierbar machen
 - [x] Spiel fortsetzbar machen
@@ -80,24 +81,22 @@ Da Sharky ein Unterwasser-Spiel ist, wird keine klassische Sprung- und Gravity-L
 - [x] `MovableObject` als bewegliche Basisklasse vorbereiten
 - [x] `Character` als Sharky-Klasse vorbereiten
 - [x] Klassendateien nach `name.class.js`-Konvention benennen
+- [x] Script-Reihenfolge bereinigen
+- [x] Tag-3-Dateien bewusst nicht einbinden
 - [x] Code frühzeitig klein und lesbar halten
 - [x] Prüfen, ob Fehler in der Konsole auftauchen
-
-### Bewusst nicht verwendet
-
-- [x] Klassische Sprunglogik wurde entfernt oder nicht weiterverfolgt
-- [x] Gravity wurde nicht eingebaut, weil Sharky frei unter Wasser schwimmt
-- [x] Fallbewegung wurde durch vertikale Schwimmbewegung ersetzt
 
 ### Tagesergebnis
 
 - [x] Sharky ist sichtbar
 - [x] Sharky kann sich nach links und rechts bewegen
 - [x] Sharky kann sich nach oben und unten bewegen
+- [x] Diagonale Bewegung fühlt sich gleichmäßiger an
 - [x] Game Loop läuft stabil
 - [x] Unterwasserbewegung ist technisch vorbereitet
 - [x] Objektarchitektur ist vorbereitet
 - [x] Debug-Modus ist vorhanden
+- [x] Dateinamen folgen der Projektkonvention
 - [x] Keine unnötigen Fehler in der Konsole
 
 ---
