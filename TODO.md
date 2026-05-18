@@ -111,39 +111,38 @@ Die Kamera soll Sharky sinnvoll folgen und die Welt soll breiter als der sichtba
 
 ### Aufgaben
 
-- [ ] Levelbreite definieren
-- [ ] Levelhöhe definieren
-- [ ] Levelgrenzen einbauen
-- [ ] Sharky innerhalb der Levelgrenzen halten
-- [ ] Kamera / Viewport-Bewegung umsetzen
-- [ ] Kamera an Sharkys Position koppeln
-- [ ] Kamera am linken Levelrand stoppen
-- [ ] Kamera am rechten Levelrand stoppen
+- [x] Levelbreite definieren
+- [x] Levelhöhe definieren
+- [x] Levelgrenzen einbauen
+- [x] Sharky innerhalb der Levelgrenzen halten
+- [x] Kamera / Viewport-Bewegung umsetzen
+- [x] Kamera an Sharkys Position koppeln
+- [x] Kamera am linken Levelrand stoppen
+- [x] Kamera am rechten Levelrand stoppen
+- [x] Leveldaten sauber strukturieren
+- [x] Erste `Level`-Klasse vorbereiten
+- [x] Erste `BackgroundObject`-Klasse vorbereiten
+- [x] Level 1 als Datenstruktur anlegen
+- [x] Level 2 als spätere Datenstruktur vorbereiten
+- [x] Feste Bereiche oder Hinderniszonen vorbereiten
+- [x] Bodenlogik durch Unterwasser-Levelgrenzen ersetzen
+- [x] Plattformlogik durch Hindernisse oder feste Kollisionsbereiche ersetzen
+- [x] Assets sinnvoll über zentrale Konfiguration laden
+- [x] Spielfeld optisch prüfen
+- [x] Debug-Anzeige um Kamera- und Levelwerte erweitern
+- [x] Performance grob prüfen
 - [ ] Hintergrundgrafiken einbauen
 - [ ] Hintergrund über die Levelbreite darstellen
 - [ ] Parallax-Hintergrund vorbereiten oder grob vormerken
-- [ ] Leveldaten sauber strukturieren
-- [ ] Erste `Level`-Klasse vorbereiten
-- [ ] Erste `BackgroundObject`-Klasse vorbereiten
-- [ ] Level 1 als Datenstruktur anlegen
-- [ ] Level 2 als spätere Datenstruktur vorbereiten
-- [ ] Feste Bereiche oder Hinderniszonen vorbereiten
-- [ ] Bodenlogik durch Unterwasser-Levelgrenzen ersetzen
-- [ ] Plattformlogik durch Hindernisse oder feste Kollisionsbereiche ersetzen
-- [ ] Assets sinnvoll über zentrale Konfiguration laden
-- [ ] Spielfeld optisch prüfen
-- [ ] Debug-Anzeige um Kamera- und Levelwerte erweitern
-- [ ] Performance grob prüfen
-- [ ] Code bei Bedarf direkt aufteilen
 
 ### Tagesergebnis
 
-- [ ] Erste Spielwelt ist sichtbar
-- [ ] Level ist breiter als der sichtbare Canvas
-- [ ] Kamera folgt Sharky sinnvoll
-- [ ] Kamera bleibt innerhalb der Levelgrenzen
-- [ ] Sharky bleibt innerhalb der Levelgrenzen
-- [ ] Levelstruktur ist technisch vorbereitet
+- [x] Erste Spielwelt ist sichtbar
+- [x] Level ist breiter als der sichtbare Canvas
+- [x] Kamera folgt Sharky sinnvoll
+- [x] Kamera bleibt innerhalb der Levelgrenzen
+- [x] Sharky bleibt innerhalb der Levelgrenzen
+- [x] Levelstruktur ist technisch vorbereitet
 - [ ] Hintergrund ist vorbereitet oder sichtbar
 - [ ] Projekt wirkt nicht mehr wie ein leerer Testscreen
 
