@@ -48,27 +48,27 @@ Das Spiel soll sich zum ersten Mal wie ein echtes Spiel anfühlen.
 
 ### Aufgaben
 
-- [ ] Game Loop aufbauen
-- [ ] Canvas Rendering vorbereiten
-- [ ] Sharky auf dem Canvas anzeigen
-- [ ] Tastatursteuerung einbauen
-- [ ] Bewegung nach links einbauen
-- [ ] Bewegung nach rechts einbauen
-- [ ] Sprunglogik vorbereiten
-- [ ] Gravity einbauen
-- [ ] Fallbewegung testen
-- [ ] Erste einfache Animation testen
-- [ ] Bewegungsgeschwindigkeit abstimmen
-- [ ] Code frühzeitig klein und lesbar halten
-- [ ] Prüfen, ob Fehler in der Konsole auftauchen
+- [x] Game Loop aufbauen
+- [x] Canvas Rendering vorbereiten
+- [x] Sharky auf dem Canvas anzeigen
+- [x] Tastatursteuerung einbauen
+- [x] Bewegung nach links einbauen
+- [x] Bewegung nach rechts einbauen
+- [x] Sprunglogik vorbereiten
+- [x] Gravity einbauen
+- [x] Fallbewegung testen
+- [x] Erste einfache Animation testen
+- [x] Bewegungsgeschwindigkeit abstimmen
+- [x] Code frühzeitig klein und lesbar halten
+- [x] Prüfen, ob Fehler in der Konsole auftauchen
 
 ### Tagesergebnis
 
-- [ ] Sharky ist sichtbar
-- [ ] Sharky kann sich bewegen
-- [ ] Sprunglogik ist vorhanden oder vorbereitet
-- [ ] Game Loop läuft stabil
-- [ ] Keine unnötigen Fehler in der Konsole
+- [x] Sharky ist sichtbar
+- [x] Sharky kann sich bewegen
+- [x] Sprunglogik ist vorhanden oder vorbereitet
+- [x] Game Loop läuft stabil
+- [x] Keine unnötigen Fehler in der Konsole
 
 ---
 
