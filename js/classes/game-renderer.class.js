@@ -6,30 +6,21 @@ class GameRenderer {
         this.context = canvas.getContext('2d');
     }
 
-    render(gameState) {
+    render(gameState, camera) {
         this.clearCanvas();
-        this.drawBackground();
-        this.drawWorld(gameState);
-        this.drawDebugLayer(gameState);
+        this.drawLevelBackground(gameState, camera);
+        this.drawWorld(gameState, camera);
+        this.drawDebugLayer(gameState, camera);
     }
 
     clearCanvas() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawBackground() {
-        const gradient = this.createOceanGradient();
-
-        this.context.fillStyle = gradient;
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    drawLevelBackground(gameState, camera) {
+        const backgroundObjects = gameState.activeLevel.backgroundObjects;
+        backgroundObjects.forEach((object) => object.draw(this.context, camera));
         this.drawLightRays();
-    }
-
-    createOceanGradient() {
-        const gradient = this.context.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, '#0a87aa');
-        gradient.addColorStop(1, '#03263d');
-        return gradient;
     }
 
     drawLightRays() {
@@ -48,17 +39,38 @@ class GameRenderer {
         this.context.fill();
     }
 
-    drawWorld(gameState) {
+    drawWorld(gameState, camera) {
+        this.context.save();
+        this.context.translate(-camera.x, -camera.y);
         gameState.player.draw(this.context);
+        this.context.restore();
     }
 
-    drawDebugLayer(gameState) {
+    drawDebugLayer(gameState, camera) {
         if (!gameState.debugMode) {
             return;
         }
 
+        this.drawDebugWorldLayer(gameState, camera);
+        this.drawDebugInfo(gameState, camera);
+    }
+
+    drawDebugWorldLayer(gameState, camera) {
+        this.context.save();
+        this.context.translate(-camera.x, -camera.y);
         this.drawDebugHitbox(gameState.player);
-        this.drawDebugInfo(gameState);
+        this.drawDebugSolidAreas(gameState.activeLevel);
+        this.context.restore();
+    }
+
+    drawDebugSolidAreas(level) {
+        level.solidAreas.forEach((solidArea) => this.drawDebugArea(solidArea));
+    }
+
+    drawDebugArea(area) {
+        this.context.strokeStyle = '#ffee88';
+        this.context.lineWidth = 2;
+        this.context.strokeRect(area.x, area.y, area.width, area.height);
     }
 
     drawDebugHitbox(object) {
@@ -67,17 +79,21 @@ class GameRenderer {
         this.context.strokeRect(object.x, object.y, object.width, object.height);
     }
 
-    drawDebugInfo(gameState) {
-        const lines = this.getDebugLines(gameState);
+    drawDebugInfo(gameState, camera) {
+        const lines = this.getDebugLines(gameState, camera);
         this.drawDebugLines(lines);
     }
 
-    getDebugLines(gameState) {
+    getDebugLines(gameState, camera) {
         return [
             `FPS: ${gameState.framesPerSecond}`,
             `x: ${Math.round(gameState.player.x)}`,
             `y: ${Math.round(gameState.player.y)}`,
+            `cameraX: ${Math.round(camera.x)}`,
+            `cameraY: ${Math.round(camera.y)}`,
             `level: ${gameState.currentLevel}`,
+            `levelWidth: ${gameState.activeLevel.width}`,
+            `levelHeight: ${gameState.activeLevel.height}`,
             `coins: ${gameState.coins}`
         ];
     }

@@ -6,14 +6,16 @@ class Game {
         this.keyboard = keyboard;
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
+        this.camera = new Camera(canvas);
         this.animationFrameId = null;
         this.lastFrameTime = 0;
-        this.renderer.render(this.gameState);
+        this.renderer.render(this.gameState, this.camera);
     }
 
     start(levelNumber) {
         this.cancelRunningLoop();
         this.gameState.start(levelNumber);
+        this.camera.reset();
         this.resetFrameTime();
         this.runGameLoop();
     }
@@ -29,7 +31,8 @@ class Game {
     stop() {
         this.gameState.stop();
         this.cancelRunningLoop();
-        this.renderer.render(this.gameState);
+        this.camera.reset();
+        this.renderer.render(this.gameState, this.camera);
     }
 
     restart() {
@@ -52,7 +55,7 @@ class Game {
     runGameLoop(currentTime = 0) {
         this.updateFrameData(currentTime);
         this.update();
-        this.renderer.render(this.gameState);
+        this.renderer.render(this.gameState, this.camera);
         this.requestNextFrame();
     }
 
@@ -82,19 +85,20 @@ class Game {
             return;
         }
 
-        this.gameState.player.update(this.keyboard, this.getCanvasBounds());
+        this.updatePlayer();
+        this.updateCamera();
+    }
+
+    updatePlayer() {
+        const levelBounds = this.gameState.activeLevel.getBounds();
+        this.gameState.player.update(this.keyboard, levelBounds);
+    }
+
+    updateCamera() {
+        this.camera.update(this.gameState.player, this.gameState.activeLevel);
     }
 
     canUpdateGame() {
         return this.gameState.isRunning && !this.gameState.isPaused;
-    }
-
-    getCanvasBounds() {
-        return {
-            left: 0,
-            top: 0,
-            right: this.canvas.width,
-            bottom: this.canvas.height
-        };
     }
 }

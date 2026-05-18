@@ -5,6 +5,7 @@ class GameState {
         this.isRunning = false;
         this.isPaused = false;
         this.currentLevel = 1;
+        this.activeLevel = this.getLevelByNumber(1);
         this.coins = 0;
         this.framesPerSecond = 0;
         this.debugMode = this.getDebugMode();
@@ -16,12 +17,17 @@ class GameState {
         return searchParameters.get(GAME_CONFIG.debugParameter) === 'true';
     }
 
+    getLevelByNumber(levelNumber) {
+        return LEVELS[levelNumber] || LEVELS[1];
+    }
+
     createPlayer() {
         return new Character();
     }
 
     start(levelNumber) {
         this.currentLevel = levelNumber;
+        this.activeLevel = this.getLevelByNumber(levelNumber);
         this.isRunning = true;
         this.isPaused = false;
         this.resetCoins();
