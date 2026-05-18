@@ -9,8 +9,8 @@ class GameRenderer {
     render(gameState) {
         this.clearCanvas();
         this.drawBackground();
-        this.drawPlayer(gameState.player);
-        this.drawDebugInfo(gameState);
+        this.drawWorld(gameState);
+        this.drawDebugLayer(gameState);
     }
 
     clearCanvas() {
@@ -19,8 +19,10 @@ class GameRenderer {
 
     drawBackground() {
         const gradient = this.createOceanGradient();
+
         this.context.fillStyle = gradient;
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawLightRays();
     }
 
     createOceanGradient() {
@@ -30,28 +32,67 @@ class GameRenderer {
         return gradient;
     }
 
-    drawPlayer(player) {
-        this.context.fillStyle = '#29d3ff';
-        this.context.fillRect(player.x, player.y, player.width, player.height);
-        this.drawPlayerEye(player);
+    drawLightRays() {
+        this.context.fillStyle = 'rgba(255, 255, 255, 0.08)';
+        this.drawLightRay(90, 0, 120, 540);
+        this.drawLightRay(420, 0, 80, 540);
+        this.drawLightRay(720, 0, 130, 540);
     }
 
-    drawPlayerEye(player) {
-        this.context.fillStyle = '#021018';
+    drawLightRay(x, y, width, height) {
         this.context.beginPath();
-        this.context.arc(player.x + 52, player.y + 14, 5, 0, Math.PI * 2);
+        this.context.moveTo(x, y);
+        this.context.lineTo(x + width, y);
+        this.context.lineTo(x + width / 2, height);
+        this.context.closePath();
         this.context.fill();
     }
 
-    drawDebugInfo(gameState) {
+    drawWorld(gameState) {
+        gameState.player.draw(this.context);
+    }
+
+    drawDebugLayer(gameState) {
         if (!gameState.debugMode) {
             return;
         }
 
+        this.drawDebugHitbox(gameState.player);
+        this.drawDebugInfo(gameState);
+    }
+
+    drawDebugHitbox(object) {
+        this.context.strokeStyle = '#ffffff';
+        this.context.lineWidth = 2;
+        this.context.strokeRect(object.x, object.y, object.width, object.height);
+    }
+
+    drawDebugInfo(gameState) {
+        const lines = this.getDebugLines(gameState);
+        this.drawDebugLines(lines);
+    }
+
+    getDebugLines(gameState) {
+        return [
+            `FPS: ${gameState.framesPerSecond}`,
+            `x: ${Math.round(gameState.player.x)}`,
+            `y: ${Math.round(gameState.player.y)}`,
+            `level: ${gameState.currentLevel}`,
+            `coins: ${gameState.coins}`
+        ];
+    }
+
+    drawDebugLines(lines) {
         this.context.fillStyle = '#ffffff';
         this.context.font = '16px Arial';
-        this.context.fillText(`x: ${Math.round(gameState.player.x)}`, 18, 28);
-        this.context.fillText(`y: ${Math.round(gameState.player.y)}`, 18, 50);
-        this.context.fillText(`level: ${gameState.currentLevel}`, 18, 72);
+
+        lines.forEach((line, index) => this.drawDebugLine(line, index));
+    }
+
+    drawDebugLine(line, index) {
+        const x = GAME_CONFIG.debugTextX;
+        const y = GAME_CONFIG.debugTextY + index * GAME_CONFIG.debugTextGap;
+
+        this.context.fillText(line, x, y);
     }
 }

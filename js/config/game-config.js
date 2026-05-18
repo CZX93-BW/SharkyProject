@@ -5,8 +5,13 @@ const GAME_CONFIG = {
     canvasHeight: 540,
     playerStartX: 120,
     playerStartY: 250,
-    playerWidth: 72,
-    playerHeight: 46,
+    playerWidth: 78,
+    playerHeight: 48,
     playerSpeed: 4,
-    debugParameter: 'debug'
+    playerFallbackColor: '#29d3ff',
+    playerEyeColor: '#021018',
+    debugParameter: 'debug',
+    debugTextX: 18,
+    debugTextY: 28,
+    debugTextGap: 22
 };
