@@ -10,6 +10,8 @@ class Character extends MovableObject {
         );
 
         this.speed = GAME_CONFIG.playerSpeed;
+        this.health = GAME_CONFIG.playerHealth;
+        this.lastDamageTime = 0;
         this.fallbackColor = GAME_CONFIG.playerFallbackColor;
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
@@ -66,6 +68,27 @@ class Character extends MovableObject {
         return this.velocityX !== 0 && this.velocityY !== 0;
     }
 
+    takeDamage(damage) {
+        if (!this.canTakeDamage()) {
+            return;
+        }
+
+        this.health = Math.max(0, this.health - damage);
+        this.lastDamageTime = Date.now();
+    }
+
+    canTakeDamage() {
+        return this.isAlive() && !this.isInvulnerable();
+    }
+
+    isAlive() {
+        return this.health > 0;
+    }
+
+    isInvulnerable() {
+        return Date.now() - this.lastDamageTime < GAME_CONFIG.playerInvulnerabilityDuration;
+    }
+
     draw(context) {
         super.draw(context);
 
@@ -77,6 +100,7 @@ class Character extends MovableObject {
     drawFallbackDetails(context) {
         this.drawTail(context);
         this.drawEye(context);
+        this.drawDamageIndicator(context);
     }
 
     drawTail(context) {
@@ -97,6 +121,16 @@ class Character extends MovableObject {
         context.beginPath();
         context.arc(eyeX, eyeY, 5, 0, Math.PI * 2);
         context.fill();
+    }
+
+    drawDamageIndicator(context) {
+        if (!this.isInvulnerable()) {
+            return;
+        }
+
+        context.strokeStyle = '#ffffff';
+        context.lineWidth = 3;
+        context.strokeRect(this.x - 4, this.y - 4, this.width + 8, this.height + 8);
     }
 
     getEyeX() {
