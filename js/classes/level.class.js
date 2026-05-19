@@ -7,6 +7,19 @@ class Level {
         this.height = levelData.height;
         this.backgroundObjects = levelData.backgroundObjects || [];
         this.solidAreas = levelData.solidAreas || [];
+        this.enemies = levelData.enemies || [];
+    }
+
+    update() {
+        this.updateEnemies();
+    }
+
+    updateEnemies() {
+        this.enemies.forEach((enemy) => enemy.update());
+    }
+
+    reset() {
+        this.enemies.forEach((enemy) => enemy.reset());
     }
 
     getBounds() {

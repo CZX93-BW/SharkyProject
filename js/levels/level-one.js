@@ -10,7 +10,8 @@ function createLevelOne() {
         width: GAME_CONFIG.levelOneWidth,
         height: GAME_CONFIG.levelHeight,
         backgroundObjects: createLevelOneBackgrounds(),
-        solidAreas: createLevelOneSolidAreas()
+        solidAreas: createLevelOneSolidAreas(),
+        enemies: createLevelOneEnemies()
     });
 }
 
@@ -67,4 +68,21 @@ function createLevelOneSolidAreas() {
             height: 120
         }
     ];
+}
+
+function createLevelOneEnemies() {
+    return [
+        createEnemy(520, 260, 'horizontal'),
+        createEnemy(980, 340, 'vertical'),
+        createEnemy(1480, 220, 'horizontal')
+    ];
+}
+
+function createEnemy(x, y, axis) {
+    return new Enemy({
+        x,
+        y,
+        axis,
+        range: GAME_CONFIG.enemyPatrolRange
+    });
 }
