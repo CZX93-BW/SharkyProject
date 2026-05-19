@@ -157,33 +157,33 @@ Gegner sollen im Level erscheinen, sich bewegen und mit Sharky kollidieren könn
 
 ### Aufgaben
 
-- [ ] `Enemy`-Basisklasse vorbereiten
-- [ ] Erste Gegnerklasse erstellen
-- [ ] Gegnerlogik vorbereiten
-- [ ] Erste Gegner anzeigen
-- [ ] Gegner über Leveldaten platzieren
-- [ ] Gegner relativ zur Kamera anzeigen
-- [ ] Gegnerbewegung einbauen
-- [ ] Kollisionslogik auslagern
-- [ ] Kollision zwischen Sharky und Gegnern prüfen
-- [ ] Kollisionen mit Kamera- und Levelposition testen
-- [ ] Schaden vorbereiten
-- [ ] Lebenssystem vorbereiten
-- [ ] Unverwundbarkeitszeit nach Treffer vorbereiten
-- [ ] Hitboxen testen
-- [ ] Kollisionen möglichst einfach und nachvollziehbar halten
-- [ ] Fehlerfälle testen
-- [ ] Debug-Modus für Gegner-Hitboxen erweitern
+- [x] `Enemy`-Basisklasse vorbereiten
+- [x] Erste Gegnerklasse erstellen
+- [x] Gegnerlogik vorbereiten
+- [x] Erste Gegner anzeigen
+- [x] Gegner über Leveldaten platzieren
+- [x] Gegner relativ zur Kamera anzeigen
+- [x] Gegnerbewegung einbauen
+- [x] Kollisionslogik auslagern
+- [x] Kollision zwischen Sharky und Gegnern prüfen
+- [x] Kollisionen mit Kamera- und Levelposition testen
+- [x] Schaden vorbereiten
+- [x] Lebenssystem vorbereiten
+- [x] Unverwundbarkeitszeit nach Treffer vorbereiten
+- [x] Hitboxen testen
+- [x] Kollisionen möglichst einfach und nachvollziehbar halten
+- [x] Fehlerfälle testen
+- [x] Debug-Modus für Gegner-Hitboxen erweitern
 
 ### Tagesergebnis
 
-- [ ] Gegner erscheinen im Level
-- [ ] Gegner werden korrekt in der Welt platziert
-- [ ] Gegner bewegen sich
-- [ ] Kollisionen werden erkannt
-- [ ] Sharky kann Schaden bekommen
-- [ ] Kollisionscode ist sauber ausgelagert
-- [ ] Debug-Hitboxen helfen beim Testen
+- [x] Gegner erscheinen im Level
+- [x] Gegner werden korrekt in der Welt platziert
+- [x] Gegner bewegen sich
+- [x] Kollisionen werden erkannt
+- [x] Sharky kann Schaden bekommen
+- [x] Kollisionscode ist sauber ausgelagert
+- [x] Debug-Hitboxen helfen beim Testen
 
 ---
 
