@@ -7,6 +7,7 @@ class Game {
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
+        this.collisionManager = new CollisionManager();
         this.animationFrameId = null;
         this.lastFrameTime = 0;
         this.renderer.render(this.gameState, this.camera);
@@ -86,12 +87,25 @@ class Game {
         }
 
         this.updatePlayer();
+        this.updateLevel();
+        this.updateCollisions();
         this.updateCamera();
     }
 
     updatePlayer() {
         const levelBounds = this.gameState.activeLevel.getBounds();
         this.gameState.player.update(this.keyboard, levelBounds);
+    }
+
+    updateLevel() {
+        this.gameState.activeLevel.update();
+    }
+
+    updateCollisions() {
+        this.collisionManager.checkPlayerEnemyCollisions(
+            this.gameState.player,
+            this.gameState.activeLevel.enemies
+        );
     }
 
     updateCamera() {

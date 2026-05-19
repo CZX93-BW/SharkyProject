@@ -42,8 +42,17 @@ class GameRenderer {
     drawWorld(gameState, camera) {
         this.context.save();
         this.context.translate(-camera.x, -camera.y);
-        gameState.player.draw(this.context);
+        this.drawEnemies(gameState.activeLevel.enemies);
+        this.drawPlayer(gameState.player);
         this.context.restore();
+    }
+
+    drawEnemies(enemies) {
+        enemies.forEach((enemy) => enemy.draw(this.context));
+    }
+
+    drawPlayer(player) {
+        player.draw(this.context);
     }
 
     drawDebugLayer(gameState, camera) {
@@ -59,8 +68,13 @@ class GameRenderer {
         this.context.save();
         this.context.translate(-camera.x, -camera.y);
         this.drawDebugHitbox(gameState.player);
+        this.drawDebugEnemies(gameState.activeLevel.enemies);
         this.drawDebugSolidAreas(gameState.activeLevel);
         this.context.restore();
+    }
+
+    drawDebugEnemies(enemies) {
+        enemies.forEach((enemy) => this.drawDebugHitbox(enemy));
     }
 
     drawDebugSolidAreas(level) {
@@ -87,13 +101,14 @@ class GameRenderer {
     getDebugLines(gameState, camera) {
         return [
             `FPS: ${gameState.framesPerSecond}`,
+            `health: ${gameState.player.health}`,
+            `invulnerable: ${gameState.player.isInvulnerable()}`,
             `x: ${Math.round(gameState.player.x)}`,
             `y: ${Math.round(gameState.player.y)}`,
             `cameraX: ${Math.round(camera.x)}`,
             `cameraY: ${Math.round(camera.y)}`,
             `level: ${gameState.currentLevel}`,
-            `levelWidth: ${gameState.activeLevel.width}`,
-            `levelHeight: ${gameState.activeLevel.height}`,
+            `enemies: ${gameState.activeLevel.enemies.length}`,
             `coins: ${gameState.coins}`
         ];
     }

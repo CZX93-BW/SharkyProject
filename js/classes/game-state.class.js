@@ -32,6 +32,7 @@ class GameState {
         this.isPaused = false;
         this.resetCoins();
         this.resetPlayer();
+        this.resetLevel();
     }
 
     pause() {
@@ -53,6 +54,10 @@ class GameState {
 
     resetPlayer() {
         this.player = this.createPlayer();
+    }
+
+    resetLevel() {
+        this.activeLevel.reset();
     }
 
     resetCoins() {
