@@ -196,33 +196,33 @@ Man soll sehen, was passiert, wie viel Leben Sharky hat, wie viele Münzen gesam
 
 ### Aufgaben
 
-- [ ] Lebensanzeige einbauen
-- [ ] Coin-Anzeige weiter ausbauen
-- [ ] Coins im Level platzieren
-- [ ] Coins über Leveldaten verwalten
-- [ ] Coins relativ zur Kamera anzeigen
-- [ ] Coins einsammelbar machen
-- [ ] Giftflaschen als Ressource vorbereiten
-- [ ] Anzeige für Giftflaschen vorbereiten
-- [ ] Blasenangriff im UI berücksichtigen
-- [ ] Spielstatus vorbereiten
-- [ ] Startscreen optisch verbessern
+- [x] Lebensanzeige einbauen
+- [x] Coin-Anzeige weiter ausbauen
+- [x] Coins im Level platzieren
+- [x] Coins über Leveldaten verwalten
+- [x] Coins relativ zur Kamera anzeigen
+- [x] Coins einsammelbar machen
+- [x] Giftflaschen als Ressource vorbereiten
+- [x] Anzeige für Giftflaschen vorbereiten
+- [x] Blasenangriff im UI berücksichtigen
+- [x] Spielstatus vorbereiten
+- [x] Startscreen optisch verbessern
+- [x] Game Over Screen vorbereiten
+- [x] Win Screen vorbereiten
+- [x] Neustart vorbereiten
+- [x] UI lesbar und sauber gestalten
+- [x] Prüfen, ob die UI nicht vom Spiel ablenkt
 - [ ] Startscreen mit Levelauswahl und Storytext verfeinern
-- [ ] Game Over Screen vorbereiten
-- [ ] Win Screen vorbereiten
-- [ ] Neustart vorbereiten
-- [ ] UI lesbar und sauber gestalten
-- [ ] Prüfen, ob die UI nicht vom Spiel ablenkt
 
 ### Tagesergebnis
 
-- [ ] Leben wird angezeigt
-- [ ] Coins können gesammelt werden
-- [ ] Giftflaschen sind als Ressource vorbereitet
-- [ ] Bubble- und Giftangriff sind im UI berücksichtigt
-- [ ] Start, Sieg und Niederlage sind vorbereitet
-- [ ] Spieler bekommt klare Rückmeldung
-- [ ] Das Spiel hat eine erkennbare Struktur
+- [x] Leben wird angezeigt
+- [x] Coins können gesammelt werden
+- [x] Giftflaschen sind als Ressource vorbereitet
+- [x] Bubble- und Giftangriff sind im UI berücksichtigt
+- [x] Start, Sieg und Niederlage sind vorbereitet
+- [x] Spieler bekommt klare Rückmeldung
+- [x] Das Spiel hat eine erkennbare Struktur
 
 ---
 
