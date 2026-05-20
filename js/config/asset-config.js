@@ -12,5 +12,9 @@ const ASSET_CONFIG = {
             middle: '',
             front: ''
         }
+    },
+    collectibles: {
+        coin: '',
+        poisonBottle: ''
     }
 };
