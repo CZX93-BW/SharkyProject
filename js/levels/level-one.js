@@ -12,7 +12,9 @@ function createLevelOne() {
         backgroundObjects: createLevelOneBackgrounds(),
         solidAreas: createLevelOneSolidAreas(),
         enemies: createLevelOneEnemies(),
-        collectibles: createLevelOneCollectibles()
+        collectibles: createLevelOneCollectibles(),
+        endboss: createLevelOneEndboss(),
+        finishObject: createLevelOneFinishObject()
     });
 }
 
@@ -49,9 +51,10 @@ function createLevelOneSolidAreas() {
 
 function createLevelOneEnemies() {
     return [
-        createLevelOneEnemy(520, 260, 'horizontal'),
-        createLevelOneEnemy(980, 340, 'vertical'),
-        createLevelOneEnemy(1480, 220, 'horizontal')
+        createLevelOneEnemy(500, 250, 'horizontal'),
+        createLevelOneEnemy(900, 330, 'vertical'),
+        createLevelOneEnemy(1320, 250, 'horizontal'),
+        createLevelOneEnemy(1700, 330, 'vertical')
     ];
 }
 
@@ -66,32 +69,17 @@ function createLevelOneEnemy(x, y, axis) {
 
 function createLevelOneCollectibles() {
     return [
-        createLevelOneCoin(340, 210),
-        createLevelOneCoin(680, 300),
-        createLevelOneCoin(1220, 250),
-        createLevelOneCoin(1760, 320),
-        createLevelOnePoisonBottle(880, 210),
-        createLevelOnePoisonBottle(1620, 260)
+        createLevelOneCoin(310, 210),
+        createLevelOneCoin(620, 300),
+        createLevelOneCoin(1040, 230),
+        createLevelOneCoin(1460, 310),
+        createLevelOneCoin(1900, 230),
+        createLevelOnePoisonBottle(780, 210),
+        createLevelOnePoisonBottle(1580, 260)
     ];
 }
 
 function createLevelOneCoin(x, y) {
-    return createLevelOneCollectible(x, y, 'coin');
-}
-
-function createLevelOnePoisonBottle(x, y) {
-    return createLevelOneCollectible(x, y, 'poisonBottle');
-}
-
-function createLevelOneCollectible(x, y, type) {
-    if (type === 'coin') {
-        return createCoinCollectible(x, y);
-    }
-
-    return createPoisonBottleCollectible(x, y);
-}
-
-function createCoinCollectible(x, y) {
     return new CollectibleObject({
         x,
         y,
@@ -104,7 +92,7 @@ function createCoinCollectible(x, y) {
     });
 }
 
-function createPoisonBottleCollectible(x, y) {
+function createLevelOnePoisonBottle(x, y) {
     return new CollectibleObject({
         x,
         y,
@@ -115,4 +103,19 @@ function createPoisonBottleCollectible(x, y) {
         imagePath: ASSET_CONFIG.collectibles.poisonBottle,
         fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
     });
+}
+
+function createLevelOneEndboss() {
+    return new Endboss({
+        x: GAME_CONFIG.levelOneWidth - 420,
+        y: 250,
+        axis: 'vertical'
+    });
+}
+
+function createLevelOneFinishObject() {
+    return new FinishObject(
+        GAME_CONFIG.levelOneWidth - 120,
+        GAME_CONFIG.levelHeight - 290
+    );
 }

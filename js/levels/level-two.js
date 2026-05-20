@@ -10,7 +10,8 @@ function createLevelTwo() {
         backgroundObjects: createLevelTwoBackgrounds(),
         solidAreas: createLevelTwoSolidAreas(),
         enemies: createLevelTwoEnemies(),
-        collectibles: createLevelTwoCollectibles()
+        collectibles: createLevelTwoCollectibles(),
+        finishObject: createLevelTwoFinishObject()
     });
 }
 
@@ -77,17 +78,34 @@ function createLevelTwoCollectibles() {
 }
 
 function createLevelTwoCoin(x, y) {
-    return createLevelTwoCollectible(x, y, 'coin');
+    return new CollectibleObject({
+        x,
+        y,
+        type: 'coin',
+        width: GAME_CONFIG.coinWidth,
+        height: GAME_CONFIG.coinHeight,
+        value: GAME_CONFIG.coinValue,
+        imagePath: ASSET_CONFIG.collectibles.coin,
+        fallbackColor: GAME_CONFIG.coinFallbackColor
+    });
 }
 
 function createLevelTwoPoisonBottle(x, y) {
-    return createLevelTwoCollectible(x, y, 'poisonBottle');
+    return new CollectibleObject({
+        x,
+        y,
+        type: 'poisonBottle',
+        width: GAME_CONFIG.poisonBottleWidth,
+        height: GAME_CONFIG.poisonBottleHeight,
+        value: GAME_CONFIG.poisonBottleValue,
+        imagePath: ASSET_CONFIG.collectibles.poisonBottle,
+        fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
+    });
 }
 
-function createLevelTwoCollectible(x, y, type) {
-    if (type === 'coin') {
-        return createCoinCollectible(x, y);
-    }
-
-    return createPoisonBottleCollectible(x, y);
+function createLevelTwoFinishObject() {
+    return new FinishObject(
+        GAME_CONFIG.levelTwoWidth - 120,
+        GAME_CONFIG.levelHeight - 300
+    );
 }
