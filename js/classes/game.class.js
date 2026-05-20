@@ -117,14 +117,14 @@ class Game {
     }
 
     updateCollisions() {
-        this.checkEnemyCollisions();
+        this.checkDangerCollisions();
         this.checkCollectibleCollisions();
     }
 
-    checkEnemyCollisions() {
+    checkDangerCollisions() {
         this.collisionManager.checkPlayerEnemyCollisions(
             this.gameState.player,
-            this.gameState.activeLevel.enemies
+            this.gameState.activeLevel.getDangerObjects()
         );
     }
 
@@ -142,14 +142,9 @@ class Game {
     }
 
     completeLevelIfNeeded() {
-        if (this.hasReachedLevelEnd()) {
+        if (this.gameState.activeLevel.isLevelComplete(this.gameState.player)) {
             this.gameState.completeLevel();
         }
-    }
-
-    hasReachedLevelEnd() {
-        const levelEnd = this.gameState.activeLevel.width - GAME_CONFIG.levelFinishDistance;
-        return this.gameState.player.getRightSide() >= levelEnd;
     }
 
     updateCamera() {

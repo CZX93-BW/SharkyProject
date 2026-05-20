@@ -42,10 +42,18 @@ class GameRenderer {
     drawWorld(gameState, camera) {
         this.context.save();
         this.context.translate(-camera.x, -camera.y);
+        this.drawFinishObject(gameState.activeLevel.finishObject);
         this.drawCollectibles(gameState.activeLevel.getActiveCollectibles());
         this.drawEnemies(gameState.activeLevel.enemies);
+        this.drawEndboss(gameState.activeLevel.endboss);
         this.drawPlayer(gameState.player);
         this.context.restore();
+    }
+
+    drawFinishObject(finishObject) {
+        if (finishObject) {
+            finishObject.draw(this.context);
+        }
     }
 
     drawCollectibles(collectibles) {
@@ -54,6 +62,12 @@ class GameRenderer {
 
     drawEnemies(enemies) {
         enemies.forEach((enemy) => enemy.draw(this.context));
+    }
+
+    drawEndboss(endboss) {
+        if (endboss) {
+            endboss.draw(this.context);
+        }
     }
 
     drawPlayer(player) {
@@ -74,6 +88,8 @@ class GameRenderer {
         this.context.translate(-camera.x, -camera.y);
         this.drawDebugHitbox(gameState.player);
         this.drawDebugEnemies(gameState.activeLevel.enemies);
+        this.drawDebugEndboss(gameState.activeLevel.endboss);
+        this.drawDebugFinishObject(gameState.activeLevel.finishObject);
         this.drawDebugCollectibles(gameState.activeLevel.getActiveCollectibles());
         this.drawDebugSolidAreas(gameState.activeLevel);
         this.context.restore();
@@ -81,6 +97,18 @@ class GameRenderer {
 
     drawDebugEnemies(enemies) {
         enemies.forEach((enemy) => this.drawDebugHitbox(enemy));
+    }
+
+    drawDebugEndboss(endboss) {
+        if (endboss && !endboss.isDefeated) {
+            this.drawDebugHitbox(endboss);
+        }
+    }
+
+    drawDebugFinishObject(finishObject) {
+        if (finishObject) {
+            this.drawDebugArea(finishObject);
+        }
     }
 
     drawDebugCollectibles(collectibles) {
@@ -119,8 +147,17 @@ class GameRenderer {
             `y: ${Math.round(gameState.player.y)}`,
             `cameraX: ${Math.round(camera.x)}`,
             `cameraY: ${Math.round(camera.y)}`,
-            `collectibles: ${gameState.activeLevel.getActiveCollectibles().length}`
+            `collectibles: ${gameState.activeLevel.getActiveCollectibles().length}`,
+            `endboss: ${this.getEndbossDebugValue(gameState.activeLevel.endboss)}`
         ];
+    }
+
+    getEndbossDebugValue(endboss) {
+        if (!endboss) {
+            return 'none';
+        }
+
+        return `${endboss.health}/${endboss.maxHealth}`;
     }
 
     drawDebugLines(lines) {
