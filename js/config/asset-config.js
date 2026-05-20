@@ -16,5 +16,11 @@ const ASSET_CONFIG = {
     collectibles: {
         coin: '',
         poisonBottle: ''
+    },
+    enemies: {
+        endboss: ''
+    },
+    levelObjects: {
+        finish: ''
     }
 };
