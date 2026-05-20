@@ -8,6 +8,7 @@ class Level {
         this.backgroundObjects = levelData.backgroundObjects || [];
         this.solidAreas = levelData.solidAreas || [];
         this.enemies = levelData.enemies || [];
+        this.collectibles = levelData.collectibles || [];
     }
 
     update() {
@@ -19,7 +20,20 @@ class Level {
     }
 
     reset() {
+        this.resetEnemies();
+        this.resetCollectibles();
+    }
+
+    resetEnemies() {
         this.enemies.forEach((enemy) => enemy.reset());
+    }
+
+    resetCollectibles() {
+        this.collectibles.forEach((collectible) => collectible.reset());
+    }
+
+    getActiveCollectibles() {
+        return this.collectibles.filter((collectible) => !collectible.isCollected);
     }
 
     getBounds() {
