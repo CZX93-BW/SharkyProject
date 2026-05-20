@@ -235,23 +235,23 @@ Heute geht es darum, aus der Technik ein echtes kleines Spielerlebnis zu machen.
 
 ### Aufgaben
 
-- [ ] Level 1 final aufbauen
-- [ ] Hintergrund und Levelobjekte passend platzieren
-- [ ] Gegner sinnvoll platzieren
-- [ ] Coins sinnvoll platzieren
-- [ ] Giftflaschen sinnvoll platzieren
-- [ ] Ziel / Levelende definieren
-- [ ] Endboss für Level 1 vorbereiten
-- [ ] Endboss in Level 1 platzieren
-- [ ] Siegbedingung über Endboss oder Levelende definieren
-- [ ] Schwierigkeit testen
-- [ ] Spielfluss prüfen
+- [x] Level 1 final aufbauen
+- [x] Hintergrund und Levelobjekte passend platzieren
+- [x] Gegner sinnvoll platzieren
+- [x] Coins sinnvoll platzieren
+- [x] Giftflaschen sinnvoll platzieren
+- [x] Ziel / Levelende definieren
+- [x] Endboss für Level 1 vorbereiten
+- [x] Endboss in Level 1 platzieren
+- [x] Siegbedingung über Endboss oder Levelende definieren
+- [x] Schwierigkeit testen
+- [x] Spielfluss prüfen
+- [x] Kleinere Bugs beheben
+- [x] Performance prüfen
+- [x] Code bei Bedarf aufteilen
+- [x] Level 1 mehrfach durchspielen
 - [ ] Sharky-Animationen verbessern
 - [ ] Gegner-Animationen grob vorbereiten
-- [ ] Kleinere Bugs beheben
-- [ ] Performance prüfen
-- [ ] Code bei Bedarf aufteilen
-- [ ] Level 1 mehrfach durchspielen
 
 ### Tagesergebnis
 
