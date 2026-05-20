@@ -61,6 +61,14 @@ class DrawableObject {
         context.fillStyle = this.fallbackColor;
         context.fillRect(this.x, this.y, this.width, this.height);
     }
+
+    getRightSide() {
+        return this.x + this.width;
+    }
+
+    getBottomSide() {
+        return this.y + this.height;
+    }
 }
 
 DrawableObject.imageCache = {};
