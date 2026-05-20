@@ -9,19 +9,29 @@ class Level {
         this.solidAreas = levelData.solidAreas || [];
         this.enemies = levelData.enemies || [];
         this.collectibles = levelData.collectibles || [];
+        this.endboss = levelData.endboss || null;
+        this.finishObject = levelData.finishObject || null;
     }
 
     update() {
         this.updateEnemies();
+        this.updateEndboss();
     }
 
     updateEnemies() {
         this.enemies.forEach((enemy) => enemy.update());
     }
 
+    updateEndboss() {
+        if (this.endboss) {
+            this.endboss.update();
+        }
+    }
+
     reset() {
         this.resetEnemies();
         this.resetCollectibles();
+        this.resetEndboss();
     }
 
     resetEnemies() {
@@ -32,8 +42,32 @@ class Level {
         this.collectibles.forEach((collectible) => collectible.reset());
     }
 
+    resetEndboss() {
+        if (this.endboss) {
+            this.endboss.reset();
+        }
+    }
+
     getActiveCollectibles() {
         return this.collectibles.filter((collectible) => !collectible.isCollected);
+    }
+
+    getDangerObjects() {
+        const dangerObjects = [...this.enemies];
+
+        if (this.hasActiveEndboss()) {
+            dangerObjects.push(this.endboss);
+        }
+
+        return dangerObjects;
+    }
+
+    hasActiveEndboss() {
+        return this.endboss && !this.endboss.isDefeated;
+    }
+
+    isLevelComplete(player) {
+        return this.finishObject && this.finishObject.isReachedBy(player);
     }
 
     getBounds() {
