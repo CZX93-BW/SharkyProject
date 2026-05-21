@@ -11,6 +11,7 @@ function createLevelTwo() {
         solidAreas: createLevelTwoSolidAreas(),
         enemies: createLevelTwoEnemies(),
         collectibles: createLevelTwoCollectibles(),
+        endboss: createLevelTwoEndboss(),
         finishObject: createLevelTwoFinishObject()
     });
 }
@@ -51,7 +52,7 @@ function createLevelTwoEnemies() {
         createLevelTwoEnemy(620, 250, 'vertical'),
         createLevelTwoEnemy(1160, 310, 'horizontal'),
         createLevelTwoEnemy(1740, 220, 'vertical'),
-        createLevelTwoEnemy(2260, 360, 'horizontal')
+        createLevelTwoEnemy(2180, 360, 'horizontal')
     ];
 }
 
@@ -71,9 +72,10 @@ function createLevelTwoCollectibles() {
         createLevelTwoCoin(820, 320),
         createLevelTwoCoin(1340, 260),
         createLevelTwoCoin(1880, 210),
-        createLevelTwoCoin(2440, 340),
+        createLevelTwoCoin(2380, 340),
         createLevelTwoPoisonBottle(1040, 220),
-        createLevelTwoPoisonBottle(2040, 280)
+        createLevelTwoPoisonBottle(2040, 280),
+        createLevelTwoPoisonBottle(2520, 250)
     ];
 }
 
@@ -100,6 +102,16 @@ function createLevelTwoPoisonBottle(x, y) {
         value: GAME_CONFIG.poisonBottleValue,
         imagePath: ASSET_CONFIG.collectibles.poisonBottle,
         fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
+    });
+}
+
+function createLevelTwoEndboss() {
+    return new Endboss({
+        x: GAME_CONFIG.levelTwoWidth - 500,
+        y: 230,
+        axis: 'vertical',
+        range: GAME_CONFIG.endbossPatrolRange + 70,
+        speed: GAME_CONFIG.endbossSpeed + 0.35
     });
 }
 
