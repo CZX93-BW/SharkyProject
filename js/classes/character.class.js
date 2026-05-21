@@ -10,7 +10,8 @@ class Character extends MovableObject {
         );
 
         this.speed = GAME_CONFIG.playerSpeed;
-        this.health = GAME_CONFIG.playerHealth;
+        this.maxHealth = GAME_CONFIG.playerHealth;
+        this.health = this.maxHealth;
         this.lastDamageTime = 0;
         this.fallbackColor = GAME_CONFIG.playerFallbackColor;
         this.eyeColor = GAME_CONFIG.playerEyeColor;
@@ -66,6 +67,15 @@ class Character extends MovableObject {
 
     hasDiagonalVelocity() {
         return this.velocityX !== 0 && this.velocityY !== 0;
+    }
+
+    increaseSpeed(amount) {
+        this.speed += amount;
+    }
+
+    setMaxHealth(maxHealth) {
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
     }
 
     takeDamage(damage) {
