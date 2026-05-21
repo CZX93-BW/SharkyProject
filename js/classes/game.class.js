@@ -18,10 +18,25 @@ class Game {
     start(levelNumber) {
         this.cancelRunningLoop();
         this.gameState.start(levelNumber);
+        this.prepareStartedLevel();
+    }
+
+    startNextLevel(levelNumber) {
+        this.cancelRunningLoop();
+        this.gameState.startNextLevel(levelNumber);
+        this.prepareStartedLevel();
+    }
+
+    prepareStartedLevel() {
         this.camera.reset();
         this.resetFrameTime();
         this.notifyStatusUpdate();
         this.runGameLoop();
+    }
+
+    purchaseUpgrade(upgradeName) {
+        this.gameState.purchaseUpgrade(upgradeName);
+        this.notifyStatusUpdate();
     }
 
     pause() {
@@ -43,7 +58,9 @@ class Game {
     }
 
     restart() {
-        this.start(this.gameState.currentLevel);
+        this.cancelRunningLoop();
+        this.gameState.restartCurrentLevel();
+        this.prepareStartedLevel();
     }
 
     cancelRunningLoop() {
