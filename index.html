@@ -27,12 +27,17 @@
                     <p class="eyebrow">Mission starten</p>
                     <h2>Rette Sharkys Riff</h2>
                     <p>
-                        Sammle Münzen, weiche Gegnern aus und kämpfe dich durch die Tiefsee.
+                        Tief im Riff breiten sich giftige Strömungen aus. Sharky sammelt Münzen,
+                        findet Giftflaschen und kämpft sich durch die Tiefsee, um sein Zuhause zu retten.
                     </p>
+
+                    <div class="control-hint">
+                        Steuerung: W A S D oder Pfeiltasten · Blase: Leertaste · Gift: F
+                    </div>
 
                     <div class="menu-actions">
                         <button class="primary-button" data-level="1">Level 1 starten</button>
-                        <button class="secondary-button" data-level="2">Level 2 starten</button>
+                        <button class="secondary-button" data-level="2">Level 2 testen</button>
                     </div>
                 </div>
             </section>
@@ -48,6 +53,52 @@
                         <button id="resumeButton" class="primary-button">Weiter</button>
                         <button id="restartButton" class="secondary-button">Neu starten</button>
                         <button id="mainMenuButton" class="secondary-button">Hauptmenü</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shop Screen -->
+            <section id="shopScreen" class="menu-overlay hidden">
+                <div class="menu-content shop-content">
+                    <p class="eyebrow">Riff-Shop</p>
+                    <h2>Bereite Sharky vor</h2>
+                    <p>
+                        Das erste Riff ist geschafft. Nutze gesammelte Münzen, um Sharky für die nächste Tiefe zu stärken.
+                    </p>
+
+                    <div class="shop-wallet">
+                        Verfügbare Münzen: <strong id="shopCoinDisplay">0</strong>
+                    </div>
+
+                    <div class="shop-grid">
+                        <article class="shop-item">
+                            <h3>Flossen-Turbo</h3>
+                            <p>Sharky schwimmt schneller durch die Strömung.</p>
+                            <button class="secondary-button" data-upgrade="speedBoost">
+                                Kaufen · 2 Münzen
+                            </button>
+                        </article>
+
+                        <article class="shop-item">
+                            <h3>Starke Schuppen</h3>
+                            <p>Sharky startet mit mehr Leben ins nächste Level.</p>
+                            <button class="secondary-button" data-upgrade="extraHealth">
+                                Kaufen · 3 Münzen
+                            </button>
+                        </article>
+
+                        <article class="shop-item">
+                            <h3>Gift-Tasche</h3>
+                            <p>Sharky kann mehr Giftflaschen tragen.</p>
+                            <button class="secondary-button" data-upgrade="poisonCapacity">
+                                Kaufen · 2 Münzen
+                            </button>
+                        </article>
+                    </div>
+
+                    <div class="menu-actions">
+                        <button id="continueLevelTwoButton" class="primary-button">Weiter zu Level 2</button>
+                        <button id="shopMainMenuButton" class="secondary-button">Hauptmenü</button>
                     </div>
                 </div>
             </section>
@@ -74,7 +125,7 @@
                     <p class="eyebrow">Mission geschafft</p>
                     <h2>Riff gesichert</h2>
                     <p>
-                        Sharky hat das Levelziel erreicht. Saubere Flossenarbeit.
+                        Sharky hat beide Riffzonen gemeistert. Die Tiefsee kann aufatmen.
                     </p>
 
                     <div class="menu-actions">

@@ -77,7 +77,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     margin: 0;
     line-height: 1.1;
 }
@@ -88,6 +89,10 @@ h1 {
 
 h2 {
     font-size: clamp(1.7rem, 4vw, 3rem);
+}
+
+h3 {
+    font-size: 1.1rem;
 }
 
 p {
@@ -174,8 +179,56 @@ p {
     margin-top: 24px;
 }
 
+.control-hint {
+    margin-top: 18px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
 .hidden {
     display: none;
+}
+
+/* Shop */
+
+.shop-content {
+    width: min(100%, 760px);
+}
+
+.shop-wallet {
+    display: inline-flex;
+    margin: 8px 0 22px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-text);
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    text-align: left;
+}
+
+.shop-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 220px;
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-medium);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.shop-item p {
+    flex: 1;
+    margin: 0;
 }
 
 /* Buttons */
@@ -278,6 +331,16 @@ button:disabled {
 }
 
 /* Responsive Layout */
+
+@media (max-width: 900px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-item {
+        min-height: auto;
+    }
+}
 
 @media (max-width: 760px) {
     .page-layout {
