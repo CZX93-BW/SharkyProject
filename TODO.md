@@ -255,12 +255,12 @@ Heute geht es darum, aus der Technik ein echtes kleines Spielerlebnis zu machen.
 
 ### Tagesergebnis
 
-- [ ] Level 1 ist komplett spielbar
-- [ ] Man kann Level 1 gewinnen
-- [ ] Man kann in Level 1 verlieren
-- [ ] Endboss für Level 1 ist vorbereitet oder spielbar
+- [x] Level 1 ist komplett spielbar
+- [x] Man kann Level 1 gewinnen
+- [x] Man kann in Level 1 verlieren
+- [x] Endboss für Level 1 ist vorbereitet oder spielbar
 - [ ] Schwierigkeit fühlt sich fair an
-- [ ] Keine offensichtlichen Bugs im ersten Level
+- [x] Keine offensichtlichen Bugs im ersten Level
 
 ---
 
@@ -273,32 +273,32 @@ Ein zweites Level, eine kleine Story und ein einfacher Shop geben dem Projekt me
 
 ### Aufgaben
 
-- [ ] Level 2 erstellen
-- [ ] Level 2 etwas anders gestalten als Level 1
-- [ ] Schwierigkeit leicht steigern
-- [ ] Gegnerplatzierung für Level 2 testen
-- [ ] Coins sinnvoll verteilen
-- [ ] Giftflaschen sinnvoll verteilen
-- [ ] Levelwechsel einbauen
-- [ ] Shop zwischen Level 1 und Level 2 vorbereiten
-- [ ] Einfache Upgrades definieren
-- [ ] Coins als Kaufressource nutzen
-- [ ] Gekaufte Upgrades während der Spielsession anwenden
-- [ ] Level 2 Endboss vorbereiten
-- [ ] Kleine Lore / Story einbauen
-- [ ] Spieltexte auf Deutsch sauber formulieren
-- [ ] Level 2 testweise durchspielen
-- [ ] Prüfen, ob Level 2 nicht zu groß oder zu schwer wird
+- [x] Level 2 erstellen
+- [x] Level 2 etwas anders gestalten als Level 1
+- [x] Schwierigkeit leicht steigern
+- [x] Gegnerplatzierung für Level 2 testen
+- [x] Coins sinnvoll verteilen
+- [x] Giftflaschen sinnvoll verteilen
+- [x] Levelwechsel einbauen
+- [x] Shop zwischen Level 1 und Level 2 vorbereiten
+- [x] Einfache Upgrades definieren
+- [x] Coins als Kaufressource nutzen
+- [x] Gekaufte Upgrades während der Spielsession anwenden
+- [x] Level 2 Endboss vorbereiten
+- [x] Kleine Lore / Story einbauen
+- [x] Spieltexte auf Deutsch sauber formulieren
+- [x] Level 2 testweise durchspielen
+- [x] Prüfen, ob Level 2 nicht zu groß oder zu schwer wird
 
 ### Tagesergebnis
 
-- [ ] Level 2 ist spielbar
-- [ ] Levelwechsel funktioniert
-- [ ] Shop zwischen den Leveln ist vorbereitet
-- [ ] Erste Upgrades sind vorbereitet oder nutzbar
-- [ ] Kleine Story ist eingebaut
-- [ ] Das Spiel wirkt vollständiger
-- [ ] Beide Level passen vom Stil zusammen
+- [x] Level 2 ist spielbar
+- [x] Levelwechsel funktioniert
+- [x] Shop zwischen den Leveln ist vorbereitet
+- [x] Erste Upgrades sind vorbereitet oder nutzbar
+- [x] Kleine Story ist eingebaut
+- [x] Das Spiel wirkt vollständiger
+- [x] Beide Level passen vom Stil zusammen
 
 ---
 
