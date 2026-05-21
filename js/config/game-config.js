@@ -15,6 +15,20 @@ const GAME_CONFIG = {
     playerDamageFromEnemy: 20,
     playerInvulnerabilityDuration: 900,
     playerMaxPoisonBottles: 5,
+    upgradeSpeedBonus: 1,
+    upgradeHealthBonus: 25,
+    upgradePoisonCapacityBonus: 2,
+    shopUpgrades: {
+        speedBoost: {
+            cost: 2
+        },
+        extraHealth: {
+            cost: 3
+        },
+        poisonCapacity: {
+            cost: 2
+        }
+    },
     diagonalMovementFactor: 0.7071,
     cameraHorizontalFocus: 0.38,
     cameraVerticalFocus: 0.5,
