@@ -18,6 +18,7 @@ function bindMenuButtons() {
     bindResumeButton();
     bindRestartButtons();
     bindMainMenuButtons();
+    bindShopButtons();
 }
 
 function bindLevelButtons() {
@@ -26,13 +27,11 @@ function bindLevelButtons() {
 }
 
 function bindPauseButton() {
-    const pauseButton = document.getElementById('pauseButton');
-    pauseButton.addEventListener('click', pauseGame);
+    bindButton('pauseButton', pauseGame);
 }
 
 function bindResumeButton() {
-    const resumeButton = document.getElementById('resumeButton');
-    resumeButton.addEventListener('click', resumeGame);
+    bindButton('resumeButton', resumeGame);
 }
 
 function bindRestartButtons() {
@@ -45,6 +44,17 @@ function bindMainMenuButtons() {
     bindButton('mainMenuButton', returnToMainMenu);
     bindButton('gameOverMainMenuButton', returnToMainMenu);
     bindButton('winMainMenuButton', returnToMainMenu);
+    bindButton('shopMainMenuButton', returnToMainMenu);
+}
+
+function bindShopButtons() {
+    bindButton('continueLevelTwoButton', continueToLevelTwo);
+    bindUpgradeButtons();
+}
+
+function bindUpgradeButtons() {
+    const upgradeButtons = document.querySelectorAll('[data-upgrade]');
+    upgradeButtons.forEach((button) => button.addEventListener('click', buySelectedUpgrade));
 }
 
 function bindButton(buttonId, callback) {
@@ -56,6 +66,16 @@ function startSelectedLevel(event) {
     const levelNumber = Number(event.currentTarget.dataset.level);
     sharkyGame.start(levelNumber);
     showGameScreen();
+}
+
+function continueToLevelTwo() {
+    sharkyGame.startNextLevel(2);
+    showGameScreen();
+}
+
+function buySelectedUpgrade(event) {
+    const upgradeName = event.currentTarget.dataset.upgrade;
+    sharkyGame.purchaseUpgrade(upgradeName);
 }
 
 function pauseGame() {
@@ -81,6 +101,7 @@ function returnToMainMenu() {
 
 function handleGameStatusUpdate(gameState) {
     updateGameHud(gameState);
+    updateShopHud(gameState);
     updateStatusScreens(gameState);
 }
 
@@ -99,7 +120,7 @@ function updateLevelDisplay(gameState) {
 
 function updateHealthDisplay(gameState) {
     const healthDisplay = document.getElementById('healthDisplay');
-    healthDisplay.textContent = `Leben: ${gameState.player.health}`;
+    healthDisplay.textContent = `Leben: ${gameState.player.health}/${gameState.player.maxHealth}`;
 }
 
 function updateCoinDisplay(gameState) {
@@ -109,7 +130,7 @@ function updateCoinDisplay(gameState) {
 
 function updatePoisonDisplay(gameState) {
     const poisonDisplay = document.getElementById('poisonDisplay');
-    poisonDisplay.textContent = `Gift: ${gameState.poisonBottles}`;
+    poisonDisplay.textContent = `Gift: ${gameState.poisonBottles}/${gameState.getMaxPoisonBottles()}`;
 }
 
 function updateStatusDisplay(gameState) {
@@ -117,11 +138,38 @@ function updateStatusDisplay(gameState) {
     statusDisplay.textContent = `Status: ${getReadableStatus(gameState.status)}`;
 }
 
+function updateShopHud(gameState) {
+    const shopCoinDisplay = document.getElementById('shopCoinDisplay');
+    shopCoinDisplay.textContent = gameState.coins;
+    updateUpgradeButtons(gameState);
+}
+
+function updateUpgradeButtons(gameState) {
+    const upgradeButtons = document.querySelectorAll('[data-upgrade]');
+    upgradeButtons.forEach((button) => updateUpgradeButton(button, gameState));
+}
+
+function updateUpgradeButton(button, gameState) {
+    const upgradeName = button.dataset.upgrade;
+
+    button.disabled = !gameState.canPurchaseUpgrade(upgradeName);
+    button.textContent = getUpgradeButtonText(upgradeName, gameState);
+}
+
+function getUpgradeButtonText(upgradeName, gameState) {
+    if (gameState.isUpgradeOwned(upgradeName)) {
+        return 'Gekauft';
+    }
+
+    return `Kaufen · ${gameState.getUpgradeCost(upgradeName)} Münzen`;
+}
+
 function getReadableStatus(status) {
     const statusTexts = {
         menu: 'Menü',
         playing: 'Läuft',
         paused: 'Pause',
+        shop: 'Shop',
         gameOver: 'Verloren',
         levelComplete: 'Geschafft'
     };
@@ -130,7 +178,11 @@ function getReadableStatus(status) {
 }
 
 function updateStatusScreens(gameState) {
-    hideEndScreens();
+    hideStatusScreens();
+
+    if (gameState.status === 'shop') {
+        showShopScreen();
+    }
 
     if (gameState.status === 'gameOver') {
         showGameOverScreen();
@@ -144,7 +196,7 @@ function updateStatusScreens(gameState) {
 function showGameScreen() {
     hideStartScreen();
     hidePauseScreen();
-    hideEndScreens();
+    hideStatusScreens();
     enablePauseButton();
 }
 
@@ -152,7 +204,7 @@ function showStartScreen() {
     const startScreen = document.getElementById('startScreen');
     startScreen.classList.remove('hidden');
     hidePauseScreen();
-    hideEndScreens();
+    hideStatusScreens();
 }
 
 function hideStartScreen() {
@@ -170,6 +222,12 @@ function hidePauseScreen() {
     pauseScreen.classList.add('hidden');
 }
 
+function showShopScreen() {
+    disablePauseButton();
+    const shopScreen = document.getElementById('shopScreen');
+    shopScreen.classList.remove('hidden');
+}
+
 function showGameOverScreen() {
     disablePauseButton();
     const gameOverScreen = document.getElementById('gameOverScreen');
@@ -182,9 +240,15 @@ function showWinScreen() {
     winScreen.classList.remove('hidden');
 }
 
-function hideEndScreens() {
+function hideStatusScreens() {
+    hideShopScreen();
     hideGameOverScreen();
     hideWinScreen();
+}
+
+function hideShopScreen() {
+    const shopScreen = document.getElementById('shopScreen');
+    shopScreen.classList.add('hidden');
 }
 
 function hideGameOverScreen() {
