@@ -32,6 +32,8 @@ const GAME_CONFIG = {
     diagonalMovementFactor: 0.7071,
     cameraHorizontalFocus: 0.38,
     cameraVerticalFocus: 0.5,
+    mobileJoystickThreshold: 0.22,
+    mobileJoystickMaxDistance: 42,
     enemyWidth: 58,
     enemyHeight: 58,
     enemySpeed: 1.4,
