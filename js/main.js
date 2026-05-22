@@ -8,6 +8,7 @@ function initializeApplication() {
     const keyboard = new Keyboard();
     const canvas = document.getElementById('gameCanvas');
 
+    new MobileControls(keyboard);
     sharkyGame = new Game(canvas, keyboard, handleGameStatusUpdate);
     bindMenuButtons();
 }
