@@ -289,32 +289,71 @@ button:disabled {
     display: none;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 14px;
     padding: 14px 16px;
     background: rgba(0, 0, 0, 0.24);
+    touch-action: none;
+    user-select: none;
 }
 
-.mobile-movement-control {
-    display: grid;
-    place-items: center;
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.14);
-    color: var(--color-text);
-    font-weight: 700;
-}
-
-.mobile-action-controls {
+.mobile-action-group {
     display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
 .mobile-action-button {
-    min-width: 76px;
+    min-width: 78px;
+    min-height: 48px;
     padding: 12px 14px;
     color: var(--color-text);
     background: rgba(41, 211, 255, 0.22);
+    touch-action: none;
+}
+
+.mobile-action-button:active {
+    background: rgba(41, 211, 255, 0.42);
+}
+
+.mobile-joystick {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 116px;
+    height: 116px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+    touch-action: none;
+}
+
+.mobile-joystick::before,
+.mobile-joystick::after {
+    position: absolute;
+    content: "";
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.mobile-joystick::before {
+    width: 72%;
+    height: 2px;
+}
+
+.mobile-joystick::after {
+    width: 2px;
+    height: 72%;
+}
+
+.mobile-joystick-knob {
+    position: relative;
+    z-index: 1;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.32);
+    transition: transform 80ms ease-out;
 }
 
 /* Legal Page */
@@ -343,22 +382,40 @@ button:disabled {
 }
 
 @media (max-width: 760px) {
+    body {
+        overflow-x: hidden;
+    }
+
     .page-layout {
-        padding: 12px;
+        align-items: flex-start;
+        padding: 8px;
     }
 
     .game-card,
     .legal-card {
-        padding: 16px;
+        padding: 12px;
+        border-radius: 20px;
     }
 
     .game-header {
         align-items: flex-start;
         flex-direction: column;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 9vw, 2.6rem);
     }
 
     .game-hud {
         align-items: flex-start;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .game-hud span {
+        font-size: 0.78rem;
     }
 
     #statusDisplay {
@@ -366,14 +423,83 @@ button:disabled {
     }
 
     .menu-overlay {
-        inset: 16px;
+        inset: 12px;
+        overflow-y: auto;
+        align-items: start;
     }
 
     .menu-content {
-        padding: 24px;
+        margin: auto 0;
+        padding: 22px;
+    }
+
+    .control-hint {
+        border-radius: 18px;
+        font-size: 0.82rem;
+    }
+
+    #gameCanvas {
+        min-height: 220px;
+        object-fit: contain;
     }
 
     .mobile-controls {
         display: flex;
+    }
+}
+
+@media (max-width: 520px) {
+    .mobile-controls {
+        gap: 8px;
+        padding: 12px 8px;
+    }
+
+    .mobile-action-button {
+        min-width: 66px;
+        min-height: 44px;
+        padding: 10px 8px;
+        font-size: 0.82rem;
+    }
+
+    .mobile-joystick {
+        width: 96px;
+        height: 96px;
+    }
+
+    .mobile-joystick-knob {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+    .page-layout {
+        padding: 6px;
+    }
+
+    .game-header {
+        display: none;
+    }
+
+    .game-card {
+        padding: 8px;
+    }
+
+    .game-hud {
+        padding: 8px;
+    }
+
+    .mobile-controls {
+        padding: 8px 12px;
+    }
+
+    .mobile-joystick {
+        width: 92px;
+        height: 92px;
+    }
+
+    .mobile-joystick-knob {
+        width: 36px;
+        height: 36px;
     }
 }
