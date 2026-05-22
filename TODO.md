@@ -311,26 +311,26 @@ Die mobile Steuerung muss benutzbar sein und das Layout darf nicht auseinanderfa
 
 ### Aufgaben
 
-- [ ] Mobile-Control-Bereich finalisieren
-- [ ] Bewegung per mobilem Cursor oder Joystick einbauen
-- [ ] Touch Events umsetzen
-- [ ] Bewegung nach links per Touch testen
-- [ ] Bewegung nach rechts per Touch testen
-- [ ] Bewegung nach oben per Touch testen
-- [ ] Bewegung nach unten per Touch testen
-- [ ] Blasenangriff per Touch testen
-- [ ] Giftangriff per Touch testen
-- [ ] Angriffbuttons für linke und rechte Hand gut erreichbar platzieren
-- [ ] Canvas responsiv machen
-- [ ] Startscreen mobil prüfen
-- [ ] Pause-Menü mobil prüfen
-- [ ] Game Over Screen mobil prüfen
-- [ ] Win Screen mobil prüfen
-- [ ] Shop mobil prüfen
-- [ ] Querformat prüfen
-- [ ] Kleine Displays testen
-- [ ] CSS aufräumen
-- [ ] Buttons groß genug und gut erreichbar machen
+- [x] Mobile-Control-Bereich finalisieren
+- [x] Bewegung per mobilem Cursor oder Joystick einbauen
+- [x] Touch Events umsetzen
+- [x] Bewegung nach links per Touch testen
+- [x] Bewegung nach rechts per Touch testen
+- [x] Bewegung nach oben per Touch testen
+- [x] Bewegung nach unten per Touch testen
+- [x] Blasenangriff per Touch testen
+- [x] Giftangriff per Touch testen
+- [x] Angriffbuttons für linke und rechte Hand gut erreichbar platzieren
+- [x] Canvas responsiv machen
+- [x] Startscreen mobil prüfen
+- [x] Pause-Menü mobil prüfen
+- [x] Game Over Screen mobil prüfen
+- [x] Win Screen mobil prüfen
+- [x] Shop mobil prüfen
+- [x] Querformat prüfen
+- [x] Kleine Displays testen
+- [x] CSS aufräumen
+- [x] Buttons groß genug und gut erreichbar machen
 
 ### Tagesergebnis
 
