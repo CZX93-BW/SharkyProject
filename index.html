@@ -32,7 +32,11 @@
                     </p>
 
                     <div class="control-hint">
-                        Steuerung: W A S D oder Pfeiltasten · Blase: Leertaste · Gift: F
+                        Desktop: W A S D oder Pfeiltasten · Blase: Leertaste · Gift: F
+                    </div>
+
+                    <div class="control-hint">
+                        Mobil: Joystick bewegen · Angriffbuttons links oder rechts nutzen
                     </div>
 
                     <div class="menu-actions">
@@ -150,12 +154,20 @@
                     Dein Browser unterstützt kein Canvas.
                 </canvas>
 
+                <!-- Mobile Controls -->
                 <div class="mobile-controls" aria-label="Mobile Steuerung">
-                    <div class="mobile-movement-control">↕ ↔</div>
+                    <div class="mobile-action-group" aria-label="Linke Angriffbuttons">
+                        <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
+                        <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
+                    </div>
 
-                    <div class="mobile-action-controls">
-                        <button class="mobile-action-button">Blase</button>
-                        <button class="mobile-action-button">Gift</button>
+                    <div id="mobileJoystick" class="mobile-joystick" aria-label="Bewegungsjoystick">
+                        <div id="mobileJoystickKnob" class="mobile-joystick-knob"></div>
+                    </div>
+
+                    <div class="mobile-action-group" aria-label="Rechte Angriffbuttons">
+                        <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
+                        <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
                     </div>
                 </div>
             </section>
@@ -176,6 +188,7 @@
     <script src="js/classes/level.class.js"></script>
     <script src="js/classes/camera.class.js"></script>
     <script src="js/classes/keyboard.class.js"></script>
+    <script src="js/classes/mobile-controls.class.js"></script>
     <script src="js/classes/collision-manager.class.js"></script>
     <script src="js/levels/level-one.js"></script>
     <script src="js/levels/level-two.js"></script>
