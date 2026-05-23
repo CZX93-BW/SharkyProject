@@ -344,44 +344,327 @@ Die mobile Steuerung muss benutzbar sein und das Layout darf nicht auseinanderfa
 
 ---
 
-## Tag 9 – Polishing, Debugging und Tests
+## Tag 8.25 – Sharky-Angriffssystem
 
 ### Ziel des Tages
 
-Heute wird das Projekt sauber gemacht.  
+Sharky bekommt seine grundlegenden Angriffsmöglichkeiten.  
+Bevor Grafiken und Layer eingebaut werden, müssen Fin Slap, Poison Shot und Bubble Trap technisch sauber funktionieren.
+
+### Aufgaben
+
+- [x] Fin Slap als Nahkampfangriff vorbereiten
+- [x] Fin Slap gegen normale Gegner ermöglichen
+- [x] Fin Slap gegen Bossgegner ermöglichen
+- [x] Poison Shot als Projektil vorbereiten
+- [x] Poison Shot gegen normale Gegner ermöglichen
+- [x] Poison Shot gegen Bossgegner ermöglichen
+- [x] Poison Damage over Time vorbereiten
+- [x] Giftflaschen als Ressource für Poison Shot verwenden
+- [x] Bubble Trap als Blasen-Projektil vorbereiten
+- [x] Bubble Trap gegen kleine normale Gegner ermöglichen
+- [x] Bubble Trap gegen Bossgegner blockieren
+- [x] Gefangene Gegner bewegungsunfähig machen
+- [x] Gefangene Gegner am Kontaktschaden hindern
+- [x] Angriff-Cooldowns vorbereiten
+- [x] Angriff-Hitboxen im Debug-Modus anzeigen
+- [x] Mobile Angriffbuttons anbinden
+- [x] Angriffssystem für spätere Attack-Assets vorbereiten
+
+### Tagesergebnis
+
+- [x] Sharky kann aktiv kämpfen
+- [x] Normale Gegner können besiegt oder gefangen werden
+- [x] Bossgegner können Schaden durch Fin Slap und Poison Shot bekommen
+- [x] Bubble Trap funktioniert nur gegen normale Gegner
+- [x] Poison Shot verursacht Schaden über Zeit
+- [x] Angriffssystem ist vorbereitet für spätere Attack-Assets
+
+---
+
+## Tag 8.5 – Grafik-, Asset- und Layer-Integration
+
+### Ziel des Tages
+
+Das Spiel bekommt seine visuelle Grundlage.  
+Alle wichtigen Spielobjekte, Angriffe und Levelbereiche sollen so vorbereitet werden, dass später nur noch die richtigen Bildpfade eingetragen werden müssen.
+
+### Aufgaben
+
+- [ ] Zentrale Asset-Pfade vorbereiten
+- [ ] Sharky-Grafikpfad vorbereiten
+- [ ] Gegner-Grafikpfad vorbereiten
+- [ ] Endboss-Grafikpfad vorbereiten
+- [ ] Collectible-Grafikpfade vorbereiten
+- [ ] Finish-Grafikpfad vorbereiten
+- [ ] Angriffsgrafiken vorbereiten
+- [ ] Level-1-Hintergrundlayer vorbereiten
+- [ ] Level-2-Hintergrundlayer vorbereiten
+- [ ] Parallax-Werte vorbereiten
+- [ ] Fallbacks erhalten
+- [ ] Spiel ohne echte Pfade weiter lauffähig halten
+- [ ] Assets sinnvoll einsortieren
+- [ ] Erste echte Bildpfade testweise eintragen
+- [ ] Bildpfade einzeln testen
+- [ ] Konsole auf 404-Fehler prüfen
+- [ ] Spielfeld optisch prüfen
+- [ ] Performance grob prüfen
+
+### Tagesergebnis
+
+- [ ] Alle wichtigen Spielobjekte sind bildfähig
+- [ ] Alle Angriffseffekte sind bildfähig
+- [ ] Beide Level unterstützen mehrere Hintergrundlayer
+- [ ] Bildpfade können zentral eingetragen werden
+- [ ] Das Spiel bleibt ohne echte Bildpfade stabil
+- [ ] Das Spiel wirkt visuell deutlich mehr wie ein echtes Spiel
+
+---
+
+## Tag 9 – Neues Hauptmenü und Startseiten-UX
+
+### Ziel des Tages
+
+Das Spiel bekommt ein echtes Hauptmenü vor dem eigentlichen Spielstart.  
+Der Einstieg soll einladend, hochwertig und klar strukturiert wirken.
+
+### Aufgaben
+
+- [ ] Eigenen Startseiten-Bereich vor dem Spiel aufbauen
+- [ ] Bisherigen Overlay-Startscreen vom echten Hauptmenü trennen
+- [ ] Hero-Bereich mit einladender Gestaltung erstellen
+- [ ] Hintergrundbild oder Video-Bereich vorbereiten
+- [ ] Optionalen animierten Hintergrund vorbereiten
+- [ ] Hauptnavigation anlegen
+- [ ] Menüpunkt „Spiel starten“ vorbereiten
+- [ ] Menüpunkt „Levelauswahl“ vorbereiten
+- [ ] Menüpunkt „Einstellungen“ vorbereiten
+- [ ] Menüpunkt „Anleitung“ vorbereiten
+- [ ] Menüpunkt „Geschichte / Lore“ vorbereiten
+- [ ] Menüpunkt „Impressum“ einbinden
+- [ ] Start-Button logisch mit Level 1 verbinden
+- [ ] Levelauswahl sauber öffnen und schließen
+- [ ] Level 2 als Test- oder freigeschaltete Option klar darstellen
+- [ ] Menüführung auf Desktop prüfen
+- [ ] Menüführung auf Mobile prüfen
+- [ ] Texte freundlich und verständlich formulieren
+- [ ] UI/UX freundlich und einladend gestalten
+- [ ] Konsole auf Fehler prüfen
+
+### Tagesergebnis
+
+- [ ] Das Spiel hat ein echtes Hauptmenü
+- [ ] Der Einstieg wirkt professioneller und einladender
+- [ ] Spieler können klar zwischen Start, Levelauswahl, Anleitung, Einstellungen und Lore wählen
+- [ ] Das eigentliche Spiel startet sauber aus dem Hauptmenü
+- [ ] Der alte Startscreen wirkt nicht mehr wie ein Pause-Menü
+
+---
+
+## Tag 10 – Ingame-UI, Schnellbuttons und Dialoge
+
+### Ziel des Tages
+
+Das Spiel bekommt eine komfortable Ingame-Bedienung.  
+Wichtige Funktionen sollen direkt am rechten Rand erreichbar sein, ohne das Spielgefühl zu stören.
+
+### Aufgaben
+
+- [ ] Rechtes Ingame-Button-Menü aufbauen
+- [ ] Musik-Button vorbereiten
+- [ ] Einstellungs-Zahnrad vorbereiten
+- [ ] Pause / Play Button vorbereiten
+- [ ] Pause / Play Button abhängig vom Spielzustand umschalten
+- [ ] Kleines Einstellungs-Dialogfenster im Spiel einbauen
+- [ ] Einstellungsdialog öffnen und schließen
+- [ ] Spiel bei geöffnetem Einstellungsdialog pausieren oder kontrolliert weiterlaufen lassen
+- [ ] Musikstatus im UI anzeigen
+- [ ] Pause-Status im UI anzeigen
+- [ ] Bestehendes Pause-Menü mit neuer Ingame-Logik abstimmen
+- [ ] Dialoge klar vom Hauptmenü trennen
+- [ ] Dialoge klar vom Shop trennen
+- [ ] Mobile Nutzbarkeit prüfen
+- [ ] Desktop Nutzbarkeit prüfen
+- [ ] Buttons groß genug und gut erreichbar machen
+- [ ] Konsole auf Fehler prüfen
+
+### Tagesergebnis
+
+- [ ] Im Spiel gibt es eine kleine Bedienleiste am rechten Rand
+- [ ] Musik kann über ein Icon vorbereitet gesteuert werden
+- [ ] Einstellungen können im kleinen Dialog geöffnet werden
+- [ ] Pause und Weiterlaufen funktionieren über einen klaren Button
+- [ ] Die Ingame-UI wirkt moderner und praktischer
+
+---
+
+## Tag 11 – Audio-System vorbereiten und integrieren
+
+### Ziel des Tages
+
+Das Spiel bekommt eine saubere technische Basis für Musik und Soundeffekte.  
+Audio soll steuerbar sein und später einfach erweitert werden können.
+
+### Aufgaben
+
+- [ ] Audio-Manager planen
+- [ ] Audio-Manager als eigene Klasse oder eigenes Modul aufbauen
+- [ ] Hintergrundmusik technisch vorbereiten
+- [ ] Soundeffekte-Struktur vorbereiten
+- [ ] Musik an/aus mit UI verbinden
+- [ ] Soundeffekte an/aus vorbereiten
+- [ ] Browser-Autoplay-Regeln berücksichtigen
+- [ ] Audio erst nach Nutzerinteraktion starten
+- [ ] Lautstärke-Grundwerte vorbereiten
+- [ ] Audio-Status im Einstellungsdialog anzeigen
+- [ ] Soundeffekte für Coin vorbereiten
+- [ ] Soundeffekte für Schaden vorbereiten
+- [ ] Soundeffekte für Fin Slap vorbereiten
+- [ ] Soundeffekte für Poison Shot vorbereiten
+- [ ] Soundeffekte für Bubble Trap vorbereiten
+- [ ] Soundeffekte für Sieg und Game Over vorbereiten
+- [ ] Audio-Dateipfade zentral vorbereiten
+- [ ] Spiel ohne Audiodateien stabil halten
+- [ ] Konsole auf Audio-Fehler prüfen
+
+### Tagesergebnis
+
+- [ ] Audio-System ist technisch vorbereitet
+- [ ] Musik kann aktiviert und deaktiviert werden
+- [ ] Soundeffekte sind strukturell vorbereitet
+- [ ] Audio lässt sich später leicht mit echten Dateien füllen
+- [ ] Das Spiel wirkt technisch vollständiger
+
+---
+
+## Tag 12 – Anleitung, Lore und Story-Bereich
+
+### Ziel des Tages
+
+Das Spiel bekommt mehr Atmosphäre und bessere Orientierung.  
+Spieler sollen verstehen, wie das Spiel funktioniert und warum Sharky unterwegs ist.
+
+### Aufgaben
+
+- [ ] Anleitung-Bereich im Hauptmenü aufbauen
+- [ ] Steuerung für Desktop erklären
+- [ ] Steuerung für Mobile erklären
+- [ ] Fin Slap erklären
+- [ ] Poison Shot erklären
+- [ ] Bubble Trap erklären
+- [ ] Coins und Giftflaschen erklären
+- [ ] Shop und Upgrades erklären
+- [ ] Lore-Bereich im Hauptmenü aufbauen
+- [ ] Geschichte von Sharky sauber formulieren
+- [ ] Story angenehm lesbar gestalten
+- [ ] Story-Fenster oder Story-Screen öffnen und schließen
+- [ ] Zurück-Navigation zum Hauptmenü einbauen
+- [ ] Optionalen Vorlesen-Button vorbereiten
+- [ ] Browser Speech Synthesis grob prüfen
+- [ ] Vorlesen später optional aktivierbar machen
+- [ ] Mobile Darstellung prüfen
+- [ ] Desktop Darstellung prüfen
+- [ ] Texte auf Deutsch sauber und sympathisch formulieren
+
+### Tagesergebnis
+
+- [ ] Anleitung ist sauber erreichbar
+- [ ] Spieler verstehen Steuerung und Spielziel besser
+- [ ] Lore ist als eigener Bereich eingebunden
+- [ ] Das Spiel wirkt atmosphärischer
+- [ ] Story-Vorlesen ist technisch vorbereitet oder als späteres Feature eingeplant
+
+---
+
+## Tag 13 – Menü-Polish, UI/UX und Audio-Feinschliff
+
+### Ziel des Tages
+
+Die neuen Menü-, UI- und Audio-Bereiche werden zusammengeführt und verbessert.  
+Alles soll sich wie ein geschlossenes Spielsystem anfühlen.
+
+### Aufgaben
+
+- [ ] Hauptmenü final prüfen
+- [ ] Hero-Bereich optisch polieren
+- [ ] Hintergrundbild oder Video-Hintergrund prüfen
+- [ ] Levelauswahl final prüfen
+- [ ] Einstellungen final prüfen
+- [ ] Anleitung final prüfen
+- [ ] Lore final prüfen
+- [ ] Ingame-Buttons final prüfen
+- [ ] Pause / Play final prüfen
+- [ ] Musik-Toggle final prüfen
+- [ ] Audio-Manager final grob prüfen
+- [ ] Shop-Darstellung prüfen
+- [ ] Game Over Screen prüfen
+- [ ] Win Screen prüfen
+- [ ] Mobile Menüs prüfen
+- [ ] Desktop Menüs prüfen
+- [ ] Kleine Displays testen
+- [ ] Querformat testen
+- [ ] UI-Texte vereinheitlichen
+- [ ] Buttons und Abstände polieren
+- [ ] Konsole auf Fehler prüfen
+
+### Tagesergebnis
+
+- [ ] Das Menüsystem wirkt geschlossen und professionell
+- [ ] UI und UX sind deutlich verbessert
+- [ ] Audio-Grundstruktur ist integriert
+- [ ] Hauptmenü und Ingame-UI fühlen sich klar getrennt an
+- [ ] Das Projekt wirkt deutlich portfolio-stärker
+
+---
+
+## Tag 14 – Polishing, Debugging und Tests
+
+### Ziel des Tages
+
+Heute wird das Projekt technisch sauber gemacht.  
 Alles, was wackelt, soll stabil werden. Alles, was unfertig wirkt, soll aufgeräumt werden.
 
 ### Aufgaben
 
-- [ ] Animationen final prüfen
 - [ ] Bewegungsgefühl verbessern
 - [ ] Unterwasserbewegung feinjustieren
-- [ ] Diagonale Bewegung prüfen und bei Bedarf normalisieren
-- [ ] Ladezeiten prüfen
-- [ ] Performance grob testen
-- [ ] Debug-Modus final prüfen
-- [ ] Debug-Modus mit Hitboxen, FPS, Kamera und Levelwerten final prüfen
+- [ ] Diagonale Bewegung final prüfen
+- [ ] Kamera-Verhalten prüfen
+- [ ] Levelgrenzen prüfen
 - [ ] Kollisionen gezielt testen
 - [ ] Gegnerverhalten testen
+- [ ] Endboss-Verhalten testen
+- [ ] Fin Slap testen
+- [ ] Poison Shot testen
+- [ ] Poison Damage over Time testen
+- [ ] Bubble Trap testen
+- [ ] Bubble Trap gegen Bossgegner testen
+- [ ] Gefangene Gegner auf Kontaktschaden testen
 - [ ] Coin-Sammlung testen
 - [ ] Giftflaschen-Sammlung testen
-- [ ] Bubble-Angriff testen
-- [ ] Giftangriff testen
 - [ ] Shop testen
-- [ ] Steuerung testen
-- [ ] Mobile Steuerung testen
-- [ ] Neustart testen
-- [ ] Pause-Menü testen
+- [ ] Upgrades testen
 - [ ] Levelwechsel testen
 - [ ] Game Over testen
 - [ ] Win Screen testen
+- [ ] Pause testen
+- [ ] Ingame-Settings testen
+- [ ] Audio-Toggle testen
+- [ ] Mobile Steuerung testen
+- [ ] Desktop Steuerung testen
+- [ ] Debug-Modus final prüfen
+- [ ] Hitboxen prüfen
+- [ ] FPS-Anzeige prüfen
+- [ ] Kamera- und Levelwerte prüfen
 - [ ] Konsole auf Fehler prüfen
+- [ ] Ladezeiten grob prüfen
+- [ ] Performance grob prüfen
 - [ ] Unnötigen Code entfernen
 - [ ] Doppelte Logik reduzieren
-- [ ] JSDoc für fertige JS-Dateien ergänzen
-- [ ] CSS und HTML auf saubere Struktur prüfen
 - [ ] Dateien auf sinnvolle Länge prüfen
 - [ ] Code bei Bedarf weiter aufteilen
+- [ ] JSDoc für fertige JavaScript-Dateien ergänzen
+- [ ] CSS und HTML auf saubere Struktur prüfen
 
 ### Tagesergebnis
 
@@ -391,14 +674,16 @@ Alles, was wackelt, soll stabil werden. Alles, was unfertig wirkt, soll aufgerä
 - [ ] Code wirkt sauber und wartbar
 - [ ] Spielgefühl ist flüssig
 - [ ] Mobile Steuerung ist brauchbar
+- [ ] Kampfmechanik funktioniert zuverlässig
 - [ ] Das Spiel wirkt deutlich polierter
 
 ---
 
-## Tag 10 – Finale Prüfung und Abgabevorbereitung
+## Tag 15 – Finale Prüfung und Abgabevorbereitung
 
 ### Ziel des Tages
- 
+
+Heute wird nichts mehr wild umgebaut.  
 Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 
 ### Aufgaben
@@ -409,9 +694,17 @@ Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 - [ ] README erstellen
 - [ ] Projektbeschreibung schreiben
 - [ ] Steuerung dokumentieren
-- [ ] Features dokumentieren
-- [ ] Debug-Modus dokumentieren
+- [ ] Kampfmechanik dokumentieren
+- [ ] Fin Slap dokumentieren
+- [ ] Poison Shot dokumentieren
+- [ ] Bubble Trap dokumentieren
 - [ ] Shop und Upgrades dokumentieren
+- [ ] Audio-System dokumentieren
+- [ ] Debug-Modus dokumentieren
+- [ ] Menüstruktur dokumentieren
+- [ ] Lore / Story kurz dokumentieren
+- [ ] Asset-Herkunft oder bereitgestelltes Grafikpaket erwähnen
+- [ ] Keine externen Assets ohne klare Nutzungsrechte verwenden
 - [ ] Screenshots für Portfolio vorbereiten
 - [ ] Kurzen Portfolio-Text vorbereiten
 - [ ] `imprint.html` prüfen
@@ -423,6 +716,7 @@ Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 - [ ] Dateinamen und Konventionen final prüfen
 - [ ] Kommentare und JSDoc final prüfen
 - [ ] Letzte kleine Bugs beheben
+- [ ] Git-Historie grob prüfen
 - [ ] Projekt für Abgabe vorbereiten
 
 ### Tagesergebnis
@@ -433,21 +727,23 @@ Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 - [ ] Spiel läuft stabil
 - [ ] Projektstruktur ist sauber
 - [ ] Code ist nachvollziehbar
+- [ ] Spiel wirkt wie ein vollständiges kleines Browsergame
 - [ ] Das Projekt kann guten Gewissens ins Portfolio
 
 ---
 
-## Puffer-Regel
+## Puffer-Regel 
 
-Wenn an einem Tag etwas nicht fertig wird, wird es nicht hektisch reingedrückt.  
-Dann wird es sauber in den nächsten Tag verschoben.
+Wenn ein Bereich größer wird als geplant, wird er nicht hektisch reingedrückt.  
+Dann wird er sauber als eigener Zwischentag ergänzt.
 
-Wichtig bleibt:
+Priorität bleibt:
 
 - erst spielbar machen
-- dann stabil machen
-- dann schön machen
-- dann dokumentieren
+- dann sauber strukturieren
+- dann visuell aufwerten
+- dann Audio und Atmosphäre ergänzen
+- dann testen und dokumentieren
 
 Kein Feature ist wichtiger als ein stabiles Grundspiel.
 
@@ -456,9 +752,9 @@ Kein Feature ist wichtiger als ein stabiles Grundspiel.
 ## Eigene Erinnerung
 
 Nicht verzetteln.  
-Nicht zu viele Features auf einmal.  
-Lieber ein sauberes Spiel mit zwei guten Leveln als ein überladenes Projekt mit Baustellen überall.
+Nicht alles gleichzeitig perfekt machen.  
+Lieber ein sauberes, spielbares und atmosphärisches Sharky-Spiel als ein überladenes Projekt mit Baustellen überall.
 
-Das Projekt soll am Ende zeigen, dass ich strukturiert, sauber und mit Gefühl für Qualität arbeiten kann.
+Das Hauptmenü, die Ingame-UI, Sounds und Lore sollen das Spiel stärker machen, aber nicht die technische Basis gefährden.
 
 Erst der Hai, dann der Hype.
