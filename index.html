@@ -32,7 +32,7 @@
                     </p>
 
                     <div class="control-hint">
-                        Desktop: W A S D oder Pfeiltasten · Blase: Leertaste · Gift: F
+                        Desktop: W A S D oder Pfeiltasten · Flosse: E · Blase: Leertaste · Gift: F
                     </div>
 
                     <div class="control-hint">
@@ -78,25 +78,19 @@
                         <article class="shop-item">
                             <h3>Flossen-Turbo</h3>
                             <p>Sharky schwimmt schneller durch die Strömung.</p>
-                            <button class="secondary-button" data-upgrade="speedBoost">
-                                Kaufen · 2 Münzen
-                            </button>
+                            <button class="secondary-button" data-upgrade="speedBoost">Kaufen · 2 Münzen</button>
                         </article>
 
                         <article class="shop-item">
                             <h3>Starke Schuppen</h3>
                             <p>Sharky startet mit mehr Leben ins nächste Level.</p>
-                            <button class="secondary-button" data-upgrade="extraHealth">
-                                Kaufen · 3 Münzen
-                            </button>
+                            <button class="secondary-button" data-upgrade="extraHealth">Kaufen · 3 Münzen</button>
                         </article>
 
                         <article class="shop-item">
                             <h3>Gift-Tasche</h3>
                             <p>Sharky kann mehr Giftflaschen tragen.</p>
-                            <button class="secondary-button" data-upgrade="poisonCapacity">
-                                Kaufen · 2 Münzen
-                            </button>
+                            <button class="secondary-button" data-upgrade="poisonCapacity">Kaufen · 2 Münzen</button>
                         </article>
                     </div>
 
@@ -112,9 +106,7 @@
                 <div class="menu-content">
                     <p class="eyebrow">Mission gescheitert</p>
                     <h2>Sharky braucht eine Pause</h2>
-                    <p>
-                        Die Tiefsee war diesmal etwas bissig. Versuch es nochmal.
-                    </p>
+                    <p>Die Tiefsee war diesmal etwas bissig. Versuch es nochmal.</p>
 
                     <div class="menu-actions">
                         <button id="gameOverRestartButton" class="primary-button">Neu starten</button>
@@ -128,9 +120,7 @@
                 <div class="menu-content">
                     <p class="eyebrow">Mission geschafft</p>
                     <h2>Riff gesichert</h2>
-                    <p>
-                        Sharky hat beide Riffzonen gemeistert. Die Tiefsee kann aufatmen.
-                    </p>
+                    <p>Sharky hat beide Riffzonen gemeistert. Die Tiefsee kann aufatmen.</p>
 
                     <div class="menu-actions">
                         <button id="winRestartButton" class="primary-button">Nochmal spielen</button>
@@ -157,6 +147,7 @@
                 <!-- Mobile Controls -->
                 <div class="mobile-controls" aria-label="Mobile Steuerung">
                     <div class="mobile-action-group" aria-label="Linke Angriffbuttons">
+                        <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
                         <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
                         <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
                     </div>
@@ -166,6 +157,7 @@
                     </div>
 
                     <div class="mobile-action-group" aria-label="Rechte Angriffbuttons">
+                        <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
                         <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
                         <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
                     </div>
@@ -184,6 +176,11 @@
     <script src="js/classes/enemy.class.js"></script>
     <script src="js/classes/endboss.class.js"></script>
     <script src="js/classes/finish-object.class.js"></script>
+    <script src="js/classes/attack-object.class.js"></script>
+    <script src="js/classes/fin-slap.class.js"></script>
+    <script src="js/classes/poison-shot.class.js"></script>
+    <script src="js/classes/bubble-trap.class.js"></script>
+    <script src="js/classes/attack-manager.class.js"></script>
     <script src="js/classes/character.class.js"></script>
     <script src="js/classes/level.class.js"></script>
     <script src="js/classes/camera.class.js"></script>

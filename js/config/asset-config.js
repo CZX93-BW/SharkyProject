@@ -22,5 +22,10 @@ const ASSET_CONFIG = {
     },
     levelObjects: {
         finish: ''
+    },
+    attacks: {
+        finSlap: '',
+        poisonShot: '',
+        bubbleTrap: ''
     }
 };
