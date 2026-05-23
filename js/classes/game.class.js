@@ -9,9 +9,10 @@ class Game {
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
         this.collisionManager = new CollisionManager();
+        this.attackManager = new AttackManager();
         this.animationFrameId = null;
         this.lastFrameTime = 0;
-        this.renderer.render(this.gameState, this.camera);
+        this.renderer.render(this.gameState, this.camera, this.attackManager);
         this.notifyStatusUpdate();
     }
 
@@ -29,6 +30,7 @@ class Game {
 
     prepareStartedLevel() {
         this.camera.reset();
+        this.attackManager.reset();
         this.resetFrameTime();
         this.notifyStatusUpdate();
         this.runGameLoop();
@@ -53,7 +55,8 @@ class Game {
         this.gameState.stop();
         this.cancelRunningLoop();
         this.camera.reset();
-        this.renderer.render(this.gameState, this.camera);
+        this.attackManager.reset();
+        this.renderer.render(this.gameState, this.camera, this.attackManager);
         this.notifyStatusUpdate();
     }
 
@@ -79,7 +82,7 @@ class Game {
     runGameLoop(currentTime = 0) {
         this.updateFrameData(currentTime);
         this.update();
-        this.renderer.render(this.gameState, this.camera);
+        this.renderer.render(this.gameState, this.camera, this.attackManager);
         this.notifyStatusUpdate();
 
         if (this.shouldContinueLoop()) {
@@ -118,6 +121,7 @@ class Game {
         }
 
         this.updatePlayer();
+        this.updateAttacks();
         this.updateLevel();
         this.updateCollisions();
         this.updateGameStatus();
@@ -129,6 +133,10 @@ class Game {
         this.gameState.player.update(this.keyboard, levelBounds);
     }
 
+    updateAttacks() {
+        this.attackManager.update(this.keyboard, this.gameState);
+    }
+
     updateLevel() {
         this.gameState.activeLevel.update();
     }
@@ -136,6 +144,7 @@ class Game {
     updateCollisions() {
         this.checkDangerCollisions();
         this.checkCollectibleCollisions();
+        this.checkAttackCollisions();
     }
 
     checkDangerCollisions() {
@@ -147,6 +156,13 @@ class Game {
 
     checkCollectibleCollisions() {
         this.collisionManager.checkPlayerCollectibleCollisions(this.gameState);
+    }
+
+    checkAttackCollisions() {
+        this.collisionManager.checkAttackCollisions(
+            this.attackManager,
+            this.gameState.activeLevel
+        );
     }
 
     updateGameStatus() {

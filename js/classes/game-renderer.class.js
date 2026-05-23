@@ -6,11 +6,11 @@ class GameRenderer {
         this.context = canvas.getContext('2d');
     }
 
-    render(gameState, camera) {
+    render(gameState, camera, attackManager) {
         this.clearCanvas();
         this.drawLevelBackground(gameState, camera);
-        this.drawWorld(gameState, camera);
-        this.drawDebugLayer(gameState, camera);
+        this.drawWorld(gameState, camera, attackManager);
+        this.drawDebugLayer(gameState, camera, attackManager);
     }
 
     clearCanvas() {
@@ -39,13 +39,14 @@ class GameRenderer {
         this.context.fill();
     }
 
-    drawWorld(gameState, camera) {
+    drawWorld(gameState, camera, attackManager) {
         this.context.save();
         this.context.translate(-camera.x, -camera.y);
         this.drawFinishObject(gameState.activeLevel.finishObject);
         this.drawCollectibles(gameState.activeLevel.getActiveCollectibles());
         this.drawEnemies(gameState.activeLevel.enemies);
         this.drawEndboss(gameState.activeLevel.endboss);
+        this.drawAttacks(attackManager.getActiveAttacks());
         this.drawPlayer(gameState.player);
         this.context.restore();
     }
@@ -70,25 +71,30 @@ class GameRenderer {
         }
     }
 
+    drawAttacks(attacks) {
+        attacks.forEach((attack) => attack.draw(this.context));
+    }
+
     drawPlayer(player) {
         player.draw(this.context);
     }
 
-    drawDebugLayer(gameState, camera) {
+    drawDebugLayer(gameState, camera, attackManager) {
         if (!gameState.debugMode) {
             return;
         }
 
-        this.drawDebugWorldLayer(gameState, camera);
-        this.drawDebugInfo(gameState, camera);
+        this.drawDebugWorldLayer(gameState, camera, attackManager);
+        this.drawDebugInfo(gameState, camera, attackManager);
     }
 
-    drawDebugWorldLayer(gameState, camera) {
+    drawDebugWorldLayer(gameState, camera, attackManager) {
         this.context.save();
         this.context.translate(-camera.x, -camera.y);
         this.drawDebugHitbox(gameState.player);
         this.drawDebugEnemies(gameState.activeLevel.enemies);
         this.drawDebugEndboss(gameState.activeLevel.endboss);
+        this.drawDebugAttacks(attackManager.getActiveAttacks());
         this.drawDebugFinishObject(gameState.activeLevel.finishObject);
         this.drawDebugCollectibles(gameState.activeLevel.getActiveCollectibles());
         this.drawDebugSolidAreas(gameState.activeLevel);
@@ -103,6 +109,10 @@ class GameRenderer {
         if (endboss && !endboss.isDefeated) {
             this.drawDebugHitbox(endboss);
         }
+    }
+
+    drawDebugAttacks(attacks) {
+        attacks.forEach((attack) => this.drawDebugArea(attack));
     }
 
     drawDebugFinishObject(finishObject) {
@@ -131,23 +141,23 @@ class GameRenderer {
         this.context.strokeRect(object.x, object.y, object.width, object.height);
     }
 
-    drawDebugInfo(gameState, camera) {
-        const lines = this.getDebugLines(gameState, camera);
+    drawDebugInfo(gameState, camera, attackManager) {
+        const lines = this.getDebugLines(gameState, camera, attackManager);
         this.drawDebugLines(lines);
     }
 
-    getDebugLines(gameState, camera) {
+    getDebugLines(gameState, camera, attackManager) {
         return [
             `FPS: ${gameState.framesPerSecond}`,
             `status: ${gameState.status}`,
             `health: ${gameState.player.health}`,
             `poison: ${gameState.poisonBottles}`,
             `coins: ${gameState.coins}`,
+            `attacks: ${attackManager.getActiveAttacks().length}`,
             `x: ${Math.round(gameState.player.x)}`,
             `y: ${Math.round(gameState.player.y)}`,
             `cameraX: ${Math.round(camera.x)}`,
             `cameraY: ${Math.round(camera.y)}`,
-            `collectibles: ${gameState.activeLevel.getActiveCollectibles().length}`,
             `endboss: ${this.getEndbossDebugValue(gameState.activeLevel.endboss)}`
         ];
     }
