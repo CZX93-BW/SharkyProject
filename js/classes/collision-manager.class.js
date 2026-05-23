@@ -6,11 +6,15 @@ class CollisionManager {
     }
 
     checkPlayerEnemyCollision(player, enemy) {
-        if (!this.isOverlapping(player, enemy)) {
+        if (!this.canEnemyDamagePlayer(player, enemy)) {
             return;
         }
 
         player.takeDamage(enemy.damage);
+    }
+
+    canEnemyDamagePlayer(player, enemy) {
+        return enemy.canDealContactDamage() && this.isOverlapping(player, enemy);
     }
 
     checkPlayerCollectibleCollisions(gameState) {
@@ -39,6 +43,70 @@ class CollisionManager {
         }
 
         gameState.collectPoisonBottle(collectible.value);
+    }
+
+    checkAttackCollisions(attackManager, level) {
+        const attacks = attackManager.getActiveAttacks();
+        const targets = level.getAttackTargets();
+
+        attacks.forEach((attack) => this.checkAttackTargets(attack, targets));
+    }
+
+    checkAttackTargets(attack, targets) {
+        targets.forEach((target) => this.checkAttackTarget(attack, target));
+    }
+
+    checkAttackTarget(attack, target) {
+        if (!this.canAttackHitTarget(attack, target)) {
+            return;
+        }
+
+        this.applyAttackHit(attack, target);
+    }
+
+    canAttackHitTarget(attack, target) {
+        return !attack.hasHit(target) &&
+            !target.isDefeated &&
+            this.isOverlapping(attack, target);
+    }
+
+    applyAttackHit(attack, target) {
+        if (attack.type === 'finSlap') {
+            this.applyFinSlapHit(attack, target);
+        }
+
+        if (attack.type === 'poisonShot') {
+            this.applyPoisonShotHit(attack, target);
+        }
+
+        if (attack.type === 'bubbleTrap') {
+            this.applyBubbleTrapHit(attack, target);
+        }
+    }
+
+    applyFinSlapHit(attack, target) {
+        target.takeDamage(attack.damage);
+        attack.registerHit(target);
+    }
+
+    applyPoisonShotHit(attack, target) {
+        target.takeDamage(attack.damage);
+        target.applyPoison(
+            attack.poisonTickDamage,
+            attack.poisonDuration,
+            attack.poisonTickInterval
+        );
+        attack.registerHit(target);
+        attack.expire();
+    }
+
+    applyBubbleTrapHit(attack, target) {
+        if (target.canBeTrapped()) {
+            target.trap(attack.trapDuration);
+        }
+
+        attack.registerHit(target);
+        attack.expire();
     }
 
     isOverlapping(firstObject, secondObject) {
