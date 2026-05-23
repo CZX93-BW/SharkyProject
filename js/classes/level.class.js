@@ -53,13 +53,17 @@ class Level {
     }
 
     getDangerObjects() {
-        const dangerObjects = [...this.enemies];
+        return this.getAttackTargets().filter((enemy) => enemy.canDealContactDamage());
+    }
+
+    getAttackTargets() {
+        const targets = this.enemies.filter((enemy) => !enemy.isDefeated);
 
         if (this.hasActiveEndboss()) {
-            dangerObjects.push(this.endboss);
+            targets.push(this.endboss);
         }
 
-        return dangerObjects;
+        return targets;
     }
 
     hasActiveEndboss() {

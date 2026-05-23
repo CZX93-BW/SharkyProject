@@ -144,6 +144,15 @@ class GameState {
         this.poisonBottles = Math.min(nextValue, this.getMaxPoisonBottles());
     }
 
+    usePoisonBottle() {
+        if (this.poisonBottles <= 0) {
+            return false;
+        }
+
+        this.poisonBottles -= 1;
+        return true;
+    }
+
     getMaxPoisonBottles() {
         if (this.upgrades.poisonCapacity) {
             return GAME_CONFIG.playerMaxPoisonBottles + GAME_CONFIG.upgradePoisonCapacityBonus;
