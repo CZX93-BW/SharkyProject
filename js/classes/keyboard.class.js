@@ -18,6 +18,7 @@ class Keyboard {
 
     createMobileActions() {
         return {
+            slap: false,
             bubble: false,
             poison: false
         };
@@ -33,6 +34,7 @@ class Keyboard {
             'KeyD',
             'KeyW',
             'KeyS',
+            'KeyE',
             'Space',
             'KeyF'
         ];
@@ -122,6 +124,10 @@ class Keyboard {
 
     isMobileMovingDown() {
         return this.mobileMovement.y > GAME_CONFIG.mobileJoystickThreshold;
+    }
+
+    isFinSlapPressed() {
+        return this.isKeyPressed('KeyE') || this.mobileActions.slap;
     }
 
     isBubbleAttackPressed() {
