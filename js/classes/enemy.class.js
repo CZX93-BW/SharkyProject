@@ -15,12 +15,34 @@ class Enemy extends MovableObject {
         this.range = config.range || GAME_CONFIG.enemyPatrolRange;
         this.axis = config.axis || 'horizontal';
         this.damage = config.damage || GAME_CONFIG.playerDamageFromEnemy;
+        this.maxHealth = config.health || GAME_CONFIG.enemyHealth;
+        this.health = this.maxHealth;
+        this.isDefeated = false;
+        this.trappedUntil = 0;
+        this.poisonDamagePerTick = 0;
+        this.poisonEndTime = 0;
+        this.nextPoisonTickTime = 0;
+        this.poisonTickInterval = 0;
         this.fallbackColor = config.fallbackColor || GAME_CONFIG.enemyFallbackColor;
         this.eyeColor = GAME_CONFIG.enemyEyeColor;
         this.patrolDirection = 1;
     }
 
     update() {
+        if (this.isDefeated) {
+            return;
+        }
+
+        this.updatePoisonStatus();
+
+        if (this.isTrapped()) {
+            return;
+        }
+
+        this.updatePatrol();
+    }
+
+    updatePatrol() {
         if (this.axis === 'vertical') {
             this.updateVerticalPatrol();
             return;
@@ -52,18 +74,99 @@ class Enemy extends MovableObject {
         }
     }
 
+    takeDamage(damage) {
+        if (this.isDefeated) {
+            return;
+        }
+
+        this.health = Math.max(0, this.health - damage);
+        this.updateDefeatedState();
+    }
+
+    updateDefeatedState() {
+        this.isDefeated = this.health <= 0;
+    }
+
+    applyPoison(damagePerTick, duration, tickInterval) {
+        if (this.isDefeated) {
+            return;
+        }
+
+        this.poisonDamagePerTick = damagePerTick;
+        this.poisonEndTime = Date.now() + duration;
+        this.poisonTickInterval = tickInterval;
+        this.nextPoisonTickTime = Date.now() + tickInterval;
+    }
+
+    updatePoisonStatus() {
+        if (!this.isPoisoned()) {
+            this.clearExpiredPoison();
+            return;
+        }
+
+        this.applyPoisonTickIfNeeded();
+    }
+
+    applyPoisonTickIfNeeded() {
+        if (Date.now() >= this.nextPoisonTickTime) {
+            this.takeDamage(this.poisonDamagePerTick);
+            this.nextPoisonTickTime = Date.now() + this.poisonTickInterval;
+        }
+    }
+
+    isPoisoned() {
+        return Date.now() < this.poisonEndTime && this.poisonDamagePerTick > 0;
+    }
+
+    clearExpiredPoison() {
+        this.poisonDamagePerTick = 0;
+    }
+
+    trap(duration) {
+        if (this.canBeTrapped()) {
+            this.trappedUntil = Date.now() + duration;
+        }
+    }
+
+    canBeTrapped() {
+        return !this.isDefeated;
+    }
+
+    isTrapped() {
+        return Date.now() < this.trappedUntil;
+    }
+
+    canDealContactDamage() {
+        return !this.isDefeated && !this.isTrapped();
+    }
+
     reset() {
         this.x = this.startX;
         this.y = this.startY;
+        this.health = this.maxHealth;
+        this.isDefeated = false;
+        this.trappedUntil = 0;
+        this.clearExpiredPoison();
         this.patrolDirection = 1;
     }
 
     draw(context) {
-        super.draw(context);
-
-        if (!this.isImageReady()) {
-            this.drawFallbackDetails(context);
+        if (this.isDefeated) {
+            return;
         }
+
+        this.drawEnemy(context);
+        this.drawStatusIndicators(context);
+    }
+
+    drawEnemy(context) {
+        if (this.isImageReady()) {
+            this.drawImage(context);
+            return;
+        }
+
+        super.draw(context);
+        this.drawFallbackDetails(context);
     }
 
     drawFallbackDetails(context) {
@@ -91,5 +194,30 @@ class Enemy extends MovableObject {
         context.moveTo(this.x + offsetX, this.y + this.height - 8);
         context.lineTo(this.x + offsetX - 6, this.y + this.height + 18);
         context.stroke();
+    }
+
+    drawStatusIndicators(context) {
+        this.drawTrapIndicator(context);
+        this.drawPoisonIndicator(context);
+    }
+
+    drawTrapIndicator(context) {
+        if (!this.isTrapped()) {
+            return;
+        }
+
+        context.strokeStyle = 'rgba(169, 236, 255, 0.9)';
+        context.lineWidth = 4;
+        context.strokeRect(this.x - 5, this.y - 5, this.width + 10, this.height + 10);
+    }
+
+    drawPoisonIndicator(context) {
+        if (!this.isPoisoned()) {
+            return;
+        }
+
+        context.strokeStyle = '#9dff57';
+        context.lineWidth = 3;
+        context.strokeRect(this.x - 9, this.y - 9, this.width + 18, this.height + 18);
     }
 }

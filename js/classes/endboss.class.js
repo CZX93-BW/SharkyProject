@@ -11,41 +11,16 @@ class Endboss extends Enemy {
             range: config.range || GAME_CONFIG.endbossPatrolRange,
             axis: config.axis || 'vertical',
             damage: GAME_CONFIG.endbossDamage,
+            health: GAME_CONFIG.endbossHealth,
             fallbackColor: GAME_CONFIG.endbossFallbackColor
         });
 
-        this.health = GAME_CONFIG.endbossHealth;
-        this.maxHealth = GAME_CONFIG.endbossHealth;
         this.eyeColor = GAME_CONFIG.endbossEyeColor;
-        this.isDefeated = false;
         this.loadImage(ASSET_CONFIG.enemies.endboss);
     }
 
-    update() {
-        if (this.isDefeated) {
-            return;
-        }
-
-        super.update();
-    }
-
-    takeDamage(damage) {
-        if (this.isDefeated) {
-            return;
-        }
-
-        this.health = Math.max(0, this.health - damage);
-        this.updateDefeatedState();
-    }
-
-    updateDefeatedState() {
-        this.isDefeated = this.health <= 0;
-    }
-
-    reset() {
-        super.reset();
-        this.health = this.maxHealth;
-        this.isDefeated = false;
+    canBeTrapped() {
+        return false;
     }
 
     draw(context) {
@@ -53,10 +28,24 @@ class Endboss extends Enemy {
             return;
         }
 
+        this.drawEndboss(context);
+        this.drawHealthBar(context);
+        this.drawStatusIndicators(context);
+    }
+
+    drawEndboss(context) {
+        if (this.isImageReady()) {
+            this.drawImage(context);
+            return;
+        }
+
+        this.drawFallbackEndboss(context);
+    }
+
+    drawFallbackEndboss(context) {
         this.drawBody(context);
         this.drawFace(context);
         this.drawFins(context);
-        this.drawHealthBar(context);
     }
 
     drawBody(context) {
