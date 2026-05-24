@@ -26,6 +26,7 @@ class Enemy extends MovableObject {
         this.fallbackColor = config.fallbackColor || GAME_CONFIG.enemyFallbackColor;
         this.eyeColor = GAME_CONFIG.enemyEyeColor;
         this.patrolDirection = 1;
+        this.loadImage(config.imagePath || ASSET_CONFIG.enemies.default);
     }
 
     update() {
@@ -161,12 +162,28 @@ class Enemy extends MovableObject {
 
     drawEnemy(context) {
         if (this.isImageReady()) {
-            this.drawImage(context);
+            this.drawEnemyImage(context);
             return;
         }
 
         super.draw(context);
         this.drawFallbackDetails(context);
+    }
+
+    drawEnemyImage(context) {
+        if (this.direction === -1) {
+            this.drawMirroredEnemyImage(context);
+            return;
+        }
+
+        this.drawImage(context);
+    }
+
+    drawMirroredEnemyImage(context) {
+        context.save();
+        context.scale(-1, 1);
+        context.drawImage(this.image, -this.x - this.width, this.y, this.width, this.height);
+        context.restore();
     }
 
     drawFallbackDetails(context) {

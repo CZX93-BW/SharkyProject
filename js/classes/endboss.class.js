@@ -12,11 +12,11 @@ class Endboss extends Enemy {
             axis: config.axis || 'vertical',
             damage: GAME_CONFIG.endbossDamage,
             health: GAME_CONFIG.endbossHealth,
-            fallbackColor: GAME_CONFIG.endbossFallbackColor
+            fallbackColor: GAME_CONFIG.endbossFallbackColor,
+            imagePath: ASSET_CONFIG.enemies.endboss
         });
 
         this.eyeColor = GAME_CONFIG.endbossEyeColor;
-        this.loadImage(ASSET_CONFIG.enemies.endboss);
     }
 
     canBeTrapped() {
@@ -35,7 +35,7 @@ class Endboss extends Enemy {
 
     drawEndboss(context) {
         if (this.isImageReady()) {
-            this.drawImage(context);
+            this.drawEnemyImage(context);
             return;
         }
 
