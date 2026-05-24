@@ -391,18 +391,18 @@ Alle wichtigen Spielobjekte, Angriffe und Levelbereiche sollen so vorbereitet we
 
 ### Aufgaben
 
-- [ ] Zentrale Asset-Pfade vorbereiten
-- [ ] Sharky-Grafikpfad vorbereiten
-- [ ] Gegner-Grafikpfad vorbereiten
-- [ ] Endboss-Grafikpfad vorbereiten
-- [ ] Collectible-Grafikpfade vorbereiten
-- [ ] Finish-Grafikpfad vorbereiten
-- [ ] Angriffsgrafiken vorbereiten
-- [ ] Level-1-Hintergrundlayer vorbereiten
-- [ ] Level-2-Hintergrundlayer vorbereiten
-- [ ] Parallax-Werte vorbereiten
-- [ ] Fallbacks erhalten
-- [ ] Spiel ohne echte Pfade weiter lauffähig halten
+- [x] Zentrale Asset-Pfade vorbereiten
+- [x] Sharky-Grafikpfad vorbereiten
+- [x] Gegner-Grafikpfad vorbereiten
+- [x] Endboss-Grafikpfad vorbereiten
+- [x] Collectible-Grafikpfade vorbereiten
+- [x] Finish-Grafikpfad vorbereiten
+- [x] Angriffsgrafiken vorbereiten
+- [x] Level-1-Hintergrundlayer vorbereiten
+- [x] Level-2-Hintergrundlayer vorbereiten
+- [x] Parallax-Werte vorbereiten
+- [x] Fallbacks erhalten
+- [x] Spiel ohne echte Pfade weiter lauffähig halten
 - [ ] Assets sinnvoll einsortieren
 - [ ] Erste echte Bildpfade testweise eintragen
 - [ ] Bildpfade einzeln testen
@@ -412,11 +412,11 @@ Alle wichtigen Spielobjekte, Angriffe und Levelbereiche sollen so vorbereitet we
 
 ### Tagesergebnis
 
-- [ ] Alle wichtigen Spielobjekte sind bildfähig
-- [ ] Alle Angriffseffekte sind bildfähig
-- [ ] Beide Level unterstützen mehrere Hintergrundlayer
-- [ ] Bildpfade können zentral eingetragen werden
-- [ ] Das Spiel bleibt ohne echte Bildpfade stabil
+- [x] Alle wichtigen Spielobjekte sind bildfähig
+- [x] Alle Angriffseffekte sind bildfähig
+- [x] Beide Level unterstützen mehrere Hintergrundlayer
+- [x] Bildpfade können zentral eingetragen werden
+- [x] Das Spiel bleibt ohne echte Bildpfade stabil
 - [ ] Das Spiel wirkt visuell deutlich mehr wie ein echtes Spiel
 
 ---
