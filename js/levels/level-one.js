@@ -20,22 +20,41 @@ function createLevelOne() {
 
 function createLevelOneBackgrounds() {
     return [
-        createLevelOneBackBackground(),
-        createLevelOneMiddleBackground(),
-        createLevelOneFrontBackground()
+        createLevelOneFarLayer(),
+        createLevelOneBackLayer(),
+        createLevelOneMiddleLayer(),
+        createLevelOneFrontLayer(),
+        createLevelOneFloorLayer()
     ];
 }
 
-function createLevelOneBackBackground() {
-    return new BackgroundObject(0, 0, GAME_CONFIG.levelOneWidth, GAME_CONFIG.levelHeight, ASSET_CONFIG.backgrounds.levelOne.back, '#06354f', 0.25);
+function createLevelOneFarLayer() {
+    return createLevelOneLayer('far', 0, GAME_CONFIG.levelHeight, '#05273d', 0.15, 1);
 }
 
-function createLevelOneMiddleBackground() {
-    return new BackgroundObject(0, 0, GAME_CONFIG.levelOneWidth, GAME_CONFIG.levelHeight, ASSET_CONFIG.backgrounds.levelOne.middle, 'rgba(14, 118, 148, 0.42)', 0.55);
+function createLevelOneBackLayer() {
+    return createLevelOneLayer('back', 0, GAME_CONFIG.levelHeight, '#06354f', 0.3, 0.86);
 }
 
-function createLevelOneFrontBackground() {
-    return new BackgroundObject(0, GAME_CONFIG.levelHeight - 120, GAME_CONFIG.levelOneWidth, 120, ASSET_CONFIG.backgrounds.levelOne.front, 'rgba(2, 34, 44, 0.75)', 1);
+function createLevelOneMiddleLayer() {
+    return createLevelOneLayer('middle', 0, GAME_CONFIG.levelHeight, 'rgba(14, 118, 148, 0.42)', 0.55, 0.72);
+}
+
+function createLevelOneFrontLayer() {
+    return createLevelOneLayer('front', 0, GAME_CONFIG.levelHeight, 'rgba(24, 157, 185, 0.22)', 0.85, 0.66);
+}
+
+function createLevelOneFloorLayer() {
+    return createLevelOneLayer('floor', GAME_CONFIG.levelHeight - 120, 120, 'rgba(2, 34, 44, 0.75)', 1, 1);
+}
+
+function createLevelOneLayer(layerName, y, height, fallbackColor, scrollFactor, opacity) {
+    return new BackgroundObject(0, y, GAME_CONFIG.levelOneWidth, height, {
+        imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
+        fallbackColor,
+        scrollFactor,
+        opacity
+    });
 }
 
 function createLevelOneSolidAreas() {
