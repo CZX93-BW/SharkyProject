@@ -44,10 +44,26 @@ class AttackObject extends MovableObject {
 
     draw(context) {
         if (this.isImageReady()) {
-            this.drawImage(context);
+            this.drawAttackImage(context);
             return;
         }
 
         this.drawFallback(context);
+    }
+
+    drawAttackImage(context) {
+        if (this.direction === -1) {
+            this.drawMirroredAttackImage(context);
+            return;
+        }
+
+        this.drawImage(context);
+    }
+
+    drawMirroredAttackImage(context) {
+        context.save();
+        context.scale(-1, 1);
+        context.drawImage(this.image, -this.x - this.width, this.y, this.width, this.height);
+        context.restore();
     }
 }
