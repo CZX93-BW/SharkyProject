@@ -16,6 +16,7 @@ class Character extends MovableObject {
         this.fallbackColor = GAME_CONFIG.playerFallbackColor;
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
+        this.loadImage(ASSET_CONFIG.character.sharky);
     }
 
     update(keyboard, bounds) {
@@ -100,11 +101,30 @@ class Character extends MovableObject {
     }
 
     draw(context) {
-        super.draw(context);
-
-        if (!this.isImageReady()) {
-            this.drawFallbackDetails(context);
+        if (this.isImageReady()) {
+            this.drawCharacterImage(context);
+            this.drawDamageIndicator(context);
+            return;
         }
+
+        super.draw(context);
+        this.drawFallbackDetails(context);
+    }
+
+    drawCharacterImage(context) {
+        if (this.direction === -1) {
+            this.drawMirroredImage(context);
+            return;
+        }
+
+        this.drawImage(context);
+    }
+
+    drawMirroredImage(context) {
+        context.save();
+        context.scale(-1, 1);
+        context.drawImage(this.image, -this.x - this.width, this.y, this.width, this.height);
+        context.restore();
     }
 
     drawFallbackDetails(context) {
