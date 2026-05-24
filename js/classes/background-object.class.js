@@ -1,14 +1,22 @@
 'use strict';
 
 class BackgroundObject extends DrawableObject {
-    constructor(x, y, width, height, imagePath, fallbackColor, scrollFactor = 1) {
+    constructor(x, y, width, height, config = {}) {
         super(x, y, width, height);
-        this.fallbackColor = fallbackColor;
-        this.scrollFactor = scrollFactor;
-        this.loadImage(imagePath);
+        this.fallbackColor = config.fallbackColor || '#06354f';
+        this.scrollFactor = config.scrollFactor || 1;
+        this.opacity = config.opacity || 1;
+        this.loadImage(config.imagePath);
     }
 
     draw(context, camera) {
+        context.save();
+        context.globalAlpha = this.opacity;
+        this.drawLayer(context, camera);
+        context.restore();
+    }
+
+    drawLayer(context, camera) {
         if (this.isImageReady()) {
             this.drawImageWithCamera(context, camera);
             return;
