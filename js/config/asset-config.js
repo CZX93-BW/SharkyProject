@@ -1,24 +1,32 @@
 'use strict';
 
 const ASSET_CONFIG = {
+    character: {
+        sharky: ''
+    },
     backgrounds: {
         levelOne: {
+            far: '',
             back: '',
             middle: '',
-            front: ''
+            front: '',
+            floor: ''
         },
         levelTwo: {
+            far: '',
             back: '',
             middle: '',
-            front: ''
+            front: '',
+            floor: ''
         }
+    },
+    enemies: {
+        default: '',
+        endboss: ''
     },
     collectibles: {
         coin: '',
         poisonBottle: ''
-    },
-    enemies: {
-        endboss: ''
     },
     levelObjects: {
         finish: ''
@@ -27,5 +35,12 @@ const ASSET_CONFIG = {
         finSlap: '',
         poisonShot: '',
         bubbleTrap: ''
+    },
+    ui: {
+        logo: '',
+        heartIcon: '',
+        coinIcon: '',
+        poisonIcon: '',
+        shopIcon: ''
     }
 };
