@@ -470,31 +470,31 @@ Wichtige Funktionen sollen direkt am rechten Rand erreichbar sein, ohne das Spie
 
 ### Aufgaben
 
-- [ ] Rechtes Ingame-Button-Menü aufbauen
-- [ ] Musik-Button vorbereiten
-- [ ] Einstellungs-Zahnrad vorbereiten
-- [ ] Pause / Play Button vorbereiten
-- [ ] Pause / Play Button abhängig vom Spielzustand umschalten
-- [ ] Kleines Einstellungs-Dialogfenster im Spiel einbauen
-- [ ] Einstellungsdialog öffnen und schließen
-- [ ] Spiel bei geöffnetem Einstellungsdialog pausieren oder kontrolliert weiterlaufen lassen
-- [ ] Musikstatus im UI anzeigen
-- [ ] Pause-Status im UI anzeigen
-- [ ] Bestehendes Pause-Menü mit neuer Ingame-Logik abstimmen
-- [ ] Dialoge klar vom Hauptmenü trennen
-- [ ] Dialoge klar vom Shop trennen
-- [ ] Mobile Nutzbarkeit prüfen
-- [ ] Desktop Nutzbarkeit prüfen
-- [ ] Buttons groß genug und gut erreichbar machen
-- [ ] Konsole auf Fehler prüfen
+- [x] Rechtes Ingame-Button-Menü aufbauen
+- [x] Musik-Button vorbereiten
+- [x] Einstellungs-Zahnrad vorbereiten
+- [x] Pause / Play Button vorbereiten
+- [x] Pause / Play Button abhängig vom Spielzustand umschalten
+- [x] Kleines Einstellungs-Dialogfenster im Spiel einbauen
+- [x] Einstellungsdialog öffnen und schließen
+- [x] Spiel bei geöffnetem Einstellungsdialog kontrolliert pausieren
+- [x] Musikstatus im UI anzeigen
+- [x] Pause-Status im UI anzeigen
+- [x] Bestehendes Pause-Menü mit neuer Ingame-Logik abstimmen
+- [x] Dialoge klar vom Hauptmenü trennen
+- [x] Dialoge klar vom Shop trennen
+- [x] Mobile Nutzbarkeit prüfen
+- [x] Desktop Nutzbarkeit prüfen
+- [x] Buttons groß genug und gut erreichbar machen
+- [x] Konsole auf Fehler prüfen
 
 ### Tagesergebnis
 
-- [ ] Im Spiel gibt es eine kleine Bedienleiste am rechten Rand
-- [ ] Musik kann über ein Icon vorbereitet gesteuert werden
-- [ ] Einstellungen können im kleinen Dialog geöffnet werden
-- [ ] Pause und Weiterlaufen funktionieren über einen klaren Button
-- [ ] Die Ingame-UI wirkt moderner und praktischer
+- [x] Im Spiel gibt es eine kleine Bedienleiste am rechten Rand
+- [x] Musik kann über ein Icon vorbereitet gesteuert werden
+- [x] Einstellungen können im kleinen Dialog geöffnet werden
+- [x] Pause und Weiterlaufen funktionieren über einen klaren Button
+- [x] Die Ingame-UI wirkt moderner und praktischer
 
 ---
 
