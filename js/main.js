@@ -1,6 +1,12 @@
 'use strict';
 
 let sharkyGame;
+let wasPlayingBeforeSettings = false;
+
+const uiSettings = {
+    musicEnabled: false,
+    soundEnabled: true
+};
 
 window.addEventListener('load', initializeApplication);
 
@@ -17,6 +23,7 @@ function initializeApplication() {
 function bindApplicationButtons() {
     bindMainMenuButtons();
     bindGameMenuButtons();
+    bindIngameControlButtons();
 }
 
 function bindMainMenuButtons() {
@@ -41,15 +48,10 @@ function bindClosePanelButtons() {
 }
 
 function bindGameMenuButtons() {
-    bindPauseButton();
     bindResumeButton();
     bindRestartButtons();
     bindMainMenuButtonsInsideGame();
     bindShopButtons();
-}
-
-function bindPauseButton() {
-    bindButton('pauseButton', pauseGame);
 }
 
 function bindResumeButton() {
@@ -78,6 +80,15 @@ function bindShopButtons() {
 function bindUpgradeButtons() {
     const upgradeButtons = document.querySelectorAll('[data-upgrade]');
     upgradeButtons.forEach((button) => button.addEventListener('click', buySelectedUpgrade));
+}
+
+function bindIngameControlButtons() {
+    bindButton('pausePlayButton', togglePauseState);
+    bindButton('musicToggleButton', toggleMusicSetting);
+    bindButton('openSettingsButton', openIngameSettingsDialog);
+    bindButton('closeSettingsButton', closeIngameSettingsDialog);
+    bindButton('musicSettingButton', toggleMusicSetting);
+    bindButton('soundSettingButton', toggleSoundSetting);
 }
 
 function bindButton(buttonId, callback) {
@@ -119,6 +130,17 @@ function buySelectedUpgrade(event) {
     sharkyGame.purchaseUpgrade(upgradeName);
 }
 
+function togglePauseState() {
+    if (sharkyGame.gameState.status === 'paused') {
+        resumeGame();
+        return;
+    }
+
+    if (sharkyGame.gameState.status === 'playing') {
+        pauseGame();
+    }
+}
+
 function pauseGame() {
     sharkyGame.pause();
     showPauseScreen();
@@ -127,6 +149,7 @@ function pauseGame() {
 function resumeGame() {
     sharkyGame.resume();
     hidePauseScreen();
+    hideIngameSettingsDialog();
 }
 
 function restartGame() {
@@ -136,14 +159,45 @@ function restartGame() {
 
 function returnToMainMenu() {
     sharkyGame.stop();
-    disablePauseButton();
+    disableIngameControlButtons();
     showMainMenuScreen();
+}
+
+function openIngameSettingsDialog() {
+    wasPlayingBeforeSettings = sharkyGame.gameState.status === 'playing';
+
+    if (wasPlayingBeforeSettings) {
+        sharkyGame.pause();
+    }
+
+    showIngameSettingsDialog();
+}
+
+function closeIngameSettingsDialog() {
+    hideIngameSettingsDialog();
+
+    if (wasPlayingBeforeSettings) {
+        sharkyGame.resume();
+    }
+
+    wasPlayingBeforeSettings = false;
+}
+
+function toggleMusicSetting() {
+    uiSettings.musicEnabled = !uiSettings.musicEnabled;
+    updateIngameControlButtons(sharkyGame.gameState);
+}
+
+function toggleSoundSetting() {
+    uiSettings.soundEnabled = !uiSettings.soundEnabled;
+    updateIngameControlButtons(sharkyGame.gameState);
 }
 
 function handleGameStatusUpdate(gameState) {
     updateGameHud(gameState);
     updateShopHud(gameState);
     updateStatusScreens(gameState);
+    updateIngameControlButtons(gameState);
 }
 
 function updateGameHud(gameState) {
@@ -238,12 +292,54 @@ function updateStatusScreens(gameState) {
     }
 }
 
+function updateIngameControlButtons(gameState) {
+    updatePausePlayButton(gameState);
+    updateMusicButtons();
+    updateSoundButton();
+}
+
+function updatePausePlayButton(gameState) {
+    const button = document.getElementById('pausePlayButton');
+    const isPaused = gameState.status === 'paused';
+
+    button.textContent = isPaused ? '▶' : '⏸';
+    button.classList.toggle('is-active', isPaused);
+    button.disabled = !canUsePausePlay(gameState);
+}
+
+function canUsePausePlay(gameState) {
+    return gameState.status === 'playing' || gameState.status === 'paused';
+}
+
+function updateMusicButtons() {
+    updateMusicToggleButton();
+    updateMusicSettingButton();
+}
+
+function updateMusicToggleButton() {
+    const button = document.getElementById('musicToggleButton');
+    button.textContent = uiSettings.musicEnabled ? '♫' : '♪';
+    button.classList.toggle('is-active', uiSettings.musicEnabled);
+    button.setAttribute('aria-pressed', String(uiSettings.musicEnabled));
+}
+
+function updateMusicSettingButton() {
+    const button = document.getElementById('musicSettingButton');
+    button.textContent = uiSettings.musicEnabled ? 'Musik: An' : 'Musik: Aus';
+}
+
+function updateSoundButton() {
+    const button = document.getElementById('soundSettingButton');
+    button.textContent = uiSettings.soundEnabled ? 'Soundeffekte: An' : 'Soundeffekte: Aus';
+}
+
 function showMainMenuScreen() {
     closeMainMenuPanels();
     hideGameShell();
     showMainMenu();
     hidePauseScreen();
     hideStatusScreens();
+    hideIngameSettingsDialog();
 }
 
 function showGameScreen() {
@@ -251,7 +347,8 @@ function showGameScreen() {
     showGameShell();
     hidePauseScreen();
     hideStatusScreens();
-    enablePauseButton();
+    hideIngameSettingsDialog();
+    enableIngameControlButtons();
 }
 
 function showMainMenu() {
@@ -284,20 +381,30 @@ function hidePauseScreen() {
     pauseScreen.classList.add('hidden');
 }
 
+function showIngameSettingsDialog() {
+    const dialog = document.getElementById('ingameSettingsDialog');
+    dialog.classList.remove('hidden');
+}
+
+function hideIngameSettingsDialog() {
+    const dialog = document.getElementById('ingameSettingsDialog');
+    dialog.classList.add('hidden');
+}
+
 function showShopScreen() {
-    disablePauseButton();
+    disableIngameControlButtons();
     const shopScreen = document.getElementById('shopScreen');
     shopScreen.classList.remove('hidden');
 }
 
 function showGameOverScreen() {
-    disablePauseButton();
+    disableIngameControlButtons();
     const gameOverScreen = document.getElementById('gameOverScreen');
     gameOverScreen.classList.remove('hidden');
 }
 
 function showWinScreen() {
-    disablePauseButton();
+    disableIngameControlButtons();
     const winScreen = document.getElementById('winScreen');
     winScreen.classList.remove('hidden');
 }
@@ -323,12 +430,24 @@ function hideWinScreen() {
     winScreen.classList.add('hidden');
 }
 
-function enablePauseButton() {
-    const pauseButton = document.getElementById('pauseButton');
-    pauseButton.disabled = false;
+function enableIngameControlButtons() {
+    setIngameControlDisabled(false);
 }
 
-function disablePauseButton() {
-    const pauseButton = document.getElementById('pauseButton');
-    pauseButton.disabled = true;
+function disableIngameControlButtons() {
+    setIngameControlDisabled(true);
+}
+
+function setIngameControlDisabled(isDisabled) {
+    setButtonDisabled('pausePlayButton', isDisabled);
+    setButtonDisabled('openSettingsButton', isDisabled);
+    setButtonDisabled('musicToggleButton', isDisabled);
+}
+
+function setButtonDisabled(buttonId, isDisabled) {
+    const button = document.getElementById(buttonId);
+
+    if (button) {
+        button.disabled = isDisabled;
+    }
 }

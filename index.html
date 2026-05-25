@@ -85,7 +85,7 @@
                 <div class="settings-preview">
                     <span>Musik: vorbereitet</span>
                     <span>Soundeffekte: vorbereitet</span>
-                    <span>Ingame-Dialog: folgt</span>
+                    <span>Ingame-Dialog: vorbereitet</span>
                 </div>
 
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
@@ -228,6 +228,35 @@
                 </div>
             </section>
 
+            <!-- Ingame Settings Dialog -->
+            <section id="ingameSettingsDialog" class="ingame-dialog hidden" aria-label="Spieleinstellungen">
+                <div class="ingame-dialog-card">
+                    <div class="dialog-header">
+                        <div>
+                            <p class="eyebrow">Einstellungen</p>
+                            <h2>Spieloptionen</h2>
+                        </div>
+
+                        <button id="closeSettingsButton" class="icon-button small-icon-button" aria-label="Einstellungen schließen">
+                            ×
+                        </button>
+                    </div>
+
+                    <p>
+                        Musik und Sound werden an Tag 11 technisch verbunden. Die Bedienung ist hier bereits vorbereitet.
+                    </p>
+
+                    <div class="settings-control-list">
+                        <button id="musicSettingButton" class="settings-toggle-button">
+                            Musik: Aus
+                        </button>
+                        <button id="soundSettingButton" class="settings-toggle-button">
+                            Soundeffekte: An
+                        </button>
+                    </div>
+                </div>
+            </section>
+
             <!-- Game Area -->
             <section class="game-area" aria-label="Spielfläche">
                 <div class="game-hud">
@@ -236,7 +265,18 @@
                     <span id="coinDisplay">Münzen: 0</span>
                     <span id="poisonDisplay">Gift: 0</span>
                     <span id="statusDisplay">Status: Menü</span>
-                    <button id="pauseButton" class="hud-button" disabled>Pause</button>
+                </div>
+
+                <div class="ingame-control-rail" aria-label="Schnellzugriff im Spiel">
+                    <button id="musicToggleButton" class="icon-button" aria-label="Musik an oder aus" aria-pressed="false">
+                        ♪
+                    </button>
+                    <button id="openSettingsButton" class="icon-button" aria-label="Einstellungen öffnen">
+                        ⚙
+                    </button>
+                    <button id="pausePlayButton" class="icon-button" aria-label="Spiel pausieren oder fortsetzen">
+                        ⏸
+                    </button>
                 </div>
 
                 <canvas id="gameCanvas" width="960" height="540">
