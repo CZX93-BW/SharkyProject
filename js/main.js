@@ -10,21 +10,42 @@ function initializeApplication() {
 
     new MobileControls(keyboard);
     sharkyGame = new Game(canvas, keyboard, handleGameStatusUpdate);
-    bindMenuButtons();
+    bindApplicationButtons();
+    showMainMenuScreen();
 }
 
-function bindMenuButtons() {
-    bindLevelButtons();
+function bindApplicationButtons() {
+    bindMainMenuButtons();
+    bindGameMenuButtons();
+}
+
+function bindMainMenuButtons() {
+    bindStartLevelButtons();
+    bindMainPanelButtons();
+    bindClosePanelButtons();
+}
+
+function bindStartLevelButtons() {
+    const levelButtons = document.querySelectorAll('[data-start-level]');
+    levelButtons.forEach((button) => button.addEventListener('click', startSelectedLevel));
+}
+
+function bindMainPanelButtons() {
+    const panelButtons = document.querySelectorAll('[data-main-panel]');
+    panelButtons.forEach((button) => button.addEventListener('click', openSelectedPanel));
+}
+
+function bindClosePanelButtons() {
+    const closeButtons = document.querySelectorAll('[data-close-panel]');
+    closeButtons.forEach((button) => button.addEventListener('click', closeMainMenuPanels));
+}
+
+function bindGameMenuButtons() {
     bindPauseButton();
     bindResumeButton();
     bindRestartButtons();
-    bindMainMenuButtons();
+    bindMainMenuButtonsInsideGame();
     bindShopButtons();
-}
-
-function bindLevelButtons() {
-    const levelButtons = document.querySelectorAll('[data-level]');
-    levelButtons.forEach((button) => button.addEventListener('click', startSelectedLevel));
 }
 
 function bindPauseButton() {
@@ -41,11 +62,12 @@ function bindRestartButtons() {
     bindButton('winRestartButton', restartGame);
 }
 
-function bindMainMenuButtons() {
+function bindMainMenuButtonsInsideGame() {
     bindButton('mainMenuButton', returnToMainMenu);
     bindButton('gameOverMainMenuButton', returnToMainMenu);
     bindButton('winMainMenuButton', returnToMainMenu);
     bindButton('shopMainMenuButton', returnToMainMenu);
+    bindButton('returnHomeHeaderButton', returnToMainMenu);
 }
 
 function bindShopButtons() {
@@ -60,11 +82,29 @@ function bindUpgradeButtons() {
 
 function bindButton(buttonId, callback) {
     const button = document.getElementById(buttonId);
-    button.addEventListener('click', callback);
+
+    if (button) {
+        button.addEventListener('click', callback);
+    }
+}
+
+function openSelectedPanel(event) {
+    const panelId = event.currentTarget.dataset.mainPanel;
+    openMainMenuPanel(panelId);
+}
+
+function openMainMenuPanel(panelId) {
+    closeMainMenuPanels();
+    document.getElementById(panelId).classList.remove('hidden');
+}
+
+function closeMainMenuPanels() {
+    const panels = document.querySelectorAll('.main-menu-panel');
+    panels.forEach((panel) => panel.classList.add('hidden'));
 }
 
 function startSelectedLevel(event) {
-    const levelNumber = Number(event.currentTarget.dataset.level);
+    const levelNumber = Number(event.currentTarget.dataset.startLevel);
     sharkyGame.start(levelNumber);
     showGameScreen();
 }
@@ -97,7 +137,7 @@ function restartGame() {
 function returnToMainMenu() {
     sharkyGame.stop();
     disablePauseButton();
-    showStartScreen();
+    showMainMenuScreen();
 }
 
 function handleGameStatusUpdate(gameState) {
@@ -141,7 +181,11 @@ function updateStatusDisplay(gameState) {
 
 function updateShopHud(gameState) {
     const shopCoinDisplay = document.getElementById('shopCoinDisplay');
-    shopCoinDisplay.textContent = gameState.coins;
+
+    if (shopCoinDisplay) {
+        shopCoinDisplay.textContent = gameState.coins;
+    }
+
     updateUpgradeButtons(gameState);
 }
 
@@ -194,23 +238,40 @@ function updateStatusScreens(gameState) {
     }
 }
 
+function showMainMenuScreen() {
+    closeMainMenuPanels();
+    hideGameShell();
+    showMainMenu();
+    hidePauseScreen();
+    hideStatusScreens();
+}
+
 function showGameScreen() {
-    hideStartScreen();
+    hideMainMenu();
+    showGameShell();
     hidePauseScreen();
     hideStatusScreens();
     enablePauseButton();
 }
 
-function showStartScreen() {
-    const startScreen = document.getElementById('startScreen');
-    startScreen.classList.remove('hidden');
-    hidePauseScreen();
-    hideStatusScreens();
+function showMainMenu() {
+    const mainMenuScreen = document.getElementById('mainMenuScreen');
+    mainMenuScreen.classList.remove('hidden');
 }
 
-function hideStartScreen() {
-    const startScreen = document.getElementById('startScreen');
-    startScreen.classList.add('hidden');
+function hideMainMenu() {
+    const mainMenuScreen = document.getElementById('mainMenuScreen');
+    mainMenuScreen.classList.add('hidden');
+}
+
+function showGameShell() {
+    const gameShell = document.getElementById('gameShell');
+    gameShell.classList.remove('hidden');
+}
+
+function hideGameShell() {
+    const gameShell = document.getElementById('gameShell');
+    gameShell.classList.add('hidden');
 }
 
 function showPauseScreen() {

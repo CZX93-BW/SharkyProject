@@ -7,44 +7,143 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Page Layout -->
-    <main class="page-layout">
+    <!-- Main Menu Screen -->
+    <main id="mainMenuScreen" class="main-menu-screen">
+        <section class="main-menu-hero">
+            <video class="hero-background-video" muted loop playsinline aria-hidden="true"></video>
+
+            <div class="hero-background-effects" aria-hidden="true">
+                <span class="bubble bubble-one"></span>
+                <span class="bubble bubble-two"></span>
+                <span class="bubble bubble-three"></span>
+                <span class="bubble bubble-four"></span>
+            </div>
+
+            <div class="hero-content">
+                <p class="eyebrow">Sharky Projekt</p>
+                <h1>Sharky - Jump and Swim</h1>
+                <p class="hero-text">
+                    Tauche ein in Sharkys Riff, sammle Münzen, nutze Giftflaschen
+                    und verteidige die Tiefsee gegen gefährliche Gegner.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="primary-button large-button" data-start-level="1">
+                        Spiel starten
+                    </button>
+                    <button class="secondary-button large-button" data-main-panel="levelSelectPanel">
+                        Levelauswahl
+                    </button>
+                </div>
+            </div>
+
+            <nav class="main-menu-navigation" aria-label="Hauptmenü">
+                <button data-main-panel="settingsPanel">Einstellungen</button>
+                <button data-main-panel="howToPlayPanel">Anleitung</button>
+                <button data-main-panel="storyPanel">Geschichte</button>
+                <a href="imprint.html">Impressum</a>
+            </nav>
+        </section>
+
+        <!-- Main Menu Panels -->
+        <section id="levelSelectPanel" class="main-menu-panel hidden">
+            <div class="panel-card">
+                <p class="eyebrow">Levelauswahl</p>
+                <h2>Wähle deine Riffzone</h2>
+                <p>
+                    Starte direkt mit Level 1 oder teste Level 2 für die Entwicklung.
+                    Später kann Level 2 sauber über den Shop freigeschaltet werden.
+                </p>
+
+                <div class="panel-grid">
+                    <article class="panel-option">
+                        <h3>Level 1</h3>
+                        <p>Das erste Riff. Ideal zum Starten und Sammeln.</p>
+                        <button class="primary-button" data-start-level="1">Level 1 starten</button>
+                    </article>
+
+                    <article class="panel-option">
+                        <h3>Level 2</h3>
+                        <p>Die tiefere Riffzone. Aktuell als Testzugang verfügbar.</p>
+                        <button class="secondary-button" data-start-level="2">Level 2 testen</button>
+                    </article>
+                </div>
+
+                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+            </div>
+        </section>
+
+        <section id="settingsPanel" class="main-menu-panel hidden">
+            <div class="panel-card">
+                <p class="eyebrow">Einstellungen</p>
+                <h2>Spielgefühl vorbereiten</h2>
+                <p>
+                    Hier werden später Musik, Soundeffekte und weitere Optionen gesteuert.
+                    Die technische Audio-Basis folgt in einem eigenen Schritt.
+                </p>
+
+                <div class="settings-preview">
+                    <span>Musik: vorbereitet</span>
+                    <span>Soundeffekte: vorbereitet</span>
+                    <span>Ingame-Dialog: folgt</span>
+                </div>
+
+                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+            </div>
+        </section>
+
+        <section id="howToPlayPanel" class="main-menu-panel hidden">
+            <div class="panel-card">
+                <p class="eyebrow">Anleitung</p>
+                <h2>So steuerst du Sharky</h2>
+
+                <div class="instruction-list">
+                    <p><strong>Bewegen:</strong> W A S D oder Pfeiltasten</p>
+                    <p><strong>Fin Slap:</strong> E oder mobiler Flosse-Button</p>
+                    <p><strong>Bubble Trap:</strong> Leertaste oder mobiler Blase-Button</p>
+                    <p><strong>Poison Shot:</strong> F oder mobiler Gift-Button</p>
+                    <p><strong>Ziel:</strong> Sammle Ressourcen, weiche Gefahren aus und erreiche das Levelziel.</p>
+                </div>
+
+                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+            </div>
+        </section>
+
+        <section id="storyPanel" class="main-menu-panel hidden">
+            <div class="panel-card story-card">
+                <p class="eyebrow">Geschichte</p>
+                <h2>Sharkys Riff ist in Gefahr</h2>
+                <p>
+                    Tief unter der Wasseroberfläche liegt ein altes Riff, das seit Generationen
+                    von friedlichen Meeresbewohnern bewohnt wird. Doch giftige Strömungen breiten
+                    sich aus und fremde Kreaturen blockieren die Wege zwischen den Riffzonen.
+                </p>
+                <p>
+                    Sharky macht sich auf den Weg, um Münzen, Giftflaschen und neue Kräfte zu sammeln.
+                    Mit Flossenschlag, Giftattacke und Blasenfalle kämpft er sich durch die Tiefsee,
+                    um sein Zuhause zu retten.
+                </p>
+
+                <button class="secondary-button" disabled>Vorlesen folgt später</button>
+                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Game Shell -->
+    <main id="gameShell" class="page-layout hidden">
         <section class="game-card">
             <header class="game-header">
                 <div>
-                    <p class="eyebrow">Sharky Projekt</p>
+                    <p class="eyebrow">Aktive Mission</p>
                     <h1>Sharky - Jump and Swim</h1>
                 </div>
 
-                <nav class="game-navigation" aria-label="Hauptnavigation">
+                <nav class="game-navigation" aria-label="Spielnavigation">
+                    <button id="returnHomeHeaderButton" class="text-button">Hauptmenü</button>
                     <a href="imprint.html">Impressum</a>
                 </nav>
             </header>
-
-            <!-- Start Screen -->
-            <section id="startScreen" class="menu-overlay">
-                <div class="menu-content">
-                    <p class="eyebrow">Mission starten</p>
-                    <h2>Rette Sharkys Riff</h2>
-                    <p>
-                        Tief im Riff breiten sich giftige Strömungen aus. Sharky sammelt Münzen,
-                        findet Giftflaschen und kämpft sich durch die Tiefsee, um sein Zuhause zu retten.
-                    </p>
-
-                    <div class="control-hint">
-                        Desktop: W A S D oder Pfeiltasten · Flosse: E · Blase: Leertaste · Gift: F
-                    </div>
-
-                    <div class="control-hint">
-                        Mobil: Joystick bewegen · Angriffbuttons links oder rechts nutzen
-                    </div>
-
-                    <div class="menu-actions">
-                        <button class="primary-button" data-level="1">Level 1 starten</button>
-                        <button class="secondary-button" data-level="2">Level 2 testen</button>
-                    </div>
-                </div>
-            </section>
 
             <!-- Pause Screen -->
             <section id="pauseScreen" class="menu-overlay hidden">
