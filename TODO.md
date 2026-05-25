@@ -430,34 +430,34 @@ Der Einstieg soll einladend, hochwertig und klar strukturiert wirken.
 
 ### Aufgaben
 
-- [ ] Eigenen Startseiten-Bereich vor dem Spiel aufbauen
-- [ ] Bisherigen Overlay-Startscreen vom echten Hauptmenü trennen
-- [ ] Hero-Bereich mit einladender Gestaltung erstellen
-- [ ] Hintergrundbild oder Video-Bereich vorbereiten
-- [ ] Optionalen animierten Hintergrund vorbereiten
-- [ ] Hauptnavigation anlegen
-- [ ] Menüpunkt „Spiel starten“ vorbereiten
-- [ ] Menüpunkt „Levelauswahl“ vorbereiten
-- [ ] Menüpunkt „Einstellungen“ vorbereiten
-- [ ] Menüpunkt „Anleitung“ vorbereiten
-- [ ] Menüpunkt „Geschichte / Lore“ vorbereiten
-- [ ] Menüpunkt „Impressum“ einbinden
-- [ ] Start-Button logisch mit Level 1 verbinden
-- [ ] Levelauswahl sauber öffnen und schließen
-- [ ] Level 2 als Test- oder freigeschaltete Option klar darstellen
-- [ ] Menüführung auf Desktop prüfen
-- [ ] Menüführung auf Mobile prüfen
-- [ ] Texte freundlich und verständlich formulieren
-- [ ] UI/UX freundlich und einladend gestalten
-- [ ] Konsole auf Fehler prüfen
+- [x] Eigenen Startseiten-Bereich vor dem Spiel aufbauen
+- [x] Bisherigen Overlay-Startscreen vom echten Hauptmenü trennen
+- [x] Hero-Bereich mit einladender Gestaltung erstellen
+- [x] Hintergrundbild oder Video-Bereich vorbereiten
+- [x] Optionalen animierten Hintergrund vorbereiten
+- [x] Hauptnavigation anlegen
+- [x] Menüpunkt „Spiel starten“ vorbereiten
+- [x] Menüpunkt „Levelauswahl“ vorbereiten
+- [x] Menüpunkt „Einstellungen“ vorbereiten
+- [x] Menüpunkt „Anleitung“ vorbereiten
+- [x] Menüpunkt „Geschichte / Lore“ vorbereiten
+- [x] Menüpunkt „Impressum“ einbinden
+- [x] Start-Button logisch mit Level 1 verbinden
+- [x] Levelauswahl sauber öffnen und schließen
+- [x] Level 2 als Test- oder freigeschaltete Option klar darstellen
+- [x] Menüführung auf Desktop prüfen
+- [x] Menüführung auf Mobile prüfen
+- [x] Texte freundlich und verständlich formulieren
+- [x] UI/UX freundlich und einladend gestalten
+- [x] Konsole auf Fehler prüfen
 
 ### Tagesergebnis
 
-- [ ] Das Spiel hat ein echtes Hauptmenü
-- [ ] Der Einstieg wirkt professioneller und einladender
-- [ ] Spieler können klar zwischen Start, Levelauswahl, Anleitung, Einstellungen und Lore wählen
-- [ ] Das eigentliche Spiel startet sauber aus dem Hauptmenü
-- [ ] Der alte Startscreen wirkt nicht mehr wie ein Pause-Menü
+- [x] Das Spiel hat ein echtes Hauptmenü
+- [x] Der Einstieg wirkt professioneller und einladender
+- [x] Spieler können klar zwischen Start, Levelauswahl, Anleitung, Einstellungen und Lore wählen
+- [x] Das eigentliche Spiel startet sauber aus dem Hauptmenü
+- [x] Der alte Startscreen wirkt nicht mehr wie ein Pause-Menü
 
 ---
 
