@@ -42,5 +42,21 @@ const ASSET_CONFIG = {
         coinIcon: '',
         poisonIcon: '',
         shopIcon: ''
+    },
+    audio: {
+        music: {
+            mainTheme: ''
+        },
+        sounds: {
+            coin: '',
+            poisonBottle: '',
+            damage: '',
+            finSlap: '',
+            poisonShot: '',
+            bubbleTrap: '',
+            shop: '',
+            win: '',
+            gameOver: ''
+        }
     }
 };

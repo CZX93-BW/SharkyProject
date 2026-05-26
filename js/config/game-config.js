@@ -34,6 +34,8 @@ const GAME_CONFIG = {
     cameraVerticalFocus: 0.5,
     mobileJoystickThreshold: 0.22,
     mobileJoystickMaxDistance: 42,
+    musicVolume: 0.35,
+    soundVolume: 0.65,
     enemyWidth: 58,
     enemyHeight: 58,
     enemyHealth: 45,
