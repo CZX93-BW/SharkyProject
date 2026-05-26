@@ -2,6 +2,7 @@
 
 let sharkyGame;
 let audioManager;
+let storyNarrator;
 let wasPlayingBeforeSettings = false;
 let previousGameStatus = 'menu';
 
@@ -12,9 +13,11 @@ function initializeApplication() {
     const canvas = document.getElementById('gameCanvas');
 
     audioManager = new AudioManager();
+    storyNarrator = new StoryNarrator('storyText');
     new MobileControls(keyboard);
     sharkyGame = new Game(canvas, keyboard, handleGameStatusUpdate, audioManager);
     bindApplicationButtons();
+    initializeStoryButtons();
     showMainMenuScreen();
 }
 
@@ -28,6 +31,7 @@ function bindMainMenuButtons() {
     bindStartLevelButtons();
     bindMainPanelButtons();
     bindClosePanelButtons();
+    bindStoryButtons();
 }
 
 function bindStartLevelButtons() {
@@ -43,6 +47,11 @@ function bindMainPanelButtons() {
 function bindClosePanelButtons() {
     const closeButtons = document.querySelectorAll('[data-close-panel]');
     closeButtons.forEach((button) => button.addEventListener('click', closeMainMenuPanels));
+}
+
+function bindStoryButtons() {
+    bindButton('readStoryButton', readStory);
+    bindButton('stopStoryButton', stopStory);
 }
 
 function bindGameMenuButtons() {
@@ -97,6 +106,26 @@ function bindButton(buttonId, callback) {
     }
 }
 
+function initializeStoryButtons() {
+    if (!storyNarrator.isSupported()) {
+        disableStoryReading();
+    }
+}
+
+function disableStoryReading() {
+    const readButton = document.getElementById('readStoryButton');
+    readButton.textContent = 'Vorlesen nicht verfügbar';
+    readButton.disabled = true;
+}
+
+function readStory() {
+    storyNarrator.read();
+}
+
+function stopStory() {
+    storyNarrator.stop();
+}
+
 function openSelectedPanel(event) {
     const panelId = event.currentTarget.dataset.mainPanel;
     openMainMenuPanel(panelId);
@@ -108,6 +137,7 @@ function openMainMenuPanel(panelId) {
 }
 
 function closeMainMenuPanels() {
+    stopStory();
     const panels = document.querySelectorAll('.main-menu-panel');
     panels.forEach((panel) => panel.classList.add('hidden'));
 }
@@ -379,6 +409,7 @@ function showMainMenuScreen() {
 }
 
 function showGameScreen() {
+    stopStory();
     hideMainMenu();
     showGameShell();
     hidePauseScreen();

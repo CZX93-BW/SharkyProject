@@ -197,6 +197,10 @@ body {
     box-shadow: var(--shadow-card);
 }
 
+.wide-panel-card {
+    width: min(100%, 960px);
+}
+
 .panel-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -205,7 +209,8 @@ body {
 }
 
 .panel-option,
-.settings-preview {
+.settings-preview,
+.instruction-card {
     padding: 18px;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-medium);
@@ -218,18 +223,40 @@ body {
     margin: 22px 0;
 }
 
-.instruction-list {
+.instruction-grid {
     display: grid;
-    gap: 10px;
-    margin: 22px 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 24px 0;
 }
 
-.instruction-list p {
-    margin: 0;
+.instruction-card p {
+    margin: 8px 0 0;
 }
 
 .story-card p {
     font-size: 1rem;
+}
+
+.story-text {
+    margin-top: 20px;
+}
+
+.story-quote {
+    margin: 28px 0;
+    padding: 18px 22px;
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--border-radius-medium);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+.story-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 22px;
 }
 
 /* Page Layout */
@@ -717,7 +744,8 @@ button:disabled {
 
 @media (max-width: 900px) {
     .shop-grid,
-    .panel-grid {
+    .panel-grid,
+    .instruction-grid {
         grid-template-columns: 1fr;
     }
 
@@ -749,6 +777,10 @@ button:disabled {
 
     .panel-card {
         padding: 22px;
+    }
+
+    .story-actions {
+        display: grid;
     }
 
     .page-layout {

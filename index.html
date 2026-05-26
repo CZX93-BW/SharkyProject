@@ -58,7 +58,7 @@
                 <div class="panel-grid">
                     <article class="panel-option">
                         <h3>Level 1</h3>
-                        <p>Das erste Riff. Ideal zum Starten und Sammeln.</p>
+                        <p>Das erste Riff. Ideal zum Starten, Sammeln und Kämpfen.</p>
                         <button class="primary-button" data-start-level="1">Level 1 starten</button>
                     </article>
 
@@ -78,13 +78,14 @@
                 <p class="eyebrow">Einstellungen</p>
                 <h2>Spielgefühl vorbereiten</h2>
                 <p>
-                    Hier werden später Musik, Soundeffekte und weitere Optionen gesteuert.
-                    Die technische Audio-Basis folgt in einem eigenen Schritt.
+                    Musik, Soundeffekte und Ingame-Optionen sind technisch vorbereitet.
+                    Feinschliff und echte Dateien werden später ergänzt.
                 </p>
 
                 <div class="settings-preview">
                     <span>Musik: vorbereitet</span>
                     <span>Soundeffekte: vorbereitet</span>
+                    <span>Story-Vorlesen: vorbereitet</span>
                     <span>Ingame-Dialog: vorbereitet</span>
                 </div>
 
@@ -93,16 +94,48 @@
         </section>
 
         <section id="howToPlayPanel" class="main-menu-panel hidden">
-            <div class="panel-card">
+            <div class="panel-card wide-panel-card">
                 <p class="eyebrow">Anleitung</p>
                 <h2>So steuerst du Sharky</h2>
+                <p>
+                    Sharky bewegt sich frei unter Wasser. Nutze Bewegung, Timing und Angriffe,
+                    um Gegner zu umgehen, einzufangen oder zu besiegen.
+                </p>
 
-                <div class="instruction-list">
-                    <p><strong>Bewegen:</strong> W A S D oder Pfeiltasten</p>
-                    <p><strong>Fin Slap:</strong> E oder mobiler Flosse-Button</p>
-                    <p><strong>Bubble Trap:</strong> Leertaste oder mobiler Blase-Button</p>
-                    <p><strong>Poison Shot:</strong> F oder mobiler Gift-Button</p>
-                    <p><strong>Ziel:</strong> Sammle Ressourcen, weiche Gefahren aus und erreiche das Levelziel.</p>
+                <div class="instruction-grid">
+                    <article class="instruction-card">
+                        <h3>Bewegung</h3>
+                        <p><strong>Desktop:</strong> W A S D oder Pfeiltasten</p>
+                        <p><strong>Mobil:</strong> Joystick benutzen</p>
+                    </article>
+
+                    <article class="instruction-card">
+                        <h3>Fin Slap</h3>
+                        <p><strong>Taste:</strong> E</p>
+                        <p>Ein kurzer Nahkampfangriff. Wirkt gegen normale Gegner und Bossgegner.</p>
+                    </article>
+
+                    <article class="instruction-card">
+                        <h3>Bubble Trap</h3>
+                        <p><strong>Taste:</strong> Leertaste</p>
+                        <p>Schießt eine Blase. Kleine normale Gegner werden gefangen und machen keinen Schaden mehr.</p>
+                    </article>
+
+                    <article class="instruction-card">
+                        <h3>Poison Shot</h3>
+                        <p><strong>Taste:</strong> F</p>
+                        <p>Verbraucht eine Giftflasche und verursacht über mehrere Sekunden Giftschaden.</p>
+                    </article>
+
+                    <article class="instruction-card">
+                        <h3>Ressourcen</h3>
+                        <p>Münzen helfen dir im Shop. Giftflaschen brauchst du für Poison Shot.</p>
+                    </article>
+
+                    <article class="instruction-card">
+                        <h3>Ziel</h3>
+                        <p>Erreiche das Levelziel, sammle Ressourcen und bereite Sharky für die nächste Riffzone vor.</p>
+                    </article>
                 </div>
 
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
@@ -110,21 +143,41 @@
         </section>
 
         <section id="storyPanel" class="main-menu-panel hidden">
-            <div class="panel-card story-card">
+            <div class="panel-card story-card wide-panel-card">
                 <p class="eyebrow">Geschichte</p>
                 <h2>Sharkys Riff ist in Gefahr</h2>
-                <p>
-                    Tief unter der Wasseroberfläche liegt ein altes Riff, das seit Generationen
-                    von friedlichen Meeresbewohnern bewohnt wird. Doch giftige Strömungen breiten
-                    sich aus und fremde Kreaturen blockieren die Wege zwischen den Riffzonen.
-                </p>
-                <p>
-                    Sharky macht sich auf den Weg, um Münzen, Giftflaschen und neue Kräfte zu sammeln.
-                    Mit Flossenschlag, Giftattacke und Blasenfalle kämpft er sich durch die Tiefsee,
-                    um sein Zuhause zu retten.
-                </p>
 
-                <button class="secondary-button" disabled>Vorlesen folgt später</button>
+                <div id="storyText" class="story-text">
+                    <p>
+                        Tief unter der Wasseroberfläche liegt ein altes Riff, das seit Generationen
+                        von friedlichen Meeresbewohnern bewohnt wird. Zwischen leuchtenden Korallen,
+                        geheimen Höhlen und stillen Strömungen hat Sharky sein Zuhause gefunden.
+                    </p>
+                    <p>
+                        Doch eines Tages verändert sich das Wasser. Giftige Strömungen ziehen durch
+                        die Riffzonen, Münzen verschwinden in dunklen Felsspalten und fremde Kreaturen
+                        blockieren die Wege zwischen den Tiefen.
+                    </p>
+                    <p>
+                        Sharky bleibt keine Wahl. Mit Flossenschlag, Blasenfalle und Giftattacke macht
+                        er sich auf den Weg, um das Riff zu schützen. Jede gesammelte Münze, jede
+                        Giftflasche und jedes Upgrade bringt ihn näher an sein Ziel.
+                    </p>
+                    <p>
+                        Wenn Sharky scheitert, wird das Riff verstummen. Wenn er es schafft, kann die
+                        Tiefsee wieder aufatmen.
+                    </p>
+                </div>
+
+                <blockquote class="story-quote">
+                    „Ein kleiner Hai, ein großes Riff und sehr viel Wasser zwischen Mut und Chaos.“
+                </blockquote>
+
+                <div class="story-actions">
+                    <button id="readStoryButton" class="primary-button">Geschichte vorlesen</button>
+                    <button id="stopStoryButton" class="secondary-button">Vorlesen stoppen</button>
+                </div>
+
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
             </div>
         </section>
@@ -243,7 +296,7 @@
                     </div>
 
                     <p>
-                        Musik und Sound werden an Tag 11 technisch verbunden. Die Bedienung ist hier bereits vorbereitet.
+                        Musik und Sound sind technisch vorbereitet. Echte Dateien können zentral über die Asset-Konfiguration eingebunden werden.
                     </p>
 
                     <div class="settings-control-list">
@@ -309,6 +362,7 @@
     <script src="js/config/game-config.js"></script>
     <script src="js/config/asset-config.js"></script>
     <script src="js/classes/audio-manager.class.js"></script>
+    <script src="js/classes/story-narrator.class.js"></script>
     <script src="js/classes/drawable-object.class.js"></script>
     <script src="js/classes/movable-object.class.js"></script>
     <script src="js/classes/background-object.class.js"></script>
