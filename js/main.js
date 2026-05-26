@@ -1,12 +1,9 @@
 'use strict';
 
 let sharkyGame;
+let audioManager;
 let wasPlayingBeforeSettings = false;
-
-const uiSettings = {
-    musicEnabled: false,
-    soundEnabled: true
-};
+let previousGameStatus = 'menu';
 
 window.addEventListener('load', initializeApplication);
 
@@ -14,8 +11,9 @@ function initializeApplication() {
     const keyboard = new Keyboard();
     const canvas = document.getElementById('gameCanvas');
 
+    audioManager = new AudioManager();
     new MobileControls(keyboard);
-    sharkyGame = new Game(canvas, keyboard, handleGameStatusUpdate);
+    sharkyGame = new Game(canvas, keyboard, handleGameStatusUpdate, audioManager);
     bindApplicationButtons();
     showMainMenuScreen();
 }
@@ -116,11 +114,13 @@ function closeMainMenuPanels() {
 
 function startSelectedLevel(event) {
     const levelNumber = Number(event.currentTarget.dataset.startLevel);
+    unlockAudio();
     sharkyGame.start(levelNumber);
     showGameScreen();
 }
 
 function continueToLevelTwo() {
+    unlockAudio();
     sharkyGame.startNextLevel(2);
     showGameScreen();
 }
@@ -128,6 +128,10 @@ function continueToLevelTwo() {
 function buySelectedUpgrade(event) {
     const upgradeName = event.currentTarget.dataset.upgrade;
     sharkyGame.purchaseUpgrade(upgradeName);
+}
+
+function unlockAudio() {
+    audioManager.unlock();
 }
 
 function togglePauseState() {
@@ -153,6 +157,7 @@ function resumeGame() {
 }
 
 function restartGame() {
+    unlockAudio();
     sharkyGame.restart();
     showGameScreen();
 }
@@ -184,12 +189,13 @@ function closeIngameSettingsDialog() {
 }
 
 function toggleMusicSetting() {
-    uiSettings.musicEnabled = !uiSettings.musicEnabled;
+    unlockAudio();
+    audioManager.toggleMusic();
     updateIngameControlButtons(sharkyGame.gameState);
 }
 
 function toggleSoundSetting() {
-    uiSettings.soundEnabled = !uiSettings.soundEnabled;
+    audioManager.toggleSound();
     updateIngameControlButtons(sharkyGame.gameState);
 }
 
@@ -198,6 +204,30 @@ function handleGameStatusUpdate(gameState) {
     updateShopHud(gameState);
     updateStatusScreens(gameState);
     updateIngameControlButtons(gameState);
+    playStatusSoundIfNeeded(gameState.status);
+}
+
+function playStatusSoundIfNeeded(status) {
+    if (status === previousGameStatus) {
+        return;
+    }
+
+    previousGameStatus = status;
+    playStatusSound(status);
+}
+
+function playStatusSound(status) {
+    if (status === 'shop') {
+        audioManager.playSound('shop');
+    }
+
+    if (status === 'gameOver') {
+        audioManager.playSound('gameOver');
+    }
+
+    if (status === 'levelComplete') {
+        audioManager.playSound('win');
+    }
 }
 
 function updateGameHud(gameState) {
@@ -318,19 +348,25 @@ function updateMusicButtons() {
 
 function updateMusicToggleButton() {
     const button = document.getElementById('musicToggleButton');
-    button.textContent = uiSettings.musicEnabled ? '♫' : '♪';
-    button.classList.toggle('is-active', uiSettings.musicEnabled);
-    button.setAttribute('aria-pressed', String(uiSettings.musicEnabled));
+    const isEnabled = audioManager.isMusicEnabled();
+
+    button.textContent = isEnabled ? '♫' : '♪';
+    button.classList.toggle('is-active', isEnabled);
+    button.setAttribute('aria-pressed', String(isEnabled));
 }
 
 function updateMusicSettingButton() {
     const button = document.getElementById('musicSettingButton');
-    button.textContent = uiSettings.musicEnabled ? 'Musik: An' : 'Musik: Aus';
+    const statusText = audioManager.isMusicEnabled() ? 'An' : 'Aus';
+
+    button.textContent = `Musik: ${statusText}`;
 }
 
 function updateSoundButton() {
     const button = document.getElementById('soundSettingButton');
-    button.textContent = uiSettings.soundEnabled ? 'Soundeffekte: An' : 'Soundeffekte: Aus';
+    const statusText = audioManager.isSoundEnabled() ? 'An' : 'Aus';
+
+    button.textContent = `Soundeffekte: ${statusText}`;
 }
 
 function showMainMenuScreen() {
