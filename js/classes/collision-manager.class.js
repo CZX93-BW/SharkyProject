@@ -1,6 +1,10 @@
 'use strict';
 
 class CollisionManager {
+    constructor(audioManager = null) {
+        this.audioManager = audioManager;
+    }
+
     checkPlayerEnemyCollisions(player, enemies) {
         enemies.forEach((enemy) => this.checkPlayerEnemyCollision(player, enemy));
     }
@@ -10,11 +14,23 @@ class CollisionManager {
             return;
         }
 
-        player.takeDamage(enemy.damage);
+        this.applyEnemyDamage(player, enemy);
     }
 
     canEnemyDamagePlayer(player, enemy) {
         return enemy.canDealContactDamage() && this.isOverlapping(player, enemy);
+    }
+
+    applyEnemyDamage(player, enemy) {
+        const healthBeforeDamage = player.health;
+        player.takeDamage(enemy.damage);
+        this.playDamageSoundIfNeeded(player, healthBeforeDamage);
+    }
+
+    playDamageSoundIfNeeded(player, healthBeforeDamage) {
+        if (player.health < healthBeforeDamage) {
+            this.playSound('damage');
+        }
     }
 
     checkPlayerCollectibleCollisions(gameState) {
@@ -38,11 +54,21 @@ class CollisionManager {
 
     applyCollectible(gameState, collectible) {
         if (collectible.type === 'coin') {
-            gameState.collectCoin(collectible.value);
+            this.applyCoinCollectible(gameState, collectible);
             return;
         }
 
+        this.applyPoisonBottleCollectible(gameState, collectible);
+    }
+
+    applyCoinCollectible(gameState, collectible) {
+        gameState.collectCoin(collectible.value);
+        this.playSound('coin');
+    }
+
+    applyPoisonBottleCollectible(gameState, collectible) {
         gameState.collectPoisonBottle(collectible.value);
+        this.playSound('poisonBottle');
     }
 
     checkAttackCollisions(attackManager, level) {
@@ -107,6 +133,12 @@ class CollisionManager {
 
         attack.registerHit(target);
         attack.expire();
+    }
+
+    playSound(soundName) {
+        if (this.audioManager) {
+            this.audioManager.playSound(soundName);
+        }
     }
 
     isOverlapping(firstObject, secondObject) {

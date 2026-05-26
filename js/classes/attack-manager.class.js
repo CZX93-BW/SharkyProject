@@ -1,7 +1,8 @@
 'use strict';
 
 class AttackManager {
-    constructor() {
+    constructor(audioManager = null) {
+        this.audioManager = audioManager;
         this.activeAttacks = [];
         this.lastAttackTimes = this.createLastAttackTimes();
         this.previousInputs = this.createPreviousInputs();
@@ -81,6 +82,13 @@ class AttackManager {
     createAttack(attack, attackName) {
         this.activeAttacks.push(attack);
         this.lastAttackTimes[attackName] = Date.now();
+        this.playAttackSound(attackName);
+    }
+
+    playAttackSound(attackName) {
+        if (this.audioManager) {
+            this.audioManager.playSound(attackName);
+        }
     }
 
     updateActiveAttacks() {
