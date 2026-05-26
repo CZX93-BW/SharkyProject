@@ -1,15 +1,16 @@
 'use strict';
 
 class Game {
-    constructor(canvas, keyboard, statusUpdateCallback = null) {
+    constructor(canvas, keyboard, statusUpdateCallback = null, audioManager = null) {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.statusUpdateCallback = statusUpdateCallback;
+        this.audioManager = audioManager;
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
-        this.collisionManager = new CollisionManager();
-        this.attackManager = new AttackManager();
+        this.collisionManager = new CollisionManager(audioManager);
+        this.attackManager = new AttackManager(audioManager);
         this.animationFrameId = null;
         this.lastFrameTime = 0;
         this.renderer.render(this.gameState, this.camera, this.attackManager);
