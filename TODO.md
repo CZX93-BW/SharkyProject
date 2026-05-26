@@ -546,33 +546,33 @@ Spieler sollen verstehen, wie das Spiel funktioniert und warum Sharky unterwegs 
 
 ### Aufgaben
 
-- [ ] Anleitung-Bereich im Hauptmenü aufbauen
-- [ ] Steuerung für Desktop erklären
-- [ ] Steuerung für Mobile erklären
-- [ ] Fin Slap erklären
-- [ ] Poison Shot erklären
-- [ ] Bubble Trap erklären
-- [ ] Coins und Giftflaschen erklären
-- [ ] Shop und Upgrades erklären
-- [ ] Lore-Bereich im Hauptmenü aufbauen
-- [ ] Geschichte von Sharky sauber formulieren
-- [ ] Story angenehm lesbar gestalten
-- [ ] Story-Fenster oder Story-Screen öffnen und schließen
-- [ ] Zurück-Navigation zum Hauptmenü einbauen
-- [ ] Optionalen Vorlesen-Button vorbereiten
-- [ ] Browser Speech Synthesis grob prüfen
-- [ ] Vorlesen später optional aktivierbar machen
-- [ ] Mobile Darstellung prüfen
-- [ ] Desktop Darstellung prüfen
-- [ ] Texte auf Deutsch sauber und sympathisch formulieren
+- [x] Anleitung-Bereich im Hauptmenü aufbauen
+- [x] Steuerung für Desktop erklären
+- [x] Steuerung für Mobile erklären
+- [x] Fin Slap erklären
+- [x] Poison Shot erklären
+- [x] Bubble Trap erklären
+- [x] Coins und Giftflaschen erklären
+- [x] Shop und Upgrades erklären
+- [x] Lore-Bereich im Hauptmenü aufbauen
+- [x] Geschichte von Sharky sauber formulieren
+- [x] Story angenehm lesbar gestalten
+- [x] Story-Fenster oder Story-Screen öffnen und schließen
+- [x] Zurück-Navigation zum Hauptmenü einbauen
+- [x] Optionalen Vorlesen-Button vorbereiten
+- [x] Browser Speech Synthesis grob prüfen
+- [x] Vorlesen später optional aktivierbar machen
+- [x] Mobile Darstellung prüfen
+- [x] Desktop Darstellung prüfen
+- [x] Texte auf Deutsch sauber und sympathisch formulieren
 
 ### Tagesergebnis
 
-- [ ] Anleitung ist sauber erreichbar
-- [ ] Spieler verstehen Steuerung und Spielziel besser
-- [ ] Lore ist als eigener Bereich eingebunden
-- [ ] Das Spiel wirkt atmosphärischer
-- [ ] Story-Vorlesen ist technisch vorbereitet oder als späteres Feature eingeplant
+- [x] Anleitung ist sauber erreichbar
+- [x] Spieler verstehen Steuerung und Spielziel besser
+- [x] Lore ist als eigener Bereich eingebunden
+- [x] Das Spiel wirkt atmosphärischer
+- [x] Story-Vorlesen ist technisch vorbereitet
 
 ---
 
