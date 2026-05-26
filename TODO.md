@@ -507,33 +507,33 @@ Audio soll steuerbar sein und später einfach erweitert werden können.
 
 ### Aufgaben
 
-- [ ] Audio-Manager planen
-- [ ] Audio-Manager als eigene Klasse oder eigenes Modul aufbauen
-- [ ] Hintergrundmusik technisch vorbereiten
-- [ ] Soundeffekte-Struktur vorbereiten
-- [ ] Musik an/aus mit UI verbinden
-- [ ] Soundeffekte an/aus vorbereiten
-- [ ] Browser-Autoplay-Regeln berücksichtigen
-- [ ] Audio erst nach Nutzerinteraktion starten
-- [ ] Lautstärke-Grundwerte vorbereiten
-- [ ] Audio-Status im Einstellungsdialog anzeigen
-- [ ] Soundeffekte für Coin vorbereiten
-- [ ] Soundeffekte für Schaden vorbereiten
-- [ ] Soundeffekte für Fin Slap vorbereiten
-- [ ] Soundeffekte für Poison Shot vorbereiten
-- [ ] Soundeffekte für Bubble Trap vorbereiten
-- [ ] Soundeffekte für Sieg und Game Over vorbereiten
-- [ ] Audio-Dateipfade zentral vorbereiten
-- [ ] Spiel ohne Audiodateien stabil halten
-- [ ] Konsole auf Audio-Fehler prüfen
+- [x] Audio-Manager planen
+- [x] Audio-Manager als eigene Klasse aufbauen
+- [x] Hintergrundmusik technisch vorbereiten
+- [x] Soundeffekte-Struktur vorbereiten
+- [x] Musik an/aus mit UI verbinden
+- [x] Soundeffekte an/aus vorbereiten
+- [x] Browser-Autoplay-Regeln berücksichtigen
+- [x] Audio erst nach Nutzerinteraktion starten
+- [x] Lautstärke-Grundwerte vorbereiten
+- [x] Audio-Status im Einstellungsdialog anzeigen
+- [x] Soundeffekte für Coin vorbereiten
+- [x] Soundeffekte für Schaden vorbereiten
+- [x] Soundeffekte für Fin Slap vorbereiten
+- [x] Soundeffekte für Poison Shot vorbereiten
+- [x] Soundeffekte für Bubble Trap vorbereiten
+- [x] Soundeffekte für Sieg und Game Over vorbereiten
+- [x] Audio-Dateipfade zentral vorbereiten
+- [x] Spiel ohne Audiodateien stabil halten
+- [x] Konsole auf Audio-Fehler prüfen
 
 ### Tagesergebnis
 
-- [ ] Audio-System ist technisch vorbereitet
-- [ ] Musik kann aktiviert und deaktiviert werden
-- [ ] Soundeffekte sind strukturell vorbereitet
-- [ ] Audio lässt sich später leicht mit echten Dateien füllen
-- [ ] Das Spiel wirkt technisch vollständiger
+- [x] Audio-System ist technisch vorbereitet
+- [x] Musik kann aktiviert und deaktiviert werden
+- [x] Soundeffekte sind strukturell vorbereitet
+- [x] Audio lässt sich später leicht mit echten Dateien füllen
+- [x] Das Spiel wirkt technisch vollständiger
 
 ---
 
