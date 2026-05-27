@@ -18,6 +18,7 @@ function initializeApplication() {
     sharkyGame = new Game(canvas, keyboard, handleGameStatusUpdate, audioManager);
     bindApplicationButtons();
     initializeStoryButtons();
+    updateAudioControls();
     showMainMenuScreen();
 }
 
@@ -25,6 +26,7 @@ function bindApplicationButtons() {
     bindMainMenuButtons();
     bindGameMenuButtons();
     bindIngameControlButtons();
+    bindAudioVolumeControls();
 }
 
 function bindMainMenuButtons() {
@@ -96,6 +98,23 @@ function bindIngameControlButtons() {
     bindButton('closeSettingsButton', closeIngameSettingsDialog);
     bindButton('musicSettingButton', toggleMusicSetting);
     bindButton('soundSettingButton', toggleSoundSetting);
+    bindButton('mainMusicSettingButton', toggleMusicSetting);
+    bindButton('mainSoundSettingButton', toggleSoundSetting);
+}
+
+function bindAudioVolumeControls() {
+    bindRangeInput('musicVolumeSlider', handleMusicVolumeChange);
+    bindRangeInput('mainMusicVolumeSlider', handleMusicVolumeChange);
+    bindRangeInput('soundVolumeSlider', handleSoundVolumeChange);
+    bindRangeInput('mainSoundVolumeSlider', handleSoundVolumeChange);
+}
+
+function bindRangeInput(inputId, callback) {
+    const input = document.getElementById(inputId);
+
+    if (input) {
+        input.addEventListener('input', callback);
+    }
 }
 
 function bindButton(buttonId, callback) {
@@ -114,8 +133,11 @@ function initializeStoryButtons() {
 
 function disableStoryReading() {
     const readButton = document.getElementById('readStoryButton');
-    readButton.textContent = 'Vorlesen nicht verfügbar';
-    readButton.disabled = true;
+
+    if (readButton) {
+        readButton.textContent = 'Vorlesen nicht verfügbar';
+        readButton.disabled = true;
+    }
 }
 
 function readStory() {
@@ -226,7 +248,19 @@ function toggleMusicSetting() {
 
 function toggleSoundSetting() {
     audioManager.toggleSound();
-    updateIngameControlButtons(sharkyGame.gameState);
+    updateAudioControls();
+}
+
+function handleMusicVolumeChange(event) {
+    const volume = Number(event.currentTarget.value);
+    audioManager.setMusicVolumeByPercent(volume);
+    updateAudioControls();
+}
+
+function handleSoundVolumeChange(event) {
+    const volume = Number(event.currentTarget.value);
+    audioManager.setSoundVolumeByPercent(volume);
+    updateAudioControls();
 }
 
 function handleGameStatusUpdate(gameState) {
@@ -354,8 +388,7 @@ function updateStatusScreens(gameState) {
 
 function updateIngameControlButtons(gameState) {
     updatePausePlayButton(gameState);
-    updateMusicButtons();
-    updateSoundButton();
+    updateAudioControls();
 }
 
 function updatePausePlayButton(gameState) {
@@ -371,9 +404,16 @@ function canUsePausePlay(gameState) {
     return gameState.status === 'playing' || gameState.status === 'paused';
 }
 
+function updateAudioControls() {
+    updateMusicButtons();
+    updateSoundButtons();
+    updateAudioSliders();
+}
+
 function updateMusicButtons() {
     updateMusicToggleButton();
-    updateMusicSettingButton();
+    updateMusicSettingButton('musicSettingButton');
+    updateMusicSettingButton('mainMusicSettingButton');
 }
 
 function updateMusicToggleButton() {
@@ -385,18 +425,42 @@ function updateMusicToggleButton() {
     button.setAttribute('aria-pressed', String(isEnabled));
 }
 
-function updateMusicSettingButton() {
-    const button = document.getElementById('musicSettingButton');
+function updateMusicSettingButton(buttonId) {
+    const button = document.getElementById(buttonId);
     const statusText = audioManager.isMusicEnabled() ? 'An' : 'Aus';
 
-    button.textContent = `Musik: ${statusText}`;
+    if (button) {
+        button.textContent = `Musik: ${statusText}`;
+    }
 }
 
-function updateSoundButton() {
-    const button = document.getElementById('soundSettingButton');
+function updateSoundButtons() {
+    updateSoundSettingButton('soundSettingButton');
+    updateSoundSettingButton('mainSoundSettingButton');
+}
+
+function updateSoundSettingButton(buttonId) {
+    const button = document.getElementById(buttonId);
     const statusText = audioManager.isSoundEnabled() ? 'An' : 'Aus';
 
-    button.textContent = `Soundeffekte: ${statusText}`;
+    if (button) {
+        button.textContent = `Soundeffekte: ${statusText}`;
+    }
+}
+
+function updateAudioSliders() {
+    updateRangeValue('musicVolumeSlider', audioManager.getMusicVolumePercent());
+    updateRangeValue('mainMusicVolumeSlider', audioManager.getMusicVolumePercent());
+    updateRangeValue('soundVolumeSlider', audioManager.getSoundVolumePercent());
+    updateRangeValue('mainSoundVolumeSlider', audioManager.getSoundVolumePercent());
+}
+
+function updateRangeValue(inputId, value) {
+    const input = document.getElementById(inputId);
+
+    if (input) {
+        input.value = value;
+    }
 }
 
 function showMainMenuScreen() {

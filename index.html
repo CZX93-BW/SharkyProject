@@ -27,6 +27,13 @@
                     und verteidige die Tiefsee gegen gefährliche Gegner.
                 </p>
 
+                <div class="hero-feature-list" aria-label="Spiel-Highlights">
+                    <span>2 Riffzonen</span>
+                    <span>3 Angriffe</span>
+                    <span>Shop-Upgrades</span>
+                    <span>Mobile Controls</span>
+                </div>
+
                 <div class="hero-actions">
                     <button class="primary-button large-button" data-start-level="1">
                         Spiel starten
@@ -48,8 +55,17 @@
         <!-- Main Menu Panels -->
         <section id="levelSelectPanel" class="main-menu-panel hidden">
             <div class="panel-card">
-                <p class="eyebrow">Levelauswahl</p>
-                <h2>Wähle deine Riffzone</h2>
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Levelauswahl</p>
+                        <h2>Wähle deine Riffzone</h2>
+                    </div>
+
+                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                        ×
+                    </button>
+                </div>
+
                 <p>
                     Starte direkt mit Level 1 oder teste Level 2 für die Entwicklung.
                     Später kann Level 2 sauber über den Shop freigeschaltet werden.
@@ -75,18 +91,40 @@
 
         <section id="settingsPanel" class="main-menu-panel hidden">
             <div class="panel-card">
-                <p class="eyebrow">Einstellungen</p>
-                <h2>Spielgefühl vorbereiten</h2>
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Einstellungen</p>
+                        <h2>Spielgefühl</h2>
+                    </div>
+
+                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                        ×
+                    </button>
+                </div>
+
                 <p>
-                    Musik, Soundeffekte und Ingame-Optionen sind technisch vorbereitet.
-                    Feinschliff und echte Dateien werden später ergänzt.
+                    Musik und Soundeffekte sind technisch vorbereitet. Sobald echte Audiodateien eingetragen sind,
+                    greifen diese Einstellungen direkt.
                 </p>
 
-                <div class="settings-preview">
-                    <span>Musik: vorbereitet</span>
-                    <span>Soundeffekte: vorbereitet</span>
-                    <span>Story-Vorlesen: vorbereitet</span>
-                    <span>Ingame-Dialog: vorbereitet</span>
+                <div class="settings-control-list">
+                    <button id="mainMusicSettingButton" class="settings-toggle-button">
+                        Musik: Aus
+                    </button>
+
+                    <label class="range-control" for="mainMusicVolumeSlider">
+                        <span>Musiklautstärke</span>
+                        <input id="mainMusicVolumeSlider" type="range" min="0" max="100" value="35">
+                    </label>
+
+                    <button id="mainSoundSettingButton" class="settings-toggle-button">
+                        Soundeffekte: An
+                    </button>
+
+                    <label class="range-control" for="mainSoundVolumeSlider">
+                        <span>Soundlautstärke</span>
+                        <input id="mainSoundVolumeSlider" type="range" min="0" max="100" value="65">
+                    </label>
                 </div>
 
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
@@ -95,8 +133,17 @@
 
         <section id="howToPlayPanel" class="main-menu-panel hidden">
             <div class="panel-card wide-panel-card">
-                <p class="eyebrow">Anleitung</p>
-                <h2>So steuerst du Sharky</h2>
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Anleitung</p>
+                        <h2>So steuerst du Sharky</h2>
+                    </div>
+
+                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                        ×
+                    </button>
+                </div>
+
                 <p>
                     Sharky bewegt sich frei unter Wasser. Nutze Bewegung, Timing und Angriffe,
                     um Gegner zu umgehen, einzufangen oder zu besiegen.
@@ -144,8 +191,16 @@
 
         <section id="storyPanel" class="main-menu-panel hidden">
             <div class="panel-card story-card wide-panel-card">
-                <p class="eyebrow">Geschichte</p>
-                <h2>Sharkys Riff ist in Gefahr</h2>
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Geschichte</p>
+                        <h2>Sharkys Riff ist in Gefahr</h2>
+                    </div>
+
+                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                        ×
+                    </button>
+                </div>
 
                 <div id="storyText" class="story-text">
                     <p>
@@ -303,9 +358,20 @@
                         <button id="musicSettingButton" class="settings-toggle-button">
                             Musik: Aus
                         </button>
+
+                        <label class="range-control" for="musicVolumeSlider">
+                            <span>Musiklautstärke</span>
+                            <input id="musicVolumeSlider" type="range" min="0" max="100" value="35">
+                        </label>
+
                         <button id="soundSettingButton" class="settings-toggle-button">
                             Soundeffekte: An
                         </button>
+
+                        <label class="range-control" for="soundVolumeSlider">
+                            <span>Soundlautstärke</span>
+                            <input id="soundVolumeSlider" type="range" min="0" max="100" value="65">
+                        </label>
                     </div>
                 </div>
             </section>

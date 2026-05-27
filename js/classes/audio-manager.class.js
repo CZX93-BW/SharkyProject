@@ -5,6 +5,8 @@ class AudioManager {
         this.musicEnabled = false;
         this.soundEnabled = true;
         this.isUnlocked = false;
+        this.musicVolume = GAME_CONFIG.musicVolume;
+        this.soundVolume = GAME_CONFIG.soundVolume;
         this.backgroundMusic = this.createBackgroundMusic();
         this.sounds = this.createSounds();
     }
@@ -69,7 +71,7 @@ class AudioManager {
             return;
         }
 
-        this.backgroundMusic.volume = GAME_CONFIG.musicVolume;
+        this.backgroundMusic.volume = this.musicVolume;
         this.backgroundMusic.play().catch(() => {});
     }
 
@@ -93,8 +95,36 @@ class AudioManager {
 
     playAudioCopy(audio) {
         const audioCopy = audio.cloneNode();
-        audioCopy.volume = GAME_CONFIG.soundVolume;
+        audioCopy.volume = this.soundVolume;
         audioCopy.play().catch(() => {});
+    }
+
+    setMusicVolumeByPercent(percent) {
+        this.musicVolume = this.getNormalizedVolume(percent);
+        this.updateBackgroundMusicVolume();
+    }
+
+    setSoundVolumeByPercent(percent) {
+        this.soundVolume = this.getNormalizedVolume(percent);
+    }
+
+    updateBackgroundMusicVolume() {
+        if (this.backgroundMusic) {
+            this.backgroundMusic.volume = this.musicVolume;
+        }
+    }
+
+    getNormalizedVolume(percent) {
+        const safePercent = Math.min(100, Math.max(0, percent));
+        return safePercent / 100;
+    }
+
+    getMusicVolumePercent() {
+        return Math.round(this.musicVolume * 100);
+    }
+
+    getSoundVolumePercent() {
+        return Math.round(this.soundVolume * 100);
     }
 
     canPlayMusic() {
