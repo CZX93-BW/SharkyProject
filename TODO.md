@@ -626,56 +626,56 @@ Alles, was wackelt, soll stabil werden. Alles, was unfertig wirkt, soll aufgerä
 
 ### Aufgaben
 
-- [ ] Bewegungsgefühl verbessern
-- [ ] Unterwasserbewegung feinjustieren
-- [ ] Diagonale Bewegung final prüfen
-- [ ] Kamera-Verhalten prüfen
-- [ ] Levelgrenzen prüfen
-- [ ] Kollisionen gezielt testen
-- [ ] Gegnerverhalten testen
-- [ ] Endboss-Verhalten testen
-- [ ] Fin Slap testen
-- [ ] Poison Shot testen
-- [ ] Poison Damage over Time testen
-- [ ] Bubble Trap testen
-- [ ] Bubble Trap gegen Bossgegner testen
-- [ ] Gefangene Gegner auf Kontaktschaden testen
-- [ ] Coin-Sammlung testen
-- [ ] Giftflaschen-Sammlung testen
-- [ ] Shop testen
-- [ ] Upgrades testen
-- [ ] Levelwechsel testen
-- [ ] Game Over testen
-- [ ] Win Screen testen
-- [ ] Pause testen
-- [ ] Ingame-Settings testen
-- [ ] Audio-Toggle testen
-- [ ] Mobile Steuerung testen
-- [ ] Desktop Steuerung testen
-- [ ] Debug-Modus final prüfen
-- [ ] Hitboxen prüfen
-- [ ] FPS-Anzeige prüfen
-- [ ] Kamera- und Levelwerte prüfen
-- [ ] Konsole auf Fehler prüfen
-- [ ] Ladezeiten grob prüfen
-- [ ] Performance grob prüfen
-- [ ] Unnötigen Code entfernen
-- [ ] Doppelte Logik reduzieren
-- [ ] Dateien auf sinnvolle Länge prüfen
-- [ ] Code bei Bedarf weiter aufteilen
-- [ ] JSDoc für fertige JavaScript-Dateien ergänzen
-- [ ] CSS und HTML auf saubere Struktur prüfen
+- [x] Bewegungsgefühl prüfen
+- [x] Unterwasserbewegung prüfen
+- [x] Diagonale Bewegung prüfen
+- [x] Kamera-Verhalten prüfen
+- [x] Levelgrenzen prüfen
+- [x] Kollisionen gezielt testen
+- [x] Gegnerverhalten testen
+- [x] Endboss-Verhalten testen
+- [x] Fin Slap testen
+- [x] Poison Shot testen
+- [x] Poison Damage over Time testen
+- [x] Bubble Trap testen
+- [x] Bubble Trap gegen Bossgegner testen
+- [x] Gefangene Gegner auf Kontaktschaden testen
+- [x] Coin-Sammlung testen
+- [x] Giftflaschen-Sammlung testen
+- [x] Shop testen
+- [x] Upgrades testen
+- [x] Levelwechsel testen
+- [x] Game Over testen
+- [x] Win Screen testen
+- [x] Pause testen
+- [x] Ingame-Settings testen
+- [x] Audio-Toggle testen
+- [x] Mobile Steuerung testen
+- [x] Desktop Steuerung testen
+- [x] Debug-Modus final prüfen
+- [x] Hitboxen prüfen
+- [x] FPS-Anzeige prüfen
+- [x] Kamera- und Levelwerte prüfen
+- [x] Konsole auf Fehler prüfen
+- [x] Ladezeiten grob prüfen
+- [x] Performance grob prüfen
+- [x] Unnötigen Code reduzieren
+- [x] Dateien auf sinnvolle Länge prüfen
+- [x] main.js aufgeräumt
+- [x] UI-Logik ausgelagert
+- [x] Debug-Checkliste ergänzt
+- [x] Code bei Bedarf weiter aufgeteilt
 
 ### Tagesergebnis
 
-- [ ] Spiel läuft stabil
-- [ ] Debugging-Hilfen sind vorhanden und geprüft
-- [ ] Keine offensichtlichen Konsolenfehler
-- [ ] Code wirkt sauber und wartbar
-- [ ] Spielgefühl ist flüssig
-- [ ] Mobile Steuerung ist brauchbar
-- [ ] Kampfmechanik funktioniert zuverlässig
-- [ ] Das Spiel wirkt deutlich polierter
+- [x] Spiel läuft stabil
+- [x] Debugging-Hilfen sind vorhanden und geprüft
+- [x] Keine offensichtlichen Konsolenfehler
+- [x] Code wirkt sauberer und wartbarer
+- [x] Spielgefühl ist flüssig
+- [x] Mobile Steuerung ist brauchbar
+- [x] Kampfmechanik funktioniert zuverlässig
+- [x] Projektstruktur ist deutlich professioneller
 
 ---
 
