@@ -585,35 +585,35 @@ Alles soll sich wie ein geschlossenes Spielsystem anfühlen.
 
 ### Aufgaben
 
-- [ ] Hauptmenü final prüfen
-- [ ] Hero-Bereich optisch polieren
-- [ ] Hintergrundbild oder Video-Hintergrund prüfen
-- [ ] Levelauswahl final prüfen
-- [ ] Einstellungen final prüfen
-- [ ] Anleitung final prüfen
-- [ ] Lore final prüfen
-- [ ] Ingame-Buttons final prüfen
-- [ ] Pause / Play final prüfen
-- [ ] Musik-Toggle final prüfen
-- [ ] Audio-Manager final grob prüfen
-- [ ] Shop-Darstellung prüfen
-- [ ] Game Over Screen prüfen
-- [ ] Win Screen prüfen
-- [ ] Mobile Menüs prüfen
-- [ ] Desktop Menüs prüfen
-- [ ] Kleine Displays testen
-- [ ] Querformat testen
-- [ ] UI-Texte vereinheitlichen
-- [ ] Buttons und Abstände polieren
-- [ ] Konsole auf Fehler prüfen
+- [x] Hauptmenü final prüfen
+- [x] Hero-Bereich optisch polieren
+- [x] Hintergrundbild oder Video-Hintergrund prüfen
+- [x] Levelauswahl final prüfen
+- [x] Einstellungen final prüfen
+- [x] Anleitung final prüfen
+- [x] Lore final prüfen
+- [x] Ingame-Buttons final prüfen
+- [x] Pause / Play final prüfen
+- [x] Musik-Toggle final prüfen
+- [x] Audio-Manager final grob prüfen
+- [x] Shop-Darstellung prüfen
+- [x] Game Over Screen prüfen
+- [x] Win Screen prüfen
+- [x] Mobile Menüs prüfen
+- [x] Desktop Menüs prüfen
+- [x] Kleine Displays testen
+- [x] Querformat testen
+- [x] UI-Texte vereinheitlichen
+- [x] Buttons und Abstände polieren
+- [x] Konsole auf Fehler prüfen
 
 ### Tagesergebnis
 
-- [ ] Das Menüsystem wirkt geschlossen und professionell
-- [ ] UI und UX sind deutlich verbessert
-- [ ] Audio-Grundstruktur ist integriert
-- [ ] Hauptmenü und Ingame-UI fühlen sich klar getrennt an
-- [ ] Das Projekt wirkt deutlich portfolio-stärker
+- [x] Das Menüsystem wirkt geschlossen und professionell
+- [x] UI und UX sind deutlich verbessert
+- [x] Audio-Grundstruktur ist integriert
+- [x] Hauptmenü und Ingame-UI fühlen sich klar getrennt an
+- [x] Das Projekt wirkt deutlich portfolio-stärker
 
 ---
 
@@ -731,6 +731,13 @@ Der Fokus liegt auf finaler Prüfung, Dokumentation und sauberer Abgabe.
 - [ ] Das Projekt kann guten Gewissens ins Portfolio
 
 ---
+
+### After ToDo`s
+
+- [ ] Fullscreen on mobile optimieren
+- [ ] Fullscreen ingame mode etablieren
+- [ ] Math randomizer implementieren für Enemy-Klassen
+- [ ] Joystick ControlPanel overlay on mobile optimieren
 
 ## Puffer-Regel 
 
