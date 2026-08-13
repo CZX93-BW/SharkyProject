@@ -29,32 +29,80 @@ function createLevelOneBackgrounds() {
 }
 
 function createLevelOneFarLayer() {
-    return createLevelOneLayer('far', 0, GAME_CONFIG.levelHeight, '#05273d', 0.15, 1);
+    return createLevelOneLayer(
+        'far',
+        0,
+        GAME_CONFIG.levelHeight,
+        '#05273d',
+        0.15,
+        1
+    );
 }
 
 function createLevelOneBackLayer() {
-    return createLevelOneLayer('back', 0, GAME_CONFIG.levelHeight, '#06354f', 0.3, 0.86);
+    return createLevelOneLayer(
+        'back',
+        0,
+        GAME_CONFIG.levelHeight,
+        '#06354f',
+        0.3,
+        1
+    );
 }
 
 function createLevelOneMiddleLayer() {
-    return createLevelOneLayer('middle', 0, GAME_CONFIG.levelHeight, 'rgba(14, 118, 148, 0.42)', 0.55, 0.72);
+    return createLevelOneLayer(
+        'middle',
+        0,
+        GAME_CONFIG.levelHeight,
+        'rgba(14, 118, 148, 0.42)',
+        0.55,
+        1
+    );
 }
 
 function createLevelOneFrontLayer() {
-    return createLevelOneLayer('front', 0, GAME_CONFIG.levelHeight, 'rgba(24, 157, 185, 0.22)', 0.85, 0.66);
+    return createLevelOneLayer(
+        'front',
+        0,
+        GAME_CONFIG.levelHeight,
+        'rgba(24, 157, 185, 0.22)',
+        0.85,
+        1
+    );
 }
 
 function createLevelOneFloorLayer() {
-    return createLevelOneLayer('floor', GAME_CONFIG.levelHeight - 120, 120, 'rgba(2, 34, 44, 0.75)', 1, 1);
+    return createLevelOneLayer(
+        'floor',
+        0,
+        GAME_CONFIG.levelHeight,
+        'rgba(2, 34, 44, 0.75)',
+        1,
+        1
+    );
 }
 
-function createLevelOneLayer(layerName, y, height, fallbackColor, scrollFactor, opacity) {
-    return new BackgroundObject(0, y, GAME_CONFIG.levelOneWidth, height, {
-        imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
-        fallbackColor,
-        scrollFactor,
-        opacity
-    });
+function createLevelOneLayer(
+    layerName,
+    y,
+    height,
+    fallbackColor,
+    scrollFactor,
+    opacity
+) {
+    return new BackgroundObject(
+        0,
+        y,
+        GAME_CONFIG.levelOneWidth,
+        height,
+        {
+            imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
+            fallbackColor,
+            scrollFactor,
+            opacity
+        }
+    );
 }
 
 function createLevelOneSolidAreas() {
