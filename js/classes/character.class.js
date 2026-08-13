@@ -1,7 +1,7 @@
 'use strict';
 
 class Character extends AnimatedDrawableObject {
-    /** Creates Sharky and prepares the first character animations. */
+    /** Creates Sharky and prepares the character animations. */
     constructor() {
         super(
             GAME_CONFIG.playerStartX,
@@ -22,7 +22,7 @@ class Character extends AnimatedDrawableObject {
         this.prepareAnimations();
     }
 
-    /** Returns the shared source area used by idle and swim frames. */
+    /** Returns the shared source area used by Sharky's frames. */
     createSpriteSource() {
         return {
             x: 145,
@@ -44,6 +44,11 @@ class Character extends AnimatedDrawableObject {
             ASSET_CONFIG.character.swim
         );
 
+        this.addAnimation(
+            'hurt',
+            ASSET_CONFIG.character.hurt
+        );
+
         this.loadImage(ASSET_CONFIG.character.sharky);
         this.playAnimation('idle', 160);
     }
@@ -58,8 +63,13 @@ class Character extends AnimatedDrawableObject {
         this.updateAnimation();
     }
 
-    /** Selects swim while moving and idle while standing still. */
+    /** Selects the animation according to its gameplay priority. */
     updateAnimation() {
+        if (this.isInvulnerable()) {
+            this.playAnimation('hurt', 110, false);
+            return;
+        }
+
         if (this.isMoving()) {
             this.playAnimation('swim', 100);
             return;
@@ -244,6 +254,7 @@ class Character extends AnimatedDrawableObject {
 
         context.fillStyle = this.eyeColor;
         context.beginPath();
+
         context.arc(
             eyeX,
             eyeY,
@@ -251,6 +262,7 @@ class Character extends AnimatedDrawableObject {
             0,
             Math.PI * 2
         );
+
         context.fill();
     }
 
