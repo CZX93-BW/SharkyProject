@@ -28,6 +28,29 @@ const ASSET_CONFIG = {
             'assets/img/sharky/3.Swim/4.png',
             'assets/img/sharky/3.Swim/5.png',
             'assets/img/sharky/3.Swim/6.png'
+        ],
+
+        hurt: [
+            'assets/img/sharky/5.Hurt/1.Poisoned/1.png',
+            'assets/img/sharky/5.Hurt/1.Poisoned/2.png',
+            'assets/img/sharky/5.Hurt/1.Poisoned/3.png',
+            'assets/img/sharky/5.Hurt/1.Poisoned/4.png',
+            'assets/img/sharky/5.Hurt/1.Poisoned/5.png'
+        ],
+
+        dead: [
+            'assets/img/sharky/6.dead/1.Poisoned/1.png',
+            'assets/img/sharky/6.dead/1.Poisoned/2.png',
+            'assets/img/sharky/6.dead/1.Poisoned/3.png',
+            'assets/img/sharky/6.dead/1.Poisoned/4.png',
+            'assets/img/sharky/6.dead/1.Poisoned/5.png',
+            'assets/img/sharky/6.dead/1.Poisoned/6.png',
+            'assets/img/sharky/6.dead/1.Poisoned/7.png',
+            'assets/img/sharky/6.dead/1.Poisoned/8.png',
+            'assets/img/sharky/6.dead/1.Poisoned/9.png',
+            'assets/img/sharky/6.dead/1.Poisoned/10.png',
+            'assets/img/sharky/6.dead/1.Poisoned/11.png',
+            'assets/img/sharky/6.dead/1.Poisoned/12.png'
         ]
     },
 
