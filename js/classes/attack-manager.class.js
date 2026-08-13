@@ -4,8 +4,10 @@ class AttackManager {
     constructor(audioManager = null) {
         this.audioManager = audioManager;
         this.activeAttacks = [];
-        this.lastAttackTimes = this.createLastAttackTimes();
-        this.previousInputs = this.createPreviousInputs();
+        this.lastAttackTimes =
+            this.createLastAttackTimes();
+        this.previousInputs =
+            this.createPreviousInputs();
     }
 
     createLastAttackTimes() {
@@ -25,58 +27,108 @@ class AttackManager {
     }
 
     update(keyboard, gameState) {
-        this.handleAttackInputs(keyboard, gameState);
+        this.handleAttackInputs(
+            keyboard,
+            gameState
+        );
+
         this.updateActiveAttacks();
         this.removeExpiredAttacks();
         this.updatePreviousInputs(keyboard);
     }
 
     handleAttackInputs(keyboard, gameState) {
-        this.tryCreateFinSlap(keyboard, gameState);
-        this.tryCreatePoisonShot(keyboard, gameState);
-        this.tryCreateBubbleTrap(keyboard, gameState);
+        this.tryCreateFinSlap(
+            keyboard,
+            gameState
+        );
+
+        this.tryCreatePoisonShot(
+            keyboard,
+            gameState
+        );
+
+        this.tryCreateBubbleTrap(
+            keyboard,
+            gameState
+        );
     }
 
     tryCreateFinSlap(keyboard, gameState) {
-        if (this.canCreateFinSlap(keyboard)) {
-            this.createAttack(new FinSlap(gameState.player), 'finSlap');
+        if (!this.canCreateFinSlap(keyboard)) {
+            return;
         }
+
+        const player = gameState.player;
+
+        player.startFinSlap();
+
+        this.createAttack(
+            new FinSlap(player),
+            'finSlap'
+        );
     }
 
     tryCreatePoisonShot(keyboard, gameState) {
-        if (this.canCreatePoisonShot(keyboard, gameState)) {
-            gameState.usePoisonBottle();
-            this.createAttack(new PoisonShot(gameState.player), 'poisonShot');
+        if (!this.canCreatePoisonShot(
+            keyboard,
+            gameState
+        )) {
+            return;
         }
+
+        gameState.usePoisonBottle();
+
+        this.createAttack(
+            new PoisonShot(gameState.player),
+            'poisonShot'
+        );
     }
 
     tryCreateBubbleTrap(keyboard, gameState) {
-        if (this.canCreateBubbleTrap(keyboard)) {
-            this.createAttack(new BubbleTrap(gameState.player), 'bubbleTrap');
+        if (!this.canCreateBubbleTrap(keyboard)) {
+            return;
         }
+
+        this.createAttack(
+            new BubbleTrap(gameState.player),
+            'bubbleTrap'
+        );
     }
 
     canCreateFinSlap(keyboard) {
         return keyboard.isFinSlapPressed() &&
             !this.previousInputs.finSlap &&
-            this.isCooldownReady('finSlap', GAME_CONFIG.finSlapCooldown);
+            this.isCooldownReady(
+                'finSlap',
+                GAME_CONFIG.finSlapCooldown
+            );
     }
 
     canCreatePoisonShot(keyboard, gameState) {
         return keyboard.isPoisonAttackPressed() &&
             !this.previousInputs.poisonShot &&
             gameState.poisonBottles > 0 &&
-            this.isCooldownReady('poisonShot', GAME_CONFIG.poisonShotCooldown);
+            this.isCooldownReady(
+                'poisonShot',
+                GAME_CONFIG.poisonShotCooldown
+            );
     }
 
     canCreateBubbleTrap(keyboard) {
         return keyboard.isBubbleAttackPressed() &&
             !this.previousInputs.bubbleTrap &&
-            this.isCooldownReady('bubbleTrap', GAME_CONFIG.bubbleTrapCooldown);
+            this.isCooldownReady(
+                'bubbleTrap',
+                GAME_CONFIG.bubbleTrapCooldown
+            );
     }
 
     isCooldownReady(attackName, cooldown) {
-        return Date.now() - this.lastAttackTimes[attackName] >= cooldown;
+        const elapsedTime =
+            Date.now() - this.lastAttackTimes[attackName];
+
+        return elapsedTime >= cooldown;
     }
 
     createAttack(attack, attackName) {
@@ -92,23 +144,35 @@ class AttackManager {
     }
 
     updateActiveAttacks() {
-        this.activeAttacks.forEach((attack) => attack.update());
+        this.activeAttacks.forEach((attack) => {
+            attack.update();
+        });
     }
 
     removeExpiredAttacks() {
-        this.activeAttacks = this.activeAttacks.filter((attack) => !attack.isExpired);
+        this.activeAttacks =
+            this.activeAttacks.filter((attack) => {
+                return !attack.isExpired;
+            });
     }
 
     updatePreviousInputs(keyboard) {
-        this.previousInputs.finSlap = keyboard.isFinSlapPressed();
-        this.previousInputs.poisonShot = keyboard.isPoisonAttackPressed();
-        this.previousInputs.bubbleTrap = keyboard.isBubbleAttackPressed();
+        this.previousInputs.finSlap =
+            keyboard.isFinSlapPressed();
+
+        this.previousInputs.poisonShot =
+            keyboard.isPoisonAttackPressed();
+
+        this.previousInputs.bubbleTrap =
+            keyboard.isBubbleAttackPressed();
     }
 
     reset() {
         this.activeAttacks = [];
-        this.lastAttackTimes = this.createLastAttackTimes();
-        this.previousInputs = this.createPreviousInputs();
+        this.lastAttackTimes =
+            this.createLastAttackTimes();
+        this.previousInputs =
+            this.createPreviousInputs();
     }
 
     getActiveAttacks() {
