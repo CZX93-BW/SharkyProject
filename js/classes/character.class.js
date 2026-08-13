@@ -49,6 +49,11 @@ class Character extends AnimatedDrawableObject {
             ASSET_CONFIG.character.hurt
         );
 
+        this.addAnimation(
+            'dead',
+            ASSET_CONFIG.character.dead
+        );
+
         this.loadImage(ASSET_CONFIG.character.sharky);
         this.playAnimation('idle', 160);
     }
@@ -65,6 +70,11 @@ class Character extends AnimatedDrawableObject {
 
     /** Selects the animation according to its gameplay priority. */
     updateAnimation() {
+        if (!this.isAlive()) {
+            this.playAnimation('dead', 130, false);
+            return;
+        }
+
         if (this.isInvulnerable()) {
             this.playAnimation('hurt', 110, false);
             return;
