@@ -1,7 +1,12 @@
 'use strict';
 
 class Game {
-    constructor(canvas, keyboard, statusUpdateCallback = null, audioManager = null) {
+    constructor(
+        canvas,
+        keyboard,
+        statusUpdateCallback = null,
+        audioManager = null
+    ) {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.statusUpdateCallback = statusUpdateCallback;
@@ -9,11 +14,19 @@ class Game {
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
-        this.collisionManager = new CollisionManager(audioManager);
-        this.attackManager = new AttackManager(audioManager);
+        this.collisionManager =
+            new CollisionManager(audioManager);
+        this.attackManager =
+            new AttackManager(audioManager);
         this.animationFrameId = null;
         this.lastFrameTime = 0;
-        this.renderer.render(this.gameState, this.camera, this.attackManager);
+
+        this.renderer.render(
+            this.gameState,
+            this.camera,
+            this.attackManager
+        );
+
         this.notifyStatusUpdate();
     }
 
@@ -57,7 +70,13 @@ class Game {
         this.cancelRunningLoop();
         this.camera.reset();
         this.attackManager.reset();
-        this.renderer.render(this.gameState, this.camera, this.attackManager);
+
+        this.renderer.render(
+            this.gameState,
+            this.camera,
+            this.attackManager
+        );
+
         this.notifyStatusUpdate();
     }
 
@@ -83,7 +102,13 @@ class Game {
     runGameLoop(currentTime = 0) {
         this.updateFrameData(currentTime);
         this.update();
-        this.renderer.render(this.gameState, this.camera, this.attackManager);
+
+        this.renderer.render(
+            this.gameState,
+            this.camera,
+            this.attackManager
+        );
+
         this.notifyStatusUpdate();
 
         if (this.shouldContinueLoop()) {
@@ -97,7 +122,9 @@ class Game {
 
     requestNextFrame() {
         this.animationFrameId = requestAnimationFrame(
-            (currentTime) => this.runGameLoop(currentTime)
+            (currentTime) => {
+                this.runGameLoop(currentTime);
+            }
         );
     }
 
@@ -110,14 +137,24 @@ class Game {
     }
 
     updateFramesPerSecond(currentTime) {
-        const frameDuration = currentTime - this.lastFrameTime;
-        const framesPerSecond = Math.round(1000 / frameDuration);
+        const frameDuration =
+            currentTime - this.lastFrameTime;
 
-        this.gameState.setFramesPerSecond(framesPerSecond);
+        const framesPerSecond =
+            Math.round(1000 / frameDuration);
+
+        this.gameState.setFramesPerSecond(
+            framesPerSecond
+        );
     }
 
     update() {
         if (!this.canUpdateGame()) {
+            return;
+        }
+
+        if (!this.gameState.player.isAlive()) {
+            this.updateDefeatSequence();
             return;
         }
 
@@ -130,12 +167,20 @@ class Game {
     }
 
     updatePlayer() {
-        const levelBounds = this.gameState.activeLevel.getBounds();
-        this.gameState.player.update(this.keyboard, levelBounds);
+        const levelBounds =
+            this.gameState.activeLevel.getBounds();
+
+        this.gameState.player.update(
+            this.keyboard,
+            levelBounds
+        );
     }
 
     updateAttacks() {
-        this.attackManager.update(this.keyboard, this.gameState);
+        this.attackManager.update(
+            this.keyboard,
+            this.gameState
+        );
     }
 
     updateLevel() {
@@ -149,14 +194,20 @@ class Game {
     }
 
     checkDangerCollisions() {
+        const dangerObjects =
+            this.gameState.activeLevel.getDangerObjects();
+
         this.collisionManager.checkPlayerEnemyCollisions(
             this.gameState.player,
-            this.gameState.activeLevel.getDangerObjects()
+            dangerObjects
         );
     }
 
     checkCollectibleCollisions() {
-        this.collisionManager.checkPlayerCollectibleCollisions(this.gameState);
+        this.collisionManager
+            .checkPlayerCollectibleCollisions(
+                this.gameState
+            );
     }
 
     checkAttackCollisions() {
@@ -168,21 +219,47 @@ class Game {
 
     updateGameStatus() {
         if (!this.gameState.player.isAlive()) {
-            this.gameState.setGameOver();
+            this.startDefeatSequence();
             return;
         }
 
         this.completeLevelIfNeeded();
     }
 
+    /** Starts the dead animation in the fatal collision frame. */
+    startDefeatSequence() {
+        const player = this.gameState.player;
+
+        player.resetVelocity();
+        player.updateAnimation();
+    }
+
+    /** Advances the dead animation before opening Game Over. */
+    updateDefeatSequence() {
+        const player = this.gameState.player;
+
+        player.resetVelocity();
+        player.updateAnimation();
+
+        if (player.isAnimationFinished()) {
+            this.gameState.setGameOver();
+        }
+    }
+
     completeLevelIfNeeded() {
-        if (this.gameState.activeLevel.isLevelComplete(this.gameState.player)) {
+        const player = this.gameState.player;
+        const activeLevel = this.gameState.activeLevel;
+
+        if (activeLevel.isLevelComplete(player)) {
             this.gameState.completeLevel();
         }
     }
 
     updateCamera() {
-        this.camera.update(this.gameState.player, this.gameState.activeLevel);
+        this.camera.update(
+            this.gameState.player,
+            this.gameState.activeLevel
+        );
     }
 
     canUpdateGame() {
