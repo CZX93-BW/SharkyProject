@@ -17,6 +17,7 @@ class Character extends AnimatedDrawableObject {
         this.fallbackColor = GAME_CONFIG.playerFallbackColor;
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
+        this.isFinSlapping = false;
         this.spriteSource = this.createSpriteSource();
 
         this.prepareAnimations();
@@ -42,6 +43,11 @@ class Character extends AnimatedDrawableObject {
         this.addAnimation(
             'swim',
             ASSET_CONFIG.character.swim
+        );
+
+        this.addAnimation(
+            'finSlap',
+            ASSET_CONFIG.character.finSlap
         );
 
         this.addAnimation(
@@ -80,12 +86,36 @@ class Character extends AnimatedDrawableObject {
             return;
         }
 
+        if (this.isFinSlapping) {
+            this.updateFinSlapAnimation();
+            return;
+        }
+
         if (this.isMoving()) {
             this.playAnimation('swim', 100);
             return;
         }
 
         this.playAnimation('idle', 160);
+    }
+
+    /** Starts the one-time Fin Slap character animation. */
+    startFinSlap() {
+        if (!this.isAlive()) {
+            return;
+        }
+
+        this.isFinSlapping = true;
+        this.playAnimation('finSlap', 60, false);
+    }
+
+    /** Advances Fin Slap and releases it after the last frame. */
+    updateFinSlapAnimation() {
+        this.playAnimation('finSlap', 60, false);
+
+        if (this.isAnimationFinished()) {
+            this.isFinSlapping = false;
+        }
     }
 
     /** Returns whether Sharky currently has movement velocity. */
