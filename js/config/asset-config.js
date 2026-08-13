@@ -30,6 +30,17 @@ const ASSET_CONFIG = {
             'assets/img/sharky/3.Swim/6.png'
         ],
 
+        finSlap: [
+            'assets/img/sharky/4.Attack/Fin slap/1.png',
+            'assets/img/sharky/4.Attack/Fin slap/2.png',
+            'assets/img/sharky/4.Attack/Fin slap/3.png',
+            'assets/img/sharky/4.Attack/Fin slap/4.png',
+            'assets/img/sharky/4.Attack/Fin slap/5.png',
+            'assets/img/sharky/4.Attack/Fin slap/6.png',
+            'assets/img/sharky/4.Attack/Fin slap/7.png',
+            'assets/img/sharky/4.Attack/Fin slap/8.png'
+        ],
+
         hurt: [
             'assets/img/sharky/5.Hurt/1.Poisoned/1.png',
             'assets/img/sharky/5.Hurt/1.Poisoned/2.png',
