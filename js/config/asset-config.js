@@ -41,6 +41,17 @@ const ASSET_CONFIG = {
             'assets/img/sharky/4.Attack/Fin slap/8.png'
         ],
 
+        bubbleTrap: [
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
+            'assets/img/sharky/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
+        ],
+
         hurt: [
             'assets/img/sharky/5.Hurt/1.Poisoned/1.png',
             'assets/img/sharky/5.Hurt/1.Poisoned/2.png',
@@ -100,7 +111,8 @@ const ASSET_CONFIG = {
     attacks: {
         finSlap: '',
         poisonShot: '',
-        bubbleTrap: ''
+        bubbleTrap:
+            'assets/img/sharky/4.Attack/Bubble trap/Bubble.png'
     },
 
     ui: {
