@@ -18,18 +18,27 @@ class Character extends AnimatedDrawableObject {
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
         this.isFinSlapping = false;
-        this.spriteSource = this.createSpriteSource();
+        this.spriteSources = this.createSpriteSources();
 
         this.prepareAnimations();
     }
 
-    /** Returns the shared source area used by Sharky's frames. */
-    createSpriteSource() {
+    /** Returns the source rectangles used by Sharky's animations. */
+    createSpriteSources() {
         return {
-            x: 145,
-            y: 440,
-            width: 535,
-            height: 440
+            default: {
+                x: 145,
+                y: 440,
+                width: 535,
+                height: 440
+            },
+
+            finSlap: {
+                x: 145,
+                y: 230,
+                width: 670,
+                height: 690
+            }
         };
     }
 
@@ -222,29 +231,68 @@ class Character extends AnimatedDrawableObject {
     }
 
     drawCharacterImage(context) {
+        const renderArea = this.getSpriteRenderArea();
+
         if (this.direction === -1) {
-            this.drawMirroredImage(context);
+            this.drawMirroredImage(
+                context,
+                renderArea
+            );
+
             return;
         }
 
-        this.drawSpriteFrame(context, this.x);
+        this.drawSpriteFrame(
+            context,
+            renderArea
+        );
     }
 
-    drawMirroredImage(context) {
+    drawMirroredImage(context, renderArea) {
         context.save();
         context.scale(-1, 1);
 
+        const mirroredArea = {
+            ...renderArea,
+            x: -renderArea.x - renderArea.width
+        };
+
         this.drawSpriteFrame(
             context,
-            -this.x - this.width
+            mirroredArea
         );
 
         context.restore();
     }
 
-    /** Draws only the relevant source area of the large Sharky frame. */
-    drawSpriteFrame(context, destinationX) {
-        const source = this.spriteSource;
+    /** Returns the source rectangle for the current animation. */
+    getCurrentSpriteSource() {
+        return this.spriteSources[this.currentAnimation] ||
+            this.spriteSources.default;
+    }
+
+    /** Returns a visual area without changing Sharky's hitbox. */
+    getSpriteRenderArea() {
+        if (this.currentAnimation === 'finSlap') {
+            return {
+                x: this.x - 21,
+                y: this.y - 26,
+                width: 120,
+                height: 100
+            };
+        }
+
+        return {
+            x: this.x,
+            y: this.y,
+            width: this.width,
+            height: this.height
+        };
+    }
+
+    /** Draws the selected source rectangle into its visual area. */
+    drawSpriteFrame(context, renderArea) {
+        const source = this.getCurrentSpriteSource();
 
         context.drawImage(
             this.image,
@@ -252,10 +300,10 @@ class Character extends AnimatedDrawableObject {
             source.y,
             source.width,
             source.height,
-            destinationX,
-            this.y,
-            this.width,
-            this.height
+            renderArea.x,
+            renderArea.y,
+            renderArea.width,
+            renderArea.height
         );
     }
 
