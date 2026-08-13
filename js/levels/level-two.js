@@ -27,32 +27,80 @@ function createLevelTwoBackgrounds() {
 }
 
 function createLevelTwoFarLayer() {
-    return createLevelTwoLayer('far', 0, GAME_CONFIG.levelHeight, '#031c30', 0.15, 1);
+    return createLevelTwoLayer(
+        'far',
+        0,
+        GAME_CONFIG.levelHeight,
+        '#031c30',
+        0.15,
+        1
+    );
 }
 
 function createLevelTwoBackLayer() {
-    return createLevelTwoLayer('back', 0, GAME_CONFIG.levelHeight, '#04283d', 0.3, 0.86);
+    return createLevelTwoLayer(
+        'back',
+        0,
+        GAME_CONFIG.levelHeight,
+        '#04283d',
+        0.3,
+        1
+    );
 }
 
 function createLevelTwoMiddleLayer() {
-    return createLevelTwoLayer('middle', 0, GAME_CONFIG.levelHeight, 'rgba(8, 89, 126, 0.44)', 0.55, 0.72);
+    return createLevelTwoLayer(
+        'middle',
+        0,
+        GAME_CONFIG.levelHeight,
+        'rgba(8, 89, 126, 0.44)',
+        0.55,
+        1
+    );
 }
 
 function createLevelTwoFrontLayer() {
-    return createLevelTwoLayer('front', 0, GAME_CONFIG.levelHeight, 'rgba(5, 58, 86, 0.28)', 0.85, 0.66);
+    return createLevelTwoLayer(
+        'front',
+        0,
+        GAME_CONFIG.levelHeight,
+        'rgba(5, 58, 86, 0.28)',
+        0.85,
+        1
+    );
 }
 
 function createLevelTwoFloorLayer() {
-    return createLevelTwoLayer('floor', GAME_CONFIG.levelHeight - 130, 130, 'rgba(1, 25, 39, 0.78)', 1, 1);
+    return createLevelTwoLayer(
+        'floor',
+        0,
+        GAME_CONFIG.levelHeight,
+        'rgba(1, 25, 39, 0.78)',
+        1,
+        1
+    );
 }
 
-function createLevelTwoLayer(layerName, y, height, fallbackColor, scrollFactor, opacity) {
-    return new BackgroundObject(0, y, GAME_CONFIG.levelTwoWidth, height, {
-        imagePath: ASSET_CONFIG.backgrounds.levelTwo[layerName],
-        fallbackColor,
-        scrollFactor,
-        opacity
-    });
+function createLevelTwoLayer(
+    layerName,
+    y,
+    height,
+    fallbackColor,
+    scrollFactor,
+    opacity
+) {
+    return new BackgroundObject(
+        0,
+        y,
+        GAME_CONFIG.levelTwoWidth,
+        height,
+        {
+            imagePath: ASSET_CONFIG.backgrounds.levelTwo[layerName],
+            fallbackColor,
+            scrollFactor,
+            opacity
+        }
+    );
 }
 
 function createLevelTwoSolidAreas() {
