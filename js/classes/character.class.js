@@ -1,6 +1,7 @@
 'use strict';
 
-class Character extends MovableObject {
+class Character extends AnimatedDrawableObject {
+    /** Creates Sharky and prepares the first character animations. */
     constructor() {
         super(
             GAME_CONFIG.playerStartX,
@@ -16,15 +17,61 @@ class Character extends MovableObject {
         this.fallbackColor = GAME_CONFIG.playerFallbackColor;
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
-        this.loadImage(ASSET_CONFIG.character.sharky);
+        this.spriteSource = this.createSpriteSource();
+
+        this.prepareAnimations();
     }
 
+    /** Returns the shared source area used by idle and swim frames. */
+    createSpriteSource() {
+        return {
+            x: 145,
+            y: 440,
+            width: 535,
+            height: 440
+        };
+    }
+
+    /** Registers Sharky's currently supported image sequences. */
+    prepareAnimations() {
+        this.addAnimation(
+            'idle',
+            ASSET_CONFIG.character.idle
+        );
+
+        this.addAnimation(
+            'swim',
+            ASSET_CONFIG.character.swim
+        );
+
+        this.loadImage(ASSET_CONFIG.character.sharky);
+        this.playAnimation('idle', 160);
+    }
+
+    /** Updates movement and selects the matching animation. */
     update(keyboard, bounds) {
         this.resetVelocity();
         this.applyKeyboardMovement(keyboard);
         this.normalizeDiagonalMovement();
         this.updatePosition();
         this.keepInsideBounds(bounds);
+        this.updateAnimation();
+    }
+
+    /** Selects swim while moving and idle while standing still. */
+    updateAnimation() {
+        if (this.isMoving()) {
+            this.playAnimation('swim', 100);
+            return;
+        }
+
+        this.playAnimation('idle', 160);
+    }
+
+    /** Returns whether Sharky currently has movement velocity. */
+    isMoving() {
+        return this.velocityX !== 0 ||
+            this.velocityY !== 0;
     }
 
     resetVelocity() {
@@ -62,12 +109,16 @@ class Character extends MovableObject {
             return;
         }
 
-        this.velocityX *= GAME_CONFIG.diagonalMovementFactor;
-        this.velocityY *= GAME_CONFIG.diagonalMovementFactor;
+        this.velocityX *=
+            GAME_CONFIG.diagonalMovementFactor;
+
+        this.velocityY *=
+            GAME_CONFIG.diagonalMovementFactor;
     }
 
     hasDiagonalVelocity() {
-        return this.velocityX !== 0 && this.velocityY !== 0;
+        return this.velocityX !== 0 &&
+            this.velocityY !== 0;
     }
 
     increaseSpeed(amount) {
@@ -84,12 +135,17 @@ class Character extends MovableObject {
             return;
         }
 
-        this.health = Math.max(0, this.health - damage);
+        this.health = Math.max(
+            0,
+            this.health - damage
+        );
+
         this.lastDamageTime = Date.now();
     }
 
     canTakeDamage() {
-        return this.isAlive() && !this.isInvulnerable();
+        return this.isAlive() &&
+            !this.isInvulnerable();
     }
 
     isAlive() {
@@ -97,7 +153,11 @@ class Character extends MovableObject {
     }
 
     isInvulnerable() {
-        return Date.now() - this.lastDamageTime < GAME_CONFIG.playerInvulnerabilityDuration;
+        const timeSinceDamage =
+            Date.now() - this.lastDamageTime;
+
+        return timeSinceDamage <
+            GAME_CONFIG.playerInvulnerabilityDuration;
     }
 
     draw(context) {
@@ -117,14 +177,36 @@ class Character extends MovableObject {
             return;
         }
 
-        this.drawImage(context);
+        this.drawSpriteFrame(context, this.x);
     }
 
     drawMirroredImage(context) {
         context.save();
         context.scale(-1, 1);
-        context.drawImage(this.image, -this.x - this.width, this.y, this.width, this.height);
+
+        this.drawSpriteFrame(
+            context,
+            -this.x - this.width
+        );
+
         context.restore();
+    }
+
+    /** Draws only the relevant source area of the large Sharky frame. */
+    drawSpriteFrame(context, destinationX) {
+        const source = this.spriteSource;
+
+        context.drawImage(
+            this.image,
+            source.x,
+            source.y,
+            source.width,
+            source.height,
+            destinationX,
+            this.y,
+            this.width,
+            this.height
+        );
     }
 
     drawFallbackDetails(context) {
@@ -136,9 +218,22 @@ class Character extends MovableObject {
     drawTail(context) {
         context.fillStyle = this.fallbackColor;
         context.beginPath();
-        context.moveTo(this.x, this.y + this.height / 2);
-        context.lineTo(this.x - 22, this.y + 8);
-        context.lineTo(this.x - 22, this.y + this.height - 8);
+
+        context.moveTo(
+            this.x,
+            this.y + this.height / 2
+        );
+
+        context.lineTo(
+            this.x - 22,
+            this.y + 8
+        );
+
+        context.lineTo(
+            this.x - 22,
+            this.y + this.height - 8
+        );
+
         context.closePath();
         context.fill();
     }
@@ -149,7 +244,13 @@ class Character extends MovableObject {
 
         context.fillStyle = this.eyeColor;
         context.beginPath();
-        context.arc(eyeX, eyeY, 5, 0, Math.PI * 2);
+        context.arc(
+            eyeX,
+            eyeY,
+            5,
+            0,
+            Math.PI * 2
+        );
         context.fill();
     }
 
@@ -160,7 +261,13 @@ class Character extends MovableObject {
 
         context.strokeStyle = '#ffffff';
         context.lineWidth = 3;
-        context.strokeRect(this.x - 4, this.y - 4, this.width + 8, this.height + 8);
+
+        context.strokeRect(
+            this.x - 4,
+            this.y - 4,
+            this.width + 8,
+            this.height + 8
+        );
     }
 
     getEyeX() {
