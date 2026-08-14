@@ -95,7 +95,8 @@ function createLevelTwoLayer(
         GAME_CONFIG.levelTwoWidth,
         height,
         {
-            imagePath: ASSET_CONFIG.backgrounds.levelTwo[layerName],
+            imagePath:
+                ASSET_CONFIG.backgrounds.levelTwo[layerName],
             fallbackColor,
             scrollFactor,
             opacity
@@ -116,21 +117,68 @@ function createLevelTwoSolidAreas() {
 
 function createLevelTwoEnemies() {
     return [
-        createLevelTwoEnemy(620, 250, 'vertical'),
-        createLevelTwoEnemy(1160, 310, 'horizontal'),
-        createLevelTwoEnemy(1740, 220, 'vertical'),
-        createLevelTwoEnemy(2180, 360, 'horizontal')
+        createLevelTwoEnemy(
+            620,
+            250,
+            'vertical',
+            'jellyFish'
+        ),
+
+        createLevelTwoEnemy(
+            1160,
+            310,
+            'horizontal',
+            'pufferFish'
+        ),
+
+        createLevelTwoEnemy(
+            1740,
+            220,
+            'vertical',
+            'jellyFish'
+        ),
+
+        createLevelTwoEnemy(
+            2180,
+            360,
+            'horizontal',
+            'pufferFish'
+        )
     ];
 }
 
-function createLevelTwoEnemy(x, y, axis) {
+function createLevelTwoEnemy(
+    x,
+    y,
+    axis,
+    type
+) {
+    const size = getLevelTwoEnemySize(type);
+
     return new Enemy({
         x,
         y,
         axis,
+        type,
+        width: size.width,
+        height: size.height,
         range: GAME_CONFIG.enemyPatrolRange + 40,
         speed: GAME_CONFIG.enemySpeed + 0.25
     });
+}
+
+function getLevelTwoEnemySize(type) {
+    if (type === 'jellyFish') {
+        return {
+            width: 58,
+            height: 84
+        };
+    }
+
+    return {
+        width: GAME_CONFIG.enemyWidth + 4,
+        height: GAME_CONFIG.enemyHeight + 4
+    };
 }
 
 function createLevelTwoCollectibles() {
@@ -155,7 +203,8 @@ function createLevelTwoCoin(x, y) {
         height: GAME_CONFIG.coinHeight,
         value: GAME_CONFIG.coinValue,
         imagePath: ASSET_CONFIG.collectibles.coin,
-        fallbackColor: GAME_CONFIG.coinFallbackColor
+        fallbackColor:
+            GAME_CONFIG.coinFallbackColor
     });
 }
 
@@ -167,8 +216,10 @@ function createLevelTwoPoisonBottle(x, y) {
         width: GAME_CONFIG.poisonBottleWidth,
         height: GAME_CONFIG.poisonBottleHeight,
         value: GAME_CONFIG.poisonBottleValue,
-        imagePath: ASSET_CONFIG.collectibles.poisonBottle,
-        fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
+        imagePath:
+            ASSET_CONFIG.collectibles.poisonBottle,
+        fallbackColor:
+            GAME_CONFIG.poisonBottleFallbackColor
     });
 }
 
@@ -177,8 +228,10 @@ function createLevelTwoEndboss() {
         x: GAME_CONFIG.levelTwoWidth - 500,
         y: 230,
         axis: 'vertical',
-        range: GAME_CONFIG.endbossPatrolRange + 70,
-        speed: GAME_CONFIG.endbossSpeed + 0.35
+        range:
+            GAME_CONFIG.endbossPatrolRange + 70,
+        speed:
+            GAME_CONFIG.endbossSpeed + 0.35
     });
 }
 
