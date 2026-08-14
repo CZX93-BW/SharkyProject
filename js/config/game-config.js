@@ -26,9 +26,11 @@ const GAME_CONFIG = {
         speedBoost: {
             cost: 2
         },
+
         extraHealth: {
             cost: 3
         },
+
         poisonCapacity: {
             cost: 2
         }
@@ -60,6 +62,9 @@ const GAME_CONFIG = {
     endbossDamage: 35,
     endbossPatrolRange: 170,
     endbossIntroductionDistance: 650,
+    endbossAttackDistance: 420,
+    endbossAttackCooldown: 2200,
+    endbossAttackFrameDuration: 90,
     endbossFallbackColor: '#b05cff',
     endbossEyeColor: '#190020',
 
