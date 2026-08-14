@@ -25,6 +25,7 @@ class Enemy extends AnimatedDrawableObject {
             config.health || GAME_CONFIG.enemyHealth;
         this.health = this.maxHealth;
         this.isDefeated = false;
+        this.lastDamageTime = 0;
         this.trappedUntil = 0;
         this.poisonDamagePerTick = 0;
         this.poisonEndTime = 0;
@@ -156,6 +157,7 @@ class Enemy extends AnimatedDrawableObject {
             this.health - damage
         );
 
+        this.lastDamageTime = Date.now();
         this.updateDefeatedState();
     }
 
@@ -222,6 +224,12 @@ class Enemy extends AnimatedDrawableObject {
         this.poisonDamagePerTick = 0;
     }
 
+    /** Returns whether the damage feedback is active. */
+    isHurt() {
+        return Date.now() - this.lastDamageTime <
+            GAME_CONFIG.enemyHurtDuration;
+    }
+
     trap(duration) {
         if (this.canBeTrapped()) {
             this.trappedUntil =
@@ -247,6 +255,7 @@ class Enemy extends AnimatedDrawableObject {
         this.y = this.startY;
         this.health = this.maxHealth;
         this.isDefeated = false;
+        this.lastDamageTime = 0;
         this.trappedUntil = 0;
         this.clearExpiredPoison();
         this.patrolDirection = 1;
@@ -349,8 +358,26 @@ class Enemy extends AnimatedDrawableObject {
     }
 
     drawStatusIndicators(context) {
+        this.drawHurtIndicator(context);
         this.drawTrapIndicator(context);
         this.drawPoisonIndicator(context);
+    }
+
+    /** Draws short visual feedback after receiving damage. */
+    drawHurtIndicator(context) {
+        if (!this.isHurt()) {
+            return;
+        }
+
+        context.strokeStyle = '#ffffff';
+        context.lineWidth = 3;
+
+        context.strokeRect(
+            this.x - 4,
+            this.y - 4,
+            this.width + 8,
+            this.height + 8
+        );
     }
 
     drawTrapIndicator(context) {
