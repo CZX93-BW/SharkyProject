@@ -23,6 +23,9 @@ class Endboss extends Enemy {
         });
 
         this.eyeColor = GAME_CONFIG.endbossEyeColor;
+        this.isIntroducing = false;
+        this.hasBeenIntroduced = false;
+
         this.playAnimation('floating', 125);
     }
 
@@ -30,6 +33,11 @@ class Endboss extends Enemy {
     prepareAnimations() {
         const bossAssets =
             ASSET_CONFIG.enemies.endboss;
+
+        this.addAnimation(
+            'introduce',
+            bossAssets.introduce
+        );
 
         this.addAnimation(
             'floating',
@@ -67,9 +75,47 @@ class Endboss extends Enemy {
             return;
         }
 
+        if (this.isIntroducing) {
+            this.updateIntroduction();
+            return;
+        }
+
         this.updatePoisonStatus();
         this.updateBossAnimation();
         this.updatePatrol();
+    }
+
+    /** Starts the introduction once per level attempt. */
+    startIntroduction() {
+        if (
+            this.hasBeenIntroduced ||
+            this.isDefeated
+        ) {
+            return;
+        }
+
+        this.isIntroducing = true;
+        this.hasBeenIntroduced = true;
+
+        this.playAnimation(
+            'introduce',
+            100,
+            false
+        );
+    }
+
+    /** Advances Introduce and returns to Floating afterwards. */
+    updateIntroduction() {
+        this.playAnimation(
+            'introduce',
+            100,
+            false
+        );
+
+        if (this.isAnimationFinished()) {
+            this.isIntroducing = false;
+            this.playAnimation('floating', 125);
+        }
     }
 
     /** Selects Hurt until it ends, otherwise Floating. */
@@ -100,8 +146,17 @@ class Endboss extends Enemy {
         return false;
     }
 
+    canDealContactDamage() {
+        return !this.isIntroducing &&
+            super.canDealContactDamage();
+    }
+
     reset() {
         super.reset();
+
+        this.isIntroducing = false;
+        this.hasBeenIntroduced = false;
+
         this.playAnimation('floating', 125);
     }
 
