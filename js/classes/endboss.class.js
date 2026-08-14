@@ -25,6 +25,8 @@ class Endboss extends Enemy {
         this.eyeColor = GAME_CONFIG.endbossEyeColor;
         this.isIntroducing = false;
         this.hasBeenIntroduced = false;
+        this.isAttacking = false;
+        this.lastAttackTime = 0;
 
         this.playAnimation('floating', 125);
     }
@@ -42,6 +44,11 @@ class Endboss extends Enemy {
         this.addAnimation(
             'floating',
             bossAssets.floating
+        );
+
+        this.addAnimation(
+            'attack',
+            bossAssets.attack
         );
 
         this.addAnimation(
@@ -63,7 +70,7 @@ class Endboss extends Enemy {
             .floating[0];
     }
 
-    /** Updates animation, activation and patrol movement. */
+    /** Updates the current boss state in priority order. */
     update(player = null) {
         if (this.isDefeated) {
             this.playAnimation(
@@ -83,7 +90,30 @@ class Endboss extends Enemy {
         }
 
         this.updatePoisonStatus();
-        this.updateBossAnimation();
+
+        if (this.shouldPlayHurtAnimation()) {
+            this.isAttacking = false;
+
+            this.playAnimation(
+                'hurt',
+                90,
+                false
+            );
+
+            return;
+        }
+
+        if (this.isAttacking) {
+            this.updateAttack();
+            return;
+        }
+
+        if (this.canStartAttack(player)) {
+            this.startAttack(player);
+            return;
+        }
+
+        this.playAnimation('floating', 125);
         this.updatePatrol();
     }
 
@@ -101,10 +131,10 @@ class Endboss extends Enemy {
 
     /** Returns whether Sharky is horizontally close to the boss. */
     isPlayerNear(player) {
-        const horizontalDistance =
+        const distance =
             Math.abs(player.x - this.x);
 
-        return horizontalDistance <=
+        return distance <=
             GAME_CONFIG.endbossIntroductionDistance;
     }
 
@@ -141,19 +171,63 @@ class Endboss extends Enemy {
         }
     }
 
-    /** Selects Hurt until it ends, otherwise Floating. */
-    updateBossAnimation() {
-        if (this.shouldPlayHurtAnimation()) {
-            this.playAnimation(
-                'hurt',
-                90,
-                false
-            );
+    /** Returns whether a new boss attack may begin. */
+    canStartAttack(player) {
+        return Boolean(player) &&
+            this.hasBeenIntroduced &&
+            this.isPlayerInAttackRange(player) &&
+            this.isAttackCooldownReady();
+    }
 
-            return;
+    /** Returns whether Sharky is inside the attack range. */
+    isPlayerInAttackRange(player) {
+        const distance =
+            Math.abs(player.x - this.x);
+
+        return distance <=
+            GAME_CONFIG.endbossAttackDistance;
+    }
+
+    /** Returns whether the configured cooldown has passed. */
+    isAttackCooldownReady() {
+        const timeSinceLastAttack =
+            Date.now() - this.lastAttackTime;
+
+        return timeSinceLastAttack >=
+            GAME_CONFIG.endbossAttackCooldown;
+    }
+
+    /** Starts one attack and turns the boss towards Sharky. */
+    startAttack(player) {
+        this.facePlayer(player);
+        this.isAttacking = true;
+        this.lastAttackTime = Date.now();
+
+        this.playAnimation(
+            'attack',
+            GAME_CONFIG.endbossAttackFrameDuration,
+            false
+        );
+    }
+
+    /** Advances the attack and returns to Floating afterwards. */
+    updateAttack() {
+        this.playAnimation(
+            'attack',
+            GAME_CONFIG.endbossAttackFrameDuration,
+            false
+        );
+
+        if (this.isAnimationFinished()) {
+            this.isAttacking = false;
+            this.playAnimation('floating', 125);
         }
+    }
 
-        this.playAnimation('floating', 125);
+    /** Faces Sharky before an attack starts. */
+    facePlayer(player) {
+        this.direction =
+            player.x < this.x ? -1 : 1;
     }
 
     /** Keeps Hurt active long enough to show every frame. */
@@ -179,6 +253,8 @@ class Endboss extends Enemy {
 
         this.isIntroducing = false;
         this.hasBeenIntroduced = false;
+        this.isAttacking = false;
+        this.lastAttackTime = 0;
 
         this.playAnimation('floating', 125);
     }
@@ -248,15 +324,22 @@ class Endboss extends Enemy {
 
     drawTopFin(context) {
         context.beginPath();
-        context.moveTo(this.x + 60, this.y);
+
+        context.moveTo(
+            this.x + 60,
+            this.y
+        );
+
         context.lineTo(
             this.x + 92,
             this.y - 36
         );
+
         context.lineTo(
             this.x + 108,
             this.y
         );
+
         context.closePath();
         context.fill();
     }
