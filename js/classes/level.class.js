@@ -5,26 +5,42 @@ class Level {
         this.number = levelData.number;
         this.width = levelData.width;
         this.height = levelData.height;
-        this.backgroundObjects = levelData.backgroundObjects || [];
-        this.solidAreas = levelData.solidAreas || [];
-        this.enemies = levelData.enemies || [];
-        this.collectibles = levelData.collectibles || [];
-        this.endboss = levelData.endboss || null;
-        this.finishObject = levelData.finishObject || null;
+
+        this.backgroundObjects =
+            levelData.backgroundObjects || [];
+
+        this.solidAreas =
+            levelData.solidAreas || [];
+
+        this.enemies =
+            levelData.enemies || [];
+
+        this.collectibles =
+            levelData.collectibles || [];
+
+        this.endboss =
+            levelData.endboss || null;
+
+        this.finishObject =
+            levelData.finishObject || null;
     }
 
-    update() {
+    /** Updates all dynamic level objects. */
+    update(player = null) {
         this.updateEnemies();
-        this.updateEndboss();
+        this.updateEndboss(player);
     }
 
     updateEnemies() {
-        this.enemies.forEach((enemy) => enemy.update());
+        this.enemies.forEach((enemy) => {
+            enemy.update();
+        });
     }
 
-    updateEndboss() {
+    /** Updates the boss with optional player information. */
+    updateEndboss(player = null) {
         if (this.endboss) {
-            this.endboss.update();
+            this.endboss.update(player);
         }
     }
 
@@ -35,11 +51,15 @@ class Level {
     }
 
     resetEnemies() {
-        this.enemies.forEach((enemy) => enemy.reset());
+        this.enemies.forEach((enemy) => {
+            enemy.reset();
+        });
     }
 
     resetCollectibles() {
-        this.collectibles.forEach((collectible) => collectible.reset());
+        this.collectibles.forEach((collectible) => {
+            collectible.reset();
+        });
     }
 
     resetEndboss() {
@@ -49,15 +69,27 @@ class Level {
     }
 
     getActiveCollectibles() {
-        return this.collectibles.filter((collectible) => !collectible.isCollected);
+        return this.collectibles.filter(
+            (collectible) => {
+                return !collectible.isCollected;
+            }
+        );
     }
 
     getDangerObjects() {
-        return this.getAttackTargets().filter((enemy) => enemy.canDealContactDamage());
+        return this.getAttackTargets().filter(
+            (enemy) => {
+                return enemy.canDealContactDamage();
+            }
+        );
     }
 
     getAttackTargets() {
-        const targets = this.enemies.filter((enemy) => !enemy.isDefeated);
+        const targets = this.enemies.filter(
+            (enemy) => {
+                return !enemy.isDefeated;
+            }
+        );
 
         if (this.hasActiveEndboss()) {
             targets.push(this.endboss);
@@ -67,11 +99,13 @@ class Level {
     }
 
     hasActiveEndboss() {
-        return this.endboss && !this.endboss.isDefeated;
+        return this.endboss &&
+            !this.endboss.isDefeated;
     }
 
     isLevelComplete(player) {
-        return this.finishObject && this.finishObject.isReachedBy(player);
+        return this.finishObject &&
+            this.finishObject.isReachedBy(player);
     }
 
     getBounds() {
@@ -84,10 +118,16 @@ class Level {
     }
 
     getMaxCameraX(canvasWidth) {
-        return Math.max(0, this.width - canvasWidth);
+        return Math.max(
+            0,
+            this.width - canvasWidth
+        );
     }
 
     getMaxCameraY(canvasHeight) {
-        return Math.max(0, this.height - canvasHeight);
+        return Math.max(
+            0,
+            this.height - canvasHeight
+        );
     }
 }
