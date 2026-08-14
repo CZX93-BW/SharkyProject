@@ -138,6 +138,15 @@ class Character extends AnimatedDrawableObject {
         this.startAttackAnimation('bubbleTrap');
     }
 
+    /** Starts the shared bubble animation for a Poison Shot. */
+    startPoisonShot() {
+        if (!this.isAlive()) {
+            return;
+        }
+
+        this.startAttackAnimation('bubbleTrap');
+    }
+
     /** Starts a supported one-time character attack animation. */
     startAttackAnimation(animationName) {
         this.activeAttackAnimation = animationName;
