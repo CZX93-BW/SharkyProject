@@ -108,6 +108,15 @@ const ASSET_CONFIG = {
             ]
         },
 
+        jellyFish: {
+            swim: [
+                'assets/img/enemies/2 Jelly fish/Regular damage/Lila 1.png',
+                'assets/img/enemies/2 Jelly fish/Regular damage/Lila 2.png',
+                'assets/img/enemies/2 Jelly fish/Regular damage/Lila 3.png',
+                'assets/img/enemies/2 Jelly fish/Regular damage/Lila 4.png'
+            ]
+        },
+
         endboss: ''
     },
 
