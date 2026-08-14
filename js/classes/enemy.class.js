@@ -11,6 +11,7 @@ class Enemy extends AnimatedDrawableObject {
 
         this.startX = this.x;
         this.startY = this.y;
+        this.type = config.type || 'pufferFish';
         this.speed =
             config.speed || GAME_CONFIG.enemySpeed;
         this.range =
@@ -36,20 +37,37 @@ class Enemy extends AnimatedDrawableObject {
         this.patrolDirection = 1;
 
         this.prepareAnimations();
+
         this.loadImage(
             config.imagePath ||
-            ASSET_CONFIG.enemies.default
-        );
-    }
-
-    /** Registers the currently supported enemy animations. */
-    prepareAnimations() {
-        this.addAnimation(
-            'swim',
-            ASSET_CONFIG.enemies.pufferFish.swim
+            this.getDefaultImagePath()
         );
 
         this.playAnimation('swim', 130);
+    }
+
+    /** Registers animations belonging to the enemy type. */
+    prepareAnimations() {
+        const enemyAssets = this.getEnemyAssets();
+
+        this.addAnimation(
+            'swim',
+            enemyAssets.swim
+        );
+    }
+
+    /** Returns configured assets or the Pufferfish fallback. */
+    getEnemyAssets() {
+        return ASSET_CONFIG.enemies[this.type] ||
+            ASSET_CONFIG.enemies.pufferFish;
+    }
+
+    /** Returns the first frame used before animation begins. */
+    getDefaultImagePath() {
+        const enemyAssets = this.getEnemyAssets();
+
+        return enemyAssets.swim[0] ||
+            ASSET_CONFIG.enemies.default;
     }
 
     update() {
