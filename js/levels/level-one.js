@@ -97,7 +97,8 @@ function createLevelOneLayer(
         GAME_CONFIG.levelOneWidth,
         height,
         {
-            imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
+            imagePath:
+                ASSET_CONFIG.backgrounds.levelOne[layerName],
             fallbackColor,
             scrollFactor,
             opacity
@@ -118,20 +119,67 @@ function createLevelOneSolidAreas() {
 
 function createLevelOneEnemies() {
     return [
-        createLevelOneEnemy(500, 250, 'horizontal'),
-        createLevelOneEnemy(900, 330, 'vertical'),
-        createLevelOneEnemy(1320, 250, 'horizontal'),
-        createLevelOneEnemy(1700, 330, 'vertical')
+        createLevelOneEnemy(
+            500,
+            250,
+            'horizontal',
+            'pufferFish'
+        ),
+
+        createLevelOneEnemy(
+            900,
+            310,
+            'vertical',
+            'jellyFish'
+        ),
+
+        createLevelOneEnemy(
+            1320,
+            250,
+            'horizontal',
+            'pufferFish'
+        ),
+
+        createLevelOneEnemy(
+            1700,
+            310,
+            'vertical',
+            'jellyFish'
+        )
     ];
 }
 
-function createLevelOneEnemy(x, y, axis) {
+function createLevelOneEnemy(
+    x,
+    y,
+    axis,
+    type
+) {
+    const size = getLevelOneEnemySize(type);
+
     return new Enemy({
         x,
         y,
         axis,
+        type,
+        width: size.width,
+        height: size.height,
         range: GAME_CONFIG.enemyPatrolRange
     });
+}
+
+function getLevelOneEnemySize(type) {
+    if (type === 'jellyFish') {
+        return {
+            width: 54,
+            height: 78
+        };
+    }
+
+    return {
+        width: GAME_CONFIG.enemyWidth,
+        height: GAME_CONFIG.enemyHeight
+    };
 }
 
 function createLevelOneCollectibles() {
@@ -155,7 +203,8 @@ function createLevelOneCoin(x, y) {
         height: GAME_CONFIG.coinHeight,
         value: GAME_CONFIG.coinValue,
         imagePath: ASSET_CONFIG.collectibles.coin,
-        fallbackColor: GAME_CONFIG.coinFallbackColor
+        fallbackColor:
+            GAME_CONFIG.coinFallbackColor
     });
 }
 
@@ -167,8 +216,10 @@ function createLevelOnePoisonBottle(x, y) {
         width: GAME_CONFIG.poisonBottleWidth,
         height: GAME_CONFIG.poisonBottleHeight,
         value: GAME_CONFIG.poisonBottleValue,
-        imagePath: ASSET_CONFIG.collectibles.poisonBottle,
-        fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
+        imagePath:
+            ASSET_CONFIG.collectibles.poisonBottle,
+        fallbackColor:
+            GAME_CONFIG.poisonBottleFallbackColor
     });
 }
 
