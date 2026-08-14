@@ -63,8 +63,8 @@ class Endboss extends Enemy {
             .floating[0];
     }
 
-    /** Updates animation, status effects and patrol movement. */
-    update() {
+    /** Updates animation, activation and patrol movement. */
+    update(player = null) {
         if (this.isDefeated) {
             this.playAnimation(
                 'dead',
@@ -75,6 +75,8 @@ class Endboss extends Enemy {
             return;
         }
 
+        this.startIntroductionIfNeeded(player);
+
         if (this.isIntroducing) {
             this.updateIntroduction();
             return;
@@ -83,6 +85,27 @@ class Endboss extends Enemy {
         this.updatePoisonStatus();
         this.updateBossAnimation();
         this.updatePatrol();
+    }
+
+    /** Starts Introduce once Sharky enters the activation distance. */
+    startIntroductionIfNeeded(player) {
+        if (
+            !player ||
+            !this.isPlayerNear(player)
+        ) {
+            return;
+        }
+
+        this.startIntroduction();
+    }
+
+    /** Returns whether Sharky is horizontally close to the boss. */
+    isPlayerNear(player) {
+        const horizontalDistance =
+            Math.abs(player.x - this.x);
+
+        return horizontalDistance <=
+            GAME_CONFIG.endbossIntroductionDistance;
     }
 
     /** Starts the introduction once per level attempt. */
