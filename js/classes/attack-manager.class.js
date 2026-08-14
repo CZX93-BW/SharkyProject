@@ -90,8 +90,12 @@ class AttackManager {
             return;
         }
 
+        const player = gameState.player;
+
+        player.startBubbleTrap();
+
         this.createAttack(
-            new BubbleTrap(gameState.player),
+            new BubbleTrap(player),
             'bubbleTrap'
         );
     }
@@ -126,14 +130,17 @@ class AttackManager {
 
     isCooldownReady(attackName, cooldown) {
         const elapsedTime =
-            Date.now() - this.lastAttackTimes[attackName];
+            Date.now() -
+            this.lastAttackTimes[attackName];
 
         return elapsedTime >= cooldown;
     }
 
     createAttack(attack, attackName) {
         this.activeAttacks.push(attack);
-        this.lastAttackTimes[attackName] = Date.now();
+        this.lastAttackTimes[attackName] =
+            Date.now();
+
         this.playAttackSound(attackName);
     }
 
