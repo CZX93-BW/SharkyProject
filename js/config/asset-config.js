@@ -105,6 +105,12 @@ const ASSET_CONFIG = {
                 'assets/img/enemies/1.Puffer fish (3 color options)/1.Swim/1.swim3.png',
                 'assets/img/enemies/1.Puffer fish (3 color options)/1.Swim/1.swim4.png',
                 'assets/img/enemies/1.Puffer fish (3 color options)/1.Swim/1.swim5.png'
+            ],
+
+            dead: [
+                'assets/img/enemies/1.Puffer fish (3 color options)/4.DIE/1.Dead 1 (can animate by going up).png',
+                'assets/img/enemies/1.Puffer fish (3 color options)/4.DIE/1.Dead 2 (can animate by going down to the floor after the Fin Slap attack).png',
+                'assets/img/enemies/1.Puffer fish (3 color options)/4.DIE/1.Dead 3 (can animate by going down to the floor after the Fin Slap attack).png'
             ]
         },
 
@@ -114,6 +120,13 @@ const ASSET_CONFIG = {
                 'assets/img/enemies/2 Jelly fish/Regular damage/Lila 2.png',
                 'assets/img/enemies/2 Jelly fish/Regular damage/Lila 3.png',
                 'assets/img/enemies/2 Jelly fish/Regular damage/Lila 4.png'
+            ],
+
+            dead: [
+                'assets/img/enemies/2 Jelly fish/Dead/Lila/L1.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Lila/L2.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Lila/L3.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Lila/L4.png'
             ]
         },
 
