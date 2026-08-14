@@ -54,6 +54,11 @@ class Enemy extends AnimatedDrawableObject {
             'swim',
             enemyAssets.swim
         );
+
+        this.addAnimation(
+            'dead',
+            enemyAssets.dead
+        );
     }
 
     /** Returns configured assets or the Pufferfish fallback. */
@@ -72,6 +77,12 @@ class Enemy extends AnimatedDrawableObject {
 
     update() {
         if (this.isDefeated) {
+            this.playAnimation(
+                'dead',
+                140,
+                false
+            );
+
             return;
         }
 
@@ -149,7 +160,18 @@ class Enemy extends AnimatedDrawableObject {
     }
 
     updateDefeatedState() {
-        this.isDefeated = this.health <= 0;
+        if (this.health > 0 || this.isDefeated) {
+            return;
+        }
+
+        this.isDefeated = true;
+        this.clearExpiredPoison();
+
+        this.playAnimation(
+            'dead',
+            140,
+            false
+        );
     }
 
     applyPoison(
@@ -233,12 +255,18 @@ class Enemy extends AnimatedDrawableObject {
     }
 
     draw(context) {
-        if (this.isDefeated) {
+        if (
+            this.isDefeated &&
+            this.isAnimationFinished()
+        ) {
             return;
         }
 
         this.drawEnemy(context);
-        this.drawStatusIndicators(context);
+
+        if (!this.isDefeated) {
+            this.drawStatusIndicators(context);
+        }
     }
 
     drawEnemy(context) {
