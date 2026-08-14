@@ -1,6 +1,6 @@
 'use strict';
 
-class Enemy extends MovableObject {
+class Enemy extends AnimatedDrawableObject {
     constructor(config = {}) {
         super(
             config.x,
@@ -11,11 +11,17 @@ class Enemy extends MovableObject {
 
         this.startX = this.x;
         this.startY = this.y;
-        this.speed = config.speed || GAME_CONFIG.enemySpeed;
-        this.range = config.range || GAME_CONFIG.enemyPatrolRange;
-        this.axis = config.axis || 'horizontal';
-        this.damage = config.damage || GAME_CONFIG.playerDamageFromEnemy;
-        this.maxHealth = config.health || GAME_CONFIG.enemyHealth;
+        this.speed =
+            config.speed || GAME_CONFIG.enemySpeed;
+        this.range =
+            config.range || GAME_CONFIG.enemyPatrolRange;
+        this.axis =
+            config.axis || 'horizontal';
+        this.damage =
+            config.damage ||
+            GAME_CONFIG.playerDamageFromEnemy;
+        this.maxHealth =
+            config.health || GAME_CONFIG.enemyHealth;
         this.health = this.maxHealth;
         this.isDefeated = false;
         this.trappedUntil = 0;
@@ -23,10 +29,27 @@ class Enemy extends MovableObject {
         this.poisonEndTime = 0;
         this.nextPoisonTickTime = 0;
         this.poisonTickInterval = 0;
-        this.fallbackColor = config.fallbackColor || GAME_CONFIG.enemyFallbackColor;
+        this.fallbackColor =
+            config.fallbackColor ||
+            GAME_CONFIG.enemyFallbackColor;
         this.eyeColor = GAME_CONFIG.enemyEyeColor;
         this.patrolDirection = 1;
-        this.loadImage(config.imagePath || ASSET_CONFIG.enemies.default);
+
+        this.prepareAnimations();
+        this.loadImage(
+            config.imagePath ||
+            ASSET_CONFIG.enemies.default
+        );
+    }
+
+    /** Registers the currently supported enemy animations. */
+    prepareAnimations() {
+        this.addAnimation(
+            'swim',
+            ASSET_CONFIG.enemies.pufferFish.swim
+        );
+
+        this.playAnimation('swim', 130);
     }
 
     update() {
@@ -35,6 +58,7 @@ class Enemy extends MovableObject {
         }
 
         this.updatePoisonStatus();
+        this.playAnimation('swim', 130);
 
         if (this.isTrapped()) {
             return;
@@ -53,24 +77,42 @@ class Enemy extends MovableObject {
     }
 
     updateHorizontalPatrol() {
-        this.x += this.speed * this.patrolDirection;
+        this.x +=
+            this.speed * this.patrolDirection;
+
         this.changeDirectionAtHorizontalBounds();
         this.direction = this.patrolDirection;
     }
 
     updateVerticalPatrol() {
-        this.y += this.speed * this.patrolDirection;
+        this.y +=
+            this.speed * this.patrolDirection;
+
         this.changeDirectionAtVerticalBounds();
     }
 
     changeDirectionAtHorizontalBounds() {
-        if (this.x <= this.startX || this.x >= this.startX + this.range) {
+        const leftBoundary = this.startX;
+        const rightBoundary =
+            this.startX + this.range;
+
+        if (
+            this.x <= leftBoundary ||
+            this.x >= rightBoundary
+        ) {
             this.patrolDirection *= -1;
         }
     }
 
     changeDirectionAtVerticalBounds() {
-        if (this.y <= this.startY || this.y >= this.startY + this.range) {
+        const upperBoundary = this.startY;
+        const lowerBoundary =
+            this.startY + this.range;
+
+        if (
+            this.y <= upperBoundary ||
+            this.y >= lowerBoundary
+        ) {
             this.patrolDirection *= -1;
         }
     }
@@ -80,7 +122,11 @@ class Enemy extends MovableObject {
             return;
         }
 
-        this.health = Math.max(0, this.health - damage);
+        this.health = Math.max(
+            0,
+            this.health - damage
+        );
+
         this.updateDefeatedState();
     }
 
@@ -88,15 +134,21 @@ class Enemy extends MovableObject {
         this.isDefeated = this.health <= 0;
     }
 
-    applyPoison(damagePerTick, duration, tickInterval) {
+    applyPoison(
+        damagePerTick,
+        duration,
+        tickInterval
+    ) {
         if (this.isDefeated) {
             return;
         }
 
         this.poisonDamagePerTick = damagePerTick;
-        this.poisonEndTime = Date.now() + duration;
+        this.poisonEndTime =
+            Date.now() + duration;
         this.poisonTickInterval = tickInterval;
-        this.nextPoisonTickTime = Date.now() + tickInterval;
+        this.nextPoisonTickTime =
+            Date.now() + tickInterval;
     }
 
     updatePoisonStatus() {
@@ -109,14 +161,21 @@ class Enemy extends MovableObject {
     }
 
     applyPoisonTickIfNeeded() {
-        if (Date.now() >= this.nextPoisonTickTime) {
-            this.takeDamage(this.poisonDamagePerTick);
-            this.nextPoisonTickTime = Date.now() + this.poisonTickInterval;
+        if (Date.now() < this.nextPoisonTickTime) {
+            return;
         }
+
+        this.takeDamage(
+            this.poisonDamagePerTick
+        );
+
+        this.nextPoisonTickTime =
+            Date.now() + this.poisonTickInterval;
     }
 
     isPoisoned() {
-        return Date.now() < this.poisonEndTime && this.poisonDamagePerTick > 0;
+        return Date.now() < this.poisonEndTime &&
+            this.poisonDamagePerTick > 0;
     }
 
     clearExpiredPoison() {
@@ -125,7 +184,8 @@ class Enemy extends MovableObject {
 
     trap(duration) {
         if (this.canBeTrapped()) {
-            this.trappedUntil = Date.now() + duration;
+            this.trappedUntil =
+                Date.now() + duration;
         }
     }
 
@@ -138,7 +198,8 @@ class Enemy extends MovableObject {
     }
 
     canDealContactDamage() {
-        return !this.isDefeated && !this.isTrapped();
+        return !this.isDefeated &&
+            !this.isTrapped();
     }
 
     reset() {
@@ -149,6 +210,8 @@ class Enemy extends MovableObject {
         this.trappedUntil = 0;
         this.clearExpiredPoison();
         this.patrolDirection = 1;
+        this.direction = 1;
+        this.playAnimation('swim', 130);
     }
 
     draw(context) {
@@ -182,7 +245,15 @@ class Enemy extends MovableObject {
     drawMirroredEnemyImage(context) {
         context.save();
         context.scale(-1, 1);
-        context.drawImage(this.image, -this.x - this.width, this.y, this.width, this.height);
+
+        context.drawImage(
+            this.image,
+            -this.x - this.width,
+            this.y,
+            this.width,
+            this.height
+        );
+
         context.restore();
     }
 
@@ -194,13 +265,22 @@ class Enemy extends MovableObject {
     drawEnemyEye(context) {
         context.fillStyle = this.eyeColor;
         context.beginPath();
-        context.arc(this.x + this.width / 2, this.y + 18, 6, 0, Math.PI * 2);
+
+        context.arc(
+            this.x + this.width / 2,
+            this.y + 18,
+            6,
+            0,
+            Math.PI * 2
+        );
+
         context.fill();
     }
 
     drawEnemyTentacles(context) {
         context.strokeStyle = this.fallbackColor;
         context.lineWidth = 4;
+
         this.drawTentacle(context, 14);
         this.drawTentacle(context, 29);
         this.drawTentacle(context, 44);
@@ -208,8 +288,17 @@ class Enemy extends MovableObject {
 
     drawTentacle(context, offsetX) {
         context.beginPath();
-        context.moveTo(this.x + offsetX, this.y + this.height - 8);
-        context.lineTo(this.x + offsetX - 6, this.y + this.height + 18);
+
+        context.moveTo(
+            this.x + offsetX,
+            this.y + this.height - 8
+        );
+
+        context.lineTo(
+            this.x + offsetX - 6,
+            this.y + this.height + 18
+        );
+
         context.stroke();
     }
 
@@ -223,9 +312,16 @@ class Enemy extends MovableObject {
             return;
         }
 
-        context.strokeStyle = 'rgba(169, 236, 255, 0.9)';
+        context.strokeStyle =
+            'rgba(169, 236, 255, 0.9)';
         context.lineWidth = 4;
-        context.strokeRect(this.x - 5, this.y - 5, this.width + 10, this.height + 10);
+
+        context.strokeRect(
+            this.x - 5,
+            this.y - 5,
+            this.width + 10,
+            this.height + 10
+        );
     }
 
     drawPoisonIndicator(context) {
@@ -235,6 +331,12 @@ class Enemy extends MovableObject {
 
         context.strokeStyle = '#9dff57';
         context.lineWidth = 3;
-        context.strokeRect(this.x - 9, this.y - 9, this.width + 18, this.height + 18);
+
+        context.strokeRect(
+            this.x - 9,
+            this.y - 9,
+            this.width + 18,
+            this.height + 18
+        );
     }
 }
