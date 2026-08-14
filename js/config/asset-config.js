@@ -131,6 +131,19 @@ const ASSET_CONFIG = {
         },
 
         endboss: {
+            introduce: [
+                'assets/img/enemies/3 Final Enemy/1.Introduce/1.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/2.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/3.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/4.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/5.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/6.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/7.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/8.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/9.png',
+                'assets/img/enemies/3 Final Enemy/1.Introduce/10.png'
+            ],
+
             floating: [
                 'assets/img/enemies/3 Final Enemy/2.floating/1.png',
                 'assets/img/enemies/3 Final Enemy/2.floating/2.png',
