@@ -59,6 +59,7 @@ const GAME_CONFIG = {
     endbossSpeed: 1.1,
     endbossDamage: 35,
     endbossPatrolRange: 170,
+    endbossIntroductionDistance: 650,
     endbossFallbackColor: '#b05cff',
     endbossEyeColor: '#190020',
 
