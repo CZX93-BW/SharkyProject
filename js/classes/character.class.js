@@ -17,7 +17,7 @@ class Character extends AnimatedDrawableObject {
         this.fallbackColor = GAME_CONFIG.playerFallbackColor;
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
-        this.isFinSlapping = false;
+        this.activeAttackAnimation = '';
         this.spriteSources = this.createSpriteSources();
 
         this.prepareAnimations();
@@ -38,6 +38,13 @@ class Character extends AnimatedDrawableObject {
                 y: 230,
                 width: 670,
                 height: 690
+            },
+
+            bubbleTrap: {
+                x: 70,
+                y: 350,
+                width: 680,
+                height: 430
             }
         };
     }
@@ -57,6 +64,11 @@ class Character extends AnimatedDrawableObject {
         this.addAnimation(
             'finSlap',
             ASSET_CONFIG.character.finSlap
+        );
+
+        this.addAnimation(
+            'bubbleTrap',
+            ASSET_CONFIG.character.bubbleTrap
         );
 
         this.addAnimation(
@@ -95,8 +107,8 @@ class Character extends AnimatedDrawableObject {
             return;
         }
 
-        if (this.isFinSlapping) {
-            this.updateFinSlapAnimation();
+        if (this.activeAttackAnimation) {
+            this.updateAttackAnimation();
             return;
         }
 
@@ -114,16 +126,39 @@ class Character extends AnimatedDrawableObject {
             return;
         }
 
-        this.isFinSlapping = true;
-        this.playAnimation('finSlap', 60, false);
+        this.startAttackAnimation('finSlap');
     }
 
-    /** Advances Fin Slap and releases it after the last frame. */
-    updateFinSlapAnimation() {
-        this.playAnimation('finSlap', 60, false);
+    /** Starts the one-time Bubble Trap character animation. */
+    startBubbleTrap() {
+        if (!this.isAlive()) {
+            return;
+        }
+
+        this.startAttackAnimation('bubbleTrap');
+    }
+
+    /** Starts a supported one-time character attack animation. */
+    startAttackAnimation(animationName) {
+        this.activeAttackAnimation = animationName;
+
+        this.playAnimation(
+            animationName,
+            60,
+            false
+        );
+    }
+
+    /** Advances the active attack and releases its state. */
+    updateAttackAnimation() {
+        this.playAnimation(
+            this.activeAttackAnimation,
+            60,
+            false
+        );
 
         if (this.isAnimationFinished()) {
-            this.isFinSlapping = false;
+            this.activeAttackAnimation = '';
         }
     }
 
@@ -279,6 +314,15 @@ class Character extends AnimatedDrawableObject {
                 y: this.y - 26,
                 width: 120,
                 height: 100
+            };
+        }
+
+        if (this.currentAnimation === 'bubbleTrap') {
+            return {
+                x: this.x - 16,
+                y: this.y - 11,
+                width: 110,
+                height: 70
             };
         }
 
