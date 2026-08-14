@@ -77,10 +77,13 @@ class AttackManager {
             return;
         }
 
+        const player = gameState.player;
+
         gameState.usePoisonBottle();
+        player.startPoisonShot();
 
         this.createAttack(
-            new PoisonShot(gameState.player),
+            new PoisonShot(player),
             'poisonShot'
         );
     }
@@ -138,6 +141,7 @@ class AttackManager {
 
     createAttack(attack, attackName) {
         this.activeAttacks.push(attack);
+
         this.lastAttackTimes[attackName] =
             Date.now();
 
@@ -176,8 +180,10 @@ class AttackManager {
 
     reset() {
         this.activeAttacks = [];
+
         this.lastAttackTimes =
             this.createLastAttackTimes();
+
         this.previousInputs =
             this.createPreviousInputs();
     }
