@@ -4,6 +4,7 @@ const LEVELS = {};
 
 LEVELS[1] = createLevelOne();
 
+/** Creates the first game level. */
 function createLevelOne() {
     return new Level({
         number: 1,
@@ -18,6 +19,7 @@ function createLevelOne() {
     });
 }
 
+/** Creates all background layers for level one. */
 function createLevelOneBackgrounds() {
     return [
         createLevelOneFarLayer(),
@@ -28,6 +30,7 @@ function createLevelOneBackgrounds() {
     ];
 }
 
+/** Creates the far background layer. */
 function createLevelOneFarLayer() {
     return createLevelOneLayer(
         'far',
@@ -39,6 +42,7 @@ function createLevelOneFarLayer() {
     );
 }
 
+/** Creates the rear background layer. */
 function createLevelOneBackLayer() {
     return createLevelOneLayer(
         'back',
@@ -50,6 +54,7 @@ function createLevelOneBackLayer() {
     );
 }
 
+/** Creates the middle background layer. */
 function createLevelOneMiddleLayer() {
     return createLevelOneLayer(
         'middle',
@@ -61,6 +66,7 @@ function createLevelOneMiddleLayer() {
     );
 }
 
+/** Creates the foreground light layer. */
 function createLevelOneFrontLayer() {
     return createLevelOneLayer(
         'front',
@@ -72,6 +78,7 @@ function createLevelOneFrontLayer() {
     );
 }
 
+/** Creates the floor layer. */
 function createLevelOneFloorLayer() {
     return createLevelOneLayer(
         'floor',
@@ -83,6 +90,7 @@ function createLevelOneFloorLayer() {
     );
 }
 
+/** Creates one configured background layer. */
 function createLevelOneLayer(
     layerName,
     y,
@@ -97,8 +105,7 @@ function createLevelOneLayer(
         GAME_CONFIG.levelOneWidth,
         height,
         {
-            imagePath:
-                ASSET_CONFIG.backgrounds.levelOne[layerName],
+            imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
             fallbackColor,
             scrollFactor,
             opacity
@@ -106,6 +113,7 @@ function createLevelOneLayer(
     );
 }
 
+/** Creates collision areas for level one. */
 function createLevelOneSolidAreas() {
     return [
         {
@@ -117,6 +125,7 @@ function createLevelOneSolidAreas() {
     ];
 }
 
+/** Creates all regular enemies for level one. */
 function createLevelOneEnemies() {
     return [
         createLevelOneEnemy(
@@ -125,21 +134,18 @@ function createLevelOneEnemies() {
             'horizontal',
             'pufferFish'
         ),
-
         createLevelOneEnemy(
             900,
             310,
             'vertical',
             'jellyFish'
         ),
-
         createLevelOneEnemy(
             1320,
             250,
             'horizontal',
             'pufferFish'
         ),
-
         createLevelOneEnemy(
             1700,
             310,
@@ -149,12 +155,8 @@ function createLevelOneEnemies() {
     ];
 }
 
-function createLevelOneEnemy(
-    x,
-    y,
-    axis,
-    type
-) {
+/** Creates one enemy for level one. */
+function createLevelOneEnemy(x, y, axis, type) {
     const size = getLevelOneEnemySize(type);
 
     return new Enemy({
@@ -168,6 +170,7 @@ function createLevelOneEnemy(
     });
 }
 
+/** Returns the correct enemy size. */
 function getLevelOneEnemySize(type) {
     if (type === 'jellyFish') {
         return {
@@ -182,6 +185,7 @@ function getLevelOneEnemySize(type) {
     };
 }
 
+/** Creates all collectibles for level one. */
 function createLevelOneCollectibles() {
     return [
         createLevelOneCoin(310, 210),
@@ -194,6 +198,7 @@ function createLevelOneCollectibles() {
     ];
 }
 
+/** Creates an animated coin. */
 function createLevelOneCoin(x, y) {
     return new CollectibleObject({
         x,
@@ -203,11 +208,13 @@ function createLevelOneCoin(x, y) {
         height: GAME_CONFIG.coinHeight,
         value: GAME_CONFIG.coinValue,
         imagePath: ASSET_CONFIG.collectibles.coin,
-        fallbackColor:
-            GAME_CONFIG.coinFallbackColor
+        animationImages:
+            ASSET_CONFIG.collectibles.coinAnimation,
+        fallbackColor: GAME_CONFIG.coinFallbackColor
     });
 }
 
+/** Creates an animated poison bottle. */
 function createLevelOnePoisonBottle(x, y) {
     return new CollectibleObject({
         x,
@@ -216,13 +223,15 @@ function createLevelOnePoisonBottle(x, y) {
         width: GAME_CONFIG.poisonBottleWidth,
         height: GAME_CONFIG.poisonBottleHeight,
         value: GAME_CONFIG.poisonBottleValue,
-        imagePath:
-            ASSET_CONFIG.collectibles.poisonBottle,
+        imagePath: ASSET_CONFIG.collectibles.poisonBottle,
+        animationImages:
+            ASSET_CONFIG.collectibles.poisonBottleAnimation,
         fallbackColor:
             GAME_CONFIG.poisonBottleFallbackColor
     });
 }
 
+/** Creates the endboss for level one. */
 function createLevelOneEndboss() {
     return new Endboss({
         x: GAME_CONFIG.levelOneWidth - 420,
@@ -231,6 +240,7 @@ function createLevelOneEndboss() {
     });
 }
 
+/** Creates the finish marker for level one. */
 function createLevelOneFinishObject() {
     return new FinishObject(
         GAME_CONFIG.levelOneWidth - 120,
