@@ -9,15 +9,19 @@ class Game {
     ) {
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.statusUpdateCallback = statusUpdateCallback;
+        this.statusUpdateCallback =
+            statusUpdateCallback;
         this.audioManager = audioManager;
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
+
         this.collisionManager =
             new CollisionManager(audioManager);
+
         this.attackManager =
             new AttackManager(audioManager);
+
         this.animationFrameId = null;
         this.lastFrameTime = 0;
 
@@ -88,7 +92,9 @@ class Game {
 
     cancelRunningLoop() {
         if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
+            cancelAnimationFrame(
+                this.animationFrameId
+            );
         }
 
         this.animationFrameId = null;
@@ -121,16 +127,19 @@ class Game {
     }
 
     requestNextFrame() {
-        this.animationFrameId = requestAnimationFrame(
-            (currentTime) => {
-                this.runGameLoop(currentTime);
-            }
-        );
+        this.animationFrameId =
+            requestAnimationFrame(
+                (currentTime) => {
+                    this.runGameLoop(currentTime);
+                }
+            );
     }
 
     updateFrameData(currentTime) {
         if (this.lastFrameTime > 0) {
-            this.updateFramesPerSecond(currentTime);
+            this.updateFramesPerSecond(
+                currentTime
+            );
         }
 
         this.lastFrameTime = currentTime;
@@ -184,7 +193,9 @@ class Game {
     }
 
     updateLevel() {
-        this.gameState.activeLevel.update();
+        this.gameState.activeLevel.update(
+            this.gameState.player
+        );
     }
 
     updateCollisions() {
@@ -195,12 +206,14 @@ class Game {
 
     checkDangerCollisions() {
         const dangerObjects =
-            this.gameState.activeLevel.getDangerObjects();
+            this.gameState.activeLevel
+                .getDangerObjects();
 
-        this.collisionManager.checkPlayerEnemyCollisions(
-            this.gameState.player,
-            dangerObjects
-        );
+        this.collisionManager
+            .checkPlayerEnemyCollisions(
+                this.gameState.player,
+                dangerObjects
+            );
     }
 
     checkCollectibleCollisions() {
@@ -211,10 +224,11 @@ class Game {
     }
 
     checkAttackCollisions() {
-        this.collisionManager.checkAttackCollisions(
-            this.attackManager,
-            this.gameState.activeLevel
-        );
+        this.collisionManager
+            .checkAttackCollisions(
+                this.attackManager,
+                this.gameState.activeLevel
+            );
     }
 
     updateGameStatus() {
@@ -226,7 +240,7 @@ class Game {
         this.completeLevelIfNeeded();
     }
 
-    /** Starts the dead animation in the fatal collision frame. */
+    /** Starts Dead in the fatal collision frame. */
     startDefeatSequence() {
         const player = this.gameState.player;
 
@@ -234,7 +248,7 @@ class Game {
         player.updateAnimation();
     }
 
-    /** Advances the dead animation before opening Game Over. */
+    /** Advances Dead before opening Game Over. */
     updateDefeatSequence() {
         const player = this.gameState.player;
 
@@ -247,8 +261,11 @@ class Game {
     }
 
     completeLevelIfNeeded() {
-        const player = this.gameState.player;
-        const activeLevel = this.gameState.activeLevel;
+        const activeLevel =
+            this.gameState.activeLevel;
+
+        const player =
+            this.gameState.player;
 
         if (activeLevel.isLevelComplete(player)) {
             this.gameState.completeLevel();
@@ -270,7 +287,9 @@ class Game {
 
     notifyStatusUpdate() {
         if (this.statusUpdateCallback) {
-            this.statusUpdateCallback(this.gameState);
+            this.statusUpdateCallback(
+                this.gameState
+            );
         }
     }
 }
