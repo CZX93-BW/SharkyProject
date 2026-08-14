@@ -110,7 +110,10 @@ const ASSET_CONFIG = {
 
     attacks: {
         finSlap: '',
-        poisonShot: '',
+
+        poisonShot:
+            'assets/img/sharky/4.Attack/Bubble trap/Poisoned Bubble (for whale).png',
+
         bubbleTrap:
             'assets/img/sharky/4.Attack/Bubble trap/Bubble.png'
     },
