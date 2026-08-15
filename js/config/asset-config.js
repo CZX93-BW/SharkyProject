@@ -140,6 +140,38 @@ const ASSET_CONFIG = {
             ]
         },
 
+        jellyFishYellow: {
+            swim: [
+                'assets/img/enemies/2 Jelly fish/Regular damage/Yellow 1.png',
+                'assets/img/enemies/2 Jelly fish/Regular damage/Yellow 2.png',
+                'assets/img/enemies/2 Jelly fish/Regular damage/Yellow 3.png',
+                'assets/img/enemies/2 Jelly fish/Regular damage/Yellow 4.png'
+            ],
+
+            dead: [
+                'assets/img/enemies/2 Jelly fish/Dead/Yellow/y1.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Yellow/y2.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Yellow/y3.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Yellow/y4.png'
+            ]
+        },
+
+        jellyFishPink: {
+            swim: [
+                'assets/img/enemies/2 Jelly fish/Súper dangerous/Pink 1.png',
+                'assets/img/enemies/2 Jelly fish/Súper dangerous/Pink 2.png',
+                'assets/img/enemies/2 Jelly fish/Súper dangerous/Pink 3.png',
+                'assets/img/enemies/2 Jelly fish/Súper dangerous/Pink 4.png'
+            ],
+
+            dead: [
+                'assets/img/enemies/2 Jelly fish/Dead/Pink/P1.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Pink/P2.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Pink/P3.png',
+                'assets/img/enemies/2 Jelly fish/Dead/Pink/P4.png'
+            ]
+        },
+
         endboss: {
             introduce: [
                 'assets/img/enemies/3 Final Enemy/1.Introduce/1.png',
@@ -198,7 +230,8 @@ const ASSET_CONFIG = {
     },
 
     collectibles: {
-        coin: 'assets/img/collectibles/1. Coins/1.png',
+        coin:
+            'assets/img/collectibles/1. Coins/1.png',
 
         coinAnimation: [
             'assets/img/collectibles/1. Coins/1.png',
