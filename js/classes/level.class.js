@@ -5,29 +5,37 @@ class Level {
         this.number = levelData.number;
         this.width = levelData.width;
         this.height = levelData.height;
-
         this.backgroundObjects =
             levelData.backgroundObjects || [];
-
-        this.solidAreas =
-            levelData.solidAreas || [];
-
-        this.enemies =
-            levelData.enemies || [];
-
+        this.barrierObjects =
+            levelData.barrierObjects || [];
+        this.solidAreas = this.createSolidAreas(
+            levelData.solidAreas || []
+        );
+        this.enemies = levelData.enemies || [];
         this.collectibles =
             levelData.collectibles || [];
-
-        this.endboss =
-            levelData.endboss || null;
-
+        this.endboss = levelData.endboss || null;
         this.finishObject =
             levelData.finishObject || null;
     }
 
-    /** Updates all dynamic level objects. */
+    /** Combines base areas with barrier collisions. */
+    createSolidAreas(baseSolidAreas) {
+        const barrierAreas =
+            this.barrierObjects.map((barrier) => {
+                return barrier.getSolidArea();
+            });
+
+        return [
+            ...baseSolidAreas,
+            ...barrierAreas
+        ];
+    }
+
     update(player = null) {
         this.updateEnemies();
+        this.updateCollectibles();
         this.updateEndboss(player);
     }
 
@@ -37,7 +45,14 @@ class Level {
         });
     }
 
-    /** Updates the boss with optional player information. */
+    updateCollectibles() {
+        this.collectibles.forEach(
+            (collectible) => {
+                collectible.update();
+            }
+        );
+    }
+
     updateEndboss(player = null) {
         if (this.endboss) {
             this.endboss.update(player);
@@ -57,9 +72,11 @@ class Level {
     }
 
     resetCollectibles() {
-        this.collectibles.forEach((collectible) => {
-            collectible.reset();
-        });
+        this.collectibles.forEach(
+            (collectible) => {
+                collectible.reset();
+            }
+        );
     }
 
     resetEndboss() {
