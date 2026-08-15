@@ -223,13 +223,24 @@ const ASSET_CONFIG = {
     },
 
     levelObjects: {
-        finish: ''
+        finish: '',
+
+        barriers: {
+            horizontalPair:
+                'assets/img/backgrounds/Barrier/barrier_1.png',
+            floorRock:
+                'assets/img/backgrounds/Barrier/barrier_2.png',
+            verticalRock:
+                'assets/img/backgrounds/Barrier/barrier_3.png'
+        }
     },
 
     attacks: {
         finSlap: '',
+
         poisonShot:
             'assets/img/sharky/4.Attack/Bubble trap/Poisoned Bubble (for whale).png',
+
         bubbleTrap:
             'assets/img/sharky/4.Attack/Bubble trap/Bubble.png'
     },
