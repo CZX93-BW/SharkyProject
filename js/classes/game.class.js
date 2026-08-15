@@ -15,13 +15,10 @@ class Game {
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
-
         this.collisionManager =
             new CollisionManager(audioManager);
-
         this.attackManager =
             new AttackManager(audioManager);
-
         this.animationFrameId = null;
         this.lastFrameTime = 0;
 
@@ -30,7 +27,6 @@ class Game {
             this.camera,
             this.attackManager
         );
-
         this.notifyStatusUpdate();
     }
 
@@ -137,9 +133,7 @@ class Game {
 
     updateFrameData(currentTime) {
         if (this.lastFrameTime > 0) {
-            this.updateFramesPerSecond(
-                currentTime
-            );
+            this.updateFramesPerSecond(currentTime);
         }
 
         this.lastFrameTime = currentTime;
@@ -148,7 +142,6 @@ class Game {
     updateFramesPerSecond(currentTime) {
         const frameDuration =
             currentTime - this.lastFrameTime;
-
         const framesPerSecond =
             Math.round(1000 / frameDuration);
 
@@ -176,13 +169,27 @@ class Game {
     }
 
     updatePlayer() {
+        const player = this.gameState.player;
+        const activeLevel =
+            this.gameState.activeLevel;
         const levelBounds =
-            this.gameState.activeLevel.getBounds();
+            activeLevel.getBounds();
+        const previousPosition = {
+            x: player.x,
+            y: player.y
+        };
 
-        this.gameState.player.update(
+        player.update(
             this.keyboard,
             levelBounds
         );
+
+        this.collisionManager
+            .resolvePlayerSolidAreaCollisions(
+                player,
+                activeLevel.solidAreas,
+                previousPosition
+            );
     }
 
     updateAttacks() {
@@ -205,14 +212,11 @@ class Game {
     }
 
     checkDangerCollisions() {
-        const dangerObjects =
-            this.gameState.activeLevel
-                .getDangerObjects();
-
         this.collisionManager
             .checkPlayerEnemyCollisions(
                 this.gameState.player,
-                dangerObjects
+                this.gameState.activeLevel
+                    .getDangerObjects()
             );
     }
 
@@ -240,15 +244,13 @@ class Game {
         this.completeLevelIfNeeded();
     }
 
-    /** Starts Dead in the fatal collision frame. */
+    /** Starts the death animation. */
     startDefeatSequence() {
-        const player = this.gameState.player;
-
-        player.resetVelocity();
-        player.updateAnimation();
+        this.gameState.player.resetVelocity();
+        this.gameState.player.updateAnimation();
     }
 
-    /** Advances Dead before opening Game Over. */
+    /** Advances the death animation. */
     updateDefeatSequence() {
         const player = this.gameState.player;
 
@@ -264,10 +266,11 @@ class Game {
         const activeLevel =
             this.gameState.activeLevel;
 
-        const player =
-            this.gameState.player;
-
-        if (activeLevel.isLevelComplete(player)) {
+        if (
+            activeLevel.isLevelComplete(
+                this.gameState.player
+            )
+        ) {
             this.gameState.completeLevel();
         }
     }
