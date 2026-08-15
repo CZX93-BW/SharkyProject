@@ -1,7 +1,7 @@
 'use strict';
 
 class Endboss extends Enemy {
-    /** Creates the boss with boss-specific values and animations. */
+    /** Creates the boss with boss-specific values. */
     constructor(config = {}) {
         super({
             x: config.x,
@@ -31,7 +31,7 @@ class Endboss extends Enemy {
         this.playAnimation('floating', 125);
     }
 
-    /** Registers animation names used only by the Endboss. */
+    /** Registers all boss animation sequences. */
     prepareAnimations() {
         const bossAssets =
             ASSET_CONFIG.enemies.endboss;
@@ -40,45 +40,33 @@ class Endboss extends Enemy {
             'introduce',
             bossAssets.introduce
         );
-
         this.addAnimation(
             'floating',
             bossAssets.floating
         );
-
         this.addAnimation(
             'attack',
             bossAssets.attack
         );
-
         this.addAnimation(
             'hurt',
             bossAssets.hurt
         );
-
         this.addAnimation(
             'dead',
             bossAssets.dead
         );
     }
 
-    /** Returns the first boss frame used during loading. */
+    /** Returns the initial boss image. */
     getDefaultImagePath() {
-        return ASSET_CONFIG
-            .enemies
-            .endboss
-            .floating[0];
+        return ASSET_CONFIG.enemies.endboss.floating[0];
     }
 
-    /** Updates the current boss state in priority order. */
+    /** Updates the current boss state. */
     update(player = null) {
         if (this.isDefeated) {
-            this.playAnimation(
-                'dead',
-                150,
-                false
-            );
-
+            this.playAnimation('dead', 150, false);
             return;
         }
 
@@ -93,13 +81,7 @@ class Endboss extends Enemy {
 
         if (this.shouldPlayHurtAnimation()) {
             this.isAttacking = false;
-
-            this.playAnimation(
-                'hurt',
-                90,
-                false
-            );
-
+            this.playAnimation('hurt', 90, false);
             return;
         }
 
@@ -117,22 +99,20 @@ class Endboss extends Enemy {
         this.updatePatrol();
     }
 
-    /** Starts Introduce once Sharky enters the activation distance. */
+    /** Starts the introduction when Sharky approaches. */
     startIntroductionIfNeeded(player) {
-        if (
-            !player ||
-            !this.isPlayerNear(player)
-        ) {
+        if (!player || !this.isPlayerNear(player)) {
             return;
         }
 
         this.startIntroduction();
     }
 
-    /** Returns whether Sharky is horizontally close to the boss. */
+    /** Checks the horizontal distance to Sharky. */
     isPlayerNear(player) {
-        const distance =
-            Math.abs(player.x - this.x);
+        const distance = Math.abs(
+            player.x - this.x
+        );
 
         return distance <=
             GAME_CONFIG.endbossIntroductionDistance;
@@ -149,7 +129,6 @@ class Endboss extends Enemy {
 
         this.isIntroducing = true;
         this.hasBeenIntroduced = true;
-
         this.playAnimation(
             'introduce',
             100,
@@ -157,7 +136,7 @@ class Endboss extends Enemy {
         );
     }
 
-    /** Advances Introduce and returns to Floating afterwards. */
+    /** Updates the one-time introduction animation. */
     updateIntroduction() {
         this.playAnimation(
             'introduce',
@@ -171,7 +150,7 @@ class Endboss extends Enemy {
         }
     }
 
-    /** Returns whether a new boss attack may begin. */
+    /** Checks whether a new attack may start. */
     canStartAttack(player) {
         return Boolean(player) &&
             this.hasBeenIntroduced &&
@@ -179,25 +158,23 @@ class Endboss extends Enemy {
             this.isAttackCooldownReady();
     }
 
-    /** Returns whether Sharky is inside the attack range. */
+    /** Checks whether Sharky is in attack range. */
     isPlayerInAttackRange(player) {
-        const distance =
-            Math.abs(player.x - this.x);
+        const distance = Math.abs(
+            player.x - this.x
+        );
 
         return distance <=
             GAME_CONFIG.endbossAttackDistance;
     }
 
-    /** Returns whether the configured cooldown has passed. */
+    /** Checks whether the attack cooldown has passed. */
     isAttackCooldownReady() {
-        const timeSinceLastAttack =
-            Date.now() - this.lastAttackTime;
-
-        return timeSinceLastAttack >=
+        return Date.now() - this.lastAttackTime >=
             GAME_CONFIG.endbossAttackCooldown;
     }
 
-    /** Starts one attack and turns the boss towards Sharky. */
+    /** Starts one boss attack. */
     startAttack(player) {
         this.facePlayer(player);
         this.isAttacking = true;
@@ -210,7 +187,7 @@ class Endboss extends Enemy {
         );
     }
 
-    /** Advances the attack and returns to Floating afterwards. */
+    /** Updates the active attack animation. */
     updateAttack() {
         this.playAnimation(
             'attack',
@@ -224,13 +201,14 @@ class Endboss extends Enemy {
         }
     }
 
-    /** Faces Sharky before an attack starts. */
+    /** Turns the boss towards Sharky. */
     facePlayer(player) {
-        this.direction =
-            player.x < this.x ? -1 : 1;
+        this.direction = player.x < this.x
+            ? -1
+            : 1;
     }
 
-    /** Keeps Hurt active long enough to show every frame. */
+    /** Keeps the hurt animation active until it ends. */
     shouldPlayHurtAnimation() {
         const unfinishedHurt =
             this.currentAnimation === 'hurt' &&
@@ -239,15 +217,18 @@ class Endboss extends Enemy {
         return this.isHurt() || unfinishedHurt;
     }
 
+    /** Prevents bubble traps from trapping the boss. */
     canBeTrapped() {
         return false;
     }
 
+    /** Prevents damage during the introduction. */
     canDealContactDamage() {
         return !this.isIntroducing &&
             super.canDealContactDamage();
     }
 
+    /** Resets all boss-specific values. */
     reset() {
         super.reset();
 
@@ -259,6 +240,7 @@ class Endboss extends Enemy {
         this.playAnimation('floating', 125);
     }
 
+    /** Draws the boss and active status indicators. */
     draw(context) {
         if (
             this.isDefeated &&
@@ -270,11 +252,11 @@ class Endboss extends Enemy {
         this.drawEndboss(context);
 
         if (!this.isDefeated) {
-            this.drawHealthBar(context);
             this.drawStatusIndicators(context);
         }
     }
 
+    /** Draws the boss image or its fallback. */
     drawEndboss(context) {
         if (this.isImageReady()) {
             this.drawEnemyImage(context);
@@ -284,15 +266,16 @@ class Endboss extends Enemy {
         this.drawFallbackEndboss(context);
     }
 
+    /** Draws the complete boss fallback. */
     drawFallbackEndboss(context) {
         this.drawBody(context);
         this.drawFace(context);
         this.drawFins(context);
     }
 
+    /** Draws the fallback body. */
     drawBody(context) {
         context.fillStyle = this.fallbackColor;
-
         context.fillRect(
             this.x,
             this.y,
@@ -301,10 +284,10 @@ class Endboss extends Enemy {
         );
     }
 
+    /** Draws the fallback face. */
     drawFace(context) {
         context.fillStyle = this.eyeColor;
         context.beginPath();
-
         context.arc(
             this.x + 105,
             this.y + 34,
@@ -312,87 +295,51 @@ class Endboss extends Enemy {
             0,
             Math.PI * 2
         );
-
         context.fill();
     }
 
+    /** Draws the fallback fins. */
     drawFins(context) {
         context.fillStyle = this.fallbackColor;
         this.drawTopFin(context);
         this.drawTailFin(context);
     }
 
+    /** Draws the fallback top fin. */
     drawTopFin(context) {
         context.beginPath();
-
         context.moveTo(
             this.x + 60,
             this.y
         );
-
         context.lineTo(
             this.x + 92,
             this.y - 36
         );
-
         context.lineTo(
             this.x + 108,
             this.y
         );
-
         context.closePath();
         context.fill();
     }
 
+    /** Draws the fallback tail fin. */
     drawTailFin(context) {
         context.beginPath();
-
         context.moveTo(
             this.x,
             this.y + 60
         );
-
         context.lineTo(
             this.x - 40,
             this.y + 24
         );
-
         context.lineTo(
             this.x - 40,
             this.y + 96
         );
-
         context.closePath();
         context.fill();
-    }
-
-    drawHealthBar(context) {
-        context.fillStyle = '#1c0c24';
-
-        context.fillRect(
-            this.x,
-            this.y - 18,
-            this.width,
-            8
-        );
-
-        this.drawHealthBarValue(context);
-    }
-
-    drawHealthBarValue(context) {
-        const healthPercentage =
-            this.health / this.maxHealth;
-
-        const currentWidth =
-            this.width * healthPercentage;
-
-        context.fillStyle = '#ffeb5c';
-
-        context.fillRect(
-            this.x,
-            this.y - 18,
-            currentWidth,
-            8
-        );
     }
 }
