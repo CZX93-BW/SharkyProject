@@ -5,20 +5,27 @@ class Level {
         this.number = levelData.number;
         this.width = levelData.width;
         this.height = levelData.height;
+
         this.backgroundObjects =
             levelData.backgroundObjects || [];
+
         this.barrierObjects =
             levelData.barrierObjects || [];
+
         this.solidAreas =
             this.createSolidAreas(
                 levelData.solidAreas || []
             );
+
         this.enemies =
             levelData.enemies || [];
+
         this.collectibles =
             levelData.collectibles || [];
+
         this.endboss =
             levelData.endboss || null;
+
         this.finishObject =
             levelData.finishObject || null;
     }
@@ -44,7 +51,6 @@ class Level {
         this.updateEndboss(player);
     }
 
-    /** Updates enemies with all solid areas. */
     updateEnemies() {
         this.enemies.forEach((enemy) => {
             enemy.update(this.solidAreas);
@@ -126,10 +132,20 @@ class Level {
             !this.endboss.isDefeated;
     }
 
+    /** Checks goal collision after boss defeat. */
     isLevelComplete(player) {
-        return this.finishObject &&
+        return this.isFinishUnlocked() &&
             this.finishObject
                 .isReachedBy(player);
+    }
+
+    /** Returns whether the finish may be used. */
+    isFinishUnlocked() {
+        return Boolean(this.finishObject) &&
+            (
+                !this.endboss ||
+                this.endboss.isDefeated
+            );
     }
 
     getBounds() {
