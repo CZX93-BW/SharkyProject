@@ -5,24 +5,30 @@ class Enemy extends AnimatedDrawableObject {
         super(
             config.x,
             config.y,
-            config.width || GAME_CONFIG.enemyWidth,
-            config.height || GAME_CONFIG.enemyHeight
+            config.width ||
+                GAME_CONFIG.enemyWidth,
+            config.height ||
+                GAME_CONFIG.enemyHeight
         );
 
         this.startX = this.x;
         this.startY = this.y;
-        this.type = config.type || 'pufferFish';
+        this.type =
+            config.type || 'pufferFish';
         this.speed =
-            config.speed || GAME_CONFIG.enemySpeed;
+            config.speed ||
+            GAME_CONFIG.enemySpeed;
         this.range =
-            config.range || GAME_CONFIG.enemyPatrolRange;
+            config.range ||
+            GAME_CONFIG.enemyPatrolRange;
         this.axis =
             config.axis || 'horizontal';
         this.damage =
             config.damage ||
             GAME_CONFIG.playerDamageFromEnemy;
         this.maxHealth =
-            config.health || GAME_CONFIG.enemyHealth;
+            config.health ||
+            GAME_CONFIG.enemyHealth;
         this.health = this.maxHealth;
         this.isDefeated = false;
         this.lastDamageTime = 0;
@@ -34,7 +40,8 @@ class Enemy extends AnimatedDrawableObject {
         this.fallbackColor =
             config.fallbackColor ||
             GAME_CONFIG.enemyFallbackColor;
-        this.eyeColor = GAME_CONFIG.enemyEyeColor;
+        this.eyeColor =
+            GAME_CONFIG.enemyEyeColor;
         this.patrolDirection = 1;
 
         this.prepareAnimations();
@@ -47,43 +54,41 @@ class Enemy extends AnimatedDrawableObject {
         this.playAnimation('swim', 130);
     }
 
-    /** Registers animations belonging to the enemy type. */
+    /** Registers animations for the enemy type. */
     prepareAnimations() {
-        const enemyAssets = this.getEnemyAssets();
+        const enemyAssets =
+            this.getEnemyAssets();
 
         this.addAnimation(
             'swim',
             enemyAssets.swim
         );
-
         this.addAnimation(
             'dead',
             enemyAssets.dead
         );
     }
 
-    /** Returns configured assets or the Pufferfish fallback. */
+    /** Returns the configured enemy assets. */
     getEnemyAssets() {
         return ASSET_CONFIG.enemies[this.type] ||
             ASSET_CONFIG.enemies.pufferFish;
     }
 
-    /** Returns the first frame used before animation begins. */
+    /** Returns the initial enemy image. */
     getDefaultImagePath() {
-        const enemyAssets = this.getEnemyAssets();
-
-        return enemyAssets.swim[0] ||
+        return this.getEnemyAssets().swim[0] ||
             ASSET_CONFIG.enemies.default;
     }
 
-    update() {
+    /** Updates animation, effects and movement. */
+    update(solidAreas = []) {
         if (this.isDefeated) {
             this.playAnimation(
                 'dead',
                 140,
                 false
             );
-
             return;
         }
 
@@ -94,9 +99,64 @@ class Enemy extends AnimatedDrawableObject {
             return;
         }
 
-        this.updatePatrol();
+        this.updatePatrolWithSolidAreas(
+            solidAreas
+        );
     }
 
+    /** Moves the enemy and checks solid areas. */
+    updatePatrolWithSolidAreas(solidAreas) {
+        const previousPosition = {
+            x: this.x,
+            y: this.y
+        };
+
+        this.updatePatrol();
+
+        if (
+            this.isTouchingSolidArea(
+                solidAreas
+            )
+        ) {
+            this.restorePosition(
+                previousPosition
+            );
+            this.reversePatrolDirection();
+        }
+    }
+
+    /** Checks whether the enemy overlaps an area. */
+    isTouchingSolidArea(solidAreas) {
+        return solidAreas.some(
+            (solidArea) => {
+                return this.x + this.width >
+                    solidArea.x &&
+                    this.x <
+                    solidArea.x +
+                    solidArea.width &&
+                    this.y + this.height >
+                    solidArea.y &&
+                    this.y <
+                    solidArea.y +
+                    solidArea.height;
+            }
+        );
+    }
+
+    /** Restores the position before a collision. */
+    restorePosition(previousPosition) {
+        this.x = previousPosition.x;
+        this.y = previousPosition.y;
+    }
+
+    /** Reverses the current patrol direction. */
+    reversePatrolDirection() {
+        this.patrolDirection *= -1;
+        this.direction =
+            this.patrolDirection;
+    }
+
+    /** Updates horizontal or vertical patrol. */
     updatePatrol() {
         if (this.axis === 'vertical') {
             this.updateVerticalPatrol();
@@ -106,47 +166,49 @@ class Enemy extends AnimatedDrawableObject {
         this.updateHorizontalPatrol();
     }
 
+    /** Updates horizontal patrol movement. */
     updateHorizontalPatrol() {
         this.x +=
-            this.speed * this.patrolDirection;
+            this.speed *
+            this.patrolDirection;
 
         this.changeDirectionAtHorizontalBounds();
-        this.direction = this.patrolDirection;
+        this.direction =
+            this.patrolDirection;
     }
 
+    /** Updates vertical patrol movement. */
     updateVerticalPatrol() {
         this.y +=
-            this.speed * this.patrolDirection;
+            this.speed *
+            this.patrolDirection;
 
         this.changeDirectionAtVerticalBounds();
     }
 
+    /** Reverses at horizontal patrol limits. */
     changeDirectionAtHorizontalBounds() {
-        const leftBoundary = this.startX;
-        const rightBoundary =
-            this.startX + this.range;
-
         if (
-            this.x <= leftBoundary ||
-            this.x >= rightBoundary
+            this.x <= this.startX ||
+            this.x >=
+                this.startX + this.range
         ) {
             this.patrolDirection *= -1;
         }
     }
 
+    /** Reverses at vertical patrol limits. */
     changeDirectionAtVerticalBounds() {
-        const upperBoundary = this.startY;
-        const lowerBoundary =
-            this.startY + this.range;
-
         if (
-            this.y <= upperBoundary ||
-            this.y >= lowerBoundary
+            this.y <= this.startY ||
+            this.y >=
+                this.startY + this.range
         ) {
             this.patrolDirection *= -1;
         }
     }
 
+    /** Applies immediate damage. */
     takeDamage(damage) {
         if (this.isDefeated) {
             return;
@@ -156,13 +218,17 @@ class Enemy extends AnimatedDrawableObject {
             0,
             this.health - damage
         );
-
         this.lastDamageTime = Date.now();
+
         this.updateDefeatedState();
     }
 
+    /** Starts the death state at zero health. */
     updateDefeatedState() {
-        if (this.health > 0 || this.isDefeated) {
+        if (
+            this.health > 0 ||
+            this.isDefeated
+        ) {
             return;
         }
 
@@ -176,6 +242,7 @@ class Enemy extends AnimatedDrawableObject {
         );
     }
 
+    /** Applies poison damage over time. */
     applyPoison(
         damagePerTick,
         duration,
@@ -185,14 +252,17 @@ class Enemy extends AnimatedDrawableObject {
             return;
         }
 
-        this.poisonDamagePerTick = damagePerTick;
+        this.poisonDamagePerTick =
+            damagePerTick;
         this.poisonEndTime =
             Date.now() + duration;
-        this.poisonTickInterval = tickInterval;
+        this.poisonTickInterval =
+            tickInterval;
         this.nextPoisonTickTime =
             Date.now() + tickInterval;
     }
 
+    /** Updates the poison effect. */
     updatePoisonStatus() {
         if (!this.isPoisoned()) {
             this.clearExpiredPoison();
@@ -202,34 +272,42 @@ class Enemy extends AnimatedDrawableObject {
         this.applyPoisonTickIfNeeded();
     }
 
+    /** Applies an elapsed poison tick. */
     applyPoisonTickIfNeeded() {
-        if (Date.now() < this.nextPoisonTickTime) {
-            return;
+        if (
+            Date.now() >=
+            this.nextPoisonTickTime
+        ) {
+            this.takeDamage(
+                this.poisonDamagePerTick
+            );
+
+            this.nextPoisonTickTime =
+                Date.now() +
+                this.poisonTickInterval;
         }
-
-        this.takeDamage(
-            this.poisonDamagePerTick
-        );
-
-        this.nextPoisonTickTime =
-            Date.now() + this.poisonTickInterval;
     }
 
+    /** Returns whether poison is active. */
     isPoisoned() {
-        return Date.now() < this.poisonEndTime &&
+        return Date.now() <
+            this.poisonEndTime &&
             this.poisonDamagePerTick > 0;
     }
 
+    /** Removes the poison effect. */
     clearExpiredPoison() {
         this.poisonDamagePerTick = 0;
     }
 
-    /** Returns whether the damage feedback is active. */
+    /** Returns whether hurt feedback is active. */
     isHurt() {
-        return Date.now() - this.lastDamageTime <
+        return Date.now() -
+            this.lastDamageTime <
             GAME_CONFIG.enemyHurtDuration;
     }
 
+    /** Traps the enemy temporarily. */
     trap(duration) {
         if (this.canBeTrapped()) {
             this.trappedUntil =
@@ -237,19 +315,24 @@ class Enemy extends AnimatedDrawableObject {
         }
     }
 
+    /** Returns whether the enemy can be trapped. */
     canBeTrapped() {
         return !this.isDefeated;
     }
 
+    /** Returns whether the enemy is trapped. */
     isTrapped() {
-        return Date.now() < this.trappedUntil;
+        return Date.now() <
+            this.trappedUntil;
     }
 
+    /** Returns whether contact causes damage. */
     canDealContactDamage() {
         return !this.isDefeated &&
             !this.isTrapped();
     }
 
+    /** Resets the complete enemy state. */
     reset() {
         this.x = this.startX;
         this.y = this.startY;
@@ -263,6 +346,7 @@ class Enemy extends AnimatedDrawableObject {
         this.playAnimation('swim', 130);
     }
 
+    /** Draws the enemy while its death is active. */
     draw(context) {
         if (
             this.isDefeated &&
@@ -278,6 +362,7 @@ class Enemy extends AnimatedDrawableObject {
         }
     }
 
+    /** Draws the image or fallback enemy. */
     drawEnemy(context) {
         if (this.isImageReady()) {
             this.drawEnemyImage(context);
@@ -288,15 +373,19 @@ class Enemy extends AnimatedDrawableObject {
         this.drawFallbackDetails(context);
     }
 
+    /** Draws the enemy with its direction. */
     drawEnemyImage(context) {
         if (this.direction === -1) {
-            this.drawMirroredEnemyImage(context);
+            this.drawMirroredEnemyImage(
+                context
+            );
             return;
         }
 
         this.drawImage(context);
     }
 
+    /** Draws a horizontally mirrored enemy. */
     drawMirroredEnemyImage(context) {
         context.save();
         context.scale(-1, 1);
@@ -312,11 +401,13 @@ class Enemy extends AnimatedDrawableObject {
         context.restore();
     }
 
+    /** Draws fallback enemy details. */
     drawFallbackDetails(context) {
         this.drawEnemyEye(context);
         this.drawEnemyTentacles(context);
     }
 
+    /** Draws the fallback eye. */
     drawEnemyEye(context) {
         context.fillStyle = this.eyeColor;
         context.beginPath();
@@ -332,8 +423,10 @@ class Enemy extends AnimatedDrawableObject {
         context.fill();
     }
 
+    /** Draws fallback tentacles. */
     drawEnemyTentacles(context) {
-        context.strokeStyle = this.fallbackColor;
+        context.strokeStyle =
+            this.fallbackColor;
         context.lineWidth = 4;
 
         this.drawTentacle(context, 14);
@@ -341,6 +434,7 @@ class Enemy extends AnimatedDrawableObject {
         this.drawTentacle(context, 44);
     }
 
+    /** Draws one fallback tentacle. */
     drawTentacle(context, offsetX) {
         context.beginPath();
 
@@ -357,13 +451,14 @@ class Enemy extends AnimatedDrawableObject {
         context.stroke();
     }
 
+    /** Draws active effect indicators. */
     drawStatusIndicators(context) {
         this.drawHurtIndicator(context);
         this.drawTrapIndicator(context);
         this.drawPoisonIndicator(context);
     }
 
-    /** Draws short visual feedback after receiving damage. */
+    /** Draws hurt feedback. */
     drawHurtIndicator(context) {
         if (!this.isHurt()) {
             return;
@@ -380,6 +475,7 @@ class Enemy extends AnimatedDrawableObject {
         );
     }
 
+    /** Draws the trap indicator. */
     drawTrapIndicator(context) {
         if (!this.isTrapped()) {
             return;
@@ -397,6 +493,7 @@ class Enemy extends AnimatedDrawableObject {
         );
     }
 
+    /** Draws the poison indicator. */
     drawPoisonIndicator(context) {
         if (!this.isPoisoned()) {
             return;

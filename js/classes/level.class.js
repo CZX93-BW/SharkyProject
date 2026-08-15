@@ -9,23 +9,28 @@ class Level {
             levelData.backgroundObjects || [];
         this.barrierObjects =
             levelData.barrierObjects || [];
-        this.solidAreas = this.createSolidAreas(
-            levelData.solidAreas || []
-        );
-        this.enemies = levelData.enemies || [];
+        this.solidAreas =
+            this.createSolidAreas(
+                levelData.solidAreas || []
+            );
+        this.enemies =
+            levelData.enemies || [];
         this.collectibles =
             levelData.collectibles || [];
-        this.endboss = levelData.endboss || null;
+        this.endboss =
+            levelData.endboss || null;
         this.finishObject =
             levelData.finishObject || null;
     }
 
-    /** Combines base areas with barrier collisions. */
     createSolidAreas(baseSolidAreas) {
         const barrierAreas =
-            this.barrierObjects.map((barrier) => {
-                return barrier.getSolidArea();
-            });
+            this.barrierObjects.map(
+                (barrier) => {
+                    return barrier
+                        .getSolidArea();
+                }
+            );
 
         return [
             ...baseSolidAreas,
@@ -39,9 +44,10 @@ class Level {
         this.updateEndboss(player);
     }
 
+    /** Updates enemies with all solid areas. */
     updateEnemies() {
         this.enemies.forEach((enemy) => {
-            enemy.update();
+            enemy.update(this.solidAreas);
         });
     }
 
@@ -96,17 +102,17 @@ class Level {
     getDangerObjects() {
         return this.getAttackTargets().filter(
             (enemy) => {
-                return enemy.canDealContactDamage();
+                return enemy
+                    .canDealContactDamage();
             }
         );
     }
 
     getAttackTargets() {
-        const targets = this.enemies.filter(
-            (enemy) => {
+        const targets =
+            this.enemies.filter((enemy) => {
                 return !enemy.isDefeated;
-            }
-        );
+            });
 
         if (this.hasActiveEndboss()) {
             targets.push(this.endboss);
@@ -122,7 +128,8 @@ class Level {
 
     isLevelComplete(player) {
         return this.finishObject &&
-            this.finishObject.isReachedBy(player);
+            this.finishObject
+                .isReachedBy(player);
     }
 
     getBounds() {
