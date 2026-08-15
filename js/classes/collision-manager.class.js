@@ -5,7 +5,6 @@ class CollisionManager {
         this.audioManager = audioManager;
     }
 
-    /** Resolves collisions with every solid level area. */
     resolvePlayerSolidAreaCollisions(
         player,
         solidAreas,
@@ -27,7 +26,6 @@ class CollisionManager {
         });
     }
 
-    /** Moves the player back to the collision edge. */
     resolveSolidAreaCollision(
         player,
         solidArea,
@@ -78,8 +76,10 @@ class CollisionManager {
         );
     }
 
-    /** Returns the player's sides before movement. */
-    getPreviousSides(player, previousPosition) {
+    getPreviousSides(
+        player,
+        previousPosition
+    ) {
         return {
             left: previousPosition.x,
             right:
@@ -92,31 +92,41 @@ class CollisionManager {
         };
     }
 
-    /** Places the player above an area. */
-    movePlayerAboveArea(player, solidArea) {
+    movePlayerAboveArea(
+        player,
+        solidArea
+    ) {
         player.y =
             solidArea.y - player.height;
         player.velocityY = 0;
     }
 
-    /** Places the player below an area. */
-    movePlayerBelowArea(player, solidArea) {
+    movePlayerBelowArea(
+        player,
+        solidArea
+    ) {
         player.y =
-            solidArea.y + solidArea.height;
+            solidArea.y +
+            solidArea.height;
         player.velocityY = 0;
     }
 
-    /** Places the player left of an area. */
-    movePlayerLeftOfArea(player, solidArea) {
+    movePlayerLeftOfArea(
+        player,
+        solidArea
+    ) {
         player.x =
             solidArea.x - player.width;
         player.velocityX = 0;
     }
 
-    /** Places the player right of an area. */
-    movePlayerRightOfArea(player, solidArea) {
+    movePlayerRightOfArea(
+        player,
+        solidArea
+    ) {
         player.x =
-            solidArea.x + solidArea.width;
+            solidArea.x +
+            solidArea.width;
         player.velocityX = 0;
     }
 
@@ -145,12 +155,21 @@ class CollisionManager {
             return;
         }
 
-        this.applyEnemyDamage(player, enemy);
+        this.applyEnemyDamage(
+            player,
+            enemy
+        );
     }
 
-    canEnemyDamagePlayer(player, enemy) {
+    canEnemyDamagePlayer(
+        player,
+        enemy
+    ) {
         return enemy.canDealContactDamage() &&
-            this.isOverlapping(player, enemy);
+            this.isOverlapping(
+                player,
+                enemy
+            );
     }
 
     applyEnemyDamage(player, enemy) {
@@ -265,14 +284,54 @@ class CollisionManager {
             level.getAttackTargets();
 
         attacks.forEach((attack) => {
-            this.checkAttackTargets(
+            this.checkAttackSolidAreaCollisions(
                 attack,
-                targets
+                level.solidAreas
             );
+
+            if (!attack.isExpired) {
+                this.checkAttackTargets(
+                    attack,
+                    targets
+                );
+            }
         });
     }
 
-    checkAttackTargets(attack, targets) {
+    /** Stops projectiles when they hit solid areas. */
+    checkAttackSolidAreaCollisions(
+        attack,
+        solidAreas
+    ) {
+        if (!this.isProjectileAttack(attack)) {
+            return;
+        }
+
+        const hitsSolidArea =
+            solidAreas.some((solidArea) => {
+                return this.isOverlapping(
+                    attack,
+                    solidArea
+                );
+            });
+
+        if (hitsSolidArea) {
+            attack.expire();
+        }
+    }
+
+    /** Returns whether the attack is a projectile. */
+    isProjectileAttack(attack) {
+        return attack.type ===
+            'poisonShot' ||
+            attack.type ===
+            'bubbleTrap';
+    }
+
+    checkAttackTargets(
+        attack,
+        targets
+    ) {
         targets.forEach((target) => {
             this.checkAttackTarget(
                 attack,
@@ -281,7 +340,10 @@ class CollisionManager {
         });
     }
 
-    checkAttackTarget(attack, target) {
+    checkAttackTarget(
+        attack,
+        target
+    ) {
         if (
             !this.canAttackHitTarget(
                 attack,
@@ -291,16 +353,28 @@ class CollisionManager {
             return;
         }
 
-        this.applyAttackHit(attack, target);
+        this.applyAttackHit(
+            attack,
+            target
+        );
     }
 
-    canAttackHitTarget(attack, target) {
+    canAttackHitTarget(
+        attack,
+        target
+    ) {
         return !attack.hasHit(target) &&
             !target.isDefeated &&
-            this.isOverlapping(attack, target);
+            this.isOverlapping(
+                attack,
+                target
+            );
     }
 
-    applyAttackHit(attack, target) {
+    applyAttackHit(
+        attack,
+        target
+    ) {
         if (attack.type === 'finSlap') {
             this.applyFinSlapHit(
                 attack,
@@ -308,14 +382,18 @@ class CollisionManager {
             );
         }
 
-        if (attack.type === 'poisonShot') {
+        if (
+            attack.type === 'poisonShot'
+        ) {
             this.applyPoisonShotHit(
                 attack,
                 target
             );
         }
 
-        if (attack.type === 'bubbleTrap') {
+        if (
+            attack.type === 'bubbleTrap'
+        ) {
             this.applyBubbleTrapHit(
                 attack,
                 target
@@ -323,12 +401,18 @@ class CollisionManager {
         }
     }
 
-    applyFinSlapHit(attack, target) {
+    applyFinSlapHit(
+        attack,
+        target
+    ) {
         target.takeDamage(attack.damage);
         attack.registerHit(target);
     }
 
-    applyPoisonShotHit(attack, target) {
+    applyPoisonShotHit(
+        attack,
+        target
+    ) {
         target.takeDamage(attack.damage);
 
         target.applyPoison(
@@ -341,7 +425,10 @@ class CollisionManager {
         attack.expire();
     }
 
-    applyBubbleTrapHit(attack, target) {
+    applyBubbleTrapHit(
+        attack,
+        target
+    ) {
         if (target.canBeTrapped()) {
             target.trap(
                 attack.trapDuration
@@ -360,7 +447,6 @@ class CollisionManager {
         }
     }
 
-    /** Checks overlap for class instances and plain areas. */
     isOverlapping(
         firstObject,
         secondObject
