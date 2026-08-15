@@ -28,6 +28,8 @@ class Level {
 
         this.finishObject =
             levelData.finishObject || null;
+
+        this.updateFinishState();
     }
 
     createSolidAreas(baseSolidAreas) {
@@ -49,6 +51,7 @@ class Level {
         this.updateEnemies();
         this.updateCollectibles();
         this.updateEndboss(player);
+        this.updateFinishState();
     }
 
     updateEnemies() {
@@ -75,6 +78,7 @@ class Level {
         this.resetEnemies();
         this.resetCollectibles();
         this.resetEndboss();
+        this.updateFinishState();
     }
 
     resetEnemies() {
@@ -132,20 +136,32 @@ class Level {
             !this.endboss.isDefeated;
     }
 
-    /** Checks goal collision after boss defeat. */
+    /** Checks the active finish collision. */
     isLevelComplete(player) {
         return this.isFinishUnlocked() &&
             this.finishObject
                 .isReachedBy(player);
     }
 
-    /** Returns whether the finish may be used. */
+    /** Returns the current finish state. */
     isFinishUnlocked() {
         return Boolean(this.finishObject) &&
-            (
-                !this.endboss ||
-                this.endboss.isDefeated
-            );
+            this.finishObject.isUnlocked;
+    }
+
+    /** Synchronizes finish and boss states. */
+    updateFinishState() {
+        if (!this.finishObject) {
+            return;
+        }
+
+        const isUnlocked =
+            !this.endboss ||
+            this.endboss.isDefeated;
+
+        this.finishObject.setUnlocked(
+            isUnlocked
+        );
     }
 
     getBounds() {
