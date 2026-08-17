@@ -7,20 +7,13 @@ function createLevelTwo() {
         number: 2,
         width: GAME_CONFIG.levelTwoWidth,
         height: GAME_CONFIG.levelHeight,
-        backgroundObjects:
-            createLevelTwoBackgrounds(),
-        barrierObjects:
-            createLevelTwoBarriers(),
-        solidAreas:
-            createLevelTwoSolidAreas(),
-        enemies:
-            createLevelTwoEnemies(),
-        collectibles:
-            createLevelTwoCollectibles(),
-        endboss:
-            createLevelTwoEndboss(),
-        finishObject:
-            createLevelTwoFinishObject()
+        backgroundObjects: createLevelTwoBackgrounds(),
+        barrierObjects: createLevelTwoBarriers(),
+        solidAreas: createLevelTwoSolidAreas(),
+        enemies: createLevelTwoEnemies(),
+        collectibles: createLevelTwoCollectibles(),
+        endboss: createLevelTwoEndboss(),
+        finishObject: createLevelTwoFinishObject()
     });
 }
 
@@ -38,8 +31,7 @@ function createLevelTwoFloorBarrier() {
         width: 340,
         height: 150,
         imagePath:
-            ASSET_CONFIG.levelObjects
-                .barriers.floorRock,
+            ASSET_CONFIG.levelObjects.barriers.floorRock,
         collisionInset: {
             left: 22,
             right: 22,
@@ -55,8 +47,7 @@ function createLevelTwoVerticalBarrier() {
         width: 110,
         height: 300,
         imagePath:
-            ASSET_CONFIG.levelObjects
-                .barriers.verticalRock,
+            ASSET_CONFIG.levelObjects.barriers.verticalRock,
         collisionInset: {
             left: 16,
             right: 16,
@@ -159,11 +150,8 @@ function createLevelTwoSolidAreas() {
     return [
         {
             x: 0,
-            y:
-                GAME_CONFIG.levelHeight -
-                130,
-            width:
-                GAME_CONFIG.levelTwoWidth,
+            y: GAME_CONFIG.levelHeight - 130,
+            width: GAME_CONFIG.levelTwoWidth,
             height: 130
         }
     ];
@@ -175,7 +163,7 @@ function createLevelTwoEnemies() {
             620,
             250,
             'vertical',
-            'jellyFish'
+            'jellyFishYellow'
         ),
         createLevelTwoEnemy(
             1160,
@@ -183,12 +171,7 @@ function createLevelTwoEnemies() {
             'horizontal',
             'pufferFish'
         ),
-        createLevelTwoEnemy(
-            1740,
-            220,
-            'vertical',
-            'jellyFish'
-        ),
+        createLevelTwoDangerousJellyFish(),
         createLevelTwoEnemy(
             2180,
             360,
@@ -198,11 +181,28 @@ function createLevelTwoEnemies() {
     ];
 }
 
+function createLevelTwoDangerousJellyFish() {
+    return createLevelTwoEnemy(
+        1740,
+        220,
+        'vertical',
+        'jellyFishPink',
+        {
+            damage: 30,
+            health: 70,
+            speed:
+                GAME_CONFIG.enemySpeed +
+                0.7
+        }
+    );
+}
+
 function createLevelTwoEnemy(
     x,
     y,
     axis,
-    type
+    type,
+    options = {}
 ) {
     const size =
         getLevelTwoEnemySize(type);
@@ -218,13 +218,16 @@ function createLevelTwoEnemy(
             GAME_CONFIG.enemyPatrolRange +
             40,
         speed:
+            options.speed ||
             GAME_CONFIG.enemySpeed +
-            0.25
+            0.25,
+        damage: options.damage,
+        health: options.health
     });
 }
 
 function getLevelTwoEnemySize(type) {
-    if (type === 'jellyFish') {
+    if (type.startsWith('jellyFish')) {
         return {
             width: 58,
             height: 84
@@ -246,18 +249,9 @@ function createLevelTwoCollectibles() {
         createLevelTwoCoin(1340, 260),
         createLevelTwoCoin(1880, 210),
         createLevelTwoCoin(2380, 340),
-        createLevelTwoPoisonBottle(
-            1040,
-            220
-        ),
-        createLevelTwoPoisonBottle(
-            2040,
-            280
-        ),
-        createLevelTwoPoisonBottle(
-            2520,
-            250
-        )
+        createLevelTwoPoisonBottle(1040, 220),
+        createLevelTwoPoisonBottle(2040, 280),
+        createLevelTwoPoisonBottle(2520, 250)
     ];
 }
 
@@ -304,14 +298,11 @@ function createLevelTwoPoisonBottle(x, y) {
 
 function createLevelTwoEndboss() {
     return new Endboss({
-        x:
-            GAME_CONFIG.levelTwoWidth -
-            500,
+        x: GAME_CONFIG.levelTwoWidth - 500,
         y: 230,
         axis: 'vertical',
         range:
-            GAME_CONFIG
-                .endbossPatrolRange +
+            GAME_CONFIG.endbossPatrolRange +
             70,
         speed:
             GAME_CONFIG.endbossSpeed +

@@ -9,20 +9,13 @@ function createLevelOne() {
         number: 1,
         width: GAME_CONFIG.levelOneWidth,
         height: GAME_CONFIG.levelHeight,
-        backgroundObjects:
-            createLevelOneBackgrounds(),
-        barrierObjects:
-            createLevelOneBarriers(),
-        solidAreas:
-            createLevelOneSolidAreas(),
-        enemies:
-            createLevelOneEnemies(),
-        collectibles:
-            createLevelOneCollectibles(),
-        endboss:
-            createLevelOneEndboss(),
-        finishObject:
-            createLevelOneFinishObject()
+        backgroundObjects: createLevelOneBackgrounds(),
+        barrierObjects: createLevelOneBarriers(),
+        solidAreas: createLevelOneSolidAreas(),
+        enemies: createLevelOneEnemies(),
+        collectibles: createLevelOneCollectibles(),
+        endboss: createLevelOneEndboss(),
+        finishObject: createLevelOneFinishObject()
     });
 }
 
@@ -40,8 +33,7 @@ function createLevelOneFloorBarrier() {
         width: 280,
         height: 130,
         imagePath:
-            ASSET_CONFIG.levelObjects
-                .barriers.floorRock,
+            ASSET_CONFIG.levelObjects.barriers.floorRock,
         collisionInset: {
             left: 18,
             right: 18,
@@ -57,8 +49,7 @@ function createLevelOneVerticalBarrier() {
         width: 100,
         height: 270,
         imagePath:
-            ASSET_CONFIG.levelObjects
-                .barriers.verticalRock,
+            ASSET_CONFIG.levelObjects.barriers.verticalRock,
         collisionInset: {
             left: 15,
             right: 15,
@@ -161,11 +152,8 @@ function createLevelOneSolidAreas() {
     return [
         {
             x: 0,
-            y:
-                GAME_CONFIG.levelHeight -
-                120,
-            width:
-                GAME_CONFIG.levelOneWidth,
+            y: GAME_CONFIG.levelHeight - 120,
+            width: GAME_CONFIG.levelOneWidth,
             height: 120
         }
     ];
@@ -195,7 +183,7 @@ function createLevelOneEnemies() {
             1700,
             310,
             'vertical',
-            'jellyFish'
+            'jellyFishYellow'
         )
     ];
 }
@@ -222,7 +210,7 @@ function createLevelOneEnemy(
 }
 
 function getLevelOneEnemySize(type) {
-    if (type === 'jellyFish') {
+    if (type.startsWith('jellyFish')) {
         return {
             width: 54,
             height: 78
@@ -242,14 +230,8 @@ function createLevelOneCollectibles() {
         createLevelOneCoin(1040, 230),
         createLevelOneCoin(1460, 310),
         createLevelOneCoin(1900, 230),
-        createLevelOnePoisonBottle(
-            780,
-            210
-        ),
-        createLevelOnePoisonBottle(
-            1580,
-            260
-        )
+        createLevelOnePoisonBottle(780, 210),
+        createLevelOnePoisonBottle(1580, 260)
     ];
 }
 
@@ -296,9 +278,7 @@ function createLevelOnePoisonBottle(x, y) {
 
 function createLevelOneEndboss() {
     return new Endboss({
-        x:
-            GAME_CONFIG.levelOneWidth -
-            420,
+        x: GAME_CONFIG.levelOneWidth - 420,
         y: 250,
         axis: 'vertical'
     });
