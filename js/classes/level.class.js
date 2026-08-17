@@ -131,25 +131,24 @@ class Level {
         return targets;
     }
 
+    /** Checks whether the boss is attackable. */
     hasActiveEndboss() {
         return this.endboss &&
+            this.endboss.hasBeenIntroduced &&
             !this.endboss.isDefeated;
     }
 
-    /** Checks the active finish collision. */
     isLevelComplete(player) {
         return this.isFinishUnlocked() &&
             this.finishObject
                 .isReachedBy(player);
     }
 
-    /** Returns the current finish state. */
     isFinishUnlocked() {
         return Boolean(this.finishObject) &&
             this.finishObject.isUnlocked;
     }
 
-    /** Synchronizes finish and boss states. */
     updateFinishState() {
         if (!this.finishObject) {
             return;
