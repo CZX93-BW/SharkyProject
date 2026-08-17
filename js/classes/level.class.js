@@ -135,6 +135,7 @@ class Level {
     hasActiveEndboss() {
         return this.endboss &&
             this.endboss.hasBeenIntroduced &&
+            !this.endboss.isIntroducing &&
             !this.endboss.isDefeated;
     }
 
