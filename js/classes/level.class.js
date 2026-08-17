@@ -48,15 +48,19 @@ class Level {
     }
 
     update(player = null) {
-        this.updateEnemies();
+        this.updateEnemies(player);
         this.updateCollectibles();
         this.updateEndboss(player);
         this.updateFinishState();
     }
 
-    updateEnemies() {
+    /** Passes solid areas and player to enemies. */
+    updateEnemies(player = null) {
         this.enemies.forEach((enemy) => {
-            enemy.update(this.solidAreas);
+            enemy.update(
+                this.solidAreas,
+                player
+            );
         });
     }
 
@@ -131,7 +135,6 @@ class Level {
         return targets;
     }
 
-    /** Checks whether the boss is attackable. */
     hasActiveEndboss() {
         return this.endboss &&
             this.endboss.hasBeenIntroduced &&
