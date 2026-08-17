@@ -26,17 +26,16 @@ const GAME_CONFIG = {
         speedBoost: {
             cost: 2
         },
-
         extraHealth: {
             cost: 3
         },
-
         poisonCapacity: {
             cost: 2
         }
     },
 
     diagonalMovementFactor: 0.7071,
+
     cameraHorizontalFocus: 0.38,
     cameraVerticalFocus: 0.5,
 
@@ -54,6 +53,11 @@ const GAME_CONFIG = {
     enemyHurtDuration: 180,
     enemyFallbackColor: '#ff6fb1',
     enemyEyeColor: '#230013',
+
+    pufferActivationDistance: 210,
+    pufferInflatedDamage: 30,
+    pufferTransitionFrameDuration: 90,
+    pufferSwimFrameDuration: 130,
 
     endbossWidth: 150,
     endbossHeight: 120,
