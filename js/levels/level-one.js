@@ -1,14 +1,17 @@
 'use strict';
 
 const LEVELS = {};
+const LEVEL_ONE_CONFIG = getLevelConfig(1);
 
 LEVELS[1] = createLevelOne();
 
+/** Creates level one from its validated configuration. */
 function createLevelOne() {
     return new Level({
-        number: 1,
-        width: GAME_CONFIG.levelOneWidth,
-        height: GAME_CONFIG.levelHeight,
+        number: LEVEL_ONE_CONFIG.number,
+        config: LEVEL_ONE_CONFIG,
+        width: LEVEL_ONE_CONFIG.world.width,
+        height: LEVEL_ONE_CONFIG.world.height,
         backgroundObjects: createLevelOneBackgrounds(),
         barrierObjects: createLevelOneBarriers(),
         solidAreas: createLevelOneSolidAreas(),
@@ -19,6 +22,7 @@ function createLevelOne() {
     });
 }
 
+/** Creates all solid barrier objects for level one. */
 function createLevelOneBarriers() {
     return [
         createLevelOneFloorBarrier(),
@@ -26,14 +30,14 @@ function createLevelOneBarriers() {
     ];
 }
 
+/** Creates the floor rock barrier. */
 function createLevelOneFloorBarrier() {
     return new BarrierObject({
         x: 650,
         y: 470,
         width: 280,
         height: 130,
-        imagePath:
-            ASSET_CONFIG.levelObjects.barriers.floorRock,
+        imagePath: ASSET_CONFIG.levelObjects.barriers.floorRock,
         collisionInset: {
             left: 18,
             right: 18,
@@ -42,14 +46,14 @@ function createLevelOneFloorBarrier() {
     });
 }
 
+/** Creates the vertical rock barrier. */
 function createLevelOneVerticalBarrier() {
     return new BarrierObject({
         x: 1160,
         y: 190,
         width: 100,
         height: 270,
-        imagePath:
-            ASSET_CONFIG.levelObjects.barriers.verticalRock,
+        imagePath: ASSET_CONFIG.levelObjects.barriers.verticalRock,
         collisionInset: {
             left: 15,
             right: 15,
@@ -59,170 +63,67 @@ function createLevelOneVerticalBarrier() {
     });
 }
 
+/** Creates the five parallax background layers. */
 function createLevelOneBackgrounds() {
     return [
-        createLevelOneFarLayer(),
-        createLevelOneBackLayer(),
-        createLevelOneMiddleLayer(),
-        createLevelOneFrontLayer(),
-        createLevelOneFloorLayer()
+        createLevelOneLayer('far', '#05273d', 0.15, 1),
+        createLevelOneLayer('back', '#06354f', 0.3, 1),
+        createLevelOneLayer('middle', 'rgba(14, 118, 148, 0.42)', 0.55, 1),
+        createLevelOneLayer('front', 'rgba(24, 157, 185, 0.22)', 0.85, 1),
+        createLevelOneLayer('floor', 'rgba(2, 34, 44, 0.75)', 1, 1)
     ];
 }
 
-function createLevelOneFarLayer() {
-    return createLevelOneLayer(
-        'far',
-        0,
-        GAME_CONFIG.levelHeight,
-        '#05273d',
-        0.15,
-        1
-    );
+/** Creates one configured parallax layer. */
+function createLevelOneLayer(layerName, fallbackColor, scrollFactor, opacity) {
+    const world = LEVEL_ONE_CONFIG.world;
+    return new BackgroundObject(0, 0, world.width, world.height, {
+        imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
+        fallbackColor,
+        scrollFactor,
+        opacity
+    });
 }
 
-function createLevelOneBackLayer() {
-    return createLevelOneLayer(
-        'back',
-        0,
-        GAME_CONFIG.levelHeight,
-        '#06354f',
-        0.3,
-        1
-    );
-}
-
-function createLevelOneMiddleLayer() {
-    return createLevelOneLayer(
-        'middle',
-        0,
-        GAME_CONFIG.levelHeight,
-        'rgba(14, 118, 148, 0.42)',
-        0.55,
-        1
-    );
-}
-
-function createLevelOneFrontLayer() {
-    return createLevelOneLayer(
-        'front',
-        0,
-        GAME_CONFIG.levelHeight,
-        'rgba(24, 157, 185, 0.22)',
-        0.85,
-        1
-    );
-}
-
-function createLevelOneFloorLayer() {
-    return createLevelOneLayer(
-        'floor',
-        0,
-        GAME_CONFIG.levelHeight,
-        'rgba(2, 34, 44, 0.75)',
-        1,
-        1
-    );
-}
-
-function createLevelOneLayer(
-    layerName,
-    y,
-    height,
-    fallbackColor,
-    scrollFactor,
-    opacity
-) {
-    return new BackgroundObject(
-        0,
-        y,
-        GAME_CONFIG.levelOneWidth,
-        height,
-        {
-            imagePath:
-                ASSET_CONFIG.backgrounds
-                    .levelOne[layerName],
-            fallbackColor,
-            scrollFactor,
-            opacity
-        }
-    );
-}
-
+/** Creates the level floor collision area. */
 function createLevelOneSolidAreas() {
-    return [
-        {
-            x: 0,
-            y: GAME_CONFIG.levelHeight - 120,
-            width: GAME_CONFIG.levelOneWidth,
-            height: 120
-        }
-    ];
+    const world = LEVEL_ONE_CONFIG.world;
+    return [{
+        x: 0,
+        y: world.height - world.floorHeight,
+        width: world.width,
+        height: world.floorHeight
+    }];
 }
 
+/** Creates temporary fixed enemies until the dynamic spawner replaces them. */
 function createLevelOneEnemies() {
     return [
-        createLevelOneEnemy(
-            500,
-            250,
-            'horizontal',
-            'pufferFish'
-        ),
-        createLevelOneEnemy(
-            900,
-            310,
-            'vertical',
-            'jellyFish'
-        ),
-        createLevelOneEnemy(
-            1320,
-            250,
-            'horizontal',
-            'pufferFish'
-        ),
-        createLevelOneEnemy(
-            1700,
-            310,
-            'vertical',
-            'jellyFishYellow'
-        )
+        createLevelOneEnemy(500, 250, 'horizontal', 'pufferFish'),
+        createLevelOneEnemy(900, 310, 'vertical', 'jellyFish'),
+        createLevelOneEnemy(1320, 250, 'horizontal', 'pufferFish'),
+        createLevelOneEnemy(1700, 310, 'vertical', 'jellyFishYellow')
     ];
 }
 
-function createLevelOneEnemy(
-    x,
-    y,
-    axis,
-    type
-) {
-    const size =
-        getLevelOneEnemySize(type);
-
+/** Creates one enemy with level-specific values. */
+function createLevelOneEnemy(x, y, axis, type) {
+    const config = LEVEL_ONE_CONFIG.enemyTypes[type];
     return new Enemy({
         x,
         y,
         axis,
         type,
-        width: size.width,
-        height: size.height,
-        range:
-            GAME_CONFIG.enemyPatrolRange
+        width: config.width,
+        height: config.height,
+        range: config.patrolRange,
+        speed: config.speed,
+        damage: config.damage,
+        health: config.health
     });
 }
 
-function getLevelOneEnemySize(type) {
-    if (type.startsWith('jellyFish')) {
-        return {
-            width: 54,
-            height: 78
-        };
-    }
-
-    return {
-        width: GAME_CONFIG.enemyWidth,
-        height: GAME_CONFIG.enemyHeight
-    };
-}
-
+/** Creates all collectibles for level one. */
 function createLevelOneCollectibles() {
     return [
         createLevelOneCoin(310, 210),
@@ -235,6 +136,7 @@ function createLevelOneCollectibles() {
     ];
 }
 
+/** Creates one animated coin. */
 function createLevelOneCoin(x, y) {
     return new CollectibleObject({
         x,
@@ -243,50 +145,42 @@ function createLevelOneCoin(x, y) {
         width: GAME_CONFIG.coinWidth,
         height: GAME_CONFIG.coinHeight,
         value: GAME_CONFIG.coinValue,
-        imagePath:
-            ASSET_CONFIG.collectibles.coin,
-        animationImages:
-            ASSET_CONFIG.collectibles
-                .coinAnimation,
-        fallbackColor:
-            GAME_CONFIG.coinFallbackColor
+        imagePath: ASSET_CONFIG.collectibles.coin,
+        animationImages: ASSET_CONFIG.collectibles.coinAnimation,
+        fallbackColor: GAME_CONFIG.coinFallbackColor
     });
 }
 
+/** Creates one animated poison bottle. */
 function createLevelOnePoisonBottle(x, y) {
     return new CollectibleObject({
         x,
         y,
         type: 'poisonBottle',
-        width:
-            GAME_CONFIG.poisonBottleWidth,
-        height:
-            GAME_CONFIG.poisonBottleHeight,
-        value:
-            GAME_CONFIG.poisonBottleValue,
-        imagePath:
-            ASSET_CONFIG.collectibles
-                .poisonBottle,
-        animationImages:
-            ASSET_CONFIG.collectibles
-                .poisonBottleAnimation,
-        fallbackColor:
-            GAME_CONFIG
-                .poisonBottleFallbackColor
+        width: GAME_CONFIG.poisonBottleWidth,
+        height: GAME_CONFIG.poisonBottleHeight,
+        value: GAME_CONFIG.poisonBottleValue,
+        imagePath: ASSET_CONFIG.collectibles.poisonBottle,
+        animationImages: ASSET_CONFIG.collectibles.poisonBottleAnimation,
+        fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
     });
 }
 
+/** Creates the configured level-one boss. */
 function createLevelOneEndboss() {
+    const boss = LEVEL_ONE_CONFIG.boss;
     return new Endboss({
-        x: GAME_CONFIG.levelOneWidth - 420,
-        y: 250,
-        axis: 'vertical'
+        ...boss,
+        x: LEVEL_ONE_CONFIG.world.width - boss.rightOffset
     });
 }
 
+/** Creates the level finish object. */
 function createLevelOneFinishObject() {
+    const world = LEVEL_ONE_CONFIG.world;
+    const finish = LEVEL_ONE_CONFIG.finish;
     return new FinishObject(
-        GAME_CONFIG.levelOneWidth - 120,
-        GAME_CONFIG.levelHeight - 290
+        world.width - finish.rightOffset,
+        world.height - finish.bottomOffset
     );
 }

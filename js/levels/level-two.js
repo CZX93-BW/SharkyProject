@@ -1,12 +1,16 @@
 'use strict';
 
+const LEVEL_TWO_CONFIG = getLevelConfig(2);
+
 LEVELS[2] = createLevelTwo();
 
+/** Creates level two from its validated configuration. */
 function createLevelTwo() {
     return new Level({
-        number: 2,
-        width: GAME_CONFIG.levelTwoWidth,
-        height: GAME_CONFIG.levelHeight,
+        number: LEVEL_TWO_CONFIG.number,
+        config: LEVEL_TWO_CONFIG,
+        width: LEVEL_TWO_CONFIG.world.width,
+        height: LEVEL_TWO_CONFIG.world.height,
         backgroundObjects: createLevelTwoBackgrounds(),
         barrierObjects: createLevelTwoBarriers(),
         solidAreas: createLevelTwoSolidAreas(),
@@ -17,6 +21,7 @@ function createLevelTwo() {
     });
 }
 
+/** Creates all solid barrier objects for level two. */
 function createLevelTwoBarriers() {
     return [
         createLevelTwoFloorBarrier(),
@@ -24,14 +29,14 @@ function createLevelTwoBarriers() {
     ];
 }
 
+/** Creates the floor rock barrier. */
 function createLevelTwoFloorBarrier() {
     return new BarrierObject({
         x: 1320,
         y: 440,
         width: 340,
         height: 150,
-        imagePath:
-            ASSET_CONFIG.levelObjects.barriers.floorRock,
+        imagePath: ASSET_CONFIG.levelObjects.barriers.floorRock,
         collisionInset: {
             left: 22,
             right: 22,
@@ -40,14 +45,14 @@ function createLevelTwoFloorBarrier() {
     });
 }
 
+/** Creates the vertical rock barrier. */
 function createLevelTwoVerticalBarrier() {
     return new BarrierObject({
         x: 1940,
         y: 170,
         width: 110,
         height: 300,
-        imagePath:
-            ASSET_CONFIG.levelObjects.barriers.verticalRock,
+        imagePath: ASSET_CONFIG.levelObjects.barriers.verticalRock,
         collisionInset: {
             left: 16,
             right: 16,
@@ -57,191 +62,67 @@ function createLevelTwoVerticalBarrier() {
     });
 }
 
+/** Creates the five parallax background layers. */
 function createLevelTwoBackgrounds() {
     return [
-        createLevelTwoFarLayer(),
-        createLevelTwoBackLayer(),
-        createLevelTwoMiddleLayer(),
-        createLevelTwoFrontLayer(),
-        createLevelTwoFloorLayer()
+        createLevelTwoLayer('far', '#031c30', 0.15, 1),
+        createLevelTwoLayer('back', '#04283d', 0.3, 1),
+        createLevelTwoLayer('middle', 'rgba(8, 89, 126, 0.44)', 0.55, 1),
+        createLevelTwoLayer('front', 'rgba(5, 58, 86, 0.28)', 0.85, 1),
+        createLevelTwoLayer('floor', 'rgba(1, 25, 39, 0.78)', 1, 1)
     ];
 }
 
-function createLevelTwoFarLayer() {
-    return createLevelTwoLayer(
-        'far',
-        0,
-        GAME_CONFIG.levelHeight,
-        '#031c30',
-        0.15,
-        1
-    );
+/** Creates one configured parallax layer. */
+function createLevelTwoLayer(layerName, fallbackColor, scrollFactor, opacity) {
+    const world = LEVEL_TWO_CONFIG.world;
+    return new BackgroundObject(0, 0, world.width, world.height, {
+        imagePath: ASSET_CONFIG.backgrounds.levelTwo[layerName],
+        fallbackColor,
+        scrollFactor,
+        opacity
+    });
 }
 
-function createLevelTwoBackLayer() {
-    return createLevelTwoLayer(
-        'back',
-        0,
-        GAME_CONFIG.levelHeight,
-        '#04283d',
-        0.3,
-        1
-    );
-}
-
-function createLevelTwoMiddleLayer() {
-    return createLevelTwoLayer(
-        'middle',
-        0,
-        GAME_CONFIG.levelHeight,
-        'rgba(8, 89, 126, 0.44)',
-        0.55,
-        1
-    );
-}
-
-function createLevelTwoFrontLayer() {
-    return createLevelTwoLayer(
-        'front',
-        0,
-        GAME_CONFIG.levelHeight,
-        'rgba(5, 58, 86, 0.28)',
-        0.85,
-        1
-    );
-}
-
-function createLevelTwoFloorLayer() {
-    return createLevelTwoLayer(
-        'floor',
-        0,
-        GAME_CONFIG.levelHeight,
-        'rgba(1, 25, 39, 0.78)',
-        1,
-        1
-    );
-}
-
-function createLevelTwoLayer(
-    layerName,
-    y,
-    height,
-    fallbackColor,
-    scrollFactor,
-    opacity
-) {
-    return new BackgroundObject(
-        0,
-        y,
-        GAME_CONFIG.levelTwoWidth,
-        height,
-        {
-            imagePath:
-                ASSET_CONFIG.backgrounds
-                    .levelTwo[layerName],
-            fallbackColor,
-            scrollFactor,
-            opacity
-        }
-    );
-}
-
+/** Creates the level floor collision area. */
 function createLevelTwoSolidAreas() {
-    return [
-        {
-            x: 0,
-            y: GAME_CONFIG.levelHeight - 130,
-            width: GAME_CONFIG.levelTwoWidth,
-            height: 130
-        }
-    ];
+    const world = LEVEL_TWO_CONFIG.world;
+    return [{
+        x: 0,
+        y: world.height - world.floorHeight,
+        width: world.width,
+        height: world.floorHeight
+    }];
 }
 
+/** Creates temporary fixed enemies until the dynamic spawner replaces them. */
 function createLevelTwoEnemies() {
     return [
-        createLevelTwoEnemy(
-            620,
-            250,
-            'vertical',
-            'jellyFishYellow'
-        ),
-        createLevelTwoEnemy(
-            1160,
-            310,
-            'horizontal',
-            'pufferFish'
-        ),
-        createLevelTwoDangerousJellyFish(),
-        createLevelTwoEnemy(
-            2180,
-            360,
-            'horizontal',
-            'pufferFish'
-        )
+        createLevelTwoEnemy(620, 250, 'vertical', 'jellyFishYellow'),
+        createLevelTwoEnemy(1160, 310, 'horizontal', 'pufferFish'),
+        createLevelTwoEnemy(1740, 220, 'vertical', 'jellyFishPink'),
+        createLevelTwoEnemy(2180, 360, 'horizontal', 'pufferFish')
     ];
 }
 
-function createLevelTwoDangerousJellyFish() {
-    return createLevelTwoEnemy(
-        1740,
-        220,
-        'vertical',
-        'jellyFishPink',
-        {
-            damage: 30,
-            health: 70,
-            speed:
-                GAME_CONFIG.enemySpeed +
-                0.7
-        }
-    );
-}
-
-function createLevelTwoEnemy(
-    x,
-    y,
-    axis,
-    type,
-    options = {}
-) {
-    const size =
-        getLevelTwoEnemySize(type);
-
+/** Creates one enemy with level-specific values. */
+function createLevelTwoEnemy(x, y, axis, type) {
+    const config = LEVEL_TWO_CONFIG.enemyTypes[type];
     return new Enemy({
         x,
         y,
         axis,
         type,
-        width: size.width,
-        height: size.height,
-        range:
-            GAME_CONFIG.enemyPatrolRange +
-            40,
-        speed:
-            options.speed ||
-            GAME_CONFIG.enemySpeed +
-            0.25,
-        damage: options.damage,
-        health: options.health
+        width: config.width,
+        height: config.height,
+        range: config.patrolRange,
+        speed: config.speed,
+        damage: config.damage,
+        health: config.health
     });
 }
 
-function getLevelTwoEnemySize(type) {
-    if (type.startsWith('jellyFish')) {
-        return {
-            width: 58,
-            height: 84
-        };
-    }
-
-    return {
-        width:
-            GAME_CONFIG.enemyWidth + 4,
-        height:
-            GAME_CONFIG.enemyHeight + 4
-    };
-}
-
+/** Creates all collectibles for level two. */
 function createLevelTwoCollectibles() {
     return [
         createLevelTwoCoin(420, 230),
@@ -255,6 +136,7 @@ function createLevelTwoCollectibles() {
     ];
 }
 
+/** Creates one animated coin. */
 function createLevelTwoCoin(x, y) {
     return new CollectibleObject({
         x,
@@ -263,56 +145,42 @@ function createLevelTwoCoin(x, y) {
         width: GAME_CONFIG.coinWidth,
         height: GAME_CONFIG.coinHeight,
         value: GAME_CONFIG.coinValue,
-        imagePath:
-            ASSET_CONFIG.collectibles.coin,
-        animationImages:
-            ASSET_CONFIG.collectibles
-                .coinAnimation,
-        fallbackColor:
-            GAME_CONFIG.coinFallbackColor
+        imagePath: ASSET_CONFIG.collectibles.coin,
+        animationImages: ASSET_CONFIG.collectibles.coinAnimation,
+        fallbackColor: GAME_CONFIG.coinFallbackColor
     });
 }
 
+/** Creates one animated poison bottle. */
 function createLevelTwoPoisonBottle(x, y) {
     return new CollectibleObject({
         x,
         y,
         type: 'poisonBottle',
-        width:
-            GAME_CONFIG.poisonBottleWidth,
-        height:
-            GAME_CONFIG.poisonBottleHeight,
-        value:
-            GAME_CONFIG.poisonBottleValue,
-        imagePath:
-            ASSET_CONFIG.collectibles
-                .poisonBottle,
-        animationImages:
-            ASSET_CONFIG.collectibles
-                .poisonBottleAnimation,
-        fallbackColor:
-            GAME_CONFIG
-                .poisonBottleFallbackColor
+        width: GAME_CONFIG.poisonBottleWidth,
+        height: GAME_CONFIG.poisonBottleHeight,
+        value: GAME_CONFIG.poisonBottleValue,
+        imagePath: ASSET_CONFIG.collectibles.poisonBottle,
+        animationImages: ASSET_CONFIG.collectibles.poisonBottleAnimation,
+        fallbackColor: GAME_CONFIG.poisonBottleFallbackColor
     });
 }
 
+/** Creates the configured level-two boss. */
 function createLevelTwoEndboss() {
+    const boss = LEVEL_TWO_CONFIG.boss;
     return new Endboss({
-        x: GAME_CONFIG.levelTwoWidth - 500,
-        y: 230,
-        axis: 'vertical',
-        range:
-            GAME_CONFIG.endbossPatrolRange +
-            70,
-        speed:
-            GAME_CONFIG.endbossSpeed +
-            0.35
+        ...boss,
+        x: LEVEL_TWO_CONFIG.world.width - boss.rightOffset
     });
 }
 
+/** Creates the level finish object. */
 function createLevelTwoFinishObject() {
+    const world = LEVEL_TWO_CONFIG.world;
+    const finish = LEVEL_TWO_CONFIG.finish;
     return new FinishObject(
-        GAME_CONFIG.levelTwoWidth - 120,
-        GAME_CONFIG.levelHeight - 300
+        world.width - finish.rightOffset,
+        world.height - finish.bottomOffset
     );
 }
