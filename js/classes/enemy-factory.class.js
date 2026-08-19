@@ -1,30 +1,25 @@
 'use strict';
 
 class EnemyFactory {
-    /** Creates enemies from one validated level configuration. */
-    constructor(levelConfig) {
+    constructor(levelConfig, randomGenerator = null) {
         this.levelConfig = levelConfig;
+        this.random = randomGenerator || new RandomGenerator();
     }
 
-    /** Creates one configured enemy at the requested position. */
     create(type, x, y) {
         const config = this.getTypeConfig(type);
         return new Enemy({
             x,
             y,
             type,
-            axis: this.getMovementAxis(config.movementProfile),
             width: config.width,
             height: config.height,
-            range: config.patrolRange,
-            speed: config.speed,
             damage: config.damage,
             health: config.health,
-            movementProfile: config.movementProfile
+            movement: this.createMovementConfig(config.movement)
         });
     }
 
-    /** Returns one enemy type configuration or throws clearly. */
     getTypeConfig(type) {
         const config = this.levelConfig.enemyTypes[type];
 
@@ -35,9 +30,14 @@ class EnemyFactory {
         return config;
     }
 
-    /** Maps future movement profiles to the current patrol axis. */
-    getMovementAxis(movementProfile) {
-        return movementProfile === 'verticalDrift' ?
-            'vertical' : 'horizontal';
+    createMovementConfig(movementConfig) {
+        return {
+            ...movementConfig,
+            worldTop: 20,
+            worldBottom: this.levelConfig.world.height -
+                this.levelConfig.world.floorHeight,
+            initialPhase: this.random.between(0, Math.PI * 2),
+            initialVerticalDirection: this.random.next() < 0.5 ? -1 : 1
+        };
     }
 }

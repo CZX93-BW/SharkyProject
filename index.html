@@ -52,7 +52,6 @@
             </nav>
         </section>
 
-        <!-- Main Menu Panels -->
         <section id="levelSelectPanel" class="main-menu-panel hidden">
             <div class="panel-card">
                 <div class="panel-header">
@@ -238,7 +237,6 @@
         </section>
     </main>
 
-    <!-- Game Shell -->
     <main id="gameShell" class="page-layout hidden">
         <section class="game-card">
             <header class="game-header">
@@ -253,7 +251,6 @@
                 </nav>
             </header>
 
-            <!-- Pause Screen -->
             <section id="pauseScreen" class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Pause</p>
@@ -268,7 +265,6 @@
                 </div>
             </section>
 
-            <!-- Shop Screen -->
             <section id="shopScreen" class="menu-overlay hidden">
                 <div class="menu-content shop-content">
                     <p class="eyebrow">Riff-Shop</p>
@@ -308,7 +304,6 @@
                 </div>
             </section>
 
-            <!-- Game Over Screen -->
             <section id="gameOverScreen" class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission gescheitert</p>
@@ -322,7 +317,6 @@
                 </div>
             </section>
 
-            <!-- Win Screen -->
             <section id="winScreen" class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission geschafft</p>
@@ -336,7 +330,6 @@
                 </div>
             </section>
 
-            <!-- Ingame Settings Dialog -->
             <section id="ingameSettingsDialog" class="ingame-dialog hidden" aria-label="Spieleinstellungen">
                 <div class="ingame-dialog-card">
                     <div class="dialog-header">
@@ -376,7 +369,6 @@
                 </div>
             </section>
 
-            <!-- Game Area -->
             <section class="game-area" aria-label="Spielfläche">
                 <div class="game-hud">
                     <span id="levelDisplay">Level: 1</span>
@@ -402,7 +394,6 @@
                     Dein Browser unterstützt kein Canvas.
                 </canvas>
 
-                <!-- Mobile Controls -->
                 <div class="mobile-controls" aria-label="Mobile Steuerung">
                     <div class="mobile-action-group" aria-label="Linke Angriffbuttons">
                         <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
@@ -424,7 +415,6 @@
         </section>
     </main>
 
-    <!-- Scripts -->
     <script src="js/config/game-config.js"></script>
     <script src="js/config/level-config.js"></script>
     <script src="js/config/asset-config.js"></script>
@@ -438,6 +428,7 @@
     <script src="js/classes/animated-drawable-object.class.js"></script>
     <script src="js/classes/background-object.class.js"></script>
     <script src="js/classes/collectible-object.class.js"></script>
+    <script src="js/classes/enemy-movement-controller.class.js"></script>
     <script src="js/classes/enemy.class.js"></script>
     <script src="js/classes/random-generator.class.js"></script>
     <script src="js/classes/enemy-factory.class.js"></script>

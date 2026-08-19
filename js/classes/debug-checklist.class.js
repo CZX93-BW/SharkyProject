@@ -43,6 +43,7 @@ class DebugChecklist {
             this.createLevelConfigCheck(),
             this.createBossScalingCheck(),
             this.createEnemySpawnerCheck(),
+            this.createEnemyMovementCheck(),
             this.createBackgroundLayerCheck(),
             this.createBarrierLayerCheck(),
             this.createCollectibleAnimationCheck(),
@@ -90,7 +91,6 @@ class DebugChecklist {
         };
     }
 
-    /** Creates the debug check for scalable boss values. */
     createBossScalingCheck() {
         return {
             name: 'Boss-Skalierung und Aggressivität aktiv',
@@ -98,7 +98,6 @@ class DebugChecklist {
         };
     }
 
-    /** Returns whether both bosses use the expected level scaling. */
     hasConfiguredBossScaling() {
         const levelOneBoss = LEVELS[1].endboss;
         const levelTwoBoss = LEVELS[2].endboss;
@@ -106,7 +105,6 @@ class DebugChecklist {
             levelTwoBoss.aggression > levelOneBoss.aggression;
     }
 
-    /** Creates the debug check for both dynamic enemy spawners. */
     createEnemySpawnerCheck() {
         return {
             name: 'Dynamische EnemySpawner vorhanden',
@@ -114,12 +112,30 @@ class DebugChecklist {
         };
     }
 
-    /** Returns whether both level spawners use their level limits. */
     hasConfiguredEnemySpawners() {
         return Boolean(LEVELS[1].enemySpawner) &&
             Boolean(LEVELS[2].enemySpawner) &&
             LEVELS[1].enemySpawner.config.maxActiveEnemies === 5 &&
             LEVELS[2].enemySpawner.config.maxActiveEnemies === 7;
+    }
+
+    createEnemyMovementCheck() {
+        return {
+            name: 'Enemy-Bewegungsprofile aktiv',
+            test: () => this.hasConfiguredEnemyMovement()
+        };
+    }
+
+    hasConfiguredEnemyMovement() {
+        const firstLevel = LEVEL_CONFIG[1].enemyTypes;
+        const secondLevel = LEVEL_CONFIG[2].enemyTypes;
+        return firstLevel.pufferFish.movement.profile === 'waveLeft' &&
+            firstLevel.pufferFish.movement.spriteFacing === 'left' &&
+            firstLevel.jellyFish.movement.profile === 'verticalDrift' &&
+            firstLevel.jellyFish.movement.horizontalSpeed <
+                firstLevel.jellyFish.movement.verticalSpeed &&
+            secondLevel.pufferFish.movement.horizontalSpeed >
+                firstLevel.pufferFish.movement.horizontalSpeed;
     }
 
     createBackgroundLayerCheck() {
