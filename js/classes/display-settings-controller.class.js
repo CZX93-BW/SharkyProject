@@ -184,7 +184,10 @@ class DisplaySettingsController {
     /** Shows the active color theme on one button. */
     updateThemeButton(button) {
         const isDark = this.isDarkTheme();
-        button.textContent = `Darstellung: ${isDark ? 'Dunkel' : 'Hell'}`;
+        this.setButtonText(
+            button,
+            `Darstellung: ${isDark ? 'Dunkel' : 'Hell'}`
+        );
         button.setAttribute('aria-pressed', String(isDark));
     }
 
@@ -192,11 +195,23 @@ class DisplaySettingsController {
     updateFullscreenButton(button) {
         const isActive = this.isFullscreenActive();
         const isCompact = button.dataset.displayCompact === 'true';
-        button.textContent = isCompact ? '⛶' :
+        const label = isCompact ? '⛶' :
             `Vollbild: ${isActive ? 'An' : 'Aus'}`;
+        this.setButtonText(button, label);
         button.setAttribute('aria-pressed', String(isActive));
         button.setAttribute('aria-label', isActive ?
             'Vollbild beenden' : 'Vollbild aktivieren');
         button.disabled = !this.isFullscreenSupported();
+    }
+
+    /** Updates a nested label without removing supporting menu text. */
+    setButtonText(button, text) {
+        const label = button.querySelector?.('[data-display-label]');
+        if (label) {
+            label.textContent = text;
+            return;
+        }
+
+        button.textContent = text;
     }
 }

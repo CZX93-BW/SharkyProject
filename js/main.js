@@ -4,6 +4,7 @@ let sharkyGame;
 let audioManager;
 let storyNarrator;
 let screenManager;
+let mainMenuController;
 let displaySettingsController;
 let uiController;
 
@@ -14,6 +15,7 @@ function initializeApplication() {
     const canvas = document.getElementById('gameCanvas');
 
     createCoreManagers();
+    initializeMainMenu();
     initializeDisplaySettings();
     new MobileControls(keyboard);
     sharkyGame = createGame(canvas, keyboard);
@@ -25,6 +27,12 @@ function createCoreManagers() {
     audioManager = new AudioManager();
     storyNarrator = new StoryNarrator('storyText');
     screenManager = new ScreenManager();
+}
+
+/** Initializes the interactive main menu background. */
+function initializeMainMenu() {
+    mainMenuController = new MainMenuController();
+    mainMenuController.initialize();
 }
 
 /** Creates and initializes persistent display settings. */
