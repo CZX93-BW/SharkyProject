@@ -55,6 +55,7 @@ class DebugChecklist {
             this.createAttackConfigCheck(),
             this.createAudioCheck(),
             this.createStoryCheck(),
+            this.createDisplaySettingsCheck(),
             this.createMobileControlCheck(),
             this.createMainMenuCheck(),
             this.createGameShellCheck()
@@ -183,7 +184,8 @@ class DebugChecklist {
     createPufferStateCheck() {
         return {
             name: 'Puffer-Zustände vorhanden',
-            test: () => ASSET_CONFIG.enemies.pufferFish.transition.length === 5 &&
+            test: () =>
+                ASSET_CONFIG.enemies.pufferFish.transition.length === 5 &&
                 ASSET_CONFIG.enemies.pufferFish.inflatedSwim.length === 5
         };
     }
@@ -197,7 +199,9 @@ class DebugChecklist {
 
     hasCompleteStatusBars() {
         const statusBars = ASSET_CONFIG.ui.statusBars;
-        return Object.values(statusBars).every((images) => images.length === 6);
+        return Object.values(statusBars).every(
+            (images) => images.length === 6
+        );
     }
 
     createFinishLockCheck() {
@@ -242,24 +246,48 @@ class DebugChecklist {
         };
     }
 
+    createDisplaySettingsCheck() {
+        return {
+            name: 'Theme und Fullscreen angebunden',
+            test: () => this.hasDisplaySettings()
+        };
+    }
+
+    hasDisplaySettings() {
+        const theme = document.documentElement.dataset.theme;
+        return (theme === 'dark' || theme === 'light') &&
+            Boolean(document.querySelector(
+                '[data-display-action="theme"]'
+            )) &&
+            Boolean(document.querySelector(
+                '[data-display-action="fullscreen"]'
+            ));
+    }
+
     createMobileControlCheck() {
         return {
             name: 'Mobile Controls vorhanden',
-            test: () => Boolean(document.getElementById('mobileJoystick'))
+            test: () => Boolean(
+                document.getElementById('mobileJoystick')
+            )
         };
     }
 
     createMainMenuCheck() {
         return {
             name: 'Hauptmenü vorhanden',
-            test: () => Boolean(document.getElementById('mainMenuScreen'))
+            test: () => Boolean(
+                document.getElementById('mainMenuScreen')
+            )
         };
     }
 
     createGameShellCheck() {
         return {
             name: 'Game Shell vorhanden',
-            test: () => Boolean(document.getElementById('gameShell'))
+            test: () => Boolean(
+                document.getElementById('gameShell')
+            )
         };
     }
 }

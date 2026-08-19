@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Main Menu Screen -->
     <main id="mainMenuScreen" class="main-menu-screen">
         <section class="main-menu-hero">
             <video class="hero-background-video" muted loop playsinline aria-hidden="true"></video>
@@ -48,6 +47,12 @@
                 <button data-main-panel="settingsPanel">Einstellungen</button>
                 <button data-main-panel="howToPlayPanel">Anleitung</button>
                 <button data-main-panel="storyPanel">Geschichte</button>
+                <button data-display-action="theme" aria-pressed="true">
+                    Darstellung: Dunkel
+                </button>
+                <button data-display-action="fullscreen" aria-pressed="false">
+                    Vollbild: Aus
+                </button>
                 <a href="imprint.html">Impressum</a>
             </nav>
         </section>
@@ -124,6 +129,19 @@
                         <span>Soundlautstärke</span>
                         <input id="mainSoundVolumeSlider" type="range" min="0" max="100" value="65">
                     </label>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Anzeige</h3>
+
+                    <div class="settings-control-list compact-control-list">
+                        <button class="settings-toggle-button" data-display-action="theme" aria-pressed="true">
+                            Darstellung: Dunkel
+                        </button>
+                        <button class="settings-toggle-button" data-display-action="fullscreen" aria-pressed="false">
+                            Vollbild: Aus
+                        </button>
+                    </div>
                 </div>
 
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
@@ -366,6 +384,19 @@
                             <input id="soundVolumeSlider" type="range" min="0" max="100" value="65">
                         </label>
                     </div>
+
+                    <div class="settings-section">
+                        <h3>Anzeige</h3>
+
+                        <div class="settings-control-list compact-control-list">
+                            <button class="settings-toggle-button" data-display-action="theme" aria-pressed="true">
+                                Darstellung: Dunkel
+                            </button>
+                            <button class="settings-toggle-button" data-display-action="fullscreen" aria-pressed="false">
+                                Vollbild: Aus
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -384,6 +415,9 @@
                     </button>
                     <button id="openSettingsButton" class="icon-button" aria-label="Einstellungen öffnen">
                         ⚙
+                    </button>
+                    <button class="icon-button" data-display-action="fullscreen" data-display-compact="true" aria-label="Vollbild aktivieren" aria-pressed="false">
+                        ⛶
                     </button>
                     <button id="pausePlayButton" class="icon-button" aria-label="Spiel pausieren oder fortsetzen">
                         ⏸
@@ -421,6 +455,7 @@
     <script src="js/classes/audio-manager.class.js"></script>
     <script src="js/classes/story-narrator.class.js"></script>
     <script src="js/classes/screen-manager.class.js"></script>
+    <script src="js/classes/display-settings-controller.class.js"></script>
     <script src="js/classes/ui-controller.class.js"></script>
     <script src="js/classes/debug-checklist.class.js"></script>
     <script src="js/classes/drawable-object.class.js"></script>

@@ -6,7 +6,64 @@ class MobileControls {
         this.joystickArea = document.getElementById('mobileJoystick');
         this.joystickKnob = document.getElementById('mobileJoystickKnob');
         this.activePointerId = null;
+        this.coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+        this.maximumTouchLayoutWidth = 1180;
+        this.initializeAvailability();
         this.bindControlEvents();
+    }
+
+    /** Detects touch layouts and keeps their visibility synchronized. */
+    initializeAvailability() {
+        this.updateAvailability();
+        window.addEventListener('resize', () => this.updateAvailability());
+
+        if (this.coarsePointerQuery.addEventListener) {
+            this.coarsePointerQuery.addEventListener(
+                'change',
+                () => this.updateAvailability()
+            );
+            return;
+        }
+
+        this.coarsePointerQuery.addListener?.(
+            () => this.updateAvailability()
+        );
+    }
+
+    /** Applies the touch-control class only to suitable devices. */
+    updateAvailability() {
+        const isEnabled = this.shouldEnableTouchControls();
+        document.documentElement.classList.toggle(
+            'has-touch-controls',
+            isEnabled
+        );
+
+        if (!isEnabled) {
+            this.resetControls();
+        }
+    }
+
+    /** Returns whether touch controls suit the current device and width. */
+    shouldEnableTouchControls() {
+        const hasTouchPoints = navigator.maxTouchPoints > 0;
+        const hasCoarsePointer = this.coarsePointerQuery.matches;
+        return (hasTouchPoints || hasCoarsePointer) &&
+            window.innerWidth <= this.maximumTouchLayoutWidth;
+    }
+
+    /** Clears active touch input when controls become unavailable. */
+    resetControls() {
+        this.activePointerId = null;
+        this.keyboard.resetMobileMovement();
+        this.resetMobileActions();
+        this.resetJoystickKnob();
+    }
+
+    /** Releases every mobile attack action. */
+    resetMobileActions() {
+        ['slap', 'bubble', 'poison'].forEach((action) => {
+            this.keyboard.setMobileAction(action, false);
+        });
     }
 
     bindControlEvents() {
@@ -23,10 +80,22 @@ class MobileControls {
     }
 
     bindJoystickEvents() {
-        this.joystickArea.addEventListener('pointerdown', (event) => this.startJoystick(event));
-        window.addEventListener('pointermove', (event) => this.moveJoystick(event));
-        window.addEventListener('pointerup', (event) => this.stopJoystick(event));
-        window.addEventListener('pointercancel', (event) => this.stopJoystick(event));
+        this.joystickArea.addEventListener(
+            'pointerdown',
+            (event) => this.startJoystick(event)
+        );
+        window.addEventListener(
+            'pointermove',
+            (event) => this.moveJoystick(event)
+        );
+        window.addEventListener(
+            'pointerup',
+            (event) => this.stopJoystick(event)
+        );
+        window.addEventListener(
+            'pointercancel',
+            (event) => this.stopJoystick(event)
+        );
     }
 
     startJoystick(event) {
@@ -100,36 +169,62 @@ class MobileControls {
 
     updateMobileMovement(delta) {
         const maxDistance = GAME_CONFIG.mobileJoystickMaxDistance;
-        this.keyboard.setMobileMovement(delta.x / maxDistance, delta.y / maxDistance);
+        this.keyboard.setMobileMovement(
+            delta.x / maxDistance,
+            delta.y / maxDistance
+        );
     }
 
     moveJoystickKnob(delta) {
-        this.joystickKnob.style.transform = `translate(${delta.x}px, ${delta.y}px)`;
+        this.joystickKnob.style.transform =
+            `translate(${delta.x}px, ${delta.y}px)`;
     }
 
     resetJoystickKnob() {
-        this.joystickKnob.style.transform = 'translate(0, 0)';
+        if (this.joystickKnob) {
+            this.joystickKnob.style.transform = 'translate(0, 0)';
+        }
     }
 
     bindAttackButtons() {
-        const attackButtons = document.querySelectorAll('[data-mobile-action]');
+        const attackButtons = document.querySelectorAll(
+            '[data-mobile-action]'
+        );
         attackButtons.forEach((button) => this.bindAttackButton(button));
     }
 
     bindAttackButton(button) {
-        button.addEventListener('pointerdown', (event) => this.startAttack(event, button));
-        button.addEventListener('pointerup', (event) => this.stopAttack(event, button));
-        button.addEventListener('pointercancel', (event) => this.stopAttack(event, button));
-        button.addEventListener('pointerleave', (event) => this.stopAttack(event, button));
+        button.addEventListener(
+            'pointerdown',
+            (event) => this.startAttack(event, button)
+        );
+        button.addEventListener(
+            'pointerup',
+            (event) => this.stopAttack(event, button)
+        );
+        button.addEventListener(
+            'pointercancel',
+            (event) => this.stopAttack(event, button)
+        );
+        button.addEventListener(
+            'pointerleave',
+            (event) => this.stopAttack(event, button)
+        );
     }
 
     startAttack(event, button) {
         event.preventDefault();
-        this.keyboard.setMobileAction(button.dataset.mobileAction, true);
+        this.keyboard.setMobileAction(
+            button.dataset.mobileAction,
+            true
+        );
     }
 
     stopAttack(event, button) {
         event.preventDefault();
-        this.keyboard.setMobileAction(button.dataset.mobileAction, false);
+        this.keyboard.setMobileAction(
+            button.dataset.mobileAction,
+            false
+        );
     }
 }
