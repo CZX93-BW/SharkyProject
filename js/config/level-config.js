@@ -227,12 +227,7 @@ const REQUIRED_ENEMY_NUMBER_KEYS = [
 /** Returns one validated level configuration. */
 function getLevelConfig(levelNumber) {
     const levelConfig = LEVEL_CONFIG[levelNumber];
-
-    assertLevelConfig(
-        Boolean(levelConfig),
-        `Level ${levelNumber} is not configured.`
-    );
-
+    assertLevelConfig(Boolean(levelConfig), `Level ${levelNumber} is not configured.`);
     validateLevelConfig(levelConfig);
     return levelConfig;
 }
@@ -245,17 +240,12 @@ function validateLevelConfigs() {
 
 /** Validates the structure and limits of one level. */
 function validateLevelConfig(levelConfig) {
-    assertLevelConfig(
-        Boolean(levelConfig),
-        'Level configuration is missing.'
-    );
-
+    assertLevelConfig(Boolean(levelConfig), 'Level configuration is missing.');
     validateRequiredLevelNumbers(levelConfig);
     validateLevelStrings(levelConfig);
     validateBossRules(levelConfig);
     validateSpawnerLimits(levelConfig);
     validateEnemyTypes(levelConfig);
-
     return true;
 }
 
@@ -264,11 +254,7 @@ function validateRequiredLevelNumbers(levelConfig) {
     REQUIRED_LEVEL_NUMBER_PATHS.forEach((path) => {
         const value = getConfigValue(levelConfig, path);
         const message = `Level ${levelConfig.number}: ${path} must be greater than 0.`;
-
-        assertLevelConfig(
-            Number.isFinite(value) && value > 0,
-            message
-        );
+        assertLevelConfig(Number.isFinite(value) && value > 0, message);
     });
 }
 
@@ -276,68 +262,49 @@ function validateRequiredLevelNumbers(levelConfig) {
 function validateLevelStrings(levelConfig) {
     const axis = levelConfig.boss.axis;
     const message = `Level ${levelConfig.number}: boss.axis is invalid.`;
-
-    assertLevelConfig(
-        axis === 'horizontal' || axis === 'vertical',
-        message
-    );
+    assertLevelConfig(axis === 'horizontal' || axis === 'vertical', message);
 }
 
 /** Validates bounded boss behavior values. */
 function validateBossRules(levelConfig) {
     const boss = levelConfig.boss;
     const prefix = `Level ${levelConfig.number}:`;
-
-    assertLevelConfig(
-        boss.aggression <= 1,
-        `${prefix} boss.aggression must not exceed 1.`
-    );
-
-    assertLevelConfig(
-        boss.attackDistance < boss.chaseDistance,
-        `${prefix} boss.attackDistance must be below chaseDistance.`
-    );
-
-    assertLevelConfig(
-        boss.chaseDistance <= boss.activationDistance,
-        `${prefix} boss.chaseDistance exceeds activationDistance.`
-    );
+    assertLevelConfig(boss.aggression <= 1,
+        `${prefix} boss.aggression must not exceed 1.`);
+    assertLevelConfig(boss.attackDistance < boss.chaseDistance,
+        `${prefix} boss.attackDistance must be below chaseDistance.`);
+    assertLevelConfig(boss.chaseDistance <= boss.activationDistance,
+        `${prefix} boss.chaseDistance exceeds activationDistance.`);
 }
 
 /** Prevents impossible enemy limits and spawn intervals. */
 function validateSpawnerLimits(levelConfig) {
     const spawner = levelConfig.spawner;
     const prefix = `Level ${levelConfig.number}:`;
-
-    assertLevelConfig(
-        spawner.initialCount <= spawner.maxActiveEnemies,
-        `${prefix} initialCount exceeds maxActiveEnemies.`
-    );
-
-    assertLevelConfig(
-        spawner.maxActiveEnemies <= spawner.totalEnemyBudget,
-        `${prefix} maxActiveEnemies exceeds totalEnemyBudget.`
-    );
-
-    assertLevelConfig(
-        spawner.spawnInterval.min <= spawner.spawnInterval.max,
-        `${prefix} spawn interval minimum exceeds maximum.`
-    );
+    assertLevelConfig(Number.isInteger(spawner.initialCount),
+        `${prefix} initialCount must be an integer.`);
+    assertLevelConfig(Number.isInteger(spawner.maxActiveEnemies),
+        `${prefix} maxActiveEnemies must be an integer.`);
+    assertLevelConfig(Number.isInteger(spawner.totalEnemyBudget),
+        `${prefix} totalEnemyBudget must be an integer.`);
+    assertLevelConfig(spawner.initialCount <= spawner.maxActiveEnemies,
+        `${prefix} initialCount exceeds maxActiveEnemies.`);
+    assertLevelConfig(spawner.maxActiveEnemies <= spawner.totalEnemyBudget,
+        `${prefix} maxActiveEnemies exceeds totalEnemyBudget.`);
+    assertLevelConfig(spawner.spawnInterval.min <= spawner.spawnInterval.max,
+        `${prefix} spawn interval minimum exceeds maximum.`);
+    assertLevelConfig(spawner.bossZoneBuffer < levelConfig.world.width,
+        `${prefix} bossZoneBuffer must be below the world width.`);
+    assertLevelConfig(typeof spawner.pauseDuringBoss === 'boolean',
+        `${prefix} pauseDuringBoss must be boolean.`);
 }
 
 /** Validates all configured enemy variants and their weights. */
 function validateEnemyTypes(levelConfig) {
     const entries = Object.entries(levelConfig.enemyTypes || {});
-
-    assertLevelConfig(
-        entries.length > 0,
-        `Level ${levelConfig.number}: no enemy types are configured.`
-    );
-
-    entries.forEach(([type, config]) => {
-        validateEnemyType(levelConfig, type, config);
-    });
-
+    assertLevelConfig(entries.length > 0,
+        `Level ${levelConfig.number}: no enemy types are configured.`);
+    entries.forEach(([type, config]) => validateEnemyType(levelConfig, type, config));
     validateEnemyWeightSum(levelConfig, entries);
 }
 
@@ -345,41 +312,23 @@ function validateEnemyTypes(levelConfig) {
 function validateEnemyType(levelConfig, type, enemyConfig) {
     REQUIRED_ENEMY_NUMBER_KEYS.forEach((key) => {
         const value = enemyConfig[key];
-        const message =
-            `Level ${levelConfig.number}: ${type}.${key} must be greater than 0.`;
-
-        assertLevelConfig(
-            Number.isFinite(value) && value > 0,
-            message
-        );
+        const message = `Level ${levelConfig.number}: ${type}.${key} must be greater than 0.`;
+        assertLevelConfig(Number.isFinite(value) && value > 0, message);
     });
-
-    assertLevelConfig(
-        typeof enemyConfig.movementProfile === 'string',
-        `Level ${levelConfig.number}: ${type}.movementProfile is missing.`
-    );
+    assertLevelConfig(typeof enemyConfig.movementProfile === 'string',
+        `Level ${levelConfig.number}: ${type}.movementProfile is missing.`);
 }
 
 /** Ensures weighted random selection can use the configuration directly. */
 function validateEnemyWeightSum(levelConfig, entries) {
-    const sum = entries.reduce((total, [, config]) => {
-        return total + config.weight;
-    }, 0);
-
-    const message =
-        `Level ${levelConfig.number}: enemy weights must add up to 1.`;
-
-    assertLevelConfig(
-        Math.abs(sum - 1) < 0.0001,
-        message
-    );
+    const sum = entries.reduce((total, [, config]) => total + config.weight, 0);
+    const message = `Level ${levelConfig.number}: enemy weights must add up to 1.`;
+    assertLevelConfig(Math.abs(sum - 1) < 0.0001, message);
 }
 
 /** Reads a nested configuration value by its dot-separated path. */
 function getConfigValue(config, path) {
-    return path
-        .split('.')
-        .reduce((value, key) => value?.[key], config);
+    return path.split('.').reduce((value, key) => value?.[key], config);
 }
 
 /** Throws a readable configuration error when a condition fails. */

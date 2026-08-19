@@ -17,6 +17,18 @@ class Camera {
         this.y = 0;
     }
 
+    /** Returns the current visible world rectangle. */
+    getVisibleBounds() {
+        return {
+            left: this.x,
+            top: this.y,
+            right: this.x + this.canvas.width,
+            bottom: this.y + this.canvas.height,
+            width: this.canvas.width,
+            height: this.canvas.height
+        };
+    }
+
     updateHorizontalPosition(player, level) {
         const targetX = this.getHorizontalTarget(player);
         const maxX = level.getMaxCameraX(this.canvas.width);

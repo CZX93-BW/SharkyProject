@@ -15,7 +15,7 @@ function createLevelOne() {
         backgroundObjects: createLevelOneBackgrounds(),
         barrierObjects: createLevelOneBarriers(),
         solidAreas: createLevelOneSolidAreas(),
-        enemies: createLevelOneEnemies(),
+        enemies: [],
         collectibles: createLevelOneCollectibles(),
         endboss: createLevelOneEndboss(),
         finishObject: createLevelOneFinishObject()
@@ -94,33 +94,6 @@ function createLevelOneSolidAreas() {
         width: world.width,
         height: world.floorHeight
     }];
-}
-
-/** Creates temporary fixed enemies until the dynamic spawner replaces them. */
-function createLevelOneEnemies() {
-    return [
-        createLevelOneEnemy(500, 250, 'horizontal', 'pufferFish'),
-        createLevelOneEnemy(900, 310, 'vertical', 'jellyFish'),
-        createLevelOneEnemy(1320, 250, 'horizontal', 'pufferFish'),
-        createLevelOneEnemy(1700, 310, 'vertical', 'jellyFishYellow')
-    ];
-}
-
-/** Creates one enemy with level-specific values. */
-function createLevelOneEnemy(x, y, axis, type) {
-    const config = LEVEL_ONE_CONFIG.enemyTypes[type];
-    return new Enemy({
-        x,
-        y,
-        axis,
-        type,
-        width: config.width,
-        height: config.height,
-        range: config.patrolRange,
-        speed: config.speed,
-        damage: config.damage,
-        health: config.health
-    });
 }
 
 /** Creates all collectibles for level one. */

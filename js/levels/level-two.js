@@ -14,7 +14,7 @@ function createLevelTwo() {
         backgroundObjects: createLevelTwoBackgrounds(),
         barrierObjects: createLevelTwoBarriers(),
         solidAreas: createLevelTwoSolidAreas(),
-        enemies: createLevelTwoEnemies(),
+        enemies: [],
         collectibles: createLevelTwoCollectibles(),
         endboss: createLevelTwoEndboss(),
         finishObject: createLevelTwoFinishObject()
@@ -93,33 +93,6 @@ function createLevelTwoSolidAreas() {
         width: world.width,
         height: world.floorHeight
     }];
-}
-
-/** Creates temporary fixed enemies until the dynamic spawner replaces them. */
-function createLevelTwoEnemies() {
-    return [
-        createLevelTwoEnemy(620, 250, 'vertical', 'jellyFishYellow'),
-        createLevelTwoEnemy(1160, 310, 'horizontal', 'pufferFish'),
-        createLevelTwoEnemy(1740, 220, 'vertical', 'jellyFishPink'),
-        createLevelTwoEnemy(2180, 360, 'horizontal', 'pufferFish')
-    ];
-}
-
-/** Creates one enemy with level-specific values. */
-function createLevelTwoEnemy(x, y, axis, type) {
-    const config = LEVEL_TWO_CONFIG.enemyTypes[type];
-    return new Enemy({
-        x,
-        y,
-        axis,
-        type,
-        width: config.width,
-        height: config.height,
-        range: config.patrolRange,
-        speed: config.speed,
-        damage: config.damage,
-        health: config.health
-    });
 }
 
 /** Creates all collectibles for level two. */

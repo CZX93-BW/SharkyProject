@@ -1,32 +1,19 @@
 'use strict';
 
 class Game {
-    constructor(
-        canvas,
-        keyboard,
-        statusUpdateCallback = null,
-        audioManager = null
-    ) {
+    constructor(canvas, keyboard, statusUpdateCallback = null, audioManager = null) {
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.statusUpdateCallback =
-            statusUpdateCallback;
+        this.statusUpdateCallback = statusUpdateCallback;
         this.audioManager = audioManager;
         this.gameState = new GameState();
         this.renderer = new GameRenderer(canvas);
         this.camera = new Camera(canvas);
-        this.collisionManager =
-            new CollisionManager(audioManager);
-        this.attackManager =
-            new AttackManager(audioManager);
+        this.collisionManager = new CollisionManager(audioManager);
+        this.attackManager = new AttackManager(audioManager);
         this.animationFrameId = null;
         this.lastFrameTime = 0;
-
-        this.renderer.render(
-            this.gameState,
-            this.camera,
-            this.attackManager
-        );
+        this.renderer.render(this.gameState, this.camera, this.attackManager);
         this.notifyStatusUpdate();
     }
 
@@ -70,13 +57,7 @@ class Game {
         this.cancelRunningLoop();
         this.camera.reset();
         this.attackManager.reset();
-
-        this.renderer.render(
-            this.gameState,
-            this.camera,
-            this.attackManager
-        );
-
+        this.renderer.render(this.gameState, this.camera, this.attackManager);
         this.notifyStatusUpdate();
     }
 
@@ -88,9 +69,7 @@ class Game {
 
     cancelRunningLoop() {
         if (this.animationFrameId) {
-            cancelAnimationFrame(
-                this.animationFrameId
-            );
+            cancelAnimationFrame(this.animationFrameId);
         }
 
         this.animationFrameId = null;
@@ -104,13 +83,7 @@ class Game {
     runGameLoop(currentTime = 0) {
         this.updateFrameData(currentTime);
         this.update();
-
-        this.renderer.render(
-            this.gameState,
-            this.camera,
-            this.attackManager
-        );
-
+        this.renderer.render(this.gameState, this.camera, this.attackManager);
         this.notifyStatusUpdate();
 
         if (this.shouldContinueLoop()) {
@@ -123,12 +96,9 @@ class Game {
     }
 
     requestNextFrame() {
-        this.animationFrameId =
-            requestAnimationFrame(
-                (currentTime) => {
-                    this.runGameLoop(currentTime);
-                }
-            );
+        this.animationFrameId = requestAnimationFrame(
+            (currentTime) => this.runGameLoop(currentTime)
+        );
     }
 
     updateFrameData(currentTime) {
@@ -140,14 +110,10 @@ class Game {
     }
 
     updateFramesPerSecond(currentTime) {
-        const frameDuration =
-            currentTime - this.lastFrameTime;
-        const framesPerSecond =
-            Math.round(1000 / frameDuration);
+        const frameDuration = currentTime - this.lastFrameTime;
+        const framesPerSecond = Math.round(1000 / frameDuration);
 
-        this.gameState.setFramesPerSecond(
-            framesPerSecond
-        );
+        this.gameState.setFramesPerSecond(framesPerSecond);
     }
 
     update() {
@@ -161,47 +127,37 @@ class Game {
         }
 
         this.updatePlayer();
+        this.updateCamera();
         this.updateAttacks();
         this.updateLevel();
         this.updateCollisions();
         this.updateGameStatus();
-        this.updateCamera();
     }
 
     updatePlayer() {
         const player = this.gameState.player;
-        const activeLevel =
-            this.gameState.activeLevel;
-        const levelBounds =
-            activeLevel.getBounds();
+        const levelBounds = this.gameState.activeLevel.getBounds();
         const previousPosition = {
             x: player.x,
             y: player.y
         };
 
-        player.update(
-            this.keyboard,
-            levelBounds
+        player.update(this.keyboard, levelBounds);
+        this.collisionManager.resolvePlayerSolidAreaCollisions(
+            player,
+            this.gameState.activeLevel.solidAreas,
+            previousPosition
         );
-
-        this.collisionManager
-            .resolvePlayerSolidAreaCollisions(
-                player,
-                activeLevel.solidAreas,
-                previousPosition
-            );
     }
 
     updateAttacks() {
-        this.attackManager.update(
-            this.keyboard,
-            this.gameState
-        );
+        this.attackManager.update(this.keyboard, this.gameState);
     }
 
     updateLevel() {
         this.gameState.activeLevel.update(
-            this.gameState.player
+            this.gameState.player,
+            this.camera.getVisibleBounds()
         );
     }
 
@@ -212,27 +168,21 @@ class Game {
     }
 
     checkDangerCollisions() {
-        this.collisionManager
-            .checkPlayerEnemyCollisions(
-                this.gameState.player,
-                this.gameState.activeLevel
-                    .getDangerObjects()
-            );
+        this.collisionManager.checkPlayerEnemyCollisions(
+            this.gameState.player,
+            this.gameState.activeLevel.getDangerObjects()
+        );
     }
 
     checkCollectibleCollisions() {
-        this.collisionManager
-            .checkPlayerCollectibleCollisions(
-                this.gameState
-            );
+        this.collisionManager.checkPlayerCollectibleCollisions(this.gameState);
     }
 
     checkAttackCollisions() {
-        this.collisionManager
-            .checkAttackCollisions(
-                this.attackManager,
-                this.gameState.activeLevel
-            );
+        this.collisionManager.checkAttackCollisions(
+            this.attackManager,
+            this.gameState.activeLevel
+        );
     }
 
     updateGameStatus() {
@@ -244,16 +194,15 @@ class Game {
         this.completeLevelIfNeeded();
     }
 
-    /** Starts the death animation. */
+    /** Starts the dead animation in the fatal collision frame. */
     startDefeatSequence() {
         this.gameState.player.resetVelocity();
         this.gameState.player.updateAnimation();
     }
 
-    /** Advances the death animation. */
+    /** Advances the dead animation before opening Game Over. */
     updateDefeatSequence() {
         const player = this.gameState.player;
-
         player.resetVelocity();
         player.updateAnimation();
 
@@ -263,23 +212,13 @@ class Game {
     }
 
     completeLevelIfNeeded() {
-        const activeLevel =
-            this.gameState.activeLevel;
-
-        if (
-            activeLevel.isLevelComplete(
-                this.gameState.player
-            )
-        ) {
+        if (this.gameState.activeLevel.isLevelComplete(this.gameState.player)) {
             this.gameState.completeLevel();
         }
     }
 
     updateCamera() {
-        this.camera.update(
-            this.gameState.player,
-            this.gameState.activeLevel
-        );
+        this.camera.update(this.gameState.player, this.gameState.activeLevel);
     }
 
     canUpdateGame() {
@@ -290,9 +229,7 @@ class Game {
 
     notifyStatusUpdate() {
         if (this.statusUpdateCallback) {
-            this.statusUpdateCallback(
-                this.gameState
-            );
+            this.statusUpdateCallback(this.gameState);
         }
     }
 }
