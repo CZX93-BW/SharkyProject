@@ -8,7 +8,7 @@ class AttackObject extends MovableObject {
         this.speed = config.speed || 0;
         this.direction = config.direction || 1;
         this.duration = config.duration || 0;
-        this.createdAt = Date.now();
+        this.createdAt = GAME_CLOCK.now();
         this.isExpired = false;
         this.hitTargets = new Set();
         this.fallbackColor = config.fallbackColor || '#ffffff';
@@ -25,7 +25,7 @@ class AttackObject extends MovableObject {
     }
 
     expireWhenDurationIsOver() {
-        if (Date.now() - this.createdAt >= this.duration) {
+        if (GAME_CLOCK.now() - this.createdAt >= this.duration) {
             this.expire();
         }
     }

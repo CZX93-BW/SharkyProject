@@ -1,7 +1,7 @@
 'use strict';
 
 class Character extends AnimatedDrawableObject {
-    /** Creates Sharky and prepares the character animations. */
+    /** Creates Sharky and prepares the first character animations. */
     constructor() {
         super(
             GAME_CONFIG.playerStartX,
@@ -19,11 +19,10 @@ class Character extends AnimatedDrawableObject {
         this.name = 'Sharky';
         this.activeAttackAnimation = '';
         this.spriteSources = this.createSpriteSources();
-
         this.prepareAnimations();
     }
 
-    /** Returns the source rectangles used by Sharky's animations. */
+    /** Returns the shared source area used by idle and swim frames. */
     createSpriteSources() {
         return {
             default: {
@@ -32,14 +31,12 @@ class Character extends AnimatedDrawableObject {
                 width: 535,
                 height: 440
             },
-
             finSlap: {
                 x: 145,
                 y: 230,
                 width: 670,
                 height: 690
             },
-
             bubbleTrap: {
                 x: 70,
                 y: 350,
@@ -51,36 +48,12 @@ class Character extends AnimatedDrawableObject {
 
     /** Registers Sharky's currently supported image sequences. */
     prepareAnimations() {
-        this.addAnimation(
-            'idle',
-            ASSET_CONFIG.character.idle
-        );
-
-        this.addAnimation(
-            'swim',
-            ASSET_CONFIG.character.swim
-        );
-
-        this.addAnimation(
-            'finSlap',
-            ASSET_CONFIG.character.finSlap
-        );
-
-        this.addAnimation(
-            'bubbleTrap',
-            ASSET_CONFIG.character.bubbleTrap
-        );
-
-        this.addAnimation(
-            'hurt',
-            ASSET_CONFIG.character.hurt
-        );
-
-        this.addAnimation(
-            'dead',
-            ASSET_CONFIG.character.dead
-        );
-
+        this.addAnimation('idle', ASSET_CONFIG.character.idle);
+        this.addAnimation('swim', ASSET_CONFIG.character.swim);
+        this.addAnimation('finSlap', ASSET_CONFIG.character.finSlap);
+        this.addAnimation('bubbleTrap', ASSET_CONFIG.character.bubbleTrap);
+        this.addAnimation('hurt', ASSET_CONFIG.character.hurt);
+        this.addAnimation('dead', ASSET_CONFIG.character.dead);
         this.loadImage(ASSET_CONFIG.character.sharky);
         this.playAnimation('idle', 160);
     }
@@ -95,7 +68,7 @@ class Character extends AnimatedDrawableObject {
         this.updateAnimation();
     }
 
-    /** Selects the animation according to its gameplay priority. */
+    /** Selects swim while moving and idle while standing still. */
     updateAnimation() {
         if (!this.isAlive()) {
             this.playAnimation('dead', 130, false);
@@ -150,21 +123,12 @@ class Character extends AnimatedDrawableObject {
     /** Starts a supported one-time character attack animation. */
     startAttackAnimation(animationName) {
         this.activeAttackAnimation = animationName;
-
-        this.playAnimation(
-            animationName,
-            60,
-            false
-        );
+        this.playAnimation(animationName, 60, false);
     }
 
-    /** Advances the active attack and releases its state. */
+    /** Advances the active attack and releases it after its last frame. */
     updateAttackAnimation() {
-        this.playAnimation(
-            this.activeAttackAnimation,
-            60,
-            false
-        );
+        this.playAnimation(this.activeAttackAnimation, 60, false);
 
         if (this.isAnimationFinished()) {
             this.activeAttackAnimation = '';
@@ -173,8 +137,7 @@ class Character extends AnimatedDrawableObject {
 
     /** Returns whether Sharky currently has movement velocity. */
     isMoving() {
-        return this.velocityX !== 0 ||
-            this.velocityY !== 0;
+        return this.velocityX !== 0 || this.velocityY !== 0;
     }
 
     resetVelocity() {
@@ -212,16 +175,12 @@ class Character extends AnimatedDrawableObject {
             return;
         }
 
-        this.velocityX *=
-            GAME_CONFIG.diagonalMovementFactor;
-
-        this.velocityY *=
-            GAME_CONFIG.diagonalMovementFactor;
+        this.velocityX *= GAME_CONFIG.diagonalMovementFactor;
+        this.velocityY *= GAME_CONFIG.diagonalMovementFactor;
     }
 
     hasDiagonalVelocity() {
-        return this.velocityX !== 0 &&
-            this.velocityY !== 0;
+        return this.velocityX !== 0 && this.velocityY !== 0;
     }
 
     increaseSpeed(amount) {
@@ -238,17 +197,12 @@ class Character extends AnimatedDrawableObject {
             return;
         }
 
-        this.health = Math.max(
-            0,
-            this.health - damage
-        );
-
-        this.lastDamageTime = Date.now();
+        this.health = Math.max(0, this.health - damage);
+        this.lastDamageTime = GAME_CLOCK.now();
     }
 
     canTakeDamage() {
-        return this.isAlive() &&
-            !this.isInvulnerable();
+        return this.isAlive() && !this.isInvulnerable();
     }
 
     isAlive() {
@@ -256,10 +210,7 @@ class Character extends AnimatedDrawableObject {
     }
 
     isInvulnerable() {
-        const timeSinceDamage =
-            Date.now() - this.lastDamageTime;
-
-        return timeSinceDamage <
+        return GAME_CLOCK.now() - this.lastDamageTime <
             GAME_CONFIG.playerInvulnerabilityDuration;
     }
 
@@ -278,18 +229,11 @@ class Character extends AnimatedDrawableObject {
         const renderArea = this.getSpriteRenderArea();
 
         if (this.direction === -1) {
-            this.drawMirroredImage(
-                context,
-                renderArea
-            );
-
+            this.drawMirroredImage(context, renderArea);
             return;
         }
 
-        this.drawSpriteFrame(
-            context,
-            renderArea
-        );
+        this.drawSpriteFrame(context, renderArea);
     }
 
     drawMirroredImage(context, renderArea) {
@@ -301,11 +245,7 @@ class Character extends AnimatedDrawableObject {
             x: -renderArea.x - renderArea.width
         };
 
-        this.drawSpriteFrame(
-            context,
-            mirroredArea
-        );
-
+        this.drawSpriteFrame(context, mirroredArea);
         context.restore();
     }
 
@@ -369,22 +309,9 @@ class Character extends AnimatedDrawableObject {
     drawTail(context) {
         context.fillStyle = this.fallbackColor;
         context.beginPath();
-
-        context.moveTo(
-            this.x,
-            this.y + this.height / 2
-        );
-
-        context.lineTo(
-            this.x - 22,
-            this.y + 8
-        );
-
-        context.lineTo(
-            this.x - 22,
-            this.y + this.height - 8
-        );
-
+        context.moveTo(this.x, this.y + this.height / 2);
+        context.lineTo(this.x - 22, this.y + 8);
+        context.lineTo(this.x - 22, this.y + this.height - 8);
         context.closePath();
         context.fill();
     }
@@ -395,15 +322,7 @@ class Character extends AnimatedDrawableObject {
 
         context.fillStyle = this.eyeColor;
         context.beginPath();
-
-        context.arc(
-            eyeX,
-            eyeY,
-            5,
-            0,
-            Math.PI * 2
-        );
-
+        context.arc(eyeX, eyeY, 5, 0, Math.PI * 2);
         context.fill();
     }
 
@@ -414,7 +333,6 @@ class Character extends AnimatedDrawableObject {
 
         context.strokeStyle = '#ffffff';
         context.lineWidth = 3;
-
         context.strokeRect(
             this.x - 4,
             this.y - 4,

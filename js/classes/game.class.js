@@ -30,6 +30,7 @@ class Game {
     }
 
     prepareStartedLevel() {
+        GAME_CLOCK.resume();
         this.resetInput();
         this.camera.reset();
         this.attackManager.reset();
@@ -45,16 +46,19 @@ class Game {
 
     pause() {
         this.gameState.pause();
+        this.pauseGameClockIfNeeded();
         this.resetInput();
         this.notifyStatusUpdate();
     }
 
     resume() {
+        GAME_CLOCK.resume();
         this.gameState.resume();
         this.notifyStatusUpdate();
     }
 
     stop() {
+        GAME_CLOCK.resume();
         this.gameState.stop();
         this.cancelRunningLoop();
         this.resetInput();
@@ -81,6 +85,13 @@ class Game {
     /** Releases all inputs at game lifecycle boundaries. */
     resetInput() {
         this.keyboard.resetAllInputs();
+    }
+
+    /** Freezes game time only after a valid pause transition. */
+    pauseGameClockIfNeeded() {
+        if (this.gameState.isPaused) {
+            GAME_CLOCK.pause();
+        }
     }
 
     resetFrameTime() {

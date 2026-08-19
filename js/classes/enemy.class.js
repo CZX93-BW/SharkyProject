@@ -36,6 +36,7 @@ class Enemy extends AnimatedDrawableObject {
         this.playAnimation('swim', 130);
     }
 
+    /** Registers animations belonging to the configured enemy type. */
     prepareAnimations() {
         const enemyAssets = this.getEnemyAssets();
         this.addAnimation('swim', enemyAssets.swim);
@@ -50,11 +51,13 @@ class Enemy extends AnimatedDrawableObject {
         }
     }
 
+    /** Returns configured assets or the Pufferfish fallback. */
     getEnemyAssets() {
         return ASSET_CONFIG.enemies[this.type] ||
             ASSET_CONFIG.enemies.pufferFish;
     }
 
+    /** Returns the first frame used before animation begins. */
     getDefaultImagePath() {
         return this.getEnemyAssets().swim[0] ||
             ASSET_CONFIG.enemies.default;
@@ -149,6 +152,7 @@ class Enemy extends AnimatedDrawableObject {
             GAME_CONFIG.pufferActivationDistance;
     }
 
+    /** Moves the enemy and reacts to solid level objects. */
     updateMovementWithSolidAreas(solidAreas) {
         const previousPosition = {
             x: this.x,
@@ -183,7 +187,7 @@ class Enemy extends AnimatedDrawableObject {
         }
 
         this.health = Math.max(0, this.health - damage);
-        this.lastDamageTime = Date.now();
+        this.lastDamageTime = GAME_CLOCK.now();
         this.updateDefeatedState();
     }
 
@@ -203,9 +207,9 @@ class Enemy extends AnimatedDrawableObject {
         }
 
         this.poisonDamagePerTick = damagePerTick;
-        this.poisonEndTime = Date.now() + duration;
+        this.poisonEndTime = GAME_CLOCK.now() + duration;
         this.poisonTickInterval = tickInterval;
-        this.nextPoisonTickTime = Date.now() + tickInterval;
+        this.nextPoisonTickTime = GAME_CLOCK.now() + tickInterval;
     }
 
     updatePoisonStatus() {
@@ -218,28 +222,31 @@ class Enemy extends AnimatedDrawableObject {
     }
 
     applyPoisonTickIfNeeded() {
-        if (Date.now() >= this.nextPoisonTickTime) {
+        if (GAME_CLOCK.now() >= this.nextPoisonTickTime) {
             this.takeDamage(this.poisonDamagePerTick);
-            this.nextPoisonTickTime = Date.now() + this.poisonTickInterval;
+            this.nextPoisonTickTime = GAME_CLOCK.now() +
+                this.poisonTickInterval;
         }
     }
 
     isPoisoned() {
-        return Date.now() < this.poisonEndTime && this.poisonDamagePerTick > 0;
+        return GAME_CLOCK.now() < this.poisonEndTime &&
+            this.poisonDamagePerTick > 0;
     }
 
     clearExpiredPoison() {
         this.poisonDamagePerTick = 0;
     }
 
+    /** Returns whether the short damage feedback is active. */
     isHurt() {
-        return Date.now() - this.lastDamageTime <
+        return GAME_CLOCK.now() - this.lastDamageTime <
             GAME_CONFIG.enemyHurtDuration;
     }
 
     trap(duration) {
         if (this.canBeTrapped()) {
-            this.trappedUntil = Date.now() + duration;
+            this.trappedUntil = GAME_CLOCK.now() + duration;
         }
     }
 
@@ -248,7 +255,7 @@ class Enemy extends AnimatedDrawableObject {
     }
 
     isTrapped() {
-        return Date.now() < this.trappedUntil;
+        return GAME_CLOCK.now() < this.trappedUntil;
     }
 
     canDealContactDamage() {
@@ -304,13 +311,7 @@ class Enemy extends AnimatedDrawableObject {
     drawMirroredEnemyImage(context) {
         context.save();
         context.scale(-1, 1);
-        context.drawImage(
-            this.image,
-            -this.x - this.width,
-            this.y,
-            this.width,
-            this.height
-        );
+        context.drawImage(this.image, -this.x - this.width, this.y, this.width, this.height);
         context.restore();
     }
 
@@ -322,13 +323,7 @@ class Enemy extends AnimatedDrawableObject {
     drawEnemyEye(context) {
         context.fillStyle = this.eyeColor;
         context.beginPath();
-        context.arc(
-            this.x + this.width / 2,
-            this.y + 18,
-            6,
-            0,
-            Math.PI * 2
-        );
+        context.arc(this.x + this.width / 2, this.y + 18, 6, 0, Math.PI * 2);
         context.fill();
     }
 
@@ -343,10 +338,7 @@ class Enemy extends AnimatedDrawableObject {
     drawTentacle(context, offsetX) {
         context.beginPath();
         context.moveTo(this.x + offsetX, this.y + this.height - 8);
-        context.lineTo(
-            this.x + offsetX - 6,
-            this.y + this.height + 18
-        );
+        context.lineTo(this.x + offsetX - 6, this.y + this.height + 18);
         context.stroke();
     }
 
@@ -356,6 +348,7 @@ class Enemy extends AnimatedDrawableObject {
         this.drawPoisonIndicator(context);
     }
 
+    /** Draws short visual feedback after receiving damage. */
     drawHurtIndicator(context) {
         if (!this.isHurt()) {
             return;
@@ -378,12 +371,7 @@ class Enemy extends AnimatedDrawableObject {
 
         context.strokeStyle = 'rgba(169, 236, 255, 0.9)';
         context.lineWidth = 4;
-        context.strokeRect(
-            this.x - 5,
-            this.y - 5,
-            this.width + 10,
-            this.height + 10
-        );
+        context.strokeRect(this.x - 5, this.y - 5, this.width + 10, this.height + 10);
     }
 
     drawPoisonIndicator(context) {
@@ -393,11 +381,6 @@ class Enemy extends AnimatedDrawableObject {
 
         context.strokeStyle = '#9dff57';
         context.lineWidth = 3;
-        context.strokeRect(
-            this.x - 9,
-            this.y - 9,
-            this.width + 18,
-            this.height + 18
-        );
+        context.strokeRect(this.x - 9, this.y - 9, this.width + 18, this.height + 18);
     }
 }

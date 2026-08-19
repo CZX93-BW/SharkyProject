@@ -1,6 +1,7 @@
 'use strict';
 
 class EnemySpawner {
+    /** Creates a level-bound enemy lifecycle controller. */
     constructor(level, factory = null, randomGenerator = null) {
         this.level = level;
         this.config = level.config.spawner;
@@ -10,6 +11,7 @@ class EnemySpawner {
         this.reset();
     }
 
+    /** Clears the attempt and schedules a new initial population. */
     reset() {
         this.level.enemies = [];
         this.spawnedCount = 0;
@@ -17,7 +19,8 @@ class EnemySpawner {
         this.hasCreatedInitialPopulation = false;
     }
 
-    update(player, visibleBounds, currentTime = Date.now()) {
+    /** Updates cleanup, initial population and timed respawning. */
+    update(player, visibleBounds, currentTime = GAME_CLOCK.now()) {
         if (!player || !visibleBounds) {
             return;
         }
@@ -34,6 +37,7 @@ class EnemySpawner {
         }
     }
 
+    /** Creates the configured number of randomized starting enemies. */
     createInitialPopulation(player, visibleBounds, currentTime) {
         while (this.level.enemies.length < this.config.initialCount &&
             this.hasRemainingBudget()) {
@@ -46,6 +50,7 @@ class EnemySpawner {
         this.scheduleNextSpawn(currentTime);
     }
 
+    /** Returns whether one timed enemy may be created. */
     canSpawnEnemy(player, currentTime) {
         return !this.shouldPauseSpawning(player) &&
             this.level.enemies.length < this.config.maxActiveEnemies &&
@@ -53,10 +58,12 @@ class EnemySpawner {
             currentTime >= this.nextSpawnTime;
     }
 
+    /** Returns whether the attempt still has unused enemy budget. */
     hasRemainingBudget() {
         return this.spawnedCount < this.config.totalEnemyBudget;
     }
 
+    /** Stops normal spawning near or during the boss encounter. */
     shouldPauseSpawning(player) {
         if (!this.config.pauseDuringBoss) {
             return false;
@@ -67,11 +74,13 @@ class EnemySpawner {
             this.level.hasActiveEndboss();
     }
 
+    /** Returns whether Sharky entered the configured boss zone. */
     isPlayerInsideBossZone(player) {
         const bossZoneStart = this.level.width - this.config.bossZoneBuffer;
         return player.x + player.width >= bossZoneStart;
     }
 
+    /** Creates one weighted enemy at a safe randomized position. */
     spawnEnemy(player, visibleBounds) {
         for (const type of this.createSpawnTypeOrder()) {
             const typeConfig = this.level.config.enemyTypes[type];
@@ -90,6 +99,7 @@ class EnemySpawner {
         return false;
     }
 
+    /** Adds one created enemy and advances the level budget. */
     addEnemy(type, position) {
         this.level.enemies.push(this.factory.create(
             type,
@@ -99,6 +109,7 @@ class EnemySpawner {
         this.spawnedCount += 1;
     }
 
+    /** Returns the weighted preferred type followed by shuffled fallbacks. */
     createSpawnTypeOrder() {
         const preferredType = this.selectEnemyType();
         const fallbackTypes = Object.keys(this.level.config.enemyTypes)
@@ -107,6 +118,7 @@ class EnemySpawner {
         return [preferredType, ...fallbackTypes];
     }
 
+    /** Randomizes fallback types with a Fisher-Yates shuffle. */
     shuffleTypes(types) {
         for (let index = types.length - 1; index > 0; index--) {
             const randomIndex = this.random.integer(0, index);
@@ -117,6 +129,7 @@ class EnemySpawner {
         }
     }
 
+    /** Selects one configured type using normalized level weights. */
     selectEnemyType() {
         const entries = Object.entries(this.level.config.enemyTypes);
         const selected = this.random.pickWeighted(entries, ([, config]) => {
@@ -125,6 +138,7 @@ class EnemySpawner {
         return selected[0];
     }
 
+    /** Searches a limited number of safe randomized positions. */
     findSpawnPosition(typeConfig, player, visibleBounds) {
         const horizontalRange = this.getHorizontalSpawnRange(
             visibleBounds,
@@ -155,6 +169,7 @@ class EnemySpawner {
         );
     }
 
+    /** Finds a valid position on a randomized fallback search grid. */
     findFallbackSpawnPosition(typeConfig, player, visibleBounds, horizontalRange) {
         const verticalRange = this.getVerticalSpawnRange(typeConfig, visibleBounds);
         const step = Math.max(40, this.config.minimumEnemyDistance / 2);
@@ -165,6 +180,7 @@ class EnemySpawner {
         return this.findValidGridCandidate(typeConfig, player, xValues, yValues);
     }
 
+    /** Creates evenly distributed values including the upper limit. */
     createSearchValues(range, step) {
         const values = [];
 
@@ -179,11 +195,13 @@ class EnemySpawner {
         return values;
     }
 
+    /** Rotates grid values by a random index without changing spacing. */
     rotateSearchValues(values) {
         const startIndex = this.random.integer(0, values.length - 1);
         values.push(...values.splice(0, startIndex));
     }
 
+    /** Returns the first valid candidate from two search axes. */
     findValidGridCandidate(typeConfig, player, xValues, yValues) {
         for (const x of xValues) {
             for (const y of yValues) {
@@ -198,6 +216,7 @@ class EnemySpawner {
         return null;
     }
 
+    /** Creates one rectangular fallback candidate. */
     createGridCandidate(typeConfig, x, y) {
         return {
             x,
@@ -207,6 +226,7 @@ class EnemySpawner {
         };
     }
 
+    /** Returns the off-camera horizontal area before the boss zone. */
     getHorizontalSpawnRange(visibleBounds, typeConfig) {
         const minimum = visibleBounds.right + this.config.viewportOffset;
         const maximum = this.level.width -
@@ -220,6 +240,7 @@ class EnemySpawner {
         return { minimum, maximum };
     }
 
+    /** Creates one randomized hitbox candidate. */
     createCandidate(typeConfig, horizontalRange, visibleBounds) {
         const verticalRange = this.getVerticalSpawnRange(
             typeConfig,
@@ -233,6 +254,7 @@ class EnemySpawner {
         };
     }
 
+    /** Returns a visible-height range above the configured floor. */
     getVerticalSpawnRange(typeConfig, visibleBounds) {
         const floorY = this.level.height - this.level.config.world.floorHeight;
         const margin = this.getMovementVerticalMargin(typeConfig.movement);
@@ -249,6 +271,7 @@ class EnemySpawner {
         };
     }
 
+    /** Returns the vertical space required by one movement profile. */
     getMovementVerticalMargin(movement) {
         if (movement.profile === 'waveLeft') {
             return movement.waveAmplitude;
@@ -257,6 +280,7 @@ class EnemySpawner {
         return movement.verticalRange / 2;
     }
 
+    /** Applies player, object, barrier and world safety rules. */
     isValidSpawnPosition(candidate, player) {
         return this.isInsidePlayableArea(candidate) &&
             this.hasSafePlayerDistance(candidate, player) &&
@@ -267,6 +291,7 @@ class EnemySpawner {
             !this.overlapsObject(candidate, this.level.endboss);
     }
 
+    /** Returns whether the full candidate is inside the playable world. */
     isInsidePlayableArea(candidate) {
         const floorY = this.level.height - this.level.config.world.floorHeight;
         return candidate.x >= 0 &&
@@ -275,6 +300,7 @@ class EnemySpawner {
             candidate.y + candidate.height <= floorY;
     }
 
+    /** Enforces the configured minimum distance to Sharky. */
     hasSafePlayerDistance(candidate, player) {
         const candidateX = candidate.x + candidate.width / 2;
         const candidateY = candidate.y + candidate.height / 2;
@@ -284,6 +310,7 @@ class EnemySpawner {
             this.config.minimumPlayerDistance;
     }
 
+    /** Returns enemy hitboxes enlarged by the configured spacing. */
     getOccupiedEnemyAreas() {
         const spacing = this.config.minimumEnemyDistance;
         return this.level.enemies.map((enemy) => ({
@@ -294,16 +321,19 @@ class EnemySpawner {
         }));
     }
 
+    /** Returns active collectible hitboxes. */
     getCollectibleAreas() {
         return this.level.collectibles.filter((collectible) => {
             return !collectible.isCollected;
         });
     }
 
+    /** Returns whether one hitbox overlaps any supplied area. */
     overlapsAny(candidate, areas) {
         return areas.some((area) => this.overlapsObject(candidate, area));
     }
 
+    /** Returns whether two rectangle-like objects overlap. */
     overlapsObject(candidate, object) {
         if (!object) {
             return false;
@@ -315,6 +345,7 @@ class EnemySpawner {
             candidate.y + candidate.height > object.y;
     }
 
+    /** Removes completed death animations and escaped enemies. */
     removeExpiredEnemies(visibleBounds) {
         this.level.enemies = this.level.enemies.filter((enemy) => {
             return !this.hasCompletedDeath(enemy) &&
@@ -322,15 +353,18 @@ class EnemySpawner {
         });
     }
 
+    /** Returns whether the complete death animation has ended. */
     hasCompletedDeath(enemy) {
         return enemy.isDefeated && enemy.isAnimationFinished();
     }
 
+    /** Returns whether an enemy passed the buffered camera edge. */
     hasEscapedLeft(enemy, visibleBounds) {
         return enemy.x + enemy.width <
             visibleBounds.left - this.config.despawnBuffer;
     }
 
+    /** Schedules the next randomized respawn time. */
     scheduleNextSpawn(currentTime) {
         const interval = this.random.between(
             this.config.spawnInterval.min,
@@ -339,6 +373,7 @@ class EnemySpawner {
         this.nextSpawnTime = currentTime + interval;
     }
 
+    /** Exposes stable debug values without leaking mutable config. */
     getStats() {
         return {
             active: this.level.enemies.length,
