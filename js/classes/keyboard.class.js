@@ -7,6 +7,7 @@ class Keyboard {
         this.mobileActions = this.createMobileActions();
         this.gameKeys = this.createGameKeys();
         this.bindKeyboardEvents();
+        this.bindInputLifecycleEvents();
     }
 
     createMobileMovement() {
@@ -45,6 +46,22 @@ class Keyboard {
         window.addEventListener('keyup', (event) => this.handleKeyUp(event));
     }
 
+    /** Clears inputs when the browser can no longer report key releases. */
+    bindInputLifecycleEvents() {
+        window.addEventListener('blur', () => this.resetAllInputs());
+        document.addEventListener(
+            'visibilitychange',
+            () => this.handleVisibilityChange()
+        );
+    }
+
+    /** Clears input after the document becomes hidden. */
+    handleVisibilityChange() {
+        if (document.hidden) {
+            this.resetAllInputs();
+        }
+    }
+
     handleKeyDown(event) {
         this.preventBrowserMovement(event);
         this.setKeyState(event.code, true);
@@ -76,6 +93,13 @@ class Keyboard {
 
     resetMobileMovement() {
         this.mobileMovement = this.createMobileMovement();
+    }
+
+    /** Releases keyboard, joystick and mobile attack states together. */
+    resetAllInputs() {
+        this.pressedKeys = {};
+        this.mobileMovement = this.createMobileMovement();
+        this.mobileActions = this.createMobileActions();
     }
 
     setMobileAction(actionName, isPressed) {

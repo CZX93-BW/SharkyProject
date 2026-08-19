@@ -30,6 +30,7 @@ class Game {
     }
 
     prepareStartedLevel() {
+        this.resetInput();
         this.camera.reset();
         this.attackManager.reset();
         this.resetFrameTime();
@@ -44,6 +45,7 @@ class Game {
 
     pause() {
         this.gameState.pause();
+        this.resetInput();
         this.notifyStatusUpdate();
     }
 
@@ -55,6 +57,7 @@ class Game {
     stop() {
         this.gameState.stop();
         this.cancelRunningLoop();
+        this.resetInput();
         this.camera.reset();
         this.attackManager.reset();
         this.renderer.render(this.gameState, this.camera, this.attackManager);
@@ -68,11 +71,16 @@ class Game {
     }
 
     cancelRunningLoop() {
-        if (this.animationFrameId) {
+        if (this.animationFrameId !== null) {
             cancelAnimationFrame(this.animationFrameId);
         }
 
         this.animationFrameId = null;
+    }
+
+    /** Releases all inputs at game lifecycle boundaries. */
+    resetInput() {
+        this.keyboard.resetAllInputs();
     }
 
     resetFrameTime() {
