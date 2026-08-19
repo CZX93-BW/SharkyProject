@@ -21,7 +21,14 @@ class GameState {
     }
 
     getLevelByNumber(levelNumber) {
-        return LEVELS[levelNumber] || LEVELS[1];
+        return LEVELS[this.getValidLevelNumber(levelNumber)];
+    }
+
+    /** Returns a configured integer level or the safe first level. */
+    getValidLevelNumber(levelNumber) {
+        const numericLevel = Number(levelNumber);
+        return Number.isInteger(numericLevel) && LEVELS[numericLevel] ?
+            numericLevel : 1;
     }
 
     createPlayer() {
@@ -50,8 +57,8 @@ class GameState {
     }
 
     startLevel(levelNumber) {
-        this.currentLevel = levelNumber;
-        this.activeLevel = this.getLevelByNumber(levelNumber);
+        this.currentLevel = this.getValidLevelNumber(levelNumber);
+        this.activeLevel = this.getLevelByNumber(this.currentLevel);
         this.status = 'playing';
         this.isRunning = true;
         this.isPaused = false;
@@ -140,8 +147,19 @@ class GameState {
     }
 
     collectPoisonBottle(value) {
+        if (!this.canCollectPoisonBottle(value)) {
+            return false;
+        }
+
         const nextValue = this.poisonBottles + value;
         this.poisonBottles = Math.min(nextValue, this.getMaxPoisonBottles());
+        return true;
+    }
+
+    /** Returns whether a bottle would increase the current inventory. */
+    canCollectPoisonBottle(value = 1) {
+        return value > 0 &&
+            this.poisonBottles < this.getMaxPoisonBottles();
     }
 
     usePoisonBottle() {

@@ -5,18 +5,9 @@ class CollisionManager {
         this.audioManager = audioManager;
     }
 
-    resolvePlayerSolidAreaCollisions(
-        player,
-        solidAreas,
-        previousPosition
-    ) {
+    resolvePlayerSolidAreaCollisions(player, solidAreas, previousPosition) {
         solidAreas.forEach((solidArea) => {
-            if (
-                this.isOverlapping(
-                    player,
-                    solidArea
-                )
-            ) {
+            if (this.isOverlapping(player, solidArea)) {
                 this.resolveSolidAreaCollision(
                     player,
                     solidArea,
@@ -26,413 +17,216 @@ class CollisionManager {
         });
     }
 
-    resolveSolidAreaCollision(
-        player,
-        solidArea,
-        previousPosition
-    ) {
-        const previousSides =
-            this.getPreviousSides(
-                player,
-                previousPosition
-            );
+    resolveSolidAreaCollision(player, solidArea, previousPosition) {
+        const previousSides = this.getPreviousSides(player, previousPosition);
 
-        if (
-            previousSides.bottom <=
-            solidArea.y
-        ) {
-            this.movePlayerAboveArea(
-                player,
-                solidArea
-            );
+        if (previousSides.bottom <= solidArea.y) {
+            this.movePlayerAboveArea(player, solidArea);
             return;
         }
 
-        if (
-            previousSides.top >=
-            solidArea.y + solidArea.height
-        ) {
-            this.movePlayerBelowArea(
-                player,
-                solidArea
-            );
+        if (previousSides.top >= solidArea.y + solidArea.height) {
+            this.movePlayerBelowArea(player, solidArea);
             return;
         }
 
-        if (
-            previousSides.right <=
-            solidArea.x
-        ) {
-            this.movePlayerLeftOfArea(
-                player,
-                solidArea
-            );
+        if (previousSides.right <= solidArea.x) {
+            this.movePlayerLeftOfArea(player, solidArea);
             return;
         }
 
-        this.movePlayerRightOfArea(
-            player,
-            solidArea
-        );
+        this.movePlayerRightOfArea(player, solidArea);
     }
 
-    getPreviousSides(
-        player,
-        previousPosition
-    ) {
+    getPreviousSides(player, previousPosition) {
         return {
             left: previousPosition.x,
-            right:
-                previousPosition.x +
-                player.width,
+            right: previousPosition.x + player.width,
             top: previousPosition.y,
-            bottom:
-                previousPosition.y +
-                player.height
+            bottom: previousPosition.y + player.height
         };
     }
 
-    movePlayerAboveArea(
-        player,
-        solidArea
-    ) {
-        player.y =
-            solidArea.y - player.height;
+    movePlayerAboveArea(player, solidArea) {
+        player.y = solidArea.y - player.height;
         player.velocityY = 0;
     }
 
-    movePlayerBelowArea(
-        player,
-        solidArea
-    ) {
-        player.y =
-            solidArea.y +
-            solidArea.height;
+    movePlayerBelowArea(player, solidArea) {
+        player.y = solidArea.y + solidArea.height;
         player.velocityY = 0;
     }
 
-    movePlayerLeftOfArea(
-        player,
-        solidArea
-    ) {
-        player.x =
-            solidArea.x - player.width;
+    movePlayerLeftOfArea(player, solidArea) {
+        player.x = solidArea.x - player.width;
         player.velocityX = 0;
     }
 
-    movePlayerRightOfArea(
-        player,
-        solidArea
-    ) {
-        player.x =
-            solidArea.x +
-            solidArea.width;
+    movePlayerRightOfArea(player, solidArea) {
+        player.x = solidArea.x + solidArea.width;
         player.velocityX = 0;
     }
 
-    checkPlayerEnemyCollisions(
-        player,
-        enemies
-    ) {
-        enemies.forEach((enemy) => {
-            this.checkPlayerEnemyCollision(
-                player,
-                enemy
-            );
-        });
+    checkPlayerEnemyCollisions(player, enemies) {
+        enemies.forEach((enemy) => this.checkPlayerEnemyCollision(player, enemy));
     }
 
-    checkPlayerEnemyCollision(
-        player,
-        enemy
-    ) {
-        if (
-            !this.canEnemyDamagePlayer(
-                player,
-                enemy
-            )
-        ) {
+    checkPlayerEnemyCollision(player, enemy) {
+        if (!this.canEnemyDamagePlayer(player, enemy)) {
             return;
         }
 
-        this.applyEnemyDamage(
-            player,
-            enemy
-        );
+        this.applyEnemyDamage(player, enemy);
     }
 
-    canEnemyDamagePlayer(
-        player,
-        enemy
-    ) {
-        return enemy.canDealContactDamage() &&
-            this.isOverlapping(
-                player,
-                enemy
-            );
+    canEnemyDamagePlayer(player, enemy) {
+        return enemy.canDealContactDamage() && this.isOverlapping(player, enemy);
     }
 
     applyEnemyDamage(player, enemy) {
-        const healthBeforeDamage =
-            player.health;
-
+        const healthBeforeDamage = player.health;
         player.takeDamage(enemy.damage);
-
-        this.playDamageSoundIfNeeded(
-            player,
-            healthBeforeDamage
-        );
+        this.playDamageSoundIfNeeded(player, healthBeforeDamage);
     }
 
-    playDamageSoundIfNeeded(
-        player,
-        healthBeforeDamage
-    ) {
-        if (
-            player.health <
-            healthBeforeDamage
-        ) {
+    playDamageSoundIfNeeded(player, healthBeforeDamage) {
+        if (player.health < healthBeforeDamage) {
             this.playSound('damage');
         }
     }
 
-    checkPlayerCollectibleCollisions(
-        gameState
-    ) {
-        gameState.activeLevel.collectibles
-            .forEach((collectible) => {
-                this.checkPlayerCollectibleCollision(
-                    gameState,
-                    collectible
-                );
-            });
+    checkPlayerCollectibleCollisions(gameState) {
+        gameState.activeLevel.collectibles.forEach((collectible) => {
+            this.checkPlayerCollectibleCollision(gameState, collectible);
+        });
     }
 
-    checkPlayerCollectibleCollision(
-        gameState,
-        collectible
-    ) {
-        if (
-            !this.canCollect(
-                gameState.player,
-                collectible
-            )
-        ) {
+    checkPlayerCollectibleCollision(gameState, collectible) {
+        if (!this.canCollect(gameState, collectible)) {
             return;
         }
 
-        this.applyCollectible(
-            gameState,
-            collectible
-        );
+        this.applyCollectible(gameState, collectible);
         collectible.collect();
     }
 
-    canCollect(player, collectible) {
+    canCollect(gameState, collectible) {
         return !collectible.isCollected &&
-            this.isOverlapping(
-                player,
-                collectible
-            );
+            this.canAcceptCollectible(gameState, collectible) &&
+            this.isOverlapping(gameState.player, collectible);
     }
 
-    applyCollectible(
-        gameState,
-        collectible
-    ) {
+    /** Keeps full poison pickups available until inventory has space. */
+    canAcceptCollectible(gameState, collectible) {
+        if (collectible.type !== 'poisonBottle') {
+            return true;
+        }
+
+        return gameState.canCollectPoisonBottle(collectible.value);
+    }
+
+    applyCollectible(gameState, collectible) {
         if (collectible.type === 'coin') {
-            this.applyCoinCollectible(
-                gameState,
-                collectible
-            );
+            this.applyCoinCollectible(gameState, collectible);
             return;
         }
 
-        this.applyPoisonBottleCollectible(
-            gameState,
-            collectible
-        );
+        this.applyPoisonBottleCollectible(gameState, collectible);
     }
 
-    applyCoinCollectible(
-        gameState,
-        collectible
-    ) {
-        gameState.collectCoin(
-            collectible.value
-        );
+    applyCoinCollectible(gameState, collectible) {
+        gameState.collectCoin(collectible.value);
         this.playSound('coin');
     }
 
-    applyPoisonBottleCollectible(
-        gameState,
-        collectible
-    ) {
-        gameState.collectPoisonBottle(
-            collectible.value
-        );
+    applyPoisonBottleCollectible(gameState, collectible) {
+        gameState.collectPoisonBottle(collectible.value);
         this.playSound('poisonBottle');
     }
 
-    checkAttackCollisions(
-        attackManager,
-        level
-    ) {
-        const attacks =
-            attackManager.getActiveAttacks();
-        const targets =
-            level.getAttackTargets();
+    checkAttackCollisions(attackManager, level) {
+        const attacks = attackManager.getActiveAttacks();
+        const targets = level.getAttackTargets();
 
         attacks.forEach((attack) => {
-            this.checkAttackSolidAreaCollisions(
-                attack,
-                level.solidAreas
-            );
+            this.checkAttackSolidAreaCollisions(attack, level.solidAreas);
 
             if (!attack.isExpired) {
-                this.checkAttackTargets(
-                    attack,
-                    targets
-                );
+                this.checkAttackTargets(attack, targets);
             }
         });
     }
 
-    /** Stops projectiles when they hit solid areas. */
-    checkAttackSolidAreaCollisions(
-        attack,
-        solidAreas
-    ) {
+    checkAttackSolidAreaCollisions(attack, solidAreas) {
         if (!this.isProjectileAttack(attack)) {
             return;
         }
 
-        const hitsSolidArea =
-            solidAreas.some((solidArea) => {
-                return this.isOverlapping(
-                    attack,
-                    solidArea
-                );
-            });
+        const hitsSolidArea = solidAreas.some((solidArea) => {
+            return this.isOverlapping(attack, solidArea);
+        });
 
         if (hitsSolidArea) {
             attack.expire();
         }
     }
 
-    /** Returns whether the attack is a projectile. */
     isProjectileAttack(attack) {
-        return attack.type ===
-            'poisonShot' ||
-            attack.type ===
-            'bubbleTrap';
+        return attack.type === 'poisonShot' ||
+            attack.type === 'bubbleTrap';
     }
 
-    checkAttackTargets(
-        attack,
-        targets
-    ) {
-        targets.forEach((target) => {
-            this.checkAttackTarget(
-                attack,
-                target
-            );
-        });
+    checkAttackTargets(attack, targets) {
+        targets.forEach((target) => this.checkAttackTarget(attack, target));
     }
 
-    checkAttackTarget(
-        attack,
-        target
-    ) {
-        if (
-            !this.canAttackHitTarget(
-                attack,
-                target
-            )
-        ) {
+    checkAttackTarget(attack, target) {
+        if (!this.canAttackHitTarget(attack, target)) {
             return;
         }
 
-        this.applyAttackHit(
-            attack,
-            target
-        );
+        this.applyAttackHit(attack, target);
     }
 
-    canAttackHitTarget(
-        attack,
-        target
-    ) {
+    canAttackHitTarget(attack, target) {
         return !attack.hasHit(target) &&
             !target.isDefeated &&
-            this.isOverlapping(
-                attack,
-                target
-            );
+            this.isOverlapping(attack, target);
     }
 
-    applyAttackHit(
-        attack,
-        target
-    ) {
+    applyAttackHit(attack, target) {
         if (attack.type === 'finSlap') {
-            this.applyFinSlapHit(
-                attack,
-                target
-            );
+            this.applyFinSlapHit(attack, target);
         }
 
-        if (
-            attack.type === 'poisonShot'
-        ) {
-            this.applyPoisonShotHit(
-                attack,
-                target
-            );
+        if (attack.type === 'poisonShot') {
+            this.applyPoisonShotHit(attack, target);
         }
 
-        if (
-            attack.type === 'bubbleTrap'
-        ) {
-            this.applyBubbleTrapHit(
-                attack,
-                target
-            );
+        if (attack.type === 'bubbleTrap') {
+            this.applyBubbleTrapHit(attack, target);
         }
     }
 
-    applyFinSlapHit(
-        attack,
-        target
-    ) {
+    applyFinSlapHit(attack, target) {
         target.takeDamage(attack.damage);
         attack.registerHit(target);
     }
 
-    applyPoisonShotHit(
-        attack,
-        target
-    ) {
+    applyPoisonShotHit(attack, target) {
         target.takeDamage(attack.damage);
-
         target.applyPoison(
             attack.poisonTickDamage,
             attack.poisonDuration,
             attack.poisonTickInterval
         );
-
         attack.registerHit(target);
         attack.expire();
     }
 
-    applyBubbleTrapHit(
-        attack,
-        target
-    ) {
+    applyBubbleTrapHit(attack, target) {
         if (target.canBeTrapped()) {
-            target.trap(
-                attack.trapDuration
-            );
+            target.trap(attack.trapDuration);
         }
 
         attack.registerHit(target);
@@ -441,27 +235,14 @@ class CollisionManager {
 
     playSound(soundName) {
         if (this.audioManager) {
-            this.audioManager.playSound(
-                soundName
-            );
+            this.audioManager.playSound(soundName);
         }
     }
 
-    isOverlapping(
-        firstObject,
-        secondObject
-    ) {
-        return firstObject.x +
-            firstObject.width >
-            secondObject.x &&
-            firstObject.x <
-            secondObject.x +
-            secondObject.width &&
-            firstObject.y +
-            firstObject.height >
-            secondObject.y &&
-            firstObject.y <
-            secondObject.y +
-            secondObject.height;
+    isOverlapping(firstObject, secondObject) {
+        return firstObject.x + firstObject.width > secondObject.x &&
+            firstObject.x < secondObject.x + secondObject.width &&
+            firstObject.y + firstObject.height > secondObject.y &&
+            firstObject.y < secondObject.y + secondObject.height;
     }
 }
