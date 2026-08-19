@@ -80,22 +80,10 @@ class MobileControls {
     }
 
     bindJoystickEvents() {
-        this.joystickArea.addEventListener(
-            'pointerdown',
-            (event) => this.startJoystick(event)
-        );
-        window.addEventListener(
-            'pointermove',
-            (event) => this.moveJoystick(event)
-        );
-        window.addEventListener(
-            'pointerup',
-            (event) => this.stopJoystick(event)
-        );
-        window.addEventListener(
-            'pointercancel',
-            (event) => this.stopJoystick(event)
-        );
+        this.joystickArea.addEventListener('pointerdown', (event) => this.startJoystick(event));
+        window.addEventListener('pointermove', (event) => this.moveJoystick(event));
+        window.addEventListener('pointerup', (event) => this.stopJoystick(event));
+        window.addEventListener('pointercancel', (event) => this.stopJoystick(event));
     }
 
     startJoystick(event) {
@@ -143,12 +131,13 @@ class MobileControls {
     getLimitedDelta(event, center) {
         const delta = this.getPointerDelta(event, center);
         const distance = Math.hypot(delta.x, delta.y);
+        const maxDistance = this.getMaximumJoystickDistance();
 
-        if (distance <= GAME_CONFIG.mobileJoystickMaxDistance) {
+        if (distance <= maxDistance) {
             return delta;
         }
 
-        return this.getNormalizedDelta(delta, distance);
+        return this.getNormalizedDelta(delta, distance, maxDistance);
     }
 
     getPointerDelta(event, center) {
@@ -158,8 +147,8 @@ class MobileControls {
         };
     }
 
-    getNormalizedDelta(delta, distance) {
-        const factor = GAME_CONFIG.mobileJoystickMaxDistance / distance;
+    getNormalizedDelta(delta, distance, maxDistance) {
+        const factor = maxDistance / distance;
 
         return {
             x: delta.x * factor,
@@ -168,16 +157,22 @@ class MobileControls {
     }
 
     updateMobileMovement(delta) {
-        const maxDistance = GAME_CONFIG.mobileJoystickMaxDistance;
-        this.keyboard.setMobileMovement(
-            delta.x / maxDistance,
-            delta.y / maxDistance
+        const maxDistance = this.getMaximumJoystickDistance();
+        this.keyboard.setMobileMovement(delta.x / maxDistance, delta.y / maxDistance);
+    }
+
+    /** Returns a safe travel radius for the current responsive size. */
+    getMaximumJoystickDistance() {
+        const areaRadius = this.joystickArea.clientWidth / 2;
+        const knobRadius = this.joystickKnob.clientWidth / 2;
+        return Math.min(
+            GAME_CONFIG.mobileJoystickMaxDistance,
+            Math.max(1, areaRadius - knobRadius - 4)
         );
     }
 
     moveJoystickKnob(delta) {
-        this.joystickKnob.style.transform =
-            `translate(${delta.x}px, ${delta.y}px)`;
+        this.joystickKnob.style.transform = `translate(${delta.x}px, ${delta.y}px)`;
     }
 
     resetJoystickKnob() {
@@ -187,44 +182,24 @@ class MobileControls {
     }
 
     bindAttackButtons() {
-        const attackButtons = document.querySelectorAll(
-            '[data-mobile-action]'
-        );
+        const attackButtons = document.querySelectorAll('[data-mobile-action]');
         attackButtons.forEach((button) => this.bindAttackButton(button));
     }
 
     bindAttackButton(button) {
-        button.addEventListener(
-            'pointerdown',
-            (event) => this.startAttack(event, button)
-        );
-        button.addEventListener(
-            'pointerup',
-            (event) => this.stopAttack(event, button)
-        );
-        button.addEventListener(
-            'pointercancel',
-            (event) => this.stopAttack(event, button)
-        );
-        button.addEventListener(
-            'pointerleave',
-            (event) => this.stopAttack(event, button)
-        );
+        button.addEventListener('pointerdown', (event) => this.startAttack(event, button));
+        button.addEventListener('pointerup', (event) => this.stopAttack(event, button));
+        button.addEventListener('pointercancel', (event) => this.stopAttack(event, button));
+        button.addEventListener('pointerleave', (event) => this.stopAttack(event, button));
     }
 
     startAttack(event, button) {
         event.preventDefault();
-        this.keyboard.setMobileAction(
-            button.dataset.mobileAction,
-            true
-        );
+        this.keyboard.setMobileAction(button.dataset.mobileAction, true);
     }
 
     stopAttack(event, button) {
         event.preventDefault();
-        this.keyboard.setMobileAction(
-            button.dataset.mobileAction,
-            false
-        );
+        this.keyboard.setMobileAction(button.dataset.mobileAction, false);
     }
 }

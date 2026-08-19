@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Main Menu Screen -->
     <main id="mainMenuScreen" class="main-menu-screen">
         <section class="main-menu-hero">
             <video class="hero-background-video" muted loop playsinline aria-hidden="true"></video>
@@ -57,6 +58,7 @@
             </nav>
         </section>
 
+        <!-- Main Menu Panels -->
         <section id="levelSelectPanel" class="main-menu-panel hidden">
             <div class="panel-card">
                 <div class="panel-header">
@@ -255,6 +257,7 @@
         </section>
     </main>
 
+    <!-- Game Shell -->
     <main id="gameShell" class="page-layout hidden">
         <section class="game-card">
             <header class="game-header">
@@ -269,6 +272,7 @@
                 </nav>
             </header>
 
+            <!-- Pause Screen -->
             <section id="pauseScreen" class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Pause</p>
@@ -283,6 +287,7 @@
                 </div>
             </section>
 
+            <!-- Shop Screen -->
             <section id="shopScreen" class="menu-overlay hidden">
                 <div class="menu-content shop-content">
                     <p class="eyebrow">Riff-Shop</p>
@@ -322,6 +327,7 @@
                 </div>
             </section>
 
+            <!-- Game Over Screen -->
             <section id="gameOverScreen" class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission gescheitert</p>
@@ -335,6 +341,7 @@
                 </div>
             </section>
 
+            <!-- Win Screen -->
             <section id="winScreen" class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission geschafft</p>
@@ -348,6 +355,7 @@
                 </div>
             </section>
 
+            <!-- Ingame Settings Dialog -->
             <section id="ingameSettingsDialog" class="ingame-dialog hidden" aria-label="Spieleinstellungen">
                 <div class="ingame-dialog-card">
                     <div class="dialog-header">
@@ -400,6 +408,7 @@
                 </div>
             </section>
 
+            <!-- Game Area -->
             <section class="game-area" aria-label="Spielfläche">
                 <div class="game-hud">
                     <span id="levelDisplay">Level: 1</span>
@@ -428,27 +437,29 @@
                     Dein Browser unterstützt kein Canvas.
                 </canvas>
 
-                <div class="mobile-controls" aria-label="Mobile Steuerung">
-                    <div class="mobile-action-group" aria-label="Linke Angriffbuttons">
-                        <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
-                        <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
-                        <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
-                    </div>
-
-                    <div id="mobileJoystick" class="mobile-joystick" aria-label="Bewegungsjoystick">
+                <!-- Mobile Controls -->
+                <div class="mobile-controls" role="group" aria-label="Touch-Steuerung">
+                    <div id="mobileJoystick" class="mobile-joystick" role="group" aria-label="Sharky bewegen">
                         <div id="mobileJoystickKnob" class="mobile-joystick-knob"></div>
                     </div>
 
-                    <div class="mobile-action-group" aria-label="Rechte Angriffbuttons">
-                        <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
-                        <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
-                        <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
+                    <div class="mobile-action-group" role="group" aria-label="Angriffe">
+                        <button class="mobile-action-button" data-mobile-action="slap" aria-label="Flossenschlag ausführen">
+                            Flosse
+                        </button>
+                        <button class="mobile-action-button" data-mobile-action="bubble" aria-label="Blasenfalle abfeuern">
+                            Blase
+                        </button>
+                        <button class="mobile-action-button" data-mobile-action="poison" aria-label="Giftangriff abfeuern">
+                            Gift
+                        </button>
                     </div>
                 </div>
             </section>
         </section>
     </main>
 
+    <!-- Scripts -->
     <script src="js/config/game-config.js"></script>
     <script src="js/config/level-config.js"></script>
     <script src="js/config/asset-config.js"></script>
