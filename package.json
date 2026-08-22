@@ -1,0 +1,14 @@
+{
+    "name": "sharky-jump-and-swim",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Responsive Vanilla-JavaScript canvas game with OOP architecture.",
+    "scripts": {
+        "validate": "node scripts/validate-project.mjs",
+        "test": "node --test \"tests/*.test.mjs\"",
+        "check": "npm run validate && npm test"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}

@@ -1,0 +1,16 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor settings
+.idea/
+.vscode/
+*.code-workspace
+
+# Local tooling
+node_modules/
+*.log
+
+# Generated deployment packages
+.deploy/
