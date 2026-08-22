@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <defs>
+        <linearGradient id="ocean" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0d6380"/>
+            <stop offset="1" stop-color="#052638"/>
+        </linearGradient>
+    </defs>
+    <rect width="64" height="64" rx="14" fill="url(#ocean)"/>
+    <path
+        fill="#69d7ee"
+        d="M14 34c7-12 25-17 36-7l7-6-1 12 1 12-8-7c-10 8-26 5-35-4Z"
+    />
+    <path fill="#ffffff" d="M20 34c7 5 17 7 27 2-7 9-21 10-27-2Z"/>
+    <circle cx="40" cy="28" r="2.5" fill="#052638"/>
+    <path fill="#69d7ee" d="m30 24 6-10 4 11Z"/>
+</svg>
