@@ -1,0 +1,146 @@
+/* Global Settings */
+
+:root {
+    color-scheme: dark;
+    --color-background: #041923;
+    --color-surface: rgba(6, 42, 58, 0.92);
+    --color-surface-light: rgba(15, 82, 110, 0.85);
+    --color-primary: #29d3ff;
+    --color-primary-dark: #049cc2;
+    --color-text: #f1fbff;
+    --color-muted: #a9d6e5;
+    --color-border: rgba(255, 255, 255, 0.16);
+    --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.35);
+    --border-radius-large: 28px;
+    --border-radius-medium: 18px;
+    --font-main: Arial, Helvetica, sans-serif;
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+    --color-background: #dff6fc;
+    --color-surface: rgba(239, 252, 255, 0.94);
+    --color-surface-light: rgba(255, 255, 255, 0.96);
+    --color-primary: #006f91;
+    --color-primary-dark: #00627e;
+    --color-text: #082c3a;
+    --color-muted: #3c6573;
+    --color-border: rgba(8, 69, 91, 0.2);
+    --shadow-card: 0 24px 70px rgba(23, 80, 101, 0.2);
+}
+
+:root[data-theme="light"] .main-menu-screen {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 153, 199, 0.2), transparent 30rem),
+        radial-gradient(circle at 80% 10%, rgba(91, 176, 37, 0.13), transparent 24rem),
+        linear-gradient(135deg, #e6f9ff, #bde8f3 52%, #f8fdff);
+}
+
+:root[data-theme="light"] .main-menu-navigation,
+:root[data-theme="light"] .game-hud {
+    background: rgba(232, 249, 253, 0.8);
+}
+
+:root[data-theme="light"] .mobile-controls {
+    background: linear-gradient(
+        transparent,
+        rgba(213, 242, 249, 0.5)
+    );
+}
+
+:root[data-theme="light"] .main-menu-navigation button,
+:root[data-theme="light"] .main-menu-navigation a,
+:root[data-theme="light"] .hero-feature-list span,
+:root[data-theme="light"] .panel-option,
+:root[data-theme="light"] .instruction-card,
+:root[data-theme="light"] .story-quote,
+:root[data-theme="light"] .settings-toggle-button,
+:root[data-theme="light"] .shop-item,
+:root[data-theme="light"] .shop-wallet,
+:root[data-theme="light"] .secondary-button,
+:root[data-theme="light"] .game-hud span {
+    background: rgba(5, 82, 106, 0.09);
+}
+
+:root[data-theme="light"] .main-menu-panel {
+    background: rgba(191, 228, 238, 0.78);
+}
+
+:root[data-theme="light"] .menu-overlay,
+:root[data-theme="light"] .ingame-dialog {
+    background: rgba(203, 235, 243, 0.78);
+}
+
+:root[data-theme="light"] .icon-button {
+    background: rgba(240, 252, 255, 0.9);
+}
+
+:root[data-theme="light"] .game-area {
+    background: #b6deea;
+}
+
+:root[data-theme="light"] .primary-button,
+:root[data-theme="light"] .main-menu-navigation button:hover,
+:root[data-theme="light"] .main-menu-navigation a:hover,
+:root[data-theme="light"] .icon-button:hover,
+:root[data-theme="light"] .icon-button.is-active,
+:root[data-theme="light"] .icon-button[data-display-action="fullscreen"][aria-pressed="true"] {
+    color: #f1fbff;
+}
+
+:root[data-theme="light"] .primary-button:hover {
+    color: #f1fbff;
+    background: #005674;
+}
+
+.icon-button[data-display-action="fullscreen"][aria-pressed="true"] {
+    color: #021018;
+    background: var(--color-primary);
+}
+
+html.is-fullscreen body {
+    overflow: hidden;
+}
+
+html.is-fullscreen .page-layout {
+    min-height: 100dvh;
+    padding: 0;
+}
+
+html.is-fullscreen .game-card {
+    width: min(100%, 1280px);
+    max-height: 100dvh;
+    overflow: auto;
+    border-radius: 0;
+}
+
+@media (max-width: 1180px) {
+    html.has-touch-controls .mobile-controls {
+        display: flex;
+    }
+
+    html:not(.has-touch-controls) .mobile-controls {
+        display: none;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--font-main);
+    color: var(--color-text);
+    background:
+        radial-gradient(circle at top, rgba(41, 211, 255, 0.2), transparent 32rem),
+        linear-gradient(135deg, #041923, #052d3f 48%, #020b10);
+    transition: color 180ms ease, background 180ms ease;
+}
+
+:root[data-theme="light"] body {
+    background:
+        radial-gradient(circle at top, rgba(0, 153, 199, 0.18), transparent 32rem),
+        linear-gradient(135deg, #eafaff, #cceef7 48%, #f7fdff);
+}

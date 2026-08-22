@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sharky - Jump and Swim</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="styles/menu-screen.css">
 </head>
 <body>
     <!-- Main Menu Screen -->
     <main id="mainMenuScreen" class="main-menu-screen">
         <section class="main-menu-hero">
-            <div class="hero-background-image" aria-hidden="true"></div>
+            <video class="hero-background-video" muted loop playsinline aria-hidden="true"></video>
 
             <div class="hero-background-effects" aria-hidden="true">
                 <span class="bubble bubble-one"></span>
@@ -37,41 +36,19 @@
 
                 <div class="hero-actions">
                     <button class="primary-button large-button" data-start-level="1">
-                        <span>Spiel starten</span>
-                        <small>Direkt mit Level 1 beginnen</small>
+                        Spiel starten
                     </button>
                     <button class="secondary-button large-button" data-main-panel="levelSelectPanel">
-                        <span>Level auswählen</span>
-                        <small>Riffzone selbst bestimmen</small>
+                        Levelauswahl
                     </button>
                 </div>
             </div>
 
             <nav class="main-menu-navigation" aria-label="Hauptmenü">
-                <button data-main-panel="settingsPanel">
-                    <span>Einstellungen</span>
-                    <small>Audio und Anzeige</small>
-                </button>
-                <button data-main-panel="howToPlayPanel">
-                    <span>Anleitung</span>
-                    <small>Steuerung und Angriffe</small>
-                </button>
-                <button data-main-panel="storyPanel">
-                    <span>Geschichte</span>
-                    <small>Das bedrohte Riff</small>
-                </button>
-                <button data-display-action="theme" aria-pressed="true">
-                    <span data-display-label>Darstellung: Dunkel</span>
-                    <small>Farbschema wechseln</small>
-                </button>
-                <button data-display-action="fullscreen" aria-pressed="false">
-                    <span data-display-label>Vollbild: Aus</span>
-                    <small>Ansicht vergrößern</small>
-                </button>
-                <a href="imprint.html">
-                    <span>Impressum</span>
-                    <small>Rechtliche Hinweise</small>
-                </a>
+                <button data-main-panel="settingsPanel">Einstellungen</button>
+                <button data-main-panel="howToPlayPanel">Anleitung</button>
+                <button data-main-panel="storyPanel">Geschichte</button>
+                <a href="imprint.html">Impressum</a>
             </nav>
         </section>
 
@@ -150,19 +127,6 @@
                     </label>
                 </div>
 
-                <div class="settings-section">
-                    <h3>Anzeige</h3>
-
-                    <div class="settings-control-list compact-control-list">
-                        <button class="settings-toggle-button" data-display-action="theme" aria-pressed="true">
-                            Darstellung: Dunkel
-                        </button>
-                        <button class="settings-toggle-button" data-display-action="fullscreen" aria-pressed="false">
-                            Vollbild: Aus
-                        </button>
-                    </div>
-                </div>
-
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
             </div>
         </section>
@@ -185,68 +149,41 @@
                     um Gegner zu umgehen, einzufangen oder zu besiegen.
                 </p>
 
-                <section class="instruction-section" aria-labelledby="movementInstructionsTitle">
-                    <img class="instruction-title-image" src="assets/img/ui/Tittles/Move title.png" alt="">
-                    <h3 id="movementInstructionsTitle" class="visually-hidden">Bewegung</h3>
+                <div class="instruction-grid">
+                    <article class="instruction-card">
+                        <h3>Bewegung</h3>
+                        <p><strong>Desktop:</strong> W A S D oder Pfeiltasten</p>
+                        <p><strong>Mobil:</strong> Joystick benutzen</p>
+                    </article>
 
-                    <div class="instruction-grid movement-instruction-grid">
-                        <article class="instruction-card instruction-visual-card">
-                            <img class="arrow-key-image" src="assets/img/ui/Key/arrow keys.png" alt="Vier Pfeiltasten">
-                            <p>Bewege Sharky mit den Pfeiltasten durch das Riff.</p>
-                        </article>
+                    <article class="instruction-card">
+                        <h3>Fin Slap</h3>
+                        <p><strong>Taste:</strong> E</p>
+                        <p>Ein kurzer Nahkampfangriff. Wirkt gegen normale Gegner und Bossgegner.</p>
+                    </article>
 
-                        <article class="instruction-card instruction-visual-card">
-                            <div class="wasd-keyboard" aria-label="Tasten W, A, S und D">
-                                <kbd>W</kbd>
-                                <span></span>
-                                <kbd>A</kbd>
-                                <kbd>S</kbd>
-                                <kbd>D</kbd>
-                            </div>
-                            <p>Alternativ kannst du auf dem Desktop W, A, S und D verwenden.</p>
-                        </article>
+                    <article class="instruction-card">
+                        <h3>Bubble Trap</h3>
+                        <p><strong>Taste:</strong> Leertaste</p>
+                        <p>Schießt eine Blase. Kleine normale Gegner werden gefangen und machen keinen Schaden mehr.</p>
+                    </article>
 
-                        <article class="instruction-card touch-instruction-card">
-                            <div class="instruction-joystick" aria-hidden="true">
-                                <span></span>
-                            </div>
-                            <div>
-                                <h4>Touch-Steuerung</h4>
-                                <p>Auf Smartphones und Tablets bewegst du Sharky mit dem Joystick links.</p>
-                            </div>
-                        </article>
-                    </div>
-                </section>
+                    <article class="instruction-card">
+                        <h3>Poison Shot</h3>
+                        <p><strong>Taste:</strong> F</p>
+                        <p>Verbraucht eine Giftflasche und verursacht über mehrere Sekunden Giftschaden.</p>
+                    </article>
 
-                <section class="instruction-section" aria-labelledby="attackInstructionsTitle">
-                    <img class="instruction-title-image attack-title-image" src="assets/img/ui/Tittles/Attack tittle.png" alt="">
-                    <h3 id="attackInstructionsTitle" class="visually-hidden">Angriffe</h3>
+                    <article class="instruction-card">
+                        <h3>Ressourcen</h3>
+                        <p>Münzen helfen dir im Shop. Giftflaschen brauchst du für Poison Shot.</p>
+                    </article>
 
-                    <div class="instruction-grid attack-instruction-grid">
-                        <article class="instruction-card instruction-visual-card">
-                            <kbd class="large-key">E</kbd>
-                            <h4>Flossenschlag</h4>
-                            <p>Kurzer Nahkampfangriff gegen normale Gegner und den Boss.</p>
-                        </article>
-
-                        <article class="instruction-card instruction-visual-card">
-                            <img class="space-key-image" src="assets/img/ui/Key/Space Bar key.png" alt="Leertaste">
-                            <h4>Blasenfalle</h4>
-                            <p>Fängt kleine Gegner und verhindert ihren Berührungsschaden.</p>
-                        </article>
-
-                        <article class="instruction-card instruction-visual-card">
-                            <kbd class="large-key">F</kbd>
-                            <h4>Giftangriff</h4>
-                            <p>Verbraucht eine Giftflasche und verursacht Schaden über Zeit.</p>
-                        </article>
-                    </div>
-                </section>
-
-                <aside class="instruction-note">
-                    <strong>Touch-Hinweis:</strong>
-                    Die drei Angriffstasten erscheinen nur auf einem geeigneten Touch-Gerät.
-                </aside>
+                    <article class="instruction-card">
+                        <h3>Ziel</h3>
+                        <p>Erreiche das Levelziel, sammle Ressourcen und bereite Sharky für die nächste Riffzone vor.</p>
+                    </article>
+                </div>
 
                 <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
             </div>
@@ -436,19 +373,6 @@
                             <input id="soundVolumeSlider" type="range" min="0" max="100" value="65">
                         </label>
                     </div>
-
-                    <div class="settings-section">
-                        <h3>Anzeige</h3>
-
-                        <div class="settings-control-list compact-control-list">
-                            <button class="settings-toggle-button" data-display-action="theme" aria-pressed="true">
-                                Darstellung: Dunkel
-                            </button>
-                            <button class="settings-toggle-button" data-display-action="fullscreen" aria-pressed="false">
-                                Vollbild: Aus
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -469,9 +393,6 @@
                     <button id="openSettingsButton" class="icon-button" aria-label="Einstellungen öffnen">
                         ⚙
                     </button>
-                    <button class="icon-button" data-display-action="fullscreen" data-display-compact="true" aria-label="Vollbild aktivieren" aria-pressed="false">
-                        ⛶
-                    </button>
                     <button id="pausePlayButton" class="icon-button" aria-label="Spiel pausieren oder fortsetzen">
                         ⏸
                     </button>
@@ -482,21 +403,21 @@
                 </canvas>
 
                 <!-- Mobile Controls -->
-                <div class="mobile-controls" role="group" aria-label="Touch-Steuerung">
-                    <div id="mobileJoystick" class="mobile-joystick" role="group" aria-label="Sharky bewegen">
+                <div class="mobile-controls" aria-label="Mobile Steuerung">
+                    <div class="mobile-action-group" aria-label="Linke Angriffbuttons">
+                        <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
+                        <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
+                        <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
+                    </div>
+
+                    <div id="mobileJoystick" class="mobile-joystick" aria-label="Bewegungsjoystick">
                         <div id="mobileJoystickKnob" class="mobile-joystick-knob"></div>
                     </div>
 
-                    <div class="mobile-action-group" role="group" aria-label="Angriffe">
-                        <button class="mobile-action-button" data-mobile-action="slap" aria-label="Flossenschlag ausführen">
-                            Flosse
-                        </button>
-                        <button class="mobile-action-button" data-mobile-action="bubble" aria-label="Blasenfalle abfeuern">
-                            Blase
-                        </button>
-                        <button class="mobile-action-button" data-mobile-action="poison" aria-label="Giftangriff abfeuern">
-                            Gift
-                        </button>
+                    <div class="mobile-action-group" aria-label="Rechte Angriffbuttons">
+                        <button class="mobile-action-button" data-mobile-action="slap">Flosse</button>
+                        <button class="mobile-action-button" data-mobile-action="bubble">Blase</button>
+                        <button class="mobile-action-button" data-mobile-action="poison">Gift</button>
                     </div>
                 </div>
             </section>
