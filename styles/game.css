@@ -76,6 +76,69 @@
     flex: 0 0 auto;
 }
 
+/* Audio Icons */
+
+#musicToggleButton {
+    font-size: 0;
+}
+
+#musicToggleButton::before {
+    width: 27px;
+    height: 27px;
+    background:
+        url("../assets/icons/music-icon.png")
+        center / contain no-repeat;
+    content: "";
+}
+
+#musicToggleButton:hover::before,
+#musicToggleButton.is-active::before,
+:root[data-theme="light"] #musicToggleButton::before {
+    filter: brightness(0) saturate(100%);
+}
+
+#musicSettingButton,
+#mainMusicSettingButton,
+#soundSettingButton,
+#mainSoundSettingButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#musicSettingButton::before,
+#mainMusicSettingButton::before,
+#soundSettingButton::before,
+#mainSoundSettingButton::before {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+}
+
+#musicSettingButton::before,
+#mainMusicSettingButton::before {
+    background-image: url("../assets/icons/music-icon.png");
+}
+
+#soundSettingButton::before,
+#mainSoundSettingButton::before {
+    background-image: url("../assets/icons/sound-icon.png");
+}
+
+:root[data-theme="light"] #musicSettingButton::before,
+:root[data-theme="light"] #mainMusicSettingButton::before,
+:root[data-theme="light"] #soundSettingButton::before,
+:root[data-theme="light"] #mainSoundSettingButton::before {
+    filter: brightness(0) saturate(100%);
+}
+
+/* Ingame Dialogs */
+
 .ingame-dialog {
     position: absolute;
     inset: 24px;
@@ -96,6 +159,33 @@
     background: var(--color-surface-light);
     box-shadow: var(--shadow-card);
 }
+
+/* Win Screen */
+
+#winScreen .menu-content::before {
+    display: block;
+    width: clamp(90px, 16vw, 150px);
+    aspect-ratio: 346 / 414;
+    margin: 0 auto 12px;
+    background:
+        url("../assets/img/ui/sharky-celebrating.png")
+        center / contain no-repeat;
+    content: "";
+    animation: celebrationFloat 2.4s ease-in-out infinite;
+}
+
+@keyframes celebrationFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+}
+
+/* Settings */
 
 .settings-control-list {
     display: grid;
