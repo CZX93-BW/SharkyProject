@@ -92,6 +92,7 @@ class DebugChecklist {
         };
     }
 
+    /** Creates the debug check for scalable boss values. */
     createBossScalingCheck() {
         return {
             name: 'Boss-Skalierung und Aggressivität aktiv',
@@ -99,6 +100,7 @@ class DebugChecklist {
         };
     }
 
+    /** Returns whether both bosses use the expected level scaling. */
     hasConfiguredBossScaling() {
         const levelOneBoss = LEVELS[1].endboss;
         const levelTwoBoss = LEVELS[2].endboss;
@@ -106,6 +108,7 @@ class DebugChecklist {
             levelTwoBoss.aggression > levelOneBoss.aggression;
     }
 
+    /** Creates the debug check for both dynamic enemy spawners. */
     createEnemySpawnerCheck() {
         return {
             name: 'Dynamische EnemySpawner vorhanden',
@@ -113,6 +116,7 @@ class DebugChecklist {
         };
     }
 
+    /** Returns whether both level spawners use their level limits. */
     hasConfiguredEnemySpawners() {
         return Boolean(LEVELS[1].enemySpawner) &&
             Boolean(LEVELS[2].enemySpawner) &&
@@ -120,6 +124,7 @@ class DebugChecklist {
             LEVELS[2].enemySpawner.config.maxActiveEnemies === 7;
     }
 
+    /** Creates the debug check for scalable enemy movement profiles. */
     createEnemyMovementCheck() {
         return {
             name: 'Enemy-Bewegungsprofile aktiv',
@@ -127,6 +132,7 @@ class DebugChecklist {
         };
     }
 
+    /** Returns whether pufferfish and jellyfish use distinct movement. */
     hasConfiguredEnemyMovement() {
         const firstLevel = LEVEL_CONFIG[1].enemyTypes;
         const secondLevel = LEVEL_CONFIG[2].enemyTypes;
@@ -184,8 +190,7 @@ class DebugChecklist {
     createPufferStateCheck() {
         return {
             name: 'Puffer-Zustände vorhanden',
-            test: () =>
-                ASSET_CONFIG.enemies.pufferFish.transition.length === 5 &&
+            test: () => ASSET_CONFIG.enemies.pufferFish.transition.length === 5 &&
                 ASSET_CONFIG.enemies.pufferFish.inflatedSwim.length === 5
         };
     }
@@ -199,9 +204,7 @@ class DebugChecklist {
 
     hasCompleteStatusBars() {
         const statusBars = ASSET_CONFIG.ui.statusBars;
-        return Object.values(statusBars).every(
-            (images) => images.length === 6
-        );
+        return Object.values(statusBars).every((images) => images.length === 6);
     }
 
     createFinishLockCheck() {
@@ -246,6 +249,7 @@ class DebugChecklist {
         };
     }
 
+    /** Creates the check for theme and fullscreen controls. */
     createDisplaySettingsCheck() {
         return {
             name: 'Theme und Fullscreen angebunden',
@@ -253,41 +257,32 @@ class DebugChecklist {
         };
     }
 
+    /** Returns whether display state and both actions exist. */
     hasDisplaySettings() {
         const theme = document.documentElement.dataset.theme;
         return (theme === 'dark' || theme === 'light') &&
-            Boolean(document.querySelector(
-                '[data-display-action="theme"]'
-            )) &&
-            Boolean(document.querySelector(
-                '[data-display-action="fullscreen"]'
-            ));
+            Boolean(document.querySelector('[data-display-action="theme"]')) &&
+            Boolean(document.querySelector('[data-display-action="fullscreen"]'));
     }
 
     createMobileControlCheck() {
         return {
             name: 'Mobile Controls vorhanden',
-            test: () => Boolean(
-                document.getElementById('mobileJoystick')
-            )
+            test: () => Boolean(document.getElementById('mobileJoystick'))
         };
     }
 
     createMainMenuCheck() {
         return {
             name: 'Hauptmenü vorhanden',
-            test: () => Boolean(
-                document.getElementById('mainMenuScreen')
-            )
+            test: () => Boolean(document.getElementById('mainMenuScreen'))
         };
     }
 
     createGameShellCheck() {
         return {
             name: 'Game Shell vorhanden',
-            test: () => Boolean(
-                document.getElementById('gameShell')
-            )
+            test: () => Boolean(document.getElementById('gameShell'))
         };
     }
 }

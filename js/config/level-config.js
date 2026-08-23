@@ -256,6 +256,7 @@ const REQUIRED_ENEMY_NUMBER_KEYS = [
 
 const MOVEMENT_PROFILES = ['waveLeft', 'verticalDrift'];
 
+/** Returns one validated level configuration. */
 function getLevelConfig(levelNumber) {
     const levelConfig = LEVEL_CONFIG[levelNumber];
     assertLevelConfig(Boolean(levelConfig), `Level ${levelNumber} is not configured.`);
@@ -263,11 +264,13 @@ function getLevelConfig(levelNumber) {
     return levelConfig;
 }
 
+/** Validates every registered level during application startup. */
 function validateLevelConfigs() {
     Object.values(LEVEL_CONFIG).forEach(validateLevelConfig);
     return true;
 }
 
+/** Validates the structure and limits of one level. */
 function validateLevelConfig(levelConfig) {
     assertLevelConfig(Boolean(levelConfig), 'Level configuration is missing.');
     validateRequiredLevelNumbers(levelConfig);
@@ -278,6 +281,7 @@ function validateLevelConfig(levelConfig) {
     return true;
 }
 
+/** Ensures all required numeric values are positive. */
 function validateRequiredLevelNumbers(levelConfig) {
     REQUIRED_LEVEL_NUMBER_PATHS.forEach((path) => {
         const value = getConfigValue(levelConfig, path);
@@ -286,12 +290,14 @@ function validateRequiredLevelNumbers(levelConfig) {
     });
 }
 
+/** Validates required string values. */
 function validateLevelStrings(levelConfig) {
     const axis = levelConfig.boss.axis;
     const message = `Level ${levelConfig.number}: boss.axis is invalid.`;
     assertLevelConfig(axis === 'horizontal' || axis === 'vertical', message);
 }
 
+/** Validates bounded boss behavior values. */
 function validateBossRules(levelConfig) {
     const boss = levelConfig.boss;
     const prefix = `Level ${levelConfig.number}:`;
@@ -303,6 +309,7 @@ function validateBossRules(levelConfig) {
         `${prefix} boss.chaseDistance exceeds activationDistance.`);
 }
 
+/** Prevents impossible enemy limits and spawn intervals. */
 function validateSpawnerLimits(levelConfig) {
     const spawner = levelConfig.spawner;
     const prefix = `Level ${levelConfig.number}:`;
@@ -324,6 +331,7 @@ function validateSpawnerLimits(levelConfig) {
         `${prefix} pauseDuringBoss must be boolean.`);
 }
 
+/** Validates all configured enemy variants and their weights. */
 function validateEnemyTypes(levelConfig) {
     const entries = Object.entries(levelConfig.enemyTypes || {});
     assertLevelConfig(entries.length > 0,
@@ -332,6 +340,7 @@ function validateEnemyTypes(levelConfig) {
     validateEnemyWeightSum(levelConfig, entries);
 }
 
+/** Validates one configured enemy variant. */
 function validateEnemyType(levelConfig, type, enemyConfig) {
     REQUIRED_ENEMY_NUMBER_KEYS.forEach((key) => {
         const value = enemyConfig[key];
@@ -341,6 +350,7 @@ function validateEnemyType(levelConfig, type, enemyConfig) {
     validateEnemyMovement(levelConfig, type, enemyConfig.movement);
 }
 
+/** Validates the shared and profile-specific movement configuration. */
 function validateEnemyMovement(levelConfig, type, movement) {
     const prefix = `Level ${levelConfig.number}: ${type}.movement`;
     assertLevelConfig(Boolean(movement), `${prefix} is missing.`);
@@ -352,6 +362,7 @@ function validateEnemyMovement(levelConfig, type, movement) {
     validateMovementProfileValues(movement, prefix);
 }
 
+/** Validates numeric values required by the selected movement profile. */
 function validateMovementProfileValues(movement, prefix) {
     if (movement.profile === 'waveLeft') {
         validatePositiveMovementValue(movement.waveAmplitude,
@@ -367,27 +378,32 @@ function validateMovementProfileValues(movement, prefix) {
         `${prefix}.verticalRange`);
 }
 
+/** Ensures one movement value is finite and above zero. */
 function validatePositiveMovementValue(value, path) {
     assertLevelConfig(Number.isFinite(value) && value > 0,
         `${path} must be greater than 0.`);
 }
 
+/** Ensures sprite orientation uses one supported value. */
 function validateSpriteFacing(spriteFacing, prefix) {
     const allowedValues = ['left', 'right', 'neutral'];
     assertLevelConfig(allowedValues.includes(spriteFacing),
         `${prefix}.spriteFacing is invalid.`);
 }
 
+/** Ensures weighted random selection can use the configuration directly. */
 function validateEnemyWeightSum(levelConfig, entries) {
     const sum = entries.reduce((total, [, config]) => total + config.weight, 0);
     const message = `Level ${levelConfig.number}: enemy weights must add up to 1.`;
     assertLevelConfig(Math.abs(sum - 1) < 0.0001, message);
 }
 
+/** Reads a nested configuration value by its dot-separated path. */
 function getConfigValue(config, path) {
     return path.split('.').reduce((value, key) => value?.[key], config);
 }
 
+/** Throws a readable configuration error when a condition fails. */
 function assertLevelConfig(condition, message) {
     if (!condition) {
         throw new Error(`[LEVEL_CONFIG] ${message}`);

@@ -20,30 +20,26 @@ class CollectibleObject extends AnimatedDrawableObject {
         return this.type === 'coin' ? 'coin' : 'poisonBottle';
     }
 
-    /** Registers the configured image sequence. */
+    /** Registers the correct asset sequence for this collectible. */
     registerAnimation() {
         this.addAnimation(this.animationName, this.animationImages);
     }
 
-    /** Updates the animation while the object is active. */
+    /** Updates the visible animation while the object is active. */
     update() {
         if (this.isCollected) {
             return;
         }
 
-        this.playAnimation(
-            this.animationName,
-            this.frameDuration,
-            true
-        );
+        this.playAnimation(this.animationName, this.frameDuration, true);
     }
 
-    /** Marks the collectible as collected. */
+    /** Marks the collectible as collected and therefore invisible. */
     collect() {
         this.isCollected = true;
     }
 
-    /** Restores the collectible for a level restart. */
+    /** Restores visibility and animation state for a level restart. */
     reset() {
         this.isCollected = false;
         this.currentAnimation = '';
@@ -51,7 +47,7 @@ class CollectibleObject extends AnimatedDrawableObject {
         this.animationFinished = false;
     }
 
-    /** Draws only active collectibles. */
+    /** Draws only collectibles which have not been collected. */
     draw(context) {
         if (this.isCollected) {
             return;
@@ -65,7 +61,7 @@ class CollectibleObject extends AnimatedDrawableObject {
         }
     }
 
-    /** Draws a fallback based on the collectible type. */
+    /** Draws a recognizable fallback for missing asset images. */
     drawFallbackDetails(context) {
         if (this.type === 'coin') {
             this.drawCoinDetail(context);
@@ -75,7 +71,7 @@ class CollectibleObject extends AnimatedDrawableObject {
         this.drawBottleDetail(context);
     }
 
-    /** Draws the inner detail of the coin fallback. */
+    /** Adds the inner highlight to the coin fallback. */
     drawCoinDetail(context) {
         context.fillStyle = '#fff7a8';
         context.beginPath();
@@ -89,15 +85,10 @@ class CollectibleObject extends AnimatedDrawableObject {
         context.fill();
     }
 
-    /** Draws the details of the bottle fallback. */
+    /** Adds the neck and body to the poison bottle fallback. */
     drawBottleDetail(context) {
         context.fillStyle = '#143b1f';
-        context.fillRect(
-            this.x + 9,
-            this.y + 6,
-            this.width - 18,
-            8
-        );
+        context.fillRect(this.x + 9, this.y + 6, this.width - 18, 8);
         context.fillRect(
             this.x + 7,
             this.y + 16,

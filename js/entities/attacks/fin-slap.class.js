@@ -11,8 +11,7 @@ class FinSlap extends AttackObject {
             damage: GAME_CONFIG.finSlapDamage,
             direction: player.direction,
             duration: GAME_CONFIG.finSlapDuration,
-            fallbackColor:
-                GAME_CONFIG.finSlapFallbackColor,
+            fallbackColor: GAME_CONFIG.finSlapFallbackColor,
             imagePath: ASSET_CONFIG.attacks.finSlap
         });
     }
@@ -22,14 +21,13 @@ class FinSlap extends AttackObject {
             return player.x + player.width - 4;
         }
 
-        return player.x -
-            GAME_CONFIG.finSlapWidth + 4;
+        return player.x - GAME_CONFIG.finSlapWidth + 4;
     }
 
     update() {
         this.expireWhenDurationIsOver();
     }
 
-    /** Keeps the melee hitbox invisible during normal rendering. */
+    /** Keeps the technical melee hitbox invisible during normal rendering. */
     drawFallback() {}
 }

@@ -95,6 +95,17 @@ class MainMenuController {
             return;
         }
 
+        this.cancelPositionUpdate();
         this.setSceneVariables({ x: 0, y: 0 });
+    }
+
+    /** Cancels a queued pointer update before resetting the scene. */
+    cancelPositionUpdate() {
+        if (this.animationFrame === null) {
+            return;
+        }
+
+        cancelAnimationFrame(this.animationFrame);
+        this.animationFrame = null;
     }
 }

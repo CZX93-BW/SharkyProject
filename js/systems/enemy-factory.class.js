@@ -1,11 +1,13 @@
 'use strict';
 
 class EnemyFactory {
+    /** Creates enemies from one validated level configuration. */
     constructor(levelConfig, randomGenerator = null) {
         this.levelConfig = levelConfig;
         this.random = randomGenerator || new RandomGenerator();
     }
 
+    /** Creates one configured enemy at the requested position. */
     create(type, x, y) {
         const config = this.getTypeConfig(type);
         return new Enemy({
@@ -20,6 +22,7 @@ class EnemyFactory {
         });
     }
 
+    /** Returns one enemy type configuration or throws clearly. */
     getTypeConfig(type) {
         const config = this.levelConfig.enemyTypes[type];
 
@@ -30,6 +33,7 @@ class EnemyFactory {
         return config;
     }
 
+    /** Adds world boundaries and randomized movement state. */
     createMovementConfig(movementConfig) {
         return {
             ...movementConfig,

@@ -4,27 +4,67 @@ class BossMovementController {
     /** Creates collision-aware movement for one boss instance. */
     constructor(boss) {
         this.boss = boss;
+        this.reset();
+    }
+
+    /** Restores direction and patrol state for a new level attempt. */
+    reset() {
+        this.boss.direction = -1;
+        this.patrolDirection = 1;
+    }
+
+    /** Moves along the configured patrol axis around the home point. */
+    updatePatrol(solidAreas, bounds) {
+        const target = this.getPatrolTarget();
+        this.facePatrolTarget(target);
+        const moved = this.moveTowardsPoint(
+            target.x, target.y, this.boss.speed, solidAreas, bounds
+        );
+
+        if (!moved || this.isAtPoint(target)) {
+            this.patrolDirection *= -1;
+        }
+    }
+
+    /** Returns the active endpoint of the configured patrol route. */
+    getPatrolTarget() {
+        const offset = this.boss.range * this.patrolDirection;
+        return this.boss.axis === 'horizontal' ?
+            { x: this.boss.startX + offset, y: this.boss.startY } :
+            { x: this.boss.startX, y: this.boss.startY + offset };
+    }
+
+    /** Faces horizontal routes and keeps vertical patrol sprites left-facing. */
+    facePatrolTarget(target) {
+        if (this.boss.axis === 'horizontal') {
+            this.faceTargetX(target.x);
+            return;
+        }
+
+        this.boss.direction = -1;
+    }
+
+    /** Returns whether the boss reached a movement target. */
+    isAtPoint(target) {
+        const distance = Math.hypot(
+            target.x - this.boss.x,
+            target.y - this.boss.y
+        );
+        return distance <= Math.max(0.5, this.boss.speed);
     }
 
     /** Moves towards a point and resolves solid-area collisions. */
-    moveTowardsPoint(
-        targetX,
-        targetY,
-        speed,
-        solidAreas,
-        bounds
-    ) {
+    moveTowardsPoint(targetX, targetY, speed, solidAreas, bounds) {
         const deltaX = targetX - this.boss.x;
         const deltaY = targetY - this.boss.y;
         const distance = Math.hypot(deltaX, deltaY);
 
         if (distance <= 0.001) {
-            return;
+            return false;
         }
 
         const step = Math.min(speed, distance);
-
-        this.moveWithCollision(
+        return this.moveWithCollision(
             deltaX / distance * step,
             deltaY / distance * step,
             solidAreas,
@@ -33,32 +73,26 @@ class BossMovementController {
     }
 
     /** Tries diagonal movement before falling back to each axis. */
-    moveWithCollision(
-        deltaX,
-        deltaY,
-        solidAreas,
-        bounds
-    ) {
+    moveWithCollision(deltaX, deltaY, solidAreas, bounds) {
         if (this.tryMove(deltaX, deltaY, solidAreas, bounds)) {
-            return;
+            return true;
         }
 
-        this.tryMove(deltaX, 0, solidAreas, bounds);
-        this.tryMove(0, deltaY, solidAreas, bounds);
+        const movedHorizontally = this.tryMove(
+            deltaX, 0, solidAreas, bounds
+        );
+        const movedVertically = this.tryMove(
+            0, deltaY, solidAreas, bounds
+        );
+        return movedHorizontally || movedVertically;
     }
 
     /** Applies one movement attempt and rolls it back on collision. */
-    tryMove(
-        deltaX,
-        deltaY,
-        solidAreas,
-        bounds
-    ) {
+    tryMove(deltaX, deltaY, solidAreas, bounds) {
         const previousPosition = {
             x: this.boss.x,
             y: this.boss.y
         };
-
         this.boss.x += deltaX;
         this.boss.y += deltaY;
         this.keepInsideBounds(bounds);
@@ -92,12 +126,8 @@ class BossMovementController {
             return Number.POSITIVE_INFINITY;
         }
 
-        const deltaX =
-            this.getCenterX() - this.getObjectCenterX(player);
-
-        const deltaY =
-            this.getCenterY() - this.getObjectCenterY(player);
-
+        const deltaX = this.getCenterX() - this.getObjectCenterX(player);
+        const deltaY = this.getCenterY() - this.getObjectCenterY(player);
         return Math.hypot(deltaX, deltaY);
     }
 
@@ -116,13 +146,8 @@ class BossMovementController {
 
     /** Returns whether regular patrol still covers the position. */
     isInsideHomeArea() {
-        const horizontalDistance = Math.abs(
-            this.boss.x - this.boss.startX
-        );
-
-        const verticalDistance = Math.abs(
-            this.boss.y - this.boss.startY
-        );
+        const horizontalDistance = Math.abs(this.boss.x - this.boss.startX);
+        const verticalDistance = Math.abs(this.boss.y - this.boss.startY);
 
         if (this.boss.axis === 'horizontal') {
             return verticalDistance <= 2 &&
@@ -146,26 +171,27 @@ class BossMovementController {
 
     /** Faces one horizontal world position. */
     faceTargetX(targetX) {
-        this.boss.direction =
-            targetX < this.getCenterX() ? -1 : 1;
+        this.boss.direction = targetX < this.getCenterX() ? -1 : 1;
+    }
+
+    /** Mirrors the left-facing source sprite when the boss faces right. */
+    shouldMirrorSprite() {
+        return this.boss.direction > 0;
     }
 
     /** Calculates the aggression-scaled pursuit speed. */
     getChaseSpeed() {
-        return this.boss.speed *
-            (1 + this.boss.aggression * 0.6);
+        return this.boss.speed * (1 + this.boss.aggression * 0.6);
     }
 
     /** Calculates the faster contact-attack speed. */
     getAttackSpeed() {
-        return this.boss.speed *
-            (1.4 + this.boss.aggression * 0.8);
+        return this.boss.speed * (1.4 + this.boss.aggression * 0.8);
     }
 
     /** Calculates a stable return speed. */
     getReturnSpeed() {
-        return this.boss.speed *
-            (1.1 + this.boss.aggression * 0.4);
+        return this.boss.speed * (1.1 + this.boss.aggression * 0.4);
     }
 
     /** Returns the boss center on the x-axis. */

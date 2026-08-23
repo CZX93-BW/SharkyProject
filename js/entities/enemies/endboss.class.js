@@ -15,10 +15,18 @@ class Endboss extends Enemy {
     constructor(config = {}) {
         super(Endboss.createEnemyConfig(config));
         this.eyeColor = GAME_CONFIG.endbossEyeColor;
+        this.configureMovement(config);
         this.configureBehavior(config);
         this.movementController = new BossMovementController(this);
         this.initializeBossState();
         this.playAnimation('floating', 125);
+    }
+
+    /** Stores the configured patrol values used by the boss controller. */
+    configureMovement(config) {
+        this.speed = config.speed ?? GAME_CONFIG.endbossSpeed;
+        this.range = config.patrolRange ?? GAME_CONFIG.endbossPatrolRange;
+        this.axis = config.axis ?? 'vertical';
     }
 
     /** Maps level values to the base enemy configuration. */
@@ -302,8 +310,7 @@ class Endboss extends Enemy {
     updateIdle(solidAreas, bounds) {
         this.state = END_BOSS_STATES.IDLE;
         this.playAnimation('floating', 125);
-        this.updatePatrolWithSolidAreas(solidAreas);
-        this.movementController.keepInsideBounds(bounds);
+        this.movementController.updatePatrol(solidAreas, bounds);
     }
 
     /** Keeps Hurt active long enough to show every frame. */

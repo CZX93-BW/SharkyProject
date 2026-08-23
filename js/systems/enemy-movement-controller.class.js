@@ -1,6 +1,7 @@
 'use strict';
 
 class EnemyMovementController {
+    /** Creates one movement strategy bound to an enemy instance. */
     constructor(enemy, config = {}) {
         this.enemy = enemy;
         this.profile = config.profile || 'waveLeft';
@@ -17,6 +18,7 @@ class EnemyMovementController {
         this.reset();
     }
 
+    /** Restores movement state to the enemy's current spawn position. */
     reset() {
         this.originY = this.enemy.startY;
         this.wavePhase = this.initialPhase;
@@ -25,6 +27,7 @@ class EnemyMovementController {
         this.updateVerticalBounds();
     }
 
+    /** Calculates safe vertical limits around the spawn position. */
     updateVerticalBounds() {
         const halfRange = this.verticalRange / 2;
         this.minimumY = Math.max(this.worldTop, this.originY - halfRange);
@@ -34,6 +37,7 @@ class EnemyMovementController {
         );
     }
 
+    /** Advances the configured movement strategy by one game frame. */
     update() {
         if (this.profile === 'verticalDrift') {
             this.updateVerticalDrift();
@@ -43,6 +47,7 @@ class EnemyMovementController {
         this.updateWaveLeft();
     }
 
+    /** Moves a pufferfish left while following a sine wave. */
     updateWaveLeft() {
         this.enemy.x -= this.horizontalSpeed;
         this.wavePhase += this.waveFrequency;
@@ -52,6 +57,7 @@ class EnemyMovementController {
         this.enemy.direction = -1;
     }
 
+    /** Moves a jellyfish mainly vertically with a slight left drift. */
     updateVerticalDrift() {
         this.enemy.x -= this.horizontalSpeed;
         this.enemy.y += this.verticalSpeed * this.verticalDirection;
@@ -59,6 +65,7 @@ class EnemyMovementController {
         this.enemy.direction = -1;
     }
 
+    /** Reverses vertical motion at the configured upper and lower limit. */
     reverseAtVerticalBounds() {
         if (this.enemy.y <= this.minimumY) {
             this.enemy.y = this.minimumY;
@@ -71,6 +78,7 @@ class EnemyMovementController {
         }
     }
 
+    /** Changes the vertical route after hitting a solid object. */
     handleObstacle() {
         if (this.profile === 'waveLeft') {
             this.wavePhase = Math.PI - this.wavePhase;
@@ -80,10 +88,12 @@ class EnemyMovementController {
         this.verticalDirection *= -1;
     }
 
+    /** Keeps a vertical value inside the movement limits. */
     clampVerticalPosition(value) {
         return Math.min(Math.max(value, this.minimumY), this.maximumY);
     }
 
+    /** Returns whether the source sprite must be mirrored for movement. */
     shouldMirrorSprite() {
         if (this.spriteFacing === 'neutral') {
             return false;
