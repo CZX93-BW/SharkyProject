@@ -1,7 +1,16 @@
 'use strict';
 
+/**
+ * Represents an animated coin or poison bottle that can be collected once.
+ *
+ * @extends AnimatedDrawableObject
+ */
 class CollectibleObject extends AnimatedDrawableObject {
-    /** Creates an animated coin or poison bottle. */
+    /**
+     * Creates a collectible from its visual and gameplay configuration.
+     *
+     * @param {Object} [config={}] - Collectible configuration.
+     */
     constructor(config = {}) {
         super(config.x, config.y, config.width, config.height);
         this.type = config.type;
@@ -15,26 +24,25 @@ class CollectibleObject extends AnimatedDrawableObject {
         this.loadImage(config.imagePath);
     }
 
-    /** Returns the animation name belonging to the collectible type. */
+    /** @returns {string} Animation name belonging to the collectible type. */
     getAnimationName() {
         return this.type === 'coin' ? 'coin' : 'poisonBottle';
     }
 
-    /** Registers the correct asset sequence for this collectible. */
+    /** Registers the configured animation image sequence. */
     registerAnimation() {
         this.addAnimation(this.animationName, this.animationImages);
     }
 
-    /** Updates the visible animation while the object is active. */
+    /** Updates the animation while the collectible remains active. */
     update() {
         if (this.isCollected) {
             return;
         }
-
         this.playAnimation(this.animationName, this.frameDuration, true);
     }
 
-    /** Marks the collectible as collected and therefore invisible. */
+    /** Marks the collectible as collected and invisible. */
     collect() {
         this.isCollected = true;
     }
@@ -47,31 +55,28 @@ class CollectibleObject extends AnimatedDrawableObject {
         this.animationFinished = false;
     }
 
-    /** Draws only collectibles which have not been collected. */
+    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
     draw(context) {
         if (this.isCollected) {
             return;
         }
-
         const hasReadyImage = this.isImageReady();
         super.draw(context);
-
         if (!hasReadyImage) {
             this.drawFallbackDetails(context);
         }
     }
 
-    /** Draws a recognizable fallback for missing asset images. */
+    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
     drawFallbackDetails(context) {
         if (this.type === 'coin') {
             this.drawCoinDetail(context);
             return;
         }
-
         this.drawBottleDetail(context);
     }
 
-    /** Adds the inner highlight to the coin fallback. */
+    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
     drawCoinDetail(context) {
         context.fillStyle = '#fff7a8';
         context.beginPath();
@@ -85,7 +90,7 @@ class CollectibleObject extends AnimatedDrawableObject {
         context.fill();
     }
 
-    /** Adds the neck and body to the poison bottle fallback. */
+    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
     drawBottleDetail(context) {
         context.fillStyle = '#143b1f';
         context.fillRect(this.x + 9, this.y + 6, this.width - 18, 8);

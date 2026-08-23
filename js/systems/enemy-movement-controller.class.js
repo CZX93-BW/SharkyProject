@@ -1,13 +1,20 @@
 'use strict';
 
+/** Applies the configured movement profile to one standard enemy. */
 class EnemyMovementController {
-    /** Creates one movement strategy bound to an enemy instance. */
+    /**
+     * @param {Enemy} enemy - Enemy controlled by this strategy.
+     * @param {Object} [config={}] - Movement profile configuration.
+     */
     constructor(enemy, config = {}) {
         this.enemy = enemy;
         this.profile = config.profile || 'waveLeft';
-        this.horizontalSpeed = config.horizontalSpeed || GAME_CONFIG.enemySpeed;
-        this.verticalSpeed = config.verticalSpeed || GAME_CONFIG.enemySpeed;
-        this.verticalRange = config.verticalRange || GAME_CONFIG.enemyPatrolRange;
+        this.horizontalSpeed =
+            config.horizontalSpeed || GAME_CONFIG.enemySpeed;
+        this.verticalSpeed =
+            config.verticalSpeed || GAME_CONFIG.enemySpeed;
+        this.verticalRange =
+            config.verticalRange || GAME_CONFIG.enemyPatrolRange;
         this.waveAmplitude = config.waveAmplitude || 0;
         this.waveFrequency = config.waveFrequency || 0;
         this.spriteFacing = config.spriteFacing || 'left';
@@ -43,7 +50,6 @@ class EnemyMovementController {
             this.updateVerticalDrift();
             return;
         }
-
         this.updateWaveLeft();
     }
 
@@ -65,7 +71,7 @@ class EnemyMovementController {
         this.enemy.direction = -1;
     }
 
-    /** Reverses vertical motion at the configured upper and lower limit. */
+    /** Reverses vertical motion at the configured limits. */
     reverseAtVerticalBounds() {
         if (this.enemy.y <= this.minimumY) {
             this.enemy.y = this.minimumY;
@@ -84,16 +90,18 @@ class EnemyMovementController {
             this.wavePhase = Math.PI - this.wavePhase;
             return;
         }
-
         this.verticalDirection *= -1;
     }
 
-    /** Keeps a vertical value inside the movement limits. */
+    /**
+     * @param {number} value - Vertical position to restrict.
+     * @returns {number} Position clamped to the movement limits.
+     */
     clampVerticalPosition(value) {
         return Math.min(Math.max(value, this.minimumY), this.maximumY);
     }
 
-    /** Returns whether the source sprite must be mirrored for movement. */
+    /** @returns {boolean} Whether the source sprite must be mirrored. */
     shouldMirrorSprite() {
         if (this.spriteFacing === 'neutral') {
             return false;

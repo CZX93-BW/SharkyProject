@@ -1,6 +1,8 @@
 'use strict';
 
+/** Controls pointer-based parallax movement on the main menu scene. */
 class MainMenuController {
+    /** Creates menu element, motion preference, and pointer state references. */
     constructor() {
         this.hero = document.querySelector('.main-menu-hero');
         this.reducedMotionQuery = window.matchMedia(
@@ -29,7 +31,7 @@ class MainMenuController {
         this.hero.addEventListener('pointerleave', () => this.resetPosition());
     }
 
-    /** Stores mouse coordinates and schedules one visual update. */
+    /** @param {PointerEvent} event - Current menu pointer movement event. */
     handlePointerMove(event) {
         if (!this.shouldUseParallax(event)) {
             return;
@@ -39,7 +41,10 @@ class MainMenuController {
         this.schedulePositionUpdate();
     }
 
-    /** Returns whether motion is suitable for the current input. */
+    /**
+     * @param {PointerEvent} event - Current menu pointer event.
+     * @returns {boolean} Whether parallax is suitable for the current input.
+     */
     shouldUseParallax(event) {
         return event.pointerType !== 'touch' &&
             !this.reducedMotionQuery.matches;
@@ -64,15 +69,31 @@ class MainMenuController {
         this.animationFrame = null;
     }
 
-    /** Returns normalized coordinates between minus one and one. */
+    /**
+     * @param {DOMRect} rectangle - Main menu scene bounds.
+     * @returns {Object} Normalized coordinates between minus one and one.
+     */
     getNormalizedPosition(rectangle) {
         return {
-            x: this.normalizeAxis(this.pointerPosition.x, rectangle.left, rectangle.width),
-            y: this.normalizeAxis(this.pointerPosition.y, rectangle.top, rectangle.height)
+            x: this.normalizeAxis(
+                this.pointerPosition.x,
+                rectangle.left,
+                rectangle.width
+            ),
+            y: this.normalizeAxis(
+                this.pointerPosition.y,
+                rectangle.top,
+                rectangle.height
+            )
         };
     }
 
-    /** Normalizes one pointer axis relative to its container. */
+    /**
+     * @param {number} value - Pointer position on one axis.
+     * @param {number} start - Container start on the axis.
+     * @param {number} size - Container size on the axis.
+     * @returns {number} Normalized value between minus one and one.
+     */
     normalizeAxis(value, start, size) {
         if (size <= 0) {
             return 0;
@@ -81,12 +102,18 @@ class MainMenuController {
         return Math.max(-1, Math.min(1, ((value - start) / size) * 2 - 1));
     }
 
-    /** Updates parallax offset and spotlight position. */
+    /** @param {Object} position - Normalized two-axis pointer position. */
     setSceneVariables(position) {
         this.hero.style.setProperty('--menu-offset-x', `${position.x * -10}px`);
         this.hero.style.setProperty('--menu-offset-y', `${position.y * -6}px`);
-        this.hero.style.setProperty('--menu-light-x', `${(position.x + 1) * 50}%`);
-        this.hero.style.setProperty('--menu-light-y', `${(position.y + 1) * 50}%`);
+        this.hero.style.setProperty(
+            '--menu-light-x',
+            `${(position.x + 1) * 50}%`
+        );
+        this.hero.style.setProperty(
+            '--menu-light-y',
+            `${(position.y + 1) * 50}%`
+        );
     }
 
     /** Restores the neutral scene without sudden movement. */

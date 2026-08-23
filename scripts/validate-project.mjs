@@ -27,7 +27,10 @@ function runValidation() {
     finishValidation();
 }
 
-/** Returns every project file except ignored local directories. */
+/**
+ * @param {string} directory - Absolute directory to scan recursively.
+ * @returns {string[]} Project files outside ignored directories.
+ */
 function listFiles(directory) {
     return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
         const target = join(directory, entry.name);
@@ -58,11 +61,13 @@ function validateHtmlFiles() {
     ['index.html', 'imprint.html'].forEach((file) => validateHtmlFile(file));
 }
 
-/** Validates resources and duplicate scripts in one HTML file. */
+/** @param {string} file - Root-relative HTML file path. */
 function validateHtmlFile(file) {
     const content = readProjectFile(file);
     const references = extractHtmlReferences(content);
-    references.forEach((reference) => validateRelativeReference(file, reference));
+    references.forEach((reference) => {
+        validateRelativeReference(file, reference);
+    });
     validateDuplicateScripts(file, content);
 
     if (file === 'index.html') {
@@ -70,24 +75,37 @@ function validateHtmlFile(file) {
     }
 }
 
-/** Extracts local src and href values from HTML content. */
+/**
+ * @param {string} content - HTML source to inspect.
+ * @returns {string[]} Local resource references.
+ */
 function extractHtmlReferences(content) {
     return [...content.matchAll(/(?:src|href)="([^"]+)"/g)]
         .map((match) => match[1])
         .filter(isLocalReference);
 }
 
-/** Extracts external script file paths from HTML content. */
+/**
+ * @param {string} content - HTML source to inspect.
+ * @returns {string[]} Script source paths in document order.
+ */
 function extractScriptSources(content) {
     return [...content.matchAll(/<script\s+src="([^"]+)"/g)]
         .map((match) => match[1]);
 }
 
-/** Rejects duplicate script tags and an invalid application entry point. */
+/**
+ * @param {string} file - Root-relative HTML file path.
+ * @param {string} content - HTML source to inspect.
+ */
 function validateDuplicateScripts(file, content) {
     const scripts = extractScriptSources(content);
-    const duplicates = scripts.filter((script, index) => scripts.indexOf(script) !== index);
-    duplicates.forEach((script) => addError(`${file}: duplicate script ${script}`));
+    const duplicates = scripts.filter((script, index) => {
+        return scripts.indexOf(script) !== index;
+    });
+    duplicates.forEach((script) => {
+        addError(`${file}: duplicate script ${script}`);
+    });
 
     if (file === 'index.html' && scripts.at(-1) !== 'js/main.js') {
         addError('index.html: js/main.js must be the final script');
@@ -101,32 +119,46 @@ function validateStylesheets() {
     stylesheets.forEach((file) => validateStylesheet(file));
 }
 
-/** Checks brace balance and local resources in one stylesheet. */
+/** @param {string} file - Absolute stylesheet path. */
 function validateStylesheet(file) {
     const content = readFileSync(file, 'utf8');
     const cleanedContent = stripCssCommentsAndStrings(content);
     const braceBalance = calculateBraceBalance(cleanedContent);
     const source = getRelativePath(file);
-    if (braceBalance !== 0) addError(`${source}: unbalanced CSS braces`);
-    extractCssReferences(content)
-        .forEach((reference) => validateRelativeReference(source, reference));
+
+    if (braceBalance !== 0) {
+        addError(`${source}: unbalanced CSS braces`);
+    }
+
+    extractCssReferences(content).forEach((reference) => {
+        validateRelativeReference(source, reference);
+    });
 }
 
-/** Removes content that may contain non-structural brace characters. */
+/**
+ * @param {string} content - Original stylesheet source.
+ * @returns {string} Source without comments and quoted strings.
+ */
 function stripCssCommentsAndStrings(content) {
     return content
         .replace(/\/\*[\s\S]*?\*\//g, '')
         .replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '');
 }
 
-/** Returns the opening minus closing CSS brace count. */
+/**
+ * @param {string} content - Cleaned stylesheet source.
+ * @returns {number} Opening braces minus closing braces.
+ */
 function calculateBraceBalance(content) {
     return [...content].reduce((sum, character) => {
         return sum + (character === '{') - (character === '}');
     }, 0);
 }
 
-/** Extracts local url values from CSS content. */
+/**
+ * @param {string} content - Stylesheet source to inspect.
+ * @returns {string[]} Local resources referenced by URL declarations.
+ */
 function extractCssReferences(content) {
     return [...content.matchAll(/url\(["']?([^"')]+)["']?\)/g)]
         .map((match) => match[1])
@@ -135,19 +167,25 @@ function extractCssReferences(content) {
 
 /** Runs the JavaScript parser against every JavaScript source file. */
 function validateJavaScriptFiles() {
-    files.filter(isJavaScriptFile).forEach((file) => validateJavaScriptFile(file));
+    files
+        .filter(isJavaScriptFile)
+        .forEach((file) => validateJavaScriptFile(file));
 }
 
-/** Returns whether a file uses a supported JavaScript extension. */
+/**
+ * @param {string} file - Absolute project file path.
+ * @returns {boolean} Whether the extension is JavaScript-compatible.
+ */
 function isJavaScriptFile(file) {
     return ['.js', '.mjs'].includes(extname(file));
 }
 
-/** Validates one JavaScript file without executing project code. */
+/** @param {string} file - Absolute JavaScript file path. */
 function validateJavaScriptFile(file) {
     const result = spawnSync(process.execPath, ['--check', file], {
         encoding: 'utf8'
     });
+
     if (result.status !== 0) {
         addError(`${getRelativePath(file)}: ${result.stderr.trim()}`);
     }
@@ -159,8 +197,11 @@ function validateConfiguredAssets() {
     const assetPaths = [...content.matchAll(/['"](assets\/[^'"]+)['"]/g)]
         .map((match) => match[1]);
     const uniqueAssetPaths = [...new Set(assetPaths)];
+
     metrics.configuredAssets = uniqueAssetPaths.length;
-    uniqueAssetPaths.forEach((file) => validateExistingPath(file, 'Configured asset'));
+    uniqueAssetPaths.forEach((file) => {
+        validateExistingPath(file, 'Configured asset');
+    });
 }
 
 /** Checks local Markdown links and embedded images in the README. */
@@ -170,9 +211,12 @@ function validateReadme() {
         .map((match) => match[1]);
     const images = [...content.matchAll(/<img[^>]+src="([^"]+)"/g)]
         .map((match) => match[1]);
+
     [...markdownLinks, ...images]
         .filter(isLocalReference)
-        .forEach((reference) => validateRelativeReference('README.md', reference));
+        .forEach((reference) => {
+            validateRelativeReference('README.md', reference);
+        });
 }
 
 /** Rejects source archives, previews and explicitly legacy exports. */
@@ -182,6 +226,7 @@ function validateForbiddenArtifacts() {
         /(?:preview|previwe|proposal).*\.gif$/i,
         /\.(?:ai|zip)$/i
     ];
+
     files.map(getRelativePath).forEach((file) => {
         if (patterns.some((pattern) => pattern.test(`/${file}`))) {
             addError(`Development artifact found: ${file}`);
@@ -189,38 +234,54 @@ function validateForbiddenArtifacts() {
     });
 }
 
-/** Validates one path relative to its source file. */
+/**
+ * @param {string} sourceFile - Root-relative referencing file path.
+ * @param {string} reference - Referenced local resource path.
+ */
 function validateRelativeReference(sourceFile, reference) {
     const cleanReference = decodeURIComponent(reference.split(/[?#]/)[0]);
     const target = resolve(projectRoot, dirname(sourceFile), cleanReference);
+
     if (!existsSync(target)) {
         addError(`${sourceFile}: missing ${reference}`);
     }
 }
 
-/** Validates one root-relative project path. */
+/**
+ * @param {string} file - Root-relative path that must exist.
+ * @param {string} label - Error label describing the path type.
+ */
 function validateExistingPath(file, label) {
     if (!existsSync(resolve(projectRoot, file))) {
         addError(`${label} missing: ${file}`);
     }
 }
 
-/** Returns whether a resource reference targets the local project. */
+/**
+ * @param {string} reference - Resource reference to classify.
+ * @returns {boolean} Whether the reference targets a local resource.
+ */
 function isLocalReference(reference) {
     return !/^(?:#|[a-z]+:|\/\/)/i.test(reference);
 }
 
-/** Reads a UTF-8 project file by its root-relative path. */
+/**
+ * @param {string} file - Root-relative project file path.
+ * @returns {string} UTF-8 file content.
+ */
 function readProjectFile(file) {
     return readFileSync(resolve(projectRoot, file), 'utf8');
 }
 
-/** Returns a normalized project-relative path. */
+/**
+ * @param {string} file - Absolute project file path.
+ * @returns {string} Normalized project-relative path.
+ */
 function getRelativePath(file) {
     return relative(projectRoot, file).replaceAll('\\', '/');
 }
 
-/** Collects one validation failure without aborting later checks. */
+/** @param {string} message - Validation failure to collect. */
 function addError(message) {
     errors.push(message);
 }
@@ -228,7 +289,9 @@ function addError(message) {
 /** Prints the final validation result and sets the process status. */
 function finishValidation() {
     if (errors.length > 0) {
-        console.error(`Project validation failed with ${errors.length} error(s):`);
+        console.error(
+            `Project validation failed with ${errors.length} error(s):`
+        );
         errors.forEach((error) => console.error(`- ${error}`));
         process.exitCode = 1;
         return;

@@ -1,6 +1,14 @@
 'use strict';
 
+/**
+ * Provides the central registry for all visual and audio asset paths.
+ * Empty paths reserve optional assets that can be integrated later.
+ *
+ * @constant
+ * @type {Object<string, *>}
+ */
 const ASSET_CONFIG = {
+    /** Contains Sharky's static image and animation sequences. */
     character: {
         sharky: 'assets/img/sharky/3.Swim/1.png',
         idle: [
@@ -69,6 +77,8 @@ const ASSET_CONFIG = {
             'assets/img/sharky/6.dead/1.Poisoned/12.png'
         ]
     },
+
+    /** Contains the parallax background layers for every level. */
     backgrounds: {
         levelOne: {
             far: 'assets/img/backgrounds/Layers/5. Water/water_complete_lvl_1.png',
@@ -85,6 +95,8 @@ const ASSET_CONFIG = {
             floor: 'assets/img/backgrounds/Layers/2. Floor/floor0_complete_lvl_2.png'
         }
     },
+
+    /** Contains sprite sequences for regular enemies and the end boss. */
     enemies: {
         default:
             'assets/img/enemies/1.Puffer fish (3 color options)/1.Swim/1.swim1.png',
@@ -210,6 +222,8 @@ const ASSET_CONFIG = {
             ]
         }
     },
+
+    /** Contains static and animated collectible assets. */
     collectibles: {
         coin: 'assets/img/collectibles/1. Coins/1.png',
         coinAnimation: [
@@ -230,6 +244,8 @@ const ASSET_CONFIG = {
             'assets/img/collectibles/Poison/Animada/8.png'
         ]
     },
+
+    /** Contains finish and barrier assets used by level objects. */
     levelObjects: {
         finish: '',
         barriers: {
@@ -241,11 +257,17 @@ const ASSET_CONFIG = {
                 'assets/img/backgrounds/Barrier/barrier_3.png'
         }
     },
+
+    /** Contains visual assets for player attacks. */
     attacks: {
         finSlap: '',
-        poisonShot: 'assets/img/sharky/4.Attack/Bubble trap/Poisoned Bubble (for whale).png',
-        bubbleTrap: 'assets/img/sharky/4.Attack/Bubble trap/Bubble.png'
+        poisonShot:
+            'assets/img/sharky/4.Attack/Bubble trap/Poisoned Bubble (for whale).png',
+        bubbleTrap:
+            'assets/img/sharky/4.Attack/Bubble trap/Bubble.png'
     },
+
+    /** Contains interface icons and status-bar sequences. */
     ui: {
         logo: '',
         heartIcon: '',
@@ -263,7 +285,7 @@ const ASSET_CONFIG = {
             ],
             coins: [
                 'assets/img/collectibles/green/Coin/0_  copia 4.png',
-                'assets/img/collectibles/green/Coin/20_  copia 2.png',
+                'assets/img/collectibles/green/Coin/20_ copia 2.png',
                 'assets/img/collectibles/green/Coin/40_  copia 4.png',
                 'assets/img/collectibles/green/Coin/60_  copia 4.png',
                 'assets/img/collectibles/green/Coin/80_  copia 4.png',
@@ -287,6 +309,8 @@ const ASSET_CONFIG = {
             ]
         }
     },
+
+    /** Reserves music and sound-effect paths for audio integration. */
     audio: {
         music: {
             mainTheme: ''

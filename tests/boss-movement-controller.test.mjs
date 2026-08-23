@@ -21,6 +21,7 @@ const gameContext = createScriptContext({
         }
     }
 });
+
 loadProjectScripts(
     gameContext,
     [
@@ -38,25 +39,70 @@ loadProjectScripts(
     'globalThis.EndbossExport = Endboss;'
 );
 
-/** Creates the boss values required by the movement controller. */
+/**
+ * @param {number} direction - Initial horizontal facing direction.
+ * @returns {Object} Boss values required by the movement controller.
+ */
 function createBoss(direction) {
+    return {
+        ...createBossPosition(),
+        ...createBossMovementValues(),
+        direction,
+        ...createBossBehavior()
+    };
+}
+
+/** @returns {Object} Boss position and dimensions. */
+function createBossPosition() {
     return {
         x: 100,
         y: 100,
         startX: 100,
         startY: 100,
         width: 140,
-        height: 110,
+        height: 110
+    };
+}
+
+/** @returns {Object} Boss patrol movement values. */
+function createBossMovementValues() {
+    return {
         speed: 2,
         range: 20,
-        axis: 'vertical',
-        direction,
+        axis: 'vertical'
+    };
+}
+
+/** @returns {Object} Collision methods required by the controller. */
+function createBossBehavior() {
+    return {
         isTouchingSolidArea: () => false,
         restorePosition(previousPosition) {
             this.x = previousPosition.x;
             this.y = previousPosition.y;
         },
         keepInsideBounds() {}
+    };
+}
+
+/** @returns {Endboss} End boss configured for reset testing. */
+function createEndboss() {
+    return new gameContext.EndbossExport({
+        x: 2000,
+        y: 250,
+        speed: 1.1,
+        patrolRange: 170,
+        axis: 'vertical'
+    });
+}
+
+/** @returns {Object} World bounds used by the end-boss patrol test. */
+function createWorldBounds() {
+    return {
+        left: 0,
+        top: 0,
+        right: 2400,
+        bottom: 720
     };
 }
 
@@ -97,24 +143,13 @@ test('vertical boss patrol advances around its configured home point', () => {
 });
 
 test('endboss resets and enters idle patrol without interface errors', () => {
-    const boss = new gameContext.EndbossExport({
-        x: 2000,
-        y: 250,
-        speed: 1.1,
-        patrolRange: 170,
-        axis: 'vertical'
-    });
+    const boss = createEndboss();
     boss.x = 2100;
     boss.y = 300;
 
     boss.reset();
     assert.doesNotThrow(() => {
-        boss.update(null, [], {
-            left: 0,
-            top: 0,
-            right: 2400,
-            bottom: 720
-        });
+        boss.update(null, [], createWorldBounds());
     });
 
     assert.equal(boss.x, boss.startX);

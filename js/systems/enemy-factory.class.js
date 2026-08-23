@@ -1,13 +1,22 @@
 'use strict';
 
+/** Creates configured enemy instances with randomized movement state. */
 class EnemyFactory {
-    /** Creates enemies from one validated level configuration. */
+    /**
+     * @param {Object} levelConfig - Validated active-level configuration.
+     * @param {RandomGenerator|null} [randomGenerator=null] - Random source.
+     */
     constructor(levelConfig, randomGenerator = null) {
         this.levelConfig = levelConfig;
         this.random = randomGenerator || new RandomGenerator();
     }
 
-    /** Creates one configured enemy at the requested position. */
+    /**
+     * @param {string} type - Configured enemy type.
+     * @param {number} x - Horizontal spawn position.
+     * @param {number} y - Vertical spawn position.
+     * @returns {Enemy} Configured enemy instance.
+     */
     create(type, x, y) {
         const config = this.getTypeConfig(type);
         return new Enemy({
@@ -22,7 +31,11 @@ class EnemyFactory {
         });
     }
 
-    /** Returns one enemy type configuration or throws clearly. */
+    /**
+     * @param {string} type - Configured enemy type.
+     * @returns {Object} Matching enemy type configuration.
+     * @throws {Error} When the requested type is unknown.
+     */
     getTypeConfig(type) {
         const config = this.levelConfig.enemyTypes[type];
 
@@ -33,7 +46,10 @@ class EnemyFactory {
         return config;
     }
 
-    /** Adds world boundaries and randomized movement state. */
+    /**
+     * @param {Object} movementConfig - Base movement configuration.
+     * @returns {Object} Movement configuration with world and random state.
+     */
     createMovementConfig(movementConfig) {
         return {
             ...movementConfig,

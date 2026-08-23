@@ -1,7 +1,13 @@
 'use strict';
 
+/**
+ * Provides gameplay and animation timestamps that exclude paused periods.
+ * The clock keeps game logic deterministic across pause and resume cycles.
+ */
 class GameClock {
-    /** Creates a monotonic game clock based on browser clocks. */
+    /**
+     * Creates an active game clock without accumulated pause durations.
+     */
     constructor() {
         this.isPaused = false;
         this.pausedDateTime = 0;
@@ -10,20 +16,37 @@ class GameClock {
         this.totalAnimationPause = 0;
     }
 
-    /** Returns gameplay time excluding every completed pause. */
+    /**
+     * Returns gameplay time excluding active and completed pauses.
+     *
+     * @returns {number} Gameplay timestamp in milliseconds.
+     */
     now() {
-        const realTime = this.isPaused ? this.pausedDateTime : Date.now();
+        const realTime = this.isPaused
+            ? this.pausedDateTime
+            : Date.now();
+
         return realTime - this.totalDatePause;
     }
 
-    /** Returns animation time excluding every completed pause. */
+    /**
+     * Returns animation time excluding active and completed pauses.
+     *
+     * @returns {number} Animation timestamp in milliseconds.
+     */
     animationNow() {
-        const realTime = this.isPaused ?
-            this.pausedAnimationTime : performance.now();
+        const realTime = this.isPaused
+            ? this.pausedAnimationTime
+            : performance.now();
+
         return realTime - this.totalAnimationPause;
     }
 
-    /** Freezes both internal clocks once. */
+    /**
+     * Freezes the gameplay and animation timestamps once.
+     *
+     * @returns {void}
+     */
     pause() {
         if (this.isPaused) {
             return;
@@ -34,7 +57,11 @@ class GameClock {
         this.pausedAnimationTime = performance.now();
     }
 
-    /** Continues both clocks without counting the paused duration. */
+    /**
+     * Resumes both clocks without counting the paused duration.
+     *
+     * @returns {void}
+     */
     resume() {
         if (!this.isPaused) {
             return;
@@ -44,12 +71,17 @@ class GameClock {
         this.isPaused = false;
     }
 
-    /** Adds the current pause to both accumulated offsets. */
+    /**
+     * Adds the current pause duration to both accumulated offsets.
+     *
+     * @returns {void}
+     */
     addCompletedPause() {
         this.totalDatePause += Date.now() - this.pausedDateTime;
-        this.totalAnimationPause += performance.now() -
-            this.pausedAnimationTime;
+        this.totalAnimationPause +=
+            performance.now() - this.pausedAnimationTime;
     }
 }
 
+/** @type {GameClock} Shared clock instance used by the complete game. */
 const GAME_CLOCK = new GameClock();

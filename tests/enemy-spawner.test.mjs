@@ -12,7 +12,7 @@ loadProjectScripts(
     'globalThis.EnemySpawnerExport = EnemySpawner;'
 );
 
-/** Creates a level with deterministic spawn configuration. */
+/** @returns {Object} Level with deterministic spawn configuration. */
 function createLevel() {
     return {
         width: 2400,
@@ -26,34 +26,50 @@ function createLevel() {
     };
 }
 
-/** Creates the spawner and enemy-type settings used by tests. */
+/** @returns {Object} Complete deterministic level configuration. */
 function createLevelConfig() {
     return {
         world: { floorHeight: 120 },
-        spawner: {
-            initialCount: 2,
-            maxActiveEnemies: 3,
-            totalEnemyBudget: 3,
-            spawnInterval: { min: 100, max: 100 },
-            minimumPlayerDistance: 320,
-            minimumEnemyDistance: 120,
-            viewportOffset: 160,
-            despawnBuffer: 180,
-            bossZoneBuffer: 520,
-            pauseDuringBoss: true
-        },
-        enemyTypes: {
-            pufferFish: {
-                weight: 1,
-                width: 58,
-                height: 58,
-                movement: { profile: 'waveLeft', waveAmplitude: 34 }
+        spawner: createSpawnerConfig(),
+        enemyTypes: createEnemyTypeConfig()
+    };
+}
+
+/** @returns {Object} Deterministic enemy-spawner settings. */
+function createSpawnerConfig() {
+    return {
+        initialCount: 2,
+        maxActiveEnemies: 3,
+        totalEnemyBudget: 3,
+        spawnInterval: { min: 100, max: 100 },
+        minimumPlayerDistance: 320,
+        minimumEnemyDistance: 120,
+        viewportOffset: 160,
+        despawnBuffer: 180,
+        bossZoneBuffer: 520,
+        pauseDuringBoss: true
+    };
+}
+
+/** @returns {Object} Weighted pufferfish configuration. */
+function createEnemyTypeConfig() {
+    return {
+        pufferFish: {
+            weight: 1,
+            width: 58,
+            height: 58,
+            movement: {
+                profile: 'waveLeft',
+                waveAmplitude: 34
             }
         }
     };
 }
 
-/** Creates the deterministic collaborators injected into the spawner. */
+/**
+ * @param {Object} level - Level receiving spawned enemies.
+ * @returns {EnemySpawner} Spawner with deterministic collaborators.
+ */
 function createSpawner(level) {
     const random = {
         between: (minimum) => minimum,
@@ -64,7 +80,7 @@ function createSpawner(level) {
     return new context.EnemySpawnerExport(level, factory, random);
 }
 
-/** Creates one active enemy suitable for lifecycle filtering. */
+/** @returns {Object} Active enemy suitable for lifecycle filtering. */
 function createActiveEnemy() {
     return {
         x: 100,
@@ -76,7 +92,7 @@ function createActiveEnemy() {
     };
 }
 
-/** Replaces placement details while retaining budget lifecycle logic. */
+/** @param {EnemySpawner} spawner - Spawner to make deterministic. */
 function useDeterministicSpawn(spawner) {
     spawner.spawnEnemy = () => {
         spawner.level.enemies.push(createActiveEnemy());
@@ -90,11 +106,14 @@ test('initial population and respawn respect the total budget', () => {
     const spawner = createSpawner(level);
     const player = { x: 100, y: 100, width: 78, height: 48 };
     const bounds = { left: 0, right: 960, top: 0, bottom: 540 };
+
     useDeterministicSpawn(spawner);
     spawner.update(player, bounds, 1000);
     assert.equal(level.enemies.length, 2);
+
     spawner.update(player, bounds, 1100);
     assert.equal(level.enemies.length, 3);
+
     level.enemies.pop();
     spawner.update(player, bounds, 1200);
     assert.equal(spawner.spawnedCount, 3);
@@ -103,9 +122,14 @@ test('initial population and respawn respect the total budget', () => {
 test('active enemy cap prevents additional spawning', () => {
     const level = createLevel();
     const spawner = createSpawner(level);
-    level.enemies = [createActiveEnemy(), createActiveEnemy(), createActiveEnemy()];
+    level.enemies = [
+        createActiveEnemy(),
+        createActiveEnemy(),
+        createActiveEnemy()
+    ];
     spawner.spawnedCount = 2;
     const player = { x: 100, width: 78 };
+
     assert.equal(spawner.canSpawnEnemy(player, 1000), false);
 });
 
@@ -113,6 +137,7 @@ test('spawning pauses when the player enters the boss zone', () => {
     const level = createLevel();
     const spawner = createSpawner(level);
     const player = { x: 1850, width: 78 };
+
     assert.equal(spawner.shouldPauseSpawning(player), true);
 });
 
@@ -125,7 +150,9 @@ test('escaped and completed enemies are removed', () => {
         isDefeated: true,
         isAnimationFinished: () => true
     };
+
     level.enemies = [escaped, defeated, createActiveEnemy()];
     spawner.removeExpiredEnemies({ left: 0 });
+
     assert.equal(level.enemies.length, 1);
 });

@@ -1,11 +1,14 @@
 'use strict';
 
+/** Controls theme selection, fullscreen state, and related interface buttons. */
 class DisplaySettingsController {
     /** Creates the central display settings controller. */
     constructor() {
         this.root = document.documentElement;
         this.themeStorageKey = 'sharky-display-theme';
-        this.themeMediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+        this.themeMediaQuery = window.matchMedia(
+            '(prefers-color-scheme: light)'
+        );
         this.displayButtons = [];
     }
 
@@ -49,7 +52,7 @@ class DisplaySettingsController {
         this.themeMediaQuery.addListener?.(callback);
     }
 
-    /** Runs the action selected through a display button. */
+    /** @param {string} action - Display action selected by a button. */
     handleDisplayAction(action) {
         if (action === 'theme') {
             this.toggleTheme();
@@ -74,7 +77,7 @@ class DisplaySettingsController {
         }
     }
 
-    /** Returns the browser's preferred color theme. */
+    /** @returns {string} Browser-preferred light or dark theme. */
     getSystemTheme() {
         return this.themeMediaQuery.matches ? 'light' : 'dark';
     }
@@ -85,7 +88,10 @@ class DisplaySettingsController {
         this.applyTheme(nextTheme, true);
     }
 
-    /** Applies and optionally stores one validated theme. */
+    /**
+     * @param {string} theme - Requested color theme.
+     * @param {boolean} shouldStore - Whether to persist the selection.
+     */
     applyTheme(theme, shouldStore) {
         const safeTheme = theme === 'light' ? 'light' : 'dark';
         this.root.dataset.theme = safeTheme;
@@ -97,12 +103,12 @@ class DisplaySettingsController {
         this.updateControls();
     }
 
-    /** Returns whether the dark theme is currently active. */
+    /** @returns {boolean} Whether the dark theme is active. */
     isDarkTheme() {
         return this.root.dataset.theme === 'dark';
     }
 
-    /** Safely reads the stored manual theme selection. */
+    /** @returns {string|null} Stored light or dark theme, or null. */
     getStoredTheme() {
         try {
             const theme = window.localStorage.getItem(this.themeStorageKey);
@@ -112,7 +118,7 @@ class DisplaySettingsController {
         }
     }
 
-    /** Safely stores a manual theme selection. */
+    /** @param {string} theme - Validated theme to persist. */
     storeTheme(theme) {
         try {
             window.localStorage.setItem(this.themeStorageKey, theme);
@@ -144,13 +150,13 @@ class DisplaySettingsController {
         await this.root.requestFullscreen();
     }
 
-    /** Returns whether the Fullscreen API is available. */
+    /** @returns {boolean} Whether the Fullscreen API is available. */
     isFullscreenSupported() {
         return typeof this.root.requestFullscreen === 'function' &&
             typeof document.exitFullscreen === 'function';
     }
 
-    /** Returns whether any document element is fullscreen. */
+    /** @returns {boolean} Whether any document element is fullscreen. */
     isFullscreenActive() {
         return Boolean(document.fullscreenElement);
     }
@@ -171,7 +177,7 @@ class DisplaySettingsController {
         });
     }
 
-    /** Updates one display button according to its action. */
+    /** @param {HTMLButtonElement} button - Display control to update. */
     updateDisplayButton(button) {
         if (button.dataset.displayAction === 'theme') {
             this.updateThemeButton(button);
@@ -181,7 +187,7 @@ class DisplaySettingsController {
         this.updateFullscreenButton(button);
     }
 
-    /** Shows the active color theme on one button. */
+    /** @param {HTMLButtonElement} button - Theme control to update. */
     updateThemeButton(button) {
         const isDark = this.isDarkTheme();
         this.setButtonText(
@@ -191,20 +197,26 @@ class DisplaySettingsController {
         button.setAttribute('aria-pressed', String(isDark));
     }
 
-    /** Shows fullscreen availability and state on one button. */
+    /** @param {HTMLButtonElement} button - Fullscreen control to update. */
     updateFullscreenButton(button) {
         const isActive = this.isFullscreenActive();
         const isCompact = button.dataset.displayCompact === 'true';
         const label = isCompact ? '⛶' :
             `Vollbild: ${isActive ? 'An' : 'Aus'}`;
+
         this.setButtonText(button, label);
         button.setAttribute('aria-pressed', String(isActive));
-        button.setAttribute('aria-label', isActive ?
-            'Vollbild beenden' : 'Vollbild aktivieren');
+        button.setAttribute(
+            'aria-label',
+            isActive ? 'Vollbild beenden' : 'Vollbild aktivieren'
+        );
         button.disabled = !this.isFullscreenSupported();
     }
 
-    /** Updates a nested label without removing supporting menu text. */
+    /**
+     * @param {HTMLButtonElement} button - Display control to update.
+     * @param {string} text - New visible button label.
+     */
     setButtonText(button, text) {
         const label = button.querySelector?.('[data-display-label]');
         if (label) {

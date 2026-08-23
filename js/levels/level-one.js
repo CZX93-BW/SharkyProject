@@ -5,7 +5,7 @@ const LEVEL_ONE_CONFIG = getLevelConfig(1);
 
 LEVELS[1] = createLevelOne();
 
-/** Creates level one from its validated configuration. */
+/** @returns {Level} Level one built from its validated configuration. */
 function createLevelOne() {
     return new Level({
         number: LEVEL_ONE_CONFIG.number,
@@ -22,7 +22,7 @@ function createLevelOne() {
     });
 }
 
-/** Creates all solid barrier objects for level one. */
+/** @returns {BarrierObject[]} All solid barrier objects for level one. */
 function createLevelOneBarriers() {
     return [
         createLevelOneFloorBarrier(),
@@ -30,7 +30,7 @@ function createLevelOneBarriers() {
     ];
 }
 
-/** Creates the floor rock barrier. */
+/** @returns {BarrierObject} Floor rock barrier. */
 function createLevelOneFloorBarrier() {
     return new BarrierObject({
         x: 650,
@@ -46,7 +46,7 @@ function createLevelOneFloorBarrier() {
     });
 }
 
-/** Creates the vertical rock barrier. */
+/** @returns {BarrierObject} Vertical rock barrier. */
 function createLevelOneVerticalBarrier() {
     return new BarrierObject({
         x: 1160,
@@ -63,7 +63,7 @@ function createLevelOneVerticalBarrier() {
     });
 }
 
-/** Creates the five parallax background layers. */
+/** @returns {BackgroundObject[]} Five parallax background layers. */
 function createLevelOneBackgrounds() {
     return [
         createLevelOneLayer('far', '#05273d', 0.15, 1),
@@ -74,7 +74,13 @@ function createLevelOneBackgrounds() {
     ];
 }
 
-/** Creates one configured parallax layer. */
+/**
+ * @param {string} layerName - Asset name of the background layer.
+ * @param {string} fallbackColor - Color used while the image is unavailable.
+ * @param {number} scrollFactor - Layer parallax movement factor.
+ * @param {number} opacity - Layer rendering opacity.
+ * @returns {BackgroundObject} Configured parallax background layer.
+ */
 function createLevelOneLayer(layerName, fallbackColor, scrollFactor, opacity) {
     const world = LEVEL_ONE_CONFIG.world;
     return new BackgroundObject(0, 0, world.width, world.height, {
@@ -85,7 +91,7 @@ function createLevelOneLayer(layerName, fallbackColor, scrollFactor, opacity) {
     });
 }
 
-/** Creates the level floor collision area. */
+/** @returns {Object[]} Level floor collision area. */
 function createLevelOneSolidAreas() {
     const world = LEVEL_ONE_CONFIG.world;
     return [{
@@ -96,7 +102,7 @@ function createLevelOneSolidAreas() {
     }];
 }
 
-/** Creates all collectibles for level one. */
+/** @returns {CollectibleObject[]} All level-one collectibles. */
 function createLevelOneCollectibles() {
     return [
         createLevelOneCoin(310, 210),
@@ -109,7 +115,11 @@ function createLevelOneCollectibles() {
     ];
 }
 
-/** Creates one animated coin. */
+/**
+ * @param {number} x - Horizontal world position.
+ * @param {number} y - Vertical world position.
+ * @returns {CollectibleObject} Animated coin collectible.
+ */
 function createLevelOneCoin(x, y) {
     return new CollectibleObject({
         x,
@@ -124,7 +134,11 @@ function createLevelOneCoin(x, y) {
     });
 }
 
-/** Creates one animated poison bottle. */
+/**
+ * @param {number} x - Horizontal world position.
+ * @param {number} y - Vertical world position.
+ * @returns {CollectibleObject} Animated poison bottle collectible.
+ */
 function createLevelOnePoisonBottle(x, y) {
     return new CollectibleObject({
         x,
@@ -139,7 +153,7 @@ function createLevelOnePoisonBottle(x, y) {
     });
 }
 
-/** Creates the configured level-one boss. */
+/** @returns {Endboss} Configured level-one boss. */
 function createLevelOneEndboss() {
     const boss = LEVEL_ONE_CONFIG.boss;
     return new Endboss({
@@ -148,7 +162,7 @@ function createLevelOneEndboss() {
     });
 }
 
-/** Creates the level finish object. */
+/** @returns {FinishObject} Configured level finish object. */
 function createLevelOneFinishObject() {
     const world = LEVEL_ONE_CONFIG.world;
     const finish = LEVEL_ONE_CONFIG.finish;

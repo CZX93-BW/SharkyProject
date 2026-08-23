@@ -5,8 +5,31 @@ import {
     loadProjectScripts
 } from './test-helpers.mjs';
 
-/** Creates touch-control dependencies for one viewport scenario. */
+/**
+ * @param {Object} options - Viewport and touch-capability settings.
+ * @returns {Object} Mobile controls and recorded root-class changes.
+ */
 function createMobileEnvironment(options) {
+    const environment = createMobileDependencies(options);
+    const context = createScriptContext(environment.browser);
+
+    loadProjectScripts(
+        context,
+        ['js/config/game-config.js', 'js/input/mobile-controls.class.js'],
+        'globalThis.MobileControlsExport = MobileControls;'
+    );
+
+    return {
+        controls: new context.MobileControlsExport(environment.keyboard),
+        appliedStates: environment.appliedStates
+    };
+}
+
+/**
+ * @param {Object} options - Viewport and touch-capability settings.
+ * @returns {Object} Browser, keyboard, and state recorder dependencies.
+ */
+function createMobileDependencies(options) {
     const appliedStates = [];
     const mediaQuery = createMediaQuery(options.hasCoarsePointer);
     const elements = createControlElements();
@@ -14,19 +37,18 @@ function createMobileEnvironment(options) {
     const window = createWindow(options.width, mediaQuery);
     const navigator = { maxTouchPoints: options.touchPoints };
     const keyboard = createKeyboardStub();
-    const context = createScriptContext({ document, navigator, window });
-    loadProjectScripts(
-        context,
-        ['js/config/game-config.js', 'js/input/mobile-controls.class.js'],
-        'globalThis.MobileControlsExport = MobileControls;'
-    );
+
     return {
-        controls: new context.MobileControlsExport(keyboard),
-        appliedStates
+        appliedStates,
+        browser: { document, navigator, window },
+        keyboard
     };
 }
 
-/** Creates a minimal media query object. */
+/**
+ * @param {boolean} matches - Whether the media query currently matches.
+ * @returns {Object} Minimal media query object.
+ */
 function createMediaQuery(matches) {
     return {
         matches,
@@ -34,7 +56,7 @@ function createMediaQuery(matches) {
     };
 }
 
-/** Creates the joystick elements required by the controller. */
+/** @returns {Object} Joystick elements required by the controller. */
 function createControlElements() {
     return {
         mobileJoystick: {
@@ -50,12 +72,18 @@ function createControlElements() {
     };
 }
 
-/** Creates the document surface used during availability detection. */
+/**
+ * @param {Object} elements - Elements addressable by identifier.
+ * @param {Object[]} appliedStates - Recorded root-class changes.
+ * @returns {Object} Minimal document implementation.
+ */
 function createDocument(elements, appliedStates) {
     return {
         documentElement: {
             classList: {
-                toggle: (name, state) => appliedStates.push({ name, state })
+                toggle: (name, state) => {
+                    appliedStates.push({ name, state });
+                }
             }
         },
         getElementById: (id) => elements[id],
@@ -63,7 +91,11 @@ function createDocument(elements, appliedStates) {
     };
 }
 
-/** Creates the viewport and pointer event surface. */
+/**
+ * @param {number} width - Current viewport width.
+ * @param {Object} mediaQuery - Coarse-pointer media query.
+ * @returns {Object} Minimal window implementation.
+ */
 function createWindow(width, mediaQuery) {
     return {
         innerWidth: width,
@@ -72,7 +104,7 @@ function createWindow(width, mediaQuery) {
     };
 }
 
-/** Creates the shared input methods used by mobile controls. */
+/** @returns {Object} Shared input methods used by mobile controls. */
 function createKeyboardStub() {
     return {
         resetMobileMovement: () => {},
@@ -87,7 +119,11 @@ test('touch controls activate on a suitable mobile viewport', () => {
         touchPoints: 5,
         hasCoarsePointer: true
     });
-    assert.equal(environment.controls.shouldEnableTouchControls(), true);
+
+    assert.equal(
+        environment.controls.shouldEnableTouchControls(),
+        true
+    );
     assert.equal(environment.appliedStates.at(-1).state, true);
 });
 
@@ -97,7 +133,11 @@ test('touch controls remain hidden on desktop devices', () => {
         touchPoints: 0,
         hasCoarsePointer: false
     });
-    assert.equal(environment.controls.shouldEnableTouchControls(), false);
+
+    assert.equal(
+        environment.controls.shouldEnableTouchControls(),
+        false
+    );
     assert.equal(environment.appliedStates.at(-1).state, false);
 });
 
@@ -107,5 +147,9 @@ test('touch controls remain hidden above the supported width', () => {
         touchPoints: 5,
         hasCoarsePointer: true
     });
-    assert.equal(environment.controls.shouldEnableTouchControls(), false);
+
+    assert.equal(
+        environment.controls.shouldEnableTouchControls(),
+        false
+    );
 });

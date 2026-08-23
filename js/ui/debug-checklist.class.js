@@ -1,12 +1,19 @@
 'use strict';
 
+/** Runs browser-visible development checks for required game systems. */
 class DebugChecklist {
+    /**
+     * @param {Game} game - Active game controller.
+     * @param {AudioManager} audioManager - Game audio controller.
+     * @param {StoryNarrator} storyNarrator - Story speech controller.
+     */
     constructor(game, audioManager, storyNarrator) {
         this.game = game;
         this.audioManager = audioManager;
         this.storyNarrator = storyNarrator;
     }
 
+    /** Prints the checklist when debug mode is active. */
     run() {
         if (!this.shouldRun()) {
             return;
@@ -16,18 +23,25 @@ class DebugChecklist {
         console.table(this.createResults());
     }
 
+    /** @returns {boolean} Whether the checklist should run. */
     shouldRun() {
         return this.game.gameState.debugMode;
     }
 
+    /** Prints the checklist heading. */
     printHeadline() {
         console.info('Sharky Debug Checklist');
     }
 
+    /** @returns {Object[]} Evaluated checklist results. */
     createResults() {
         return this.createChecks().map((check) => this.createResult(check));
     }
 
+    /**
+     * @param {Object} check - Named debug check with test callback.
+     * @returns {Object} Display-ready result for one check.
+     */
     createResult(check) {
         return {
             check: check.name,
@@ -35,7 +49,17 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object[]} Complete ordered collection of debug checks. */
     createChecks() {
+        return [
+            ...this.createWorldChecks(),
+            ...this.createGameplayChecks(),
+            ...this.createInterfaceChecks()
+        ];
+    }
+
+    /** @returns {Object[]} Level, spawning, and world-layer checks. */
+    createWorldChecks() {
         return [
             this.createCanvasCheck(),
             this.createLevelOneCheck(),
@@ -45,14 +69,26 @@ class DebugChecklist {
             this.createEnemySpawnerCheck(),
             this.createEnemyMovementCheck(),
             this.createBackgroundLayerCheck(),
-            this.createBarrierLayerCheck(),
+            this.createBarrierLayerCheck()
+        ];
+    }
+
+    /** @returns {Object[]} Collectible, enemy, player, and attack checks. */
+    createGameplayChecks() {
+        return [
             this.createCollectibleAnimationCheck(),
             this.createEnemyVariantCheck(),
             this.createPufferStateCheck(),
             this.createStatusBarCheck(),
             this.createFinishLockCheck(),
             this.createPlayerCheck(),
-            this.createAttackConfigCheck(),
+            this.createAttackConfigCheck()
+        ];
+    }
+
+    /** @returns {Object[]} Audio, story, display, and shell checks. */
+    createInterfaceChecks() {
+        return [
             this.createAudioCheck(),
             this.createStoryCheck(),
             this.createDisplaySettingsCheck(),
@@ -62,6 +98,7 @@ class DebugChecklist {
         ];
     }
 
+    /** @returns {Object} Canvas availability check. */
     createCanvasCheck() {
         return {
             name: 'Canvas vorhanden',
@@ -69,6 +106,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Level-one availability check. */
     createLevelOneCheck() {
         return {
             name: 'Level 1 vorhanden',
@@ -76,6 +114,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Level-two availability check. */
     createLevelTwoCheck() {
         return {
             name: 'Level 2 vorhanden',
@@ -83,6 +122,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Validated level-configuration check. */
     createLevelConfigCheck() {
         return {
             name: 'Level-Konfiguration gültig',
@@ -92,7 +132,7 @@ class DebugChecklist {
         };
     }
 
-    /** Creates the debug check for scalable boss values. */
+    /** @returns {Object} Scalable boss-value check. */
     createBossScalingCheck() {
         return {
             name: 'Boss-Skalierung und Aggressivität aktiv',
@@ -100,7 +140,7 @@ class DebugChecklist {
         };
     }
 
-    /** Returns whether both bosses use the expected level scaling. */
+    /** @returns {boolean} Whether both bosses use expected scaling. */
     hasConfiguredBossScaling() {
         const levelOneBoss = LEVELS[1].endboss;
         const levelTwoBoss = LEVELS[2].endboss;
@@ -108,7 +148,7 @@ class DebugChecklist {
             levelTwoBoss.aggression > levelOneBoss.aggression;
     }
 
-    /** Creates the debug check for both dynamic enemy spawners. */
+    /** @returns {Object} Dynamic enemy-spawner check. */
     createEnemySpawnerCheck() {
         return {
             name: 'Dynamische EnemySpawner vorhanden',
@@ -116,7 +156,7 @@ class DebugChecklist {
         };
     }
 
-    /** Returns whether both level spawners use their level limits. */
+    /** @returns {boolean} Whether both spawners use their level limits. */
     hasConfiguredEnemySpawners() {
         return Boolean(LEVELS[1].enemySpawner) &&
             Boolean(LEVELS[2].enemySpawner) &&
@@ -124,7 +164,7 @@ class DebugChecklist {
             LEVELS[2].enemySpawner.config.maxActiveEnemies === 7;
     }
 
-    /** Creates the debug check for scalable enemy movement profiles. */
+    /** @returns {Object} Scalable enemy-movement check. */
     createEnemyMovementCheck() {
         return {
             name: 'Enemy-Bewegungsprofile aktiv',
@@ -132,7 +172,7 @@ class DebugChecklist {
         };
     }
 
-    /** Returns whether pufferfish and jellyfish use distinct movement. */
+    /** @returns {boolean} Whether enemy types use distinct movement. */
     hasConfiguredEnemyMovement() {
         const firstLevel = LEVEL_CONFIG[1].enemyTypes;
         const secondLevel = LEVEL_CONFIG[2].enemyTypes;
@@ -145,6 +185,7 @@ class DebugChecklist {
                 firstLevel.pufferFish.movement.horizontalSpeed;
     }
 
+    /** @returns {Object} Background-layer completeness check. */
     createBackgroundLayerCheck() {
         return {
             name: 'Hintergrund-Layer vollständig',
@@ -152,11 +193,13 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {boolean} Whether both levels have all background layers. */
     hasCompleteBackgroundLayers() {
         return LEVELS[1].backgroundObjects.length === 5 &&
             LEVELS[2].backgroundObjects.length === 5;
     }
 
+    /** @returns {Object} Barrier and collision-area check. */
     createBarrierLayerCheck() {
         return {
             name: 'Barrieren und Hitboxen vorhanden',
@@ -164,6 +207,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {boolean} Whether both levels contain required barriers. */
     hasBarrierLayers() {
         return LEVELS[1].barrierObjects.length >= 2 &&
             LEVELS[2].barrierObjects.length >= 2 &&
@@ -171,6 +215,7 @@ class DebugChecklist {
             LEVELS[2].solidAreas.length >= 3;
     }
 
+    /** @returns {Object} Collectible animation asset check. */
     createCollectibleAnimationCheck() {
         return {
             name: 'Sammelobjekt-Animationen vorhanden',
@@ -179,6 +224,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Jellyfish variant asset check. */
     createEnemyVariantCheck() {
         return {
             name: 'Quallenvarianten vorhanden',
@@ -187,14 +233,17 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Pufferfish state asset check. */
     createPufferStateCheck() {
         return {
             name: 'Puffer-Zustände vorhanden',
-            test: () => ASSET_CONFIG.enemies.pufferFish.transition.length === 5 &&
+            test: () =>
+                ASSET_CONFIG.enemies.pufferFish.transition.length === 5 &&
                 ASSET_CONFIG.enemies.pufferFish.inflatedSwim.length === 5
         };
     }
 
+    /** @returns {Object} Status-bar asset check. */
     createStatusBarCheck() {
         return {
             name: 'Statusleisten vollständig',
@@ -202,11 +251,13 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {boolean} Whether every status bar has six images. */
     hasCompleteStatusBars() {
         const statusBars = ASSET_CONFIG.ui.statusBars;
         return Object.values(statusBars).every((images) => images.length === 6);
     }
 
+    /** @returns {Object} Initial finish-lock check. */
     createFinishLockCheck() {
         return {
             name: 'Finish beim Start gesperrt',
@@ -215,6 +266,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Player availability check. */
     createPlayerCheck() {
         return {
             name: 'Player vorhanden',
@@ -222,6 +274,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Attack configuration check. */
     createAttackConfigCheck() {
         return {
             name: 'Attack-Werte vorhanden',
@@ -229,12 +282,14 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {boolean} Whether required attack values are positive. */
     hasAttackConfigValues() {
         return GAME_CONFIG.finSlapDamage > 0 &&
             GAME_CONFIG.poisonShotImpactDamage > 0 &&
             GAME_CONFIG.bubbleTrapDuration > 0;
     }
 
+    /** @returns {Object} Audio controller availability check. */
     createAudioCheck() {
         return {
             name: 'AudioManager vorhanden',
@@ -242,6 +297,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Story narrator availability check. */
     createStoryCheck() {
         return {
             name: 'StoryNarrator vorhanden',
@@ -249,7 +305,7 @@ class DebugChecklist {
         };
     }
 
-    /** Creates the check for theme and fullscreen controls. */
+    /** @returns {Object} Theme and fullscreen control check. */
     createDisplaySettingsCheck() {
         return {
             name: 'Theme und Fullscreen angebunden',
@@ -257,14 +313,19 @@ class DebugChecklist {
         };
     }
 
-    /** Returns whether display state and both actions exist. */
+    /** @returns {boolean} Whether theme and fullscreen controls exist. */
     hasDisplaySettings() {
         const theme = document.documentElement.dataset.theme;
         return (theme === 'dark' || theme === 'light') &&
-            Boolean(document.querySelector('[data-display-action="theme"]')) &&
-            Boolean(document.querySelector('[data-display-action="fullscreen"]'));
+            Boolean(
+                document.querySelector('[data-display-action="theme"]')
+            ) &&
+            Boolean(
+                document.querySelector('[data-display-action="fullscreen"]')
+            );
     }
 
+    /** @returns {Object} Mobile-control availability check. */
     createMobileControlCheck() {
         return {
             name: 'Mobile Controls vorhanden',
@@ -272,6 +333,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Main-menu availability check. */
     createMainMenuCheck() {
         return {
             name: 'Hauptmenü vorhanden',
@@ -279,6 +341,7 @@ class DebugChecklist {
         };
     }
 
+    /** @returns {Object} Game-shell availability check. */
     createGameShellCheck() {
         return {
             name: 'Game Shell vorhanden',

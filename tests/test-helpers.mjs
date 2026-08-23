@@ -8,7 +8,10 @@ export const projectRoot = resolve(
     '..'
 );
 
-/** Creates an isolated browser-like script context. */
+/**
+ * @param {Object} [overrides={}] - Global values added to the context.
+ * @returns {vm.Context} Isolated browser-like script context.
+ */
 export function createScriptContext(overrides = {}) {
     return vm.createContext({
         console,
@@ -20,16 +23,25 @@ export function createScriptContext(overrides = {}) {
     });
 }
 
-/** Loads classic project scripts and exposes selected lexical bindings. */
+/**
+ * @param {vm.Context} context - Target script context.
+ * @param {string[]} files - Root-relative scripts to load in order.
+ * @param {string} exposure - Script exposing selected lexical bindings.
+ * @returns {vm.Context} Updated script context.
+ */
 export function loadProjectScripts(context, files, exposure) {
     const source = files
         .map((file) => readProjectFile(file))
         .join('\n');
+
     vm.runInContext(`${source}\n${exposure}`, context);
     return context;
 }
 
-/** Reads one project file as UTF-8 text. */
+/**
+ * @param {string} file - Root-relative project file path.
+ * @returns {string} UTF-8 file content.
+ */
 export function readProjectFile(file) {
     return readFileSync(resolve(projectRoot, file), 'utf8');
 }

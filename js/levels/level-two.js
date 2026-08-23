@@ -4,7 +4,7 @@ const LEVEL_TWO_CONFIG = getLevelConfig(2);
 
 LEVELS[2] = createLevelTwo();
 
-/** Creates level two from its validated configuration. */
+/** @returns {Level} Level two built from its validated configuration. */
 function createLevelTwo() {
     return new Level({
         number: LEVEL_TWO_CONFIG.number,
@@ -21,7 +21,7 @@ function createLevelTwo() {
     });
 }
 
-/** Creates all solid barrier objects for level two. */
+/** @returns {BarrierObject[]} All solid barrier objects for level two. */
 function createLevelTwoBarriers() {
     return [
         createLevelTwoFloorBarrier(),
@@ -29,7 +29,7 @@ function createLevelTwoBarriers() {
     ];
 }
 
-/** Creates the floor rock barrier. */
+/** @returns {BarrierObject} Floor rock barrier. */
 function createLevelTwoFloorBarrier() {
     return new BarrierObject({
         x: 1320,
@@ -45,7 +45,7 @@ function createLevelTwoFloorBarrier() {
     });
 }
 
-/** Creates the vertical rock barrier. */
+/** @returns {BarrierObject} Vertical rock barrier. */
 function createLevelTwoVerticalBarrier() {
     return new BarrierObject({
         x: 1940,
@@ -62,7 +62,7 @@ function createLevelTwoVerticalBarrier() {
     });
 }
 
-/** Creates the five parallax background layers. */
+/** @returns {BackgroundObject[]} Five parallax background layers. */
 function createLevelTwoBackgrounds() {
     return [
         createLevelTwoLayer('far', '#031c30', 0.15, 1),
@@ -73,7 +73,13 @@ function createLevelTwoBackgrounds() {
     ];
 }
 
-/** Creates one configured parallax layer. */
+/**
+ * @param {string} layerName - Asset name of the background layer.
+ * @param {string} fallbackColor - Color used while the image is unavailable.
+ * @param {number} scrollFactor - Layer parallax movement factor.
+ * @param {number} opacity - Layer rendering opacity.
+ * @returns {BackgroundObject} Configured parallax background layer.
+ */
 function createLevelTwoLayer(layerName, fallbackColor, scrollFactor, opacity) {
     const world = LEVEL_TWO_CONFIG.world;
     return new BackgroundObject(0, 0, world.width, world.height, {
@@ -84,7 +90,7 @@ function createLevelTwoLayer(layerName, fallbackColor, scrollFactor, opacity) {
     });
 }
 
-/** Creates the level floor collision area. */
+/** @returns {Object[]} Level floor collision area. */
 function createLevelTwoSolidAreas() {
     const world = LEVEL_TWO_CONFIG.world;
     return [{
@@ -95,7 +101,7 @@ function createLevelTwoSolidAreas() {
     }];
 }
 
-/** Creates all collectibles for level two. */
+/** @returns {CollectibleObject[]} All level-two collectibles. */
 function createLevelTwoCollectibles() {
     return [
         createLevelTwoCoin(420, 230),
@@ -109,7 +115,11 @@ function createLevelTwoCollectibles() {
     ];
 }
 
-/** Creates one animated coin. */
+/**
+ * @param {number} x - Horizontal world position.
+ * @param {number} y - Vertical world position.
+ * @returns {CollectibleObject} Animated coin collectible.
+ */
 function createLevelTwoCoin(x, y) {
     return new CollectibleObject({
         x,
@@ -124,7 +134,11 @@ function createLevelTwoCoin(x, y) {
     });
 }
 
-/** Creates one animated poison bottle. */
+/**
+ * @param {number} x - Horizontal world position.
+ * @param {number} y - Vertical world position.
+ * @returns {CollectibleObject} Animated poison bottle collectible.
+ */
 function createLevelTwoPoisonBottle(x, y) {
     return new CollectibleObject({
         x,
@@ -139,7 +153,7 @@ function createLevelTwoPoisonBottle(x, y) {
     });
 }
 
-/** Creates the configured level-two boss. */
+/** @returns {Endboss} Configured level-two boss. */
 function createLevelTwoEndboss() {
     const boss = LEVEL_TWO_CONFIG.boss;
     return new Endboss({
@@ -148,7 +162,7 @@ function createLevelTwoEndboss() {
     });
 }
 
-/** Creates the level finish object. */
+/** @returns {FinishObject} Configured level finish object. */
 function createLevelTwoFinishObject() {
     const world = LEVEL_TWO_CONFIG.world;
     const finish = LEVEL_TWO_CONFIG.finish;

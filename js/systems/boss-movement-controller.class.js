@@ -1,7 +1,8 @@
 'use strict';
 
+/** Controls boss patrol, pursuit, collision movement, and sprite direction. */
 class BossMovementController {
-    /** Creates collision-aware movement for one boss instance. */
+    /** @param {Endboss} boss - Boss instance controlled by this strategy. */
     constructor(boss) {
         this.boss = boss;
         this.reset();
@@ -13,7 +14,10 @@ class BossMovementController {
         this.patrolDirection = 1;
     }
 
-    /** Moves along the configured patrol axis around the home point. */
+    /**
+     * @param {Object[]} solidAreas - Blocking world areas.
+     * @param {Object|null} bounds - Optional level movement boundaries.
+     */
     updatePatrol(solidAreas, bounds) {
         const target = this.getPatrolTarget();
         this.facePatrolTarget(target);
@@ -26,7 +30,7 @@ class BossMovementController {
         }
     }
 
-    /** Returns the active endpoint of the configured patrol route. */
+    /** @returns {Object} Active endpoint of the configured patrol route. */
     getPatrolTarget() {
         const offset = this.boss.range * this.patrolDirection;
         return this.boss.axis === 'horizontal' ?
@@ -34,17 +38,19 @@ class BossMovementController {
             { x: this.boss.startX, y: this.boss.startY + offset };
     }
 
-    /** Faces horizontal routes and keeps vertical patrol sprites left-facing. */
+    /** @param {Object} target - Current patrol target point. */
     facePatrolTarget(target) {
         if (this.boss.axis === 'horizontal') {
             this.faceTargetX(target.x);
             return;
         }
-
         this.boss.direction = -1;
     }
 
-    /** Returns whether the boss reached a movement target. */
+    /**
+     * @param {Object} target - Movement target point.
+     * @returns {boolean} Whether the boss reached the target.
+     */
     isAtPoint(target) {
         const distance = Math.hypot(
             target.x - this.boss.x,
@@ -53,7 +59,14 @@ class BossMovementController {
         return distance <= Math.max(0.5, this.boss.speed);
     }
 
-    /** Moves towards a point and resolves solid-area collisions. */
+    /**
+     * @param {number} targetX - Horizontal target position.
+     * @param {number} targetY - Vertical target position.
+     * @param {number} speed - Movement distance for this frame.
+     * @param {Object[]} solidAreas - Blocking world areas.
+     * @param {Object|null} bounds - Optional level movement boundaries.
+     * @returns {boolean} Whether the boss changed position.
+     */
     moveTowardsPoint(targetX, targetY, speed, solidAreas, bounds) {
         const deltaX = targetX - this.boss.x;
         const deltaY = targetY - this.boss.y;
@@ -72,7 +85,13 @@ class BossMovementController {
         );
     }
 
-    /** Tries diagonal movement before falling back to each axis. */
+    /**
+     * @param {number} deltaX - Horizontal movement delta.
+     * @param {number} deltaY - Vertical movement delta.
+     * @param {Object[]} solidAreas - Blocking world areas.
+     * @param {Object|null} bounds - Optional level movement boundaries.
+     * @returns {boolean} Whether any movement attempt succeeded.
+     */
     moveWithCollision(deltaX, deltaY, solidAreas, bounds) {
         if (this.tryMove(deltaX, deltaY, solidAreas, bounds)) {
             return true;
@@ -87,7 +106,13 @@ class BossMovementController {
         return movedHorizontally || movedVertically;
     }
 
-    /** Applies one movement attempt and rolls it back on collision. */
+    /**
+     * @param {number} deltaX - Horizontal movement delta.
+     * @param {number} deltaY - Vertical movement delta.
+     * @param {Object[]} solidAreas - Blocking world areas.
+     * @param {Object|null} bounds - Optional level movement boundaries.
+     * @returns {boolean} Whether the movement remained collision-free.
+     */
     tryMove(deltaX, deltaY, solidAreas, bounds) {
         const previousPosition = {
             x: this.boss.x,
@@ -105,14 +130,17 @@ class BossMovementController {
         return false;
     }
 
-    /** Keeps the full scaled hitbox inside the level. */
+    /** @param {Object|null} bounds - Optional level movement boundaries. */
     keepInsideBounds(bounds) {
         if (bounds) {
             this.boss.keepInsideBounds(bounds);
         }
     }
 
-    /** Returns a target that aligns the boss and player centers. */
+    /**
+     * @param {Character} player - Current player character.
+     * @returns {Object} Target aligning boss and player centers.
+     */
     getPlayerTargetPoint(player) {
         return {
             x: this.getObjectCenterX(player) - this.boss.width / 2,
@@ -120,7 +148,10 @@ class BossMovementController {
         };
     }
 
-    /** Returns the center distance between the boss and Sharky. */
+    /**
+     * @param {Character|null} player - Current player character.
+     * @returns {number} Center distance between the boss and player.
+     */
     getDistanceToPlayer(player) {
         if (!player) {
             return Number.POSITIVE_INFINITY;
@@ -131,7 +162,7 @@ class BossMovementController {
         return Math.hypot(deltaX, deltaY);
     }
 
-    /** Returns the distance from the configured boss home point. */
+    /** @returns {number} Distance from the configured boss home point. */
     getDistanceFromHome() {
         return Math.hypot(
             this.boss.x - this.boss.startX,
@@ -139,12 +170,12 @@ class BossMovementController {
         );
     }
 
-    /** Returns whether the boss exceeded its allowed pursuit zone. */
+    /** @returns {boolean} Whether the boss exceeded its pursuit zone. */
     isOutsideLeash() {
         return this.getDistanceFromHome() > this.boss.leashDistance;
     }
 
-    /** Returns whether regular patrol still covers the position. */
+    /** @returns {boolean} Whether patrol still covers the position. */
     isInsideHomeArea() {
         const horizontalDistance = Math.abs(this.boss.x - this.boss.startX);
         const verticalDistance = Math.abs(this.boss.y - this.boss.startY);
@@ -158,58 +189,64 @@ class BossMovementController {
             verticalDistance <= this.boss.range;
     }
 
-    /** Returns whether the boss has reached its exact home point. */
+    /** @returns {boolean} Whether the boss reached its home point. */
     isAtHomePosition() {
         const tolerance = Math.max(2, this.boss.speed);
         return this.getDistanceFromHome() <= tolerance;
     }
 
-    /** Faces Sharky before pursuing or attacking. */
+    /** @param {Character} player - Current player character. */
     facePlayer(player) {
         this.faceTargetX(this.getObjectCenterX(player));
     }
 
-    /** Faces one horizontal world position. */
+    /** @param {number} targetX - Horizontal world position to face. */
     faceTargetX(targetX) {
         this.boss.direction = targetX < this.getCenterX() ? -1 : 1;
     }
 
-    /** Mirrors the left-facing source sprite when the boss faces right. */
+    /** @returns {boolean} Whether the source sprite must be mirrored. */
     shouldMirrorSprite() {
         return this.boss.direction > 0;
     }
 
-    /** Calculates the aggression-scaled pursuit speed. */
+    /** @returns {number} Aggression-scaled pursuit speed. */
     getChaseSpeed() {
         return this.boss.speed * (1 + this.boss.aggression * 0.6);
     }
 
-    /** Calculates the faster contact-attack speed. */
+    /** @returns {number} Aggression-scaled contact-attack speed. */
     getAttackSpeed() {
         return this.boss.speed * (1.4 + this.boss.aggression * 0.8);
     }
 
-    /** Calculates a stable return speed. */
+    /** @returns {number} Aggression-scaled return speed. */
     getReturnSpeed() {
         return this.boss.speed * (1.1 + this.boss.aggression * 0.4);
     }
 
-    /** Returns the boss center on the x-axis. */
+    /** @returns {number} Boss center on the horizontal axis. */
     getCenterX() {
         return this.boss.x + this.boss.width / 2;
     }
 
-    /** Returns the boss center on the y-axis. */
+    /** @returns {number} Boss center on the vertical axis. */
     getCenterY() {
         return this.boss.y + this.boss.height / 2;
     }
 
-    /** Returns another object's center on the x-axis. */
+    /**
+     * @param {DrawableObject} object - Object whose center is requested.
+     * @returns {number} Object center on the horizontal axis.
+     */
     getObjectCenterX(object) {
         return object.x + object.width / 2;
     }
 
-    /** Returns another object's center on the y-axis. */
+    /**
+     * @param {DrawableObject} object - Object whose center is requested.
+     * @returns {number} Object center on the vertical axis.
+     */
     getObjectCenterY(object) {
         return object.y + object.height / 2;
     }
