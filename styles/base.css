@@ -1,3 +1,14 @@
+/* Local Fonts */
+
+@font-face {
+    font-family: "Luckiest Guy";
+    src: url("../assets/fonts/luckiest-guy-regular.ttf")
+        format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Global Settings */
 
 :root {
@@ -14,6 +25,7 @@
     --border-radius-large: 28px;
     --border-radius-medium: 18px;
     --font-main: Arial, Helvetica, sans-serif;
+    --font-display: "Luckiest Guy", Arial, Helvetica, sans-serif;
 }
 
 :root[data-theme="light"] {
@@ -31,8 +43,16 @@
 
 :root[data-theme="light"] .main-menu-screen {
     background:
-        radial-gradient(circle at 20% 20%, rgba(0, 153, 199, 0.2), transparent 30rem),
-        radial-gradient(circle at 80% 10%, rgba(91, 176, 37, 0.13), transparent 24rem),
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0, 153, 199, 0.2),
+            transparent 30rem
+        ),
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(91, 176, 37, 0.13),
+            transparent 24rem
+        ),
         linear-gradient(135deg, #e6f9ff, #bde8f3 52%, #f8fdff);
 }
 
@@ -84,7 +104,9 @@
 :root[data-theme="light"] .main-menu-navigation a:hover,
 :root[data-theme="light"] .icon-button:hover,
 :root[data-theme="light"] .icon-button.is-active,
-:root[data-theme="light"] .icon-button[data-display-action="fullscreen"][aria-pressed="true"] {
+:root[data-theme="light"] .icon-button[
+    data-display-action="fullscreen"
+][aria-pressed="true"] {
     color: #f1fbff;
 }
 
@@ -93,7 +115,9 @@
     background: #005674;
 }
 
-.icon-button[data-display-action="fullscreen"][aria-pressed="true"] {
+.icon-button[
+    data-display-action="fullscreen"
+][aria-pressed="true"] {
     color: #021018;
     background: var(--color-primary);
 }
@@ -134,13 +158,28 @@ body {
     font-family: var(--font-main);
     color: var(--color-text);
     background:
-        radial-gradient(circle at top, rgba(41, 211, 255, 0.2), transparent 32rem),
+        radial-gradient(
+            circle at top,
+            rgba(41, 211, 255, 0.2),
+            transparent 32rem
+        ),
         linear-gradient(135deg, #041923, #052d3f 48%, #020b10);
     transition: color 180ms ease, background 180ms ease;
 }
 
+h1,
+h2,
+h3,
+.eyebrow {
+    font-family: var(--font-display);
+}
+
 :root[data-theme="light"] body {
     background:
-        radial-gradient(circle at top, rgba(0, 153, 199, 0.18), transparent 32rem),
+        radial-gradient(
+            circle at top,
+            rgba(0, 153, 199, 0.18),
+            transparent 32rem
+        ),
         linear-gradient(135deg, #eafaff, #cceef7 48%, #f7fdff);
 }

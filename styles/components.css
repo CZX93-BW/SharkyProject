@@ -128,6 +128,20 @@ button {
     cursor: pointer;
 }
 
+.primary-button,
+.secondary-button,
+.hud-button,
+.text-button,
+.mobile-action-button,
+.settings-toggle-button,
+.main-menu-navigation button,
+.main-menu-navigation a,
+.back-link {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.025em;
+}
+
 .primary-button:hover {
     background: #75e6ff;
 }
@@ -159,7 +173,10 @@ button:disabled {
     justify-content: space-between;
     gap: 24px;
     padding: 22px 24px max(22px, env(safe-area-inset-bottom));
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.42));
+    background: linear-gradient(
+        transparent,
+        rgba(0, 0, 0, 0.42)
+    );
     pointer-events: none;
     touch-action: none;
     user-select: none;
@@ -203,7 +220,11 @@ button:disabled {
     border: 2px solid rgba(255, 255, 255, 0.18);
     border-radius: 50%;
     background:
-        radial-gradient(circle, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.16),
+            rgba(255, 255, 255, 0.06)
+        );
     pointer-events: auto;
     backdrop-filter: blur(8px);
     touch-action: none;
@@ -247,5 +268,5 @@ button:disabled {
 .back-link {
     display: inline-flex;
     margin-top: 28px;
-    font-weight: 700;
+    font-weight: 400;
 }
