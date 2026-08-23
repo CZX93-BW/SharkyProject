@@ -285,7 +285,7 @@ const ASSET_CONFIG = {
             ],
             coins: [
                 'assets/img/collectibles/green/Coin/0_  copia 4.png',
-                'assets/img/collectibles/green/Coin/20_ copia 2.png',
+                'assets/img/collectibles/green/Coin/20_  copia 2.png',
                 'assets/img/collectibles/green/Coin/40_  copia 4.png',
                 'assets/img/collectibles/green/Coin/60_  copia 4.png',
                 'assets/img/collectibles/green/Coin/80_  copia 4.png',
