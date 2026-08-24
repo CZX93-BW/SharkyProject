@@ -81,18 +81,28 @@ const ASSET_CONFIG = {
     /** Contains the parallax background layers for every level. */
     backgrounds: {
         levelOne: {
-            far: 'assets/img/backgrounds/Layers/5. Water/water_complete_lvl_1.png',
-            back: 'assets/img/backgrounds/Layers/4.Fondo 2/fondo_complete_lvl_1_v2.png',
-            middle: 'assets/img/backgrounds/Layers/3.Fondo 1/fondo_complete_lvl_1.png',
-            front: 'assets/img/backgrounds/Layers/1. Light/complete_light.png',
-            floor: 'assets/img/backgrounds/Layers/2. Floor/floor0_complete_lvl_1.png'
+            far:
+                'assets/img/backgrounds/Layers/5. Water/water_complete_lvl_1.png',
+            back:
+                'assets/img/backgrounds/Layers/4.Fondo 2/fondo_complete_lvl_1_v2.png',
+            middle:
+                'assets/img/backgrounds/Layers/3.Fondo 1/fondo_complete_lvl_1.png',
+            front:
+                'assets/img/backgrounds/Layers/1. Light/complete_light.png',
+            floor:
+                'assets/img/backgrounds/Layers/2. Floor/floor0_complete_lvl_1.png'
         },
         levelTwo: {
-            far: 'assets/img/backgrounds/Layers/5. Water/water_complete_lvl_2.png',
-            back: 'assets/img/backgrounds/Layers/4.Fondo 2/fondo_complete_lvl_2_v2.png',
-            middle: 'assets/img/backgrounds/Layers/3.Fondo 1/fondo_complete_lvl_2.png',
-            front: 'assets/img/backgrounds/Layers/1. Light/complete_light.png',
-            floor: 'assets/img/backgrounds/Layers/2. Floor/floor0_complete_lvl_2.png'
+            far:
+                'assets/img/backgrounds/Layers/5. Water/water_complete_lvl_2.png',
+            back:
+                'assets/img/backgrounds/Layers/4.Fondo 2/fondo_complete_lvl_2_v2.png',
+            middle:
+                'assets/img/backgrounds/Layers/3.Fondo 1/fondo_complete_lvl_2.png',
+            front:
+                'assets/img/backgrounds/Layers/1. Light/complete_light.png',
+            floor:
+                'assets/img/backgrounds/Layers/2. Floor/floor0_complete_lvl_2.png'
         }
     },
 
@@ -310,21 +320,31 @@ const ASSET_CONFIG = {
         }
     },
 
-    /** Reserves music and sound-effect paths for audio integration. */
+    /** Contains looping music tracks and event-based sound effects. */
     audio: {
         music: {
-            mainTheme: ''
+            gameplay: 'assets/audio/music/gameplay-theme.mp3',
+            boss: 'assets/audio/music/boss-theme.mp3'
         },
         sounds: {
-            coin: '',
-            poisonBottle: '',
-            damage: '',
-            finSlap: '',
-            poisonShot: '',
-            bubbleTrap: '',
-            shop: '',
-            win: '',
-            gameOver: ''
+            coin: 'assets/audio/sfx/collectibles/coin-collect.mp3',
+            poisonBottle:
+                'assets/audio/sfx/collectibles/poison-bottle-collect.mp3',
+            finSlap: 'assets/audio/sfx/player/fin-slap.mp3',
+            poisonShot: 'assets/audio/sfx/player/bubble-shot.mp3',
+            bubbleTrap: 'assets/audio/sfx/player/bubble-trap.mp3',
+            bubblePop: 'assets/audio/sfx/player/bubble-pop.wav',
+            playerHurt: 'assets/audio/sfx/player/player-hurt.mp3',
+            playerDeath: 'assets/audio/sfx/player/player-death.mp3',
+            enemyBite: 'assets/audio/sfx/enemies/enemy-bite.mp3',
+            jellyfishShock:
+                'assets/audio/sfx/enemies/jellyfish-shock.mp3',
+            bossHurt: 'assets/audio/sfx/enemies/boss-hurt.mp3',
+            bossDeath: 'assets/audio/sfx/enemies/boss-death.mp3',
+            bossIntro: 'assets/audio/sfx/enemies/boss-intro.mp3',
+            gameOver: 'assets/audio/sfx/game/game-over.mp3',
+            win: 'assets/audio/sfx/game/victory.mp3',
+            buttonClick: 'assets/audio/sfx/ui/button-click.mp3'
         }
     }
 };

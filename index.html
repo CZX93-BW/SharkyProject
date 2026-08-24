@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sharky ist ein responsives 2D-Unterwasserspiel mit Vanilla JavaScript, OOP und HTML5 Canvas.">
+    <meta name="description"
+        content="Sharky ist ein responsives 2D-Unterwasserspiel mit Vanilla JavaScript, OOP und HTML5 Canvas.">
     <meta name="theme-color" content="#052638">
     <meta name="color-scheme" content="dark light">
     <title>Sharky - Jump and Swim</title>
@@ -16,6 +18,7 @@
     <link rel="stylesheet" href="styles/responsive.css">
     <link rel="stylesheet" href="styles/menu-screen.css">
 </head>
+
 <body>
     <!-- Main Menu Screen -->
     <main id="mainMenuScreen" class="main-menu-screen">
@@ -45,11 +48,14 @@
                 </div>
 
                 <div class="hero-actions">
-                    <button class="primary-button large-button" data-start-level="1">
+                    <button class="primary-button large-button"
+                        data-start-level="1">
                         <span>Spiel starten</span>
                         <small>Direkt mit Level 1 beginnen</small>
                     </button>
-                    <button class="secondary-button large-button" data-main-panel="levelSelectPanel">
+
+                    <button class="secondary-button large-button"
+                        data-main-panel="levelSelectPanel">
                         <span>Level auswählen</span>
                         <small>Riffzone selbst bestimmen</small>
                     </button>
@@ -61,22 +67,28 @@
                     <span>Einstellungen</span>
                     <small>Audio und Anzeige</small>
                 </button>
+
                 <button data-main-panel="howToPlayPanel">
                     <span>Anleitung</span>
                     <small>Steuerung und Angriffe</small>
                 </button>
+
                 <button data-main-panel="storyPanel">
                     <span>Geschichte</span>
                     <small>Das bedrohte Riff</small>
                 </button>
+
                 <button data-display-action="theme" aria-pressed="true">
                     <span data-display-label>Darstellung: Dunkel</span>
                     <small>Farbschema wechseln</small>
                 </button>
-                <button data-display-action="fullscreen" aria-pressed="false">
+
+                <button data-display-action="fullscreen"
+                    aria-pressed="false">
                     <span data-display-label>Vollbild: Aus</span>
                     <small>Ansicht vergrößern</small>
                 </button>
+
                 <a href="imprint.html">
                     <span>Impressum</span>
                     <small>Rechtliche Hinweise</small>
@@ -84,8 +96,9 @@
             </nav>
         </section>
 
-        <!-- Main Menu Panels -->
-        <section id="levelSelectPanel" class="main-menu-panel hidden">
+        <!-- Level Selection Panel -->
+        <section id="levelSelectPanel"
+            class="main-menu-panel hidden">
             <div class="panel-card">
                 <div class="panel-header">
                     <div>
@@ -93,35 +106,54 @@
                         <h2>Wähle deine Riffzone</h2>
                     </div>
 
-                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                    <button class="icon-button small-icon-button"
+                        data-close-panel
+                        aria-label="Fenster schließen">
                         ×
                     </button>
                 </div>
 
                 <p>
-                    Starte direkt mit Level 1 oder teste Level 2 für die Entwicklung.
-                    Später kann Level 2 sauber über den Shop freigeschaltet werden.
+                    Starte direkt mit Level 1 oder teste Level 2 für die
+                    Entwicklung. Später kann Level 2 sauber über den Shop
+                    freigeschaltet werden.
                 </p>
 
                 <div class="panel-grid">
                     <article class="panel-option">
                         <h3>Level 1</h3>
-                        <p>Das erste Riff. Ideal zum Starten, Sammeln und Kämpfen.</p>
-                        <button class="primary-button" data-start-level="1">Level 1 starten</button>
+                        <p>
+                            Das erste Riff. Ideal zum Starten, Sammeln und
+                            Kämpfen.
+                        </p>
+                        <button class="primary-button"
+                            data-start-level="1">
+                            Level 1 starten
+                        </button>
                     </article>
 
                     <article class="panel-option">
                         <h3>Level 2</h3>
-                        <p>Die tiefere Riffzone. Aktuell als Testzugang verfügbar.</p>
-                        <button class="secondary-button" data-start-level="2">Level 2 testen</button>
+                        <p>
+                            Die tiefere Riffzone. Aktuell als Testzugang
+                            verfügbar.
+                        </p>
+                        <button class="secondary-button"
+                            data-start-level="2">
+                            Level 2 testen
+                        </button>
                     </article>
                 </div>
 
-                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+                <button class="text-button" data-close-panel>
+                    Zurück zum Hauptmenü
+                </button>
             </div>
         </section>
 
-        <section id="settingsPanel" class="main-menu-panel hidden">
+        <!-- Settings Panel -->
+        <section id="settingsPanel"
+            class="main-menu-panel hidden">
             <div class="panel-card">
                 <div class="panel-header">
                     <div>
@@ -129,33 +161,47 @@
                         <h2>Spielgefühl</h2>
                     </div>
 
-                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                    <button class="icon-button small-icon-button"
+                        data-close-panel
+                        aria-label="Fenster schließen">
                         ×
                     </button>
                 </div>
 
                 <p>
-                    Musik und Soundeffekte sind technisch vorbereitet. Sobald echte Audiodateien eingetragen sind,
-                    greifen diese Einstellungen direkt.
+                    Passe Musik, Soundeffekte und Anzeige nach deinen
+                    Wünschen an.
                 </p>
 
                 <div class="settings-control-list">
-                    <button id="mainMusicSettingButton" class="settings-toggle-button">
-                        Musik: Aus
+                    <button id="mainMusicSettingButton"
+                        class="settings-toggle-button">
+                        Musik: An
                     </button>
 
-                    <label class="range-control" for="mainMusicVolumeSlider">
+                    <label class="range-control"
+                        for="mainMusicVolumeSlider">
                         <span>Musiklautstärke</span>
-                        <input id="mainMusicVolumeSlider" type="range" min="0" max="100" value="35">
+                        <input id="mainMusicVolumeSlider"
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="40">
                     </label>
 
-                    <button id="mainSoundSettingButton" class="settings-toggle-button">
+                    <button id="mainSoundSettingButton"
+                        class="settings-toggle-button">
                         Soundeffekte: An
                     </button>
 
-                    <label class="range-control" for="mainSoundVolumeSlider">
+                    <label class="range-control"
+                        for="mainSoundVolumeSlider">
                         <span>Soundlautstärke</span>
-                        <input id="mainSoundVolumeSlider" type="range" min="0" max="100" value="65">
+                        <input id="mainSoundVolumeSlider"
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="40">
                     </label>
                 </div>
 
@@ -163,20 +209,29 @@
                     <h3>Anzeige</h3>
 
                     <div class="settings-control-list compact-control-list">
-                        <button class="settings-toggle-button" data-display-action="theme" aria-pressed="true">
+                        <button class="settings-toggle-button"
+                            data-display-action="theme"
+                            aria-pressed="true">
                             Darstellung: Dunkel
                         </button>
-                        <button class="settings-toggle-button" data-display-action="fullscreen" aria-pressed="false">
+
+                        <button class="settings-toggle-button"
+                            data-display-action="fullscreen"
+                            aria-pressed="false">
                             Vollbild: Aus
                         </button>
                     </div>
                 </div>
 
-                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+                <button class="text-button" data-close-panel>
+                    Zurück zum Hauptmenü
+                </button>
             </div>
         </section>
 
-        <section id="howToPlayPanel" class="main-menu-panel hidden">
+        <!-- Instructions Panel -->
+        <section id="howToPlayPanel"
+            class="main-menu-panel hidden">
             <div class="panel-card wide-panel-card">
                 <div class="panel-header">
                     <div>
@@ -184,84 +239,131 @@
                         <h2>So steuerst du Sharky</h2>
                     </div>
 
-                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                    <button class="icon-button small-icon-button"
+                        data-close-panel
+                        aria-label="Fenster schließen">
                         ×
                     </button>
                 </div>
 
                 <p>
-                    Sharky bewegt sich frei unter Wasser. Nutze Bewegung, Timing und Angriffe,
-                    um Gegner zu umgehen, einzufangen oder zu besiegen.
+                    Sharky bewegt sich frei unter Wasser. Nutze Bewegung,
+                    Timing und Angriffe, um Gegner zu umgehen, einzufangen
+                    oder zu besiegen.
                 </p>
 
-                <section class="instruction-section" aria-labelledby="movementInstructionsTitle">
-                    <img class="instruction-title-image" src="assets/img/ui/Tittles/Move title.png" alt="">
-                    <h3 id="movementInstructionsTitle" class="visually-hidden">Bewegung</h3>
+                <section class="instruction-section"
+                    aria-labelledby="movementInstructionsTitle">
+                    <img class="instruction-title-image"
+                        src="assets/img/ui/Tittles/Move title.png"
+                        alt="">
+
+                    <h3 id="movementInstructionsTitle"
+                        class="visually-hidden">
+                        Bewegung
+                    </h3>
 
                     <div class="instruction-grid movement-instruction-grid">
                         <article class="instruction-card instruction-visual-card">
-                            <img class="arrow-key-image" src="assets/img/ui/Key/arrow keys.png" alt="Vier Pfeiltasten">
-                            <p>Bewege Sharky mit den Pfeiltasten durch das Riff.</p>
+                            <img class="arrow-key-image"
+                                src="assets/img/ui/Key/arrow keys.png"
+                                alt="Vier Pfeiltasten">
+                            <p>
+                                Bewege Sharky mit den Pfeiltasten durch das
+                                Riff.
+                            </p>
                         </article>
 
                         <article class="instruction-card instruction-visual-card">
-                            <div class="wasd-keyboard" aria-label="Tasten W, A, S und D">
+                            <div class="wasd-keyboard"
+                                aria-label="Tasten W, A, S und D">
                                 <kbd>W</kbd>
                                 <span></span>
                                 <kbd>A</kbd>
                                 <kbd>S</kbd>
                                 <kbd>D</kbd>
                             </div>
-                            <p>Alternativ kannst du auf dem Desktop W, A, S und D verwenden.</p>
+                            <p>
+                                Alternativ kannst du auf dem Desktop W, A,
+                                S und D verwenden.
+                            </p>
                         </article>
 
                         <article class="instruction-card touch-instruction-card">
-                            <div class="instruction-joystick" aria-hidden="true">
+                            <div class="instruction-joystick"
+                                aria-hidden="true">
                                 <span></span>
                             </div>
+
                             <div>
                                 <h4>Touch-Steuerung</h4>
-                                <p>Auf Smartphones und Tablets bewegst du Sharky mit dem Joystick links.</p>
+                                <p>
+                                    Auf Smartphones und Tablets bewegst du
+                                    Sharky mit dem Joystick links.
+                                </p>
                             </div>
                         </article>
                     </div>
                 </section>
 
-                <section class="instruction-section" aria-labelledby="attackInstructionsTitle">
-                    <img class="instruction-title-image attack-title-image" src="assets/img/ui/Tittles/Attack tittle.png" alt="">
-                    <h3 id="attackInstructionsTitle" class="visually-hidden">Angriffe</h3>
+                <section class="instruction-section"
+                    aria-labelledby="attackInstructionsTitle">
+                    <img class="instruction-title-image attack-title-image"
+                        src="assets/img/ui/Tittles/Attack tittle.png"
+                        alt="">
+
+                    <h3 id="attackInstructionsTitle"
+                        class="visually-hidden">
+                        Angriffe
+                    </h3>
 
                     <div class="instruction-grid attack-instruction-grid">
                         <article class="instruction-card instruction-visual-card">
                             <kbd class="large-key">E</kbd>
                             <h4>Flossenschlag</h4>
-                            <p>Kurzer Nahkampfangriff gegen normale Gegner und den Boss.</p>
+                            <p>
+                                Kurzer Nahkampfangriff gegen normale Gegner
+                                und den Boss.
+                            </p>
                         </article>
 
                         <article class="instruction-card instruction-visual-card">
-                            <img class="space-key-image" src="assets/img/ui/Key/Space Bar key.png" alt="Leertaste">
+                            <img class="space-key-image"
+                                src="assets/img/ui/Key/Space Bar key.png"
+                                alt="Leertaste">
                             <h4>Blasenfalle</h4>
-                            <p>Fängt kleine Gegner und verhindert ihren Berührungsschaden.</p>
+                            <p>
+                                Fängt kleine Gegner und verhindert ihren
+                                Berührungsschaden.
+                            </p>
                         </article>
 
                         <article class="instruction-card instruction-visual-card">
                             <kbd class="large-key">F</kbd>
                             <h4>Giftangriff</h4>
-                            <p>Verbraucht eine Giftflasche und verursacht Schaden über Zeit.</p>
+                            <p>
+                                Verbraucht eine Giftflasche und verursacht
+                                Schaden über Zeit.
+                            </p>
                         </article>
                     </div>
                 </section>
 
                 <aside class="instruction-note">
                     <strong>Touch-Hinweis:</strong>
-                    Die drei Angriffstasten erscheinen nur auf einem geeigneten Touch-Gerät.
+                    Die drei Angriffstasten erscheinen nur auf einem
+                    geeigneten Touch-Gerät.
                 </aside>
 
-                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+                <button class="text-button" data-close-panel>
+                    Zurück zum Hauptmenü
+                </button>
             </div>
         </section>
 
-        <section id="storyPanel" class="main-menu-panel hidden">
+        <!-- Story Panel -->
+        <section id="storyPanel"
+            class="main-menu-panel hidden">
             <div class="panel-card story-card wide-panel-card">
                 <div class="panel-header">
                     <div>
@@ -269,43 +371,63 @@
                         <h2>Sharkys Riff ist in Gefahr</h2>
                     </div>
 
-                    <button class="icon-button small-icon-button" data-close-panel aria-label="Fenster schließen">
+                    <button class="icon-button small-icon-button"
+                        data-close-panel
+                        aria-label="Fenster schließen">
                         ×
                     </button>
                 </div>
 
                 <div id="storyText" class="story-text">
                     <p>
-                        Tief unter der Wasseroberfläche liegt ein altes Riff, das seit Generationen
-                        von friedlichen Meeresbewohnern bewohnt wird. Zwischen leuchtenden Korallen,
-                        geheimen Höhlen und stillen Strömungen hat Sharky sein Zuhause gefunden.
+                        Tief unter der Wasseroberfläche liegt ein altes Riff,
+                        das seit Generationen von friedlichen Meeresbewohnern
+                        bewohnt wird. Zwischen leuchtenden Korallen, geheimen
+                        Höhlen und stillen Strömungen hat Sharky sein Zuhause
+                        gefunden.
                     </p>
+
                     <p>
-                        Doch eines Tages verändert sich das Wasser. Giftige Strömungen ziehen durch
-                        die Riffzonen, Münzen verschwinden in dunklen Felsspalten und fremde Kreaturen
-                        blockieren die Wege zwischen den Tiefen.
+                        Doch eines Tages verändert sich das Wasser. Giftige
+                        Strömungen ziehen durch die Riffzonen, Münzen
+                        verschwinden in dunklen Felsspalten und fremde
+                        Kreaturen blockieren die Wege zwischen den Tiefen.
                     </p>
+
                     <p>
-                        Sharky bleibt keine Wahl. Mit Flossenschlag, Blasenfalle und Giftattacke macht
-                        er sich auf den Weg, um das Riff zu schützen. Jede gesammelte Münze, jede
-                        Giftflasche und jedes Upgrade bringt ihn näher an sein Ziel.
+                        Sharky bleibt keine Wahl. Mit Flossenschlag,
+                        Blasenfalle und Giftattacke macht er sich auf den Weg,
+                        um das Riff zu schützen. Jede gesammelte Münze, jede
+                        Giftflasche und jedes Upgrade bringt ihn näher an
+                        sein Ziel.
                     </p>
+
                     <p>
-                        Wenn Sharky scheitert, wird das Riff verstummen. Wenn er es schafft, kann die
-                        Tiefsee wieder aufatmen.
+                        Wenn Sharky scheitert, wird das Riff verstummen.
+                        Wenn er es schafft, kann die Tiefsee wieder aufatmen.
                     </p>
                 </div>
 
                 <blockquote class="story-quote">
-                    „Ein kleiner Hai, ein großes Riff und sehr viel Wasser zwischen Mut und Chaos.“
+                    „Ein kleiner Hai, ein großes Riff und sehr viel Wasser
+                    zwischen Mut und Chaos.“
                 </blockquote>
 
                 <div class="story-actions">
-                    <button id="readStoryButton" class="primary-button">Geschichte vorlesen</button>
-                    <button id="stopStoryButton" class="secondary-button">Vorlesen stoppen</button>
+                    <button id="readStoryButton"
+                        class="primary-button">
+                        Geschichte vorlesen
+                    </button>
+
+                    <button id="stopStoryButton"
+                        class="secondary-button">
+                        Vorlesen stoppen
+                    </button>
                 </div>
 
-                <button class="text-button" data-close-panel>Zurück zum Hauptmenü</button>
+                <button class="text-button" data-close-panel>
+                    Zurück zum Hauptmenü
+                </button>
             </div>
         </section>
     </main>
@@ -319,97 +441,166 @@
                     <h1>Sharky - Jump and Swim</h1>
                 </div>
 
-                <nav class="game-navigation" aria-label="Spielnavigation">
-                    <button id="returnHomeHeaderButton" class="text-button">Hauptmenü</button>
+                <nav class="game-navigation"
+                    aria-label="Spielnavigation">
+                    <button id="returnHomeHeaderButton"
+                        class="text-button">
+                        Hauptmenü
+                    </button>
+
                     <a href="imprint.html">Impressum</a>
                 </nav>
             </header>
 
             <!-- Pause Screen -->
-            <section id="pauseScreen" class="menu-overlay hidden">
+            <section id="pauseScreen"
+                class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Pause</p>
                     <h2>Spiel pausiert</h2>
-                    <p>Atme kurz durch. Auch Haie brauchen mal eine Sekunde.</p>
+                    <p>
+                        Atme kurz durch. Auch Haie brauchen mal eine Sekunde.
+                    </p>
 
                     <div class="menu-actions">
-                        <button id="resumeButton" class="primary-button">Weiter</button>
-                        <button id="restartButton" class="secondary-button">Neu starten</button>
-                        <button id="mainMenuButton" class="secondary-button">Hauptmenü</button>
+                        <button id="resumeButton"
+                            class="primary-button">
+                            Weiter
+                        </button>
+
+                        <button id="restartButton"
+                            class="secondary-button">
+                            Neu starten
+                        </button>
+
+                        <button id="mainMenuButton"
+                            class="secondary-button">
+                            Hauptmenü
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- Shop Screen -->
-            <section id="shopScreen" class="menu-overlay hidden">
+            <section id="shopScreen"
+                class="menu-overlay hidden">
                 <div class="menu-content shop-content">
                     <p class="eyebrow">Riff-Shop</p>
                     <h2>Bereite Sharky vor</h2>
                     <p>
-                        Das erste Riff ist geschafft. Nutze gesammelte Münzen, um Sharky für die nächste Tiefe zu stärken.
+                        Das erste Riff ist geschafft. Nutze gesammelte
+                        Münzen, um Sharky für die nächste Tiefe zu stärken.
                     </p>
 
                     <div class="shop-wallet">
-                        Verfügbare Münzen: <strong id="shopCoinDisplay">0</strong>
+                        Verfügbare Münzen:
+                        <strong id="shopCoinDisplay">0</strong>
                     </div>
 
                     <div class="shop-grid">
                         <article class="shop-item">
                             <h3>Flossen-Turbo</h3>
-                            <p>Sharky schwimmt schneller durch die Strömung.</p>
-                            <button class="secondary-button" data-upgrade="speedBoost">Kaufen · 2 Münzen</button>
+                            <p>
+                                Sharky schwimmt schneller durch die Strömung.
+                            </p>
+                            <button class="secondary-button"
+                                data-upgrade="speedBoost">
+                                Kaufen · 2 Münzen
+                            </button>
                         </article>
 
                         <article class="shop-item">
                             <h3>Starke Schuppen</h3>
-                            <p>Sharky startet mit mehr Leben ins nächste Level.</p>
-                            <button class="secondary-button" data-upgrade="extraHealth">Kaufen · 3 Münzen</button>
+                            <p>
+                                Sharky startet mit mehr Leben ins nächste
+                                Level.
+                            </p>
+                            <button class="secondary-button"
+                                data-upgrade="extraHealth">
+                                Kaufen · 3 Münzen
+                            </button>
                         </article>
 
                         <article class="shop-item">
                             <h3>Gift-Tasche</h3>
-                            <p>Sharky kann mehr Giftflaschen tragen.</p>
-                            <button class="secondary-button" data-upgrade="poisonCapacity">Kaufen · 2 Münzen</button>
+                            <p>
+                                Sharky kann mehr Giftflaschen tragen.
+                            </p>
+                            <button class="secondary-button"
+                                data-upgrade="poisonCapacity">
+                                Kaufen · 2 Münzen
+                            </button>
                         </article>
                     </div>
 
                     <div class="menu-actions">
-                        <button id="continueLevelTwoButton" class="primary-button">Weiter zu Level 2</button>
-                        <button id="shopMainMenuButton" class="secondary-button">Hauptmenü</button>
+                        <button id="continueLevelTwoButton"
+                            class="primary-button">
+                            Weiter zu Level 2
+                        </button>
+
+                        <button id="shopMainMenuButton"
+                            class="secondary-button">
+                            Hauptmenü
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- Game Over Screen -->
-            <section id="gameOverScreen" class="menu-overlay hidden">
+            <section id="gameOverScreen"
+                class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission gescheitert</p>
                     <h2>Sharky braucht eine Pause</h2>
-                    <p>Die Tiefsee war diesmal etwas bissig. Versuch es nochmal.</p>
+                    <p>
+                        Die Tiefsee war diesmal etwas bissig.
+                        Versuch es nochmal.
+                    </p>
 
                     <div class="menu-actions">
-                        <button id="gameOverRestartButton" class="primary-button">Neu starten</button>
-                        <button id="gameOverMainMenuButton" class="secondary-button">Hauptmenü</button>
+                        <button id="gameOverRestartButton"
+                            class="primary-button">
+                            Neu starten
+                        </button>
+
+                        <button id="gameOverMainMenuButton"
+                            class="secondary-button">
+                            Hauptmenü
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- Win Screen -->
-            <section id="winScreen" class="menu-overlay hidden">
+            <section id="winScreen"
+                class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission geschafft</p>
                     <h2>Riff gesichert</h2>
-                    <p>Sharky hat beide Riffzonen gemeistert. Die Tiefsee kann aufatmen.</p>
+                    <p>
+                        Sharky hat beide Riffzonen gemeistert.
+                        Die Tiefsee kann aufatmen.
+                    </p>
 
                     <div class="menu-actions">
-                        <button id="winRestartButton" class="primary-button">Nochmal spielen</button>
-                        <button id="winMainMenuButton" class="secondary-button">Hauptmenü</button>
+                        <button id="winRestartButton"
+                            class="primary-button">
+                            Nochmal spielen
+                        </button>
+
+                        <button id="winMainMenuButton"
+                            class="secondary-button">
+                            Hauptmenü
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- Ingame Settings Dialog -->
-            <section id="ingameSettingsDialog" class="ingame-dialog hidden" aria-label="Spieleinstellungen">
+            <section id="ingameSettingsDialog"
+                class="ingame-dialog hidden"
+                aria-label="Spieleinstellungen">
                 <div class="ingame-dialog-card">
                     <div class="dialog-header">
                         <div>
@@ -417,32 +608,47 @@
                             <h2>Spieloptionen</h2>
                         </div>
 
-                        <button id="closeSettingsButton" class="icon-button small-icon-button" aria-label="Einstellungen schließen">
+                        <button id="closeSettingsButton"
+                            class="icon-button small-icon-button"
+                            aria-label="Einstellungen schließen">
                             ×
                         </button>
                     </div>
 
                     <p>
-                        Musik und Sound sind technisch vorbereitet. Echte Dateien können zentral über die Asset-Konfiguration eingebunden werden.
+                        Passe Musik, Soundeffekte und Anzeige nach deinen
+                        Wünschen an.
                     </p>
 
                     <div class="settings-control-list">
-                        <button id="musicSettingButton" class="settings-toggle-button">
-                            Musik: Aus
+                        <button id="musicSettingButton"
+                            class="settings-toggle-button">
+                            Musik: An
                         </button>
 
-                        <label class="range-control" for="musicVolumeSlider">
+                        <label class="range-control"
+                            for="musicVolumeSlider">
                             <span>Musiklautstärke</span>
-                            <input id="musicVolumeSlider" type="range" min="0" max="100" value="35">
+                            <input id="musicVolumeSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="40">
                         </label>
 
-                        <button id="soundSettingButton" class="settings-toggle-button">
+                        <button id="soundSettingButton"
+                            class="settings-toggle-button">
                             Soundeffekte: An
                         </button>
 
-                        <label class="range-control" for="soundVolumeSlider">
+                        <label class="range-control"
+                            for="soundVolumeSlider">
                             <span>Soundlautstärke</span>
-                            <input id="soundVolumeSlider" type="range" min="0" max="100" value="65">
+                            <input id="soundVolumeSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="40">
                         </label>
                     </div>
 
@@ -450,10 +656,15 @@
                         <h3>Anzeige</h3>
 
                         <div class="settings-control-list compact-control-list">
-                            <button class="settings-toggle-button" data-display-action="theme" aria-pressed="true">
+                            <button class="settings-toggle-button"
+                                data-display-action="theme"
+                                aria-pressed="true">
                                 Darstellung: Dunkel
                             </button>
-                            <button class="settings-toggle-button" data-display-action="fullscreen" aria-pressed="false">
+
+                            <button class="settings-toggle-button"
+                                data-display-action="fullscreen"
+                                aria-pressed="false">
                                 Vollbild: Aus
                             </button>
                         </div>
@@ -471,17 +682,32 @@
                     <span id="statusDisplay">Status: Menü</span>
                 </div>
 
-                <div class="ingame-control-rail" aria-label="Schnellzugriff im Spiel">
-                    <button id="musicToggleButton" class="icon-button" aria-label="Musik an oder aus" aria-pressed="false">
-                        ♪
+                <div class="ingame-control-rail"
+                    aria-label="Schnellzugriff im Spiel">
+                    <button id="musicToggleButton"
+                        class="icon-button"
+                        aria-label="Audio an oder aus"
+                        aria-pressed="true">
+                        🔊
                     </button>
-                    <button id="openSettingsButton" class="icon-button" aria-label="Einstellungen öffnen">
+
+                    <button id="openSettingsButton"
+                        class="icon-button"
+                        aria-label="Einstellungen öffnen">
                         ⚙
                     </button>
-                    <button class="icon-button" data-display-action="fullscreen" data-display-compact="true" aria-label="Vollbild aktivieren" aria-pressed="false">
+
+                    <button class="icon-button"
+                        data-display-action="fullscreen"
+                        data-display-compact="true"
+                        aria-label="Vollbild aktivieren"
+                        aria-pressed="false">
                         ⛶
                     </button>
-                    <button id="pausePlayButton" class="icon-button" aria-label="Spiel pausieren oder fortsetzen">
+
+                    <button id="pausePlayButton"
+                        class="icon-button"
+                        aria-label="Spiel pausieren oder fortsetzen">
                         ⏸
                     </button>
                 </div>
@@ -491,19 +717,36 @@
                 </canvas>
 
                 <!-- Mobile Controls -->
-                <div class="mobile-controls" role="group" aria-label="Touch-Steuerung">
-                    <div id="mobileJoystick" class="mobile-joystick" role="group" aria-label="Sharky bewegen">
-                        <div id="mobileJoystickKnob" class="mobile-joystick-knob"></div>
+                <div class="mobile-controls"
+                    role="group"
+                    aria-label="Touch-Steuerung">
+                    <div id="mobileJoystick"
+                        class="mobile-joystick"
+                        role="group"
+                        aria-label="Sharky bewegen">
+                        <div id="mobileJoystickKnob"
+                            class="mobile-joystick-knob">
+                        </div>
                     </div>
 
-                    <div class="mobile-action-group" role="group" aria-label="Angriffe">
-                        <button class="mobile-action-button" data-mobile-action="slap" aria-label="Flossenschlag ausführen">
+                    <div class="mobile-action-group"
+                        role="group"
+                        aria-label="Angriffe">
+                        <button class="mobile-action-button"
+                            data-mobile-action="slap"
+                            aria-label="Flossenschlag ausführen">
                             Flosse
                         </button>
-                        <button class="mobile-action-button" data-mobile-action="bubble" aria-label="Blasenfalle abfeuern">
+
+                        <button class="mobile-action-button"
+                            data-mobile-action="bubble"
+                            aria-label="Blasenfalle abfeuern">
                             Blase
                         </button>
-                        <button class="mobile-action-button" data-mobile-action="poison" aria-label="Giftangriff abfeuern">
+
+                        <button class="mobile-action-button"
+                            data-mobile-action="poison"
+                            aria-label="Giftangriff abfeuern">
                             Gift
                         </button>
                     </div>
@@ -517,12 +760,12 @@
     <script src="js/config/level-config.js"></script>
     <script src="js/config/asset-config.js"></script>
     <script src="js/core/game-clock.class.js"></script>
-    <script src="js/systems/audio-manager.class.js"></script>
+    <script src="js/systems/audio-manager.class.js?v=audio-3"></script>
     <script src="js/ui/story-narrator.class.js"></script>
     <script src="js/ui/screen-manager.class.js"></script>
     <script src="js/ui/main-menu-controller.class.js"></script>
     <script src="js/ui/display-settings-controller.class.js"></script>
-    <script src="js/ui/ui-controller.class.js"></script>
+    <script src="js/ui/ui-controller.class.js?v=audio-4"></script>
     <script src="js/ui/debug-checklist.class.js"></script>
     <script src="js/core/drawable-object.class.js"></script>
     <script src="js/core/movable-object.class.js"></script>
@@ -555,4 +798,5 @@
     <script src="js/game/game.class.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

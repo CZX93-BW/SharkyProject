@@ -20,9 +20,24 @@ class UiController {
     /** Registers interface events and restores the main-menu state. */
     initialize() {
         this.bindApplicationButtons();
+        this.bindInterfaceClickSound();
         this.initializeStoryButtons();
         this.updateAudioControls();
         this.screenManager.showMainMenuScreen();
+    }
+
+    /** Plays the interface click sound for active buttons and links. */
+    bindInterfaceClickSound() {
+        document.addEventListener('pointerdown', (event) => {
+            const control = event.target.closest(
+                'button:not([data-mobile-action]), a'
+            );
+            if (!control || control.disabled) {
+                return;
+            }
+            this.audioManager.unlock(false);
+            this.audioManager.playSound('buttonClick');
+        });
     }
 
     /** Registers all application button and range-input listeners. */
@@ -93,19 +108,31 @@ class UiController {
     /** Registers every available game restart listener. */
     bindRestartButtons() {
         this.bindButton('restartButton', () => this.restartGame());
-        this.bindButton('gameOverRestartButton', () => this.restartGame());
+        this.bindButton(
+            'gameOverRestartButton',
+            () => this.restartGame()
+        );
         this.bindButton('winRestartButton', () => this.restartGame());
     }
 
     /** Registers all in-game return-to-menu listeners. */
     bindMainMenuButtonsInsideGame() {
-        this.bindButton('mainMenuButton', () => this.returnToMainMenu());
+        this.bindButton(
+            'mainMenuButton',
+            () => this.returnToMainMenu()
+        );
         this.bindButton(
             'gameOverMainMenuButton',
             () => this.returnToMainMenu()
         );
-        this.bindButton('winMainMenuButton', () => this.returnToMainMenu());
-        this.bindButton('shopMainMenuButton', () => this.returnToMainMenu());
+        this.bindButton(
+            'winMainMenuButton',
+            () => this.returnToMainMenu()
+        );
+        this.bindButton(
+            'shopMainMenuButton',
+            () => this.returnToMainMenu()
+        );
         this.bindButton(
             'returnHomeHeaderButton',
             () => this.returnToMainMenu()
@@ -131,10 +158,13 @@ class UiController {
         });
     }
 
-    /** Registers pause, music, and settings listeners. */
+    /** Registers pause, audio, and settings listeners. */
     bindIngameControlButtons() {
-        this.bindButton('pausePlayButton', () => this.togglePauseState());
-        this.bindButton('musicToggleButton', () => this.toggleMusicSetting());
+        this.bindButton(
+            'pausePlayButton',
+            () => this.togglePauseState()
+        );
+        this.bindCompactAudioButton();
         this.bindButton(
             'openSettingsButton',
             () => this.openIngameSettingsDialog()
@@ -144,6 +174,33 @@ class UiController {
             () => this.closeIngameSettingsDialog()
         );
         this.bindAudioToggleButtons();
+    }
+
+    /** Registers pointer and keyboard activation for the audio button. */
+    bindCompactAudioButton() {
+        const button = document.getElementById('musicToggleButton');
+        if (!button) {
+            return;
+        }
+        button.addEventListener('pointerdown', (event) => {
+            this.handleCompactAudioPointer(event);
+        });
+        button.addEventListener('click', (event) => {
+            this.handleCompactAudioKeyboardClick(event);
+        });
+    }
+
+    /** @param {PointerEvent} event - Pointer activation event. */
+    handleCompactAudioPointer(event) {
+        event.preventDefault();
+        this.toggleAllAudioSetting();
+    }
+
+    /** @param {MouseEvent} event - Native or keyboard-generated click. */
+    handleCompactAudioKeyboardClick(event) {
+        if (event.detail === 0) {
+            this.toggleAllAudioSetting();
+        }
     }
 
     /** Registers all music and sound toggle listeners. */
@@ -198,7 +255,6 @@ class UiController {
      */
     bindButton(buttonId, callback) {
         const button = document.getElementById(buttonId);
-
         if (button) {
             button.addEventListener('click', callback);
         }
@@ -210,7 +266,6 @@ class UiController {
      */
     bindRangeInput(inputId, callback) {
         const input = document.getElementById(inputId);
-
         if (input) {
             input.addEventListener('input', callback);
         }
@@ -226,7 +281,6 @@ class UiController {
     /** Locates and disables the story narration button. */
     disableStoryReading() {
         const readButton = document.getElementById('readStoryButton');
-
         if (readButton) {
             this.disableStoryReadButton(readButton);
         }
@@ -254,7 +308,7 @@ class UiController {
         this.openMainMenuPanel(panelId);
     }
 
-    /** @param {string} panelId - Main-menu panel element identifier. */
+    /** @param {string} panelId - Main-menu panel identifier. */
     openMainMenuPanel(panelId) {
         this.stopStory();
         this.screenManager.openMainMenuPanel(panelId);
@@ -268,7 +322,9 @@ class UiController {
 
     /** @param {Event} event - Level-selection click event. */
     startSelectedLevel(event) {
-        const levelNumber = Number(event.currentTarget.dataset.startLevel);
+        const levelNumber = Number(
+            event.currentTarget.dataset.startLevel
+        );
         this.unlockAudio();
         this.game.start(levelNumber);
         this.showGameScreen();
@@ -298,7 +354,6 @@ class UiController {
             this.resumeGame();
             return;
         }
-
         this.pauseGameIfPlaying();
     }
 
@@ -336,7 +391,7 @@ class UiController {
         this.showMainMenuScreen();
     }
 
-    /** Opens settings and remembers whether gameplay must resume afterward. */
+    /** Opens settings and remembers the previous gameplay state. */
     openIngameSettingsDialog() {
         this.wasPlayingBeforeSettings =
             this.game.gameState.status === 'playing';
@@ -344,7 +399,7 @@ class UiController {
         this.screenManager.showIngameSettingsDialog();
     }
 
-    /** Pauses gameplay when settings were opened during active play. */
+    /** Pauses gameplay when settings open during active play. */
     pauseGameForSettingsIfNeeded() {
         if (this.wasPlayingBeforeSettings) {
             this.game.pause();
@@ -378,6 +433,34 @@ class UiController {
         this.updateAudioControls();
     }
 
+    /** Toggles music and effects through the compact audio control. */
+    toggleAllAudioSetting() {
+        const shouldEnable = !this.areAllAudioChannelsEnabled();
+        this.setMusicEnabledIfNeeded(shouldEnable);
+        this.setSoundEnabledIfNeeded(shouldEnable);
+        this.updateAudioControls();
+    }
+
+    /** @returns {boolean} Whether music and sound effects are enabled. */
+    areAllAudioChannelsEnabled() {
+        return this.audioManager.isMusicEnabled() &&
+            this.audioManager.isSoundEnabled();
+    }
+
+    /** @param {boolean} isEnabled - Required music state. */
+    setMusicEnabledIfNeeded(isEnabled) {
+        if (this.audioManager.isMusicEnabled() !== isEnabled) {
+            this.audioManager.toggleMusic();
+        }
+    }
+
+    /** @param {boolean} isEnabled - Required sound-effect state. */
+    setSoundEnabledIfNeeded(isEnabled) {
+        if (this.audioManager.isSoundEnabled() !== isEnabled) {
+            this.audioManager.toggleSound();
+        }
+    }
+
     /** @param {Event} event - Music range-input event. */
     handleMusicVolumeChange(event) {
         const volume = Number(event.currentTarget.value);
@@ -406,21 +489,15 @@ class UiController {
         if (status === this.previousGameStatus) {
             return;
         }
-
         this.previousGameStatus = status;
         this.playStatusSound(status);
     }
 
     /** @param {string} status - Newly entered game status. */
     playStatusSound(status) {
-        if (status === 'shop') {
-            this.audioManager.playSound('shop');
-        }
-
         if (status === 'gameOver') {
             this.audioManager.playSound('gameOver');
         }
-
         if (status === 'levelComplete') {
             this.audioManager.playSound('win');
         }
@@ -428,9 +505,15 @@ class UiController {
 
     /** @param {GameState} gameState - Current game state. */
     updateGameHud(gameState) {
-        this.updateText('levelDisplay', `Level: ${gameState.currentLevel}`);
+        this.updateText(
+            'levelDisplay',
+            `Level: ${gameState.currentLevel}`
+        );
         this.updateHealthDisplay(gameState);
-        this.updateText('coinDisplay', `Münzen: ${gameState.coins}`);
+        this.updateText(
+            'coinDisplay',
+            `Münzen: ${gameState.coins}`
+        );
         this.updatePoisonDisplay(gameState);
         this.updateText(
             'statusDisplay',
@@ -441,14 +524,16 @@ class UiController {
     /** @param {GameState} gameState - Current game state. */
     updateHealthDisplay(gameState) {
         const player = gameState.player;
-        const healthText = `Leben: ${player.health}/${player.maxHealth}`;
+        const healthText =
+            `Leben: ${player.health}/${player.maxHealth}`;
         this.updateText('healthDisplay', healthText);
     }
 
     /** @param {GameState} gameState - Current game state. */
     updatePoisonDisplay(gameState) {
         const maximum = gameState.getMaxPoisonBottles();
-        const poisonText = `Gift: ${gameState.poisonBottles}/${maximum}`;
+        const poisonText =
+            `Gift: ${gameState.poisonBottles}/${maximum}`;
         this.updateText('poisonDisplay', poisonText);
     }
 
@@ -472,11 +557,10 @@ class UiController {
      */
     updateUpgradeButton(button, gameState) {
         const upgradeName = button.dataset.upgrade;
-        button.disabled = !gameState.canPurchaseUpgrade(upgradeName);
-        button.textContent = this.getUpgradeButtonText(
-            upgradeName,
-            gameState
-        );
+        button.disabled =
+            !gameState.canPurchaseUpgrade(upgradeName);
+        button.textContent =
+            this.getUpgradeButtonText(upgradeName, gameState);
     }
 
     /**
@@ -488,7 +572,6 @@ class UiController {
         if (gameState.isUpgradeOwned(upgradeName)) {
             return 'Gekauft';
         }
-
         return `Kaufen · ${gameState.getUpgradeCost(upgradeName)} Münzen`;
     }
 
@@ -524,11 +607,9 @@ class UiController {
         if (status === 'shop') {
             this.showShopScreen();
         }
-
         if (status === 'gameOver') {
             this.showGameOverScreen();
         }
-
         if (status === 'levelComplete') {
             this.showWinScreen();
         }
@@ -561,7 +642,6 @@ class UiController {
     /** @param {GameState} gameState - Current game state. */
     updatePausePlayButton(gameState) {
         const button = document.getElementById('pausePlayButton');
-
         if (button) {
             this.applyPausePlayButtonState(button, gameState);
         }
@@ -601,26 +681,34 @@ class UiController {
         this.updateMusicSettingButton('mainMusicSettingButton');
     }
 
-    /** Locates and synchronizes the compact music control. */
+    /** Locates and synchronizes the compact global audio control. */
     updateMusicToggleButton() {
-        const button = document.getElementById('musicToggleButton');
-
+        const button =
+            document.getElementById('musicToggleButton');
         if (button) {
             this.applyMusicToggleButtonState(button);
         }
     }
 
-    /** @param {HTMLButtonElement} button - Compact music control. */
+    /** @param {HTMLButtonElement} button - Compact audio control. */
     applyMusicToggleButtonState(button) {
-        const isEnabled = this.audioManager.isMusicEnabled();
-        button.textContent = isEnabled ? '♫' : '♪';
+        const isEnabled = this.areAllAudioChannelsEnabled();
+        button.textContent = isEnabled ? '🔊' : '🔇';
         button.classList.toggle('is-active', isEnabled);
-        button.setAttribute('aria-pressed', String(isEnabled));
+        button.setAttribute(
+            'aria-pressed',
+            String(isEnabled)
+        );
+        button.setAttribute(
+            'aria-label',
+            isEnabled ? 'Audio ausschalten' : 'Audio einschalten'
+        );
     }
 
     /** @param {string} buttonId - Music setting button identifier. */
     updateMusicSettingButton(buttonId) {
-        const statusText = this.audioManager.isMusicEnabled() ? 'An' : 'Aus';
+        const statusText =
+            this.audioManager.isMusicEnabled() ? 'An' : 'Aus';
         this.updateText(buttonId, `Musik: ${statusText}`);
     }
 
@@ -630,29 +718,46 @@ class UiController {
         this.updateSoundSettingButton('mainSoundSettingButton');
     }
 
-    /** @param {string} buttonId - Sound setting button identifier. */
+    /** @param {string} buttonId - Sound button identifier. */
     updateSoundSettingButton(buttonId) {
-        const statusText = this.audioManager.isSoundEnabled() ? 'An' : 'Aus';
-        this.updateText(buttonId, `Soundeffekte: ${statusText}`);
+        const statusText =
+            this.audioManager.isSoundEnabled() ? 'An' : 'Aus';
+        this.updateText(
+            buttonId,
+            `Soundeffekte: ${statusText}`
+        );
     }
 
     /** Synchronizes all audio volume range inputs. */
     updateAudioSliders() {
-        const musicVolume = this.audioManager.getMusicVolumePercent();
-        const soundVolume = this.audioManager.getSoundVolumePercent();
-        this.updateRangeValue('musicVolumeSlider', musicVolume);
-        this.updateRangeValue('mainMusicVolumeSlider', musicVolume);
-        this.updateRangeValue('soundVolumeSlider', soundVolume);
-        this.updateRangeValue('mainSoundVolumeSlider', soundVolume);
+        const musicVolume =
+            this.audioManager.getMusicVolumePercent();
+        const soundVolume =
+            this.audioManager.getSoundVolumePercent();
+        this.updateRangeValue(
+            'musicVolumeSlider',
+            musicVolume
+        );
+        this.updateRangeValue(
+            'mainMusicVolumeSlider',
+            musicVolume
+        );
+        this.updateRangeValue(
+            'soundVolumeSlider',
+            soundVolume
+        );
+        this.updateRangeValue(
+            'mainSoundVolumeSlider',
+            soundVolume
+        );
     }
 
     /**
-     * @param {string} inputId - Range input element identifier.
+     * @param {string} inputId - Range input identifier.
      * @param {number} value - Numeric value to display.
      */
     updateRangeValue(inputId, value) {
         const input = document.getElementById(inputId);
-
         if (input) {
             input.value = value;
         }
@@ -677,7 +782,6 @@ class UiController {
      */
     updateText(elementId, text) {
         const element = document.getElementById(elementId);
-
         if (element) {
             element.textContent = text;
         }

@@ -10,7 +10,12 @@ class Game {
      * @param {Function|null} [statusUpdateCallback=null] - UI update callback.
      * @param {AudioManager|null} [audioManager=null] - Game audio controller.
      */
-    constructor(canvas, keyboard, statusUpdateCallback = null, audioManager = null) {
+    constructor(
+        canvas,
+        keyboard,
+        statusUpdateCallback = null,
+        audioManager = null
+    ) {
         this.initializeDependencies(canvas, keyboard, statusUpdateCallback);
         this.initializeManagers(audioManager);
         this.initializeLoopState();
@@ -43,6 +48,7 @@ class Game {
     initializeLoopState() {
         this.animationFrameId = null;
         this.lastFrameTime = 0;
+        this.previousBossState = '';
     }
 
     /** @param {number} levelNumber - Number of the level to start. */
@@ -65,6 +71,7 @@ class Game {
         this.resetInput();
         this.camera.reset();
         this.attackManager.reset();
+        this.resetBossAudio();
         this.resetFrameTime();
         this.notifyStatusUpdate();
         this.runGameLoop();
@@ -80,6 +87,8 @@ class Game {
     pause() {
         this.gameState.pause();
         this.pauseGameClockIfNeeded();
+        this.audioManager?.pauseMusic();
+        this.audioManager?.stopSoundEffects();
         this.resetInput();
         this.notifyStatusUpdate();
     }
@@ -88,6 +97,7 @@ class Game {
     resume() {
         GAME_CLOCK.resume();
         this.gameState.resume();
+        this.audioManager?.playMusic();
         this.notifyStatusUpdate();
     }
 
@@ -99,6 +109,7 @@ class Game {
         this.resetInput();
         this.camera.reset();
         this.attackManager.reset();
+        this.audioManager?.stopAllPlayback();
         this.renderCurrentState();
         this.notifyStatusUpdate();
     }
@@ -149,7 +160,11 @@ class Game {
 
     /** Renders the current world and interface state. */
     renderCurrentState() {
-        this.renderer.render(this.gameState, this.camera, this.attackManager);
+        this.renderer.render(
+            this.gameState,
+            this.camera,
+            this.attackManager
+        );
     }
 
     /** @returns {boolean} Whether the animation loop should continue. */
@@ -225,6 +240,43 @@ class Game {
             this.gameState.player,
             this.camera.getVisibleBounds()
         );
+        this.updateBossAudio();
+    }
+
+    /** Starts gameplay music and clears the observed boss state. */
+    resetBossAudio() {
+        this.previousBossState = '';
+        this.audioManager?.playGameplayMusic();
+    }
+
+    /** Plays music and effects when the boss enters a new state. */
+    updateBossAudio() {
+        const boss = this.gameState.activeLevel.endboss;
+        if (!boss || boss.state === this.previousBossState) {
+            return;
+        }
+        this.handleBossAudioState(boss.state);
+        this.previousBossState = boss.state;
+    }
+
+    /** @param {string} state - Newly entered boss state. */
+    handleBossAudioState(state) {
+        if (state === 'introduce') {
+            this.audioManager?.playSound('bossIntro');
+            this.audioManager?.playBossMusic();
+        }
+        if (state === 'hurt') {
+            this.audioManager?.playSound('bossHurt');
+        }
+        if (state === 'dead') {
+            this.handleBossDeathAudio();
+        }
+    }
+
+    /** Plays the boss death effect and restores the gameplay track. */
+    handleBossDeathAudio() {
+        this.audioManager?.playSound('bossDeath');
+        this.audioManager?.playGameplayMusic();
     }
 
     /** Runs danger, collectible, and attack collision checks. */
@@ -244,7 +296,9 @@ class Game {
 
     /** Checks collisions between the player and collectibles. */
     checkCollectibleCollisions() {
-        this.collisionManager.checkPlayerCollectibleCollisions(this.gameState);
+        this.collisionManager.checkPlayerCollectibleCollisions(
+            this.gameState
+        );
     }
 
     /** Checks collisions between active attacks and valid targets. */
@@ -277,19 +331,26 @@ class Game {
         player.updateAnimation();
         if (player.isAnimationFinished()) {
             this.gameState.setGameOver();
+            this.audioManager?.stopMusic();
         }
     }
 
     /** Completes the level when the unlocked finish has been reached. */
     completeLevelIfNeeded() {
-        if (this.gameState.activeLevel.isLevelComplete(this.gameState.player)) {
+        if (this.gameState.activeLevel.isLevelComplete(
+            this.gameState.player
+        )) {
             this.gameState.completeLevel();
+            this.audioManager?.stopMusic();
         }
     }
 
     /** Updates the camera from the player and active level positions. */
     updateCamera() {
-        this.camera.update(this.gameState.player, this.gameState.activeLevel);
+        this.camera.update(
+            this.gameState.player,
+            this.gameState.activeLevel
+        );
     }
 
     /** @returns {boolean} Whether gameplay systems may update this frame. */

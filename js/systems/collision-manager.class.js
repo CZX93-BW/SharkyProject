@@ -71,7 +71,7 @@ class CollisionManager {
 
     /**
      * @param {Character} player - Current player character.
-     * @param {Object} solidArea - Blocking world area.
+     * @param {Object} solidArea - Blocking Blocking world area.
      */
     movePlayerAboveArea(player, solidArea) {
         player.y = solidArea.y - player.height;
@@ -143,17 +143,21 @@ class CollisionManager {
     applyEnemyDamage(player, enemy) {
         const healthBeforeDamage = player.health;
         player.takeDamage(enemy.damage);
-        this.playDamageSoundIfNeeded(player, healthBeforeDamage);
+        this.playDamageSoundIfNeeded(player, healthBeforeDamage, enemy);
     }
 
     /**
      * @param {Character} player - Current player character.
      * @param {number} healthBeforeDamage - Health before the damage attempt.
+     * @param {Enemy} enemy - Enemy that caused the damage.
      */
-    playDamageSoundIfNeeded(player, healthBeforeDamage) {
-        if (player.health < healthBeforeDamage) {
-            this.playSound('damage');
+    playDamageSoundIfNeeded(player, healthBeforeDamage, enemy) {
+        if (player.health >= healthBeforeDamage) {
+            return;
         }
+        const playerSound = player.isAlive() ? 'playerHurt' : 'playerDeath';
+        this.playSound(playerSound);
+        this.audioManager?.playEnemyContactSound(enemy.type);
     }
 
     /** @param {GameState} gameState - Current game state. */
@@ -187,9 +191,11 @@ class CollisionManager {
     }
 
     /**
+     * Keeps full poison pickups available until inventory has space.
+     *
      * @param {GameState} gameState - Current game state.
      * @param {CollectibleObject} collectible - Collectible to inspect.
-     * @returns {boolean} Whether the inventory accepts the collectible.
+     * @returns {boolean} Whether the inventory can accept the collectible.
      */
     canAcceptCollectible(gameState, collectible) {
         if (collectible.type !== 'poisonBottle') {
@@ -255,6 +261,7 @@ class CollisionManager {
             return this.isOverlapping(attack, solidArea);
         });
         if (hitsSolidArea) {
+            this.playSound('bubblePop');
             attack.expire();
         }
     }
@@ -335,6 +342,7 @@ class CollisionManager {
             attack.poisonTickInterval
         );
         attack.registerHit(target);
+        this.playSound('bubblePop');
         attack.expire();
     }
 
@@ -347,6 +355,7 @@ class CollisionManager {
             target.trap(attack.trapDuration);
         }
         attack.registerHit(target);
+        this.playSound('bubblePop');
         attack.expire();
     }
 
