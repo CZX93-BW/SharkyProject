@@ -1,6 +1,8 @@
 'use strict';
+
 /** @type {string} Local-storage key for persistent audio preferences. */
 const AUDIO_SETTINGS_KEY = 'sharkyAudioSettings';
+
 /** Controls music tracks, sound effects, muting, and persistent volume values. */
 class AudioManager {
     /** Creates all audio elements and restores the saved user preferences. */
@@ -21,9 +23,11 @@ class AudioManager {
         this.soundEnabled = settings.soundEnabled ?? true;
         this.muted = settings.muted ?? false;
         this.musicVolume = this.getStoredVolume(
-            settings.musicVolume, GAME_CONFIG.musicVolume);
+            settings.musicVolume, GAME_CONFIG.musicVolume
+        );
         this.soundVolume = this.getStoredVolume(
-            settings.soundVolume, GAME_CONFIG.soundVolume);
+            settings.soundVolume, GAME_CONFIG.soundVolume
+        );
     }
 
     /** @returns {Object} Stored settings or an empty fallback object. */
@@ -69,7 +73,7 @@ class AudioManager {
         };
     }
 
-    /** @returns {Object<string, HTMLAudioElement|null>} Looping music tracks. */
+    /** @returns {Object} Looping music tracks. */
     createMusicTracks() {
         return {
             gameplay: this.createAudio(
@@ -83,7 +87,7 @@ class AudioManager {
         };
     }
 
-    /** @returns {Object<string, HTMLAudioElement|null>} Registered effects. */
+    /** @returns {Object} Registered sound effects. */
     createSounds() {
         return Object.fromEntries(
             Object.entries(ASSET_CONFIG.audio.sounds).map(([name, path]) => {
@@ -92,7 +96,7 @@ class AudioManager {
         );
     }
 
-    /** @returns {Object<string, HTMLAudioElement[]>} Prepared effect pools. */
+    /** @returns {Object} Prepared sound-effect pools. */
     createSoundPools() {
         return Object.fromEntries(
             Object.entries(this.sounds).map(([name, audio]) => {
@@ -101,10 +105,8 @@ class AudioManager {
         );
     }
 
-    /**
-     * @param {HTMLAudioElement|null} audio - Effect source.
-     * @returns {HTMLAudioElement[]} Prepared copies.
-     */
+    /** @param {HTMLAudioElement|null} audio - Effect source.
+     * @returns {HTMLAudioElement[]} Prepared copies. */
     createSoundPool(audio) {
         if (!audio) {
             return [];
@@ -112,10 +114,8 @@ class AudioManager {
         return Array.from({ length: 4 }, () => this.cloneAudio(audio));
     }
 
-    /**
-     * @param {HTMLAudioElement} audio - Element to clone.
-     * @returns {HTMLAudioElement} Prepared clone.
-     */
+    /** @param {HTMLAudioElement} audio - Element to clone.
+     * @returns {HTMLAudioElement} Prepared clone. */
     cloneAudio(audio) {
         const audioCopy = audio.cloneNode();
         audioCopy.preload = 'auto';
@@ -123,11 +123,9 @@ class AudioManager {
         return audioCopy;
     }
 
-    /**
-     * @param {string} audioPath - Audio asset path.
+    /** @param {string} audioPath - Audio asset path.
      * @param {boolean} [isLooping=false] - Whether playback should loop.
-     * @returns {HTMLAudioElement|null} Configured element or null.
-     */
+     * @returns {HTMLAudioElement|null} Configured element or null. */
     createAudio(audioPath, isLooping = false) {
         if (!audioPath) {
             return null;
@@ -139,9 +137,7 @@ class AudioManager {
         return audio;
     }
 
-    /**
-     * @param {boolean} [shouldStartMusic=true] - Whether music starts now.
-     */
+    /** @param {boolean} [shouldStartMusic=true] - Whether music starts now. */
     unlock(shouldStartMusic = true) {
         this.isUnlocked = true;
         if (shouldStartMusic) {
@@ -277,17 +273,11 @@ class AudioManager {
         return this.musicTracks[this.currentMusicName] || null;
     }
 
-    /**
-     * @param {HTMLAudioElement|null} music - Track to validate.
-     * @returns {boolean} Whether it may play.
-     */
+    /** @param {HTMLAudioElement|null} music - Track to validate.
+     * @returns {boolean} Whether it may play. */
     canPlayMusic(music) {
-        return Boolean(
-            this.isUnlocked &&
-            this.musicEnabled &&
-            !this.muted &&
-            music
-        );
+        return Boolean(this.isUnlocked && this.musicEnabled &&
+            !this.muted && music);
     }
 
     /** @param {string} soundName - Registered effect name. */
@@ -298,10 +288,8 @@ class AudioManager {
         this.playPreparedAudio(this.getAvailableSound(soundName));
     }
 
-    /**
-     * @param {string} soundName - Registered effect name.
-     * @returns {HTMLAudioElement} Available pool element.
-     */
+    /** @param {string} soundName - Registered effect name.
+     * @returns {HTMLAudioElement} Available pool element. */
     getAvailableSound(soundName) {
         const pool = this.soundPools[soundName];
         return pool.find((audio) => {
@@ -365,10 +353,8 @@ class AudioManager {
         });
     }
 
-    /**
-     * @param {number} percent - Percentage to normalize.
-     * @returns {number} Value from zero to one.
-     */
+    /** @param {number} percent - Percentage to normalize.
+     * @returns {number} Value from zero to one. */
     getNormalizedVolume(percent) {
         const safePercent = Math.min(
             100,
@@ -387,17 +373,11 @@ class AudioManager {
         return Math.round(this.soundVolume * 100);
     }
 
-    /**
-     * @param {string} soundName - Effect name.
-     * @returns {boolean} Whether it may play.
-     */
+    /** @param {string} soundName - Effect name.
+     * @returns {boolean} Whether it may play. */
     canPlaySound(soundName) {
-        return Boolean(
-            this.isUnlocked &&
-            this.soundEnabled &&
-            !this.muted &&
-            this.soundPools[soundName]?.length
-        );
+        return Boolean(this.isUnlocked && this.soundEnabled &&
+            !this.muted && this.soundPools[soundName]?.length);
     }
 
     /** @returns {boolean} Whether background music is enabled. */

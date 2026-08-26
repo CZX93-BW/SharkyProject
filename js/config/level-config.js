@@ -24,8 +24,7 @@ function createEnemyType(weight, width, height, health, damage, movement) {
 function createWaveMovement(horizontalSpeed, waveAmplitude, waveFrequency) {
     return {
         profile: 'waveLeft', horizontalSpeed,
-        waveAmplitude, waveFrequency,
-        spriteFacing: 'left'
+        waveAmplitude, waveFrequency, spriteFacing: 'left'
     };
 }
 
@@ -39,8 +38,7 @@ function createWaveMovement(horizontalSpeed, waveAmplitude, waveFrequency) {
 function createVerticalMovement(horizontalSpeed, verticalSpeed, verticalRange) {
     return {
         profile: 'verticalDrift', horizontalSpeed,
-        verticalSpeed, verticalRange,
-        spriteFacing: 'neutral'
+        verticalSpeed, verticalRange, spriteFacing: 'neutral'
     };
 }
 
@@ -145,12 +143,10 @@ const REQUIRED_LEVEL_NUMBER_PATHS = [
     'boss.leashDistance', 'boss.attackCooldown', 'boss.attackFrameDuration',
     'boss.aggression'
 ];
-
 /** @type {string[]} Required positive numeric enemy properties. */
 const REQUIRED_ENEMY_NUMBER_KEYS = [
     'weight', 'width', 'height', 'health', 'damage'
 ];
-
 /** @type {string[]} Supported enemy movement profile names. */
 const MOVEMENT_PROFILES = ['waveLeft', 'verticalDrift'];
 
@@ -336,7 +332,6 @@ function validateMovementProfileValues(movement, prefix) {
             `${prefix}.waveFrequency`);
         return;
     }
-
     validatePositiveMovementValue(movement.verticalSpeed,
         `${prefix}.verticalSpeed`);
     validatePositiveMovementValue(movement.verticalRange,
