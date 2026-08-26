@@ -18,7 +18,9 @@ const ASSET_CONFIG = {
             'assets/img/sharky/2.Long_IDLE/I4.png',
             'assets/img/sharky/2.Long_IDLE/I5.png',
             'assets/img/sharky/2.Long_IDLE/I6.png',
-            'assets/img/sharky/2.Long_IDLE/I7.png',
+            'assets/img/sharky/2.Long_IDLE/I7.png'
+        ],
+        longIdle: [
             'assets/img/sharky/2.Long_IDLE/I8.png',
             'assets/img/sharky/2.Long_IDLE/I9.png',
             'assets/img/sharky/2.Long_IDLE/I10.png',

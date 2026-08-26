@@ -1,11 +1,7 @@
 'use strict';
 
-/**
- * Represents Sharky with movement, combat animation, health, and rendering
- * behavior controlled by the current keyboard state.
- *
- * @extends AnimatedDrawableObject
- */
+/** Represents Sharky with movement, combat, health, and rendering behavior.
+ * @extends AnimatedDrawableObject */
 class Character extends AnimatedDrawableObject {
     /** Creates Sharky at the configured start position. */
     constructor() {
@@ -30,6 +26,7 @@ class Character extends AnimatedDrawableObject {
         this.eyeColor = GAME_CONFIG.playerEyeColor;
         this.name = 'Sharky';
         this.activeAttackAnimation = '';
+        this.lastActivityTime = GAME_CLOCK.now();
     }
 
     /** @returns {Object} Source rectangles for every supported sprite layout. */
@@ -55,6 +52,7 @@ class Character extends AnimatedDrawableObject {
     /** Registers all supported Sharky animation sequences. */
     prepareAnimations() {
         this.addAnimation('idle', ASSET_CONFIG.character.idle);
+        this.addAnimation('longIdle', ASSET_CONFIG.character.longIdle);
         this.addAnimation('swim', ASSET_CONFIG.character.swim);
         this.addAnimation('finSlap', ASSET_CONFIG.character.finSlap);
         this.addAnimation('bubbleTrap', ASSET_CONFIG.character.bubbleTrap);
@@ -64,9 +62,7 @@ class Character extends AnimatedDrawableObject {
         this.playAnimation('idle', 160);
     }
 
-    /**
-     * Updates movement and animation for one game frame.
-     *
+    /** Updates movement and animation for one game frame.
      * @param {Keyboard} keyboard - Current input state.
      * @param {Object} bounds - Movement boundaries.
      */
@@ -88,9 +84,40 @@ class Character extends AnimatedDrawableObject {
             this.updateAttackAnimation();
             return;
         }
-        const movementAnimation = this.isMoving() ? 'swim' : 'idle';
-        const frameDuration = this.isMoving() ? 100 : 160;
-        this.playAnimation(movementAnimation, frameDuration);
+        this.updateMovementAnimation();
+    }
+
+    /** Selects the swimming, regular idle, or long-idle animation. */
+    updateMovementAnimation() {
+        if (this.isMoving()) {
+            this.registerActivity();
+            this.playAnimation('swim', 100);
+            return;
+        }
+        this.updateIdleAnimation();
+    }
+
+    /** Selects the regular or sleeping idle animation. */
+    updateIdleAnimation() {
+        if (this.isLongIdle()) {
+            this.playAnimation(
+                'longIdle',
+                GAME_CONFIG.playerLongIdleFrameDuration
+            );
+            return;
+        }
+        this.playAnimation('idle', GAME_CONFIG.playerIdleFrameDuration);
+    }
+
+    /** @returns {boolean} Whether inactivity reached the sleep delay. */
+    isLongIdle() {
+        return GAME_CLOCK.now() - this.lastActivityTime >=
+            GAME_CONFIG.playerLongIdleDelay;
+    }
+
+    /** Restarts the inactivity timer at the current gameplay time. */
+    registerActivity() {
+        this.lastActivityTime = GAME_CLOCK.now();
     }
 
     /** @returns {boolean} Whether a dead or hurt animation was selected. */
@@ -129,6 +156,7 @@ class Character extends AnimatedDrawableObject {
 
     /** @param {string} animationName - Registered attack animation name. */
     startAttackAnimation(animationName) {
+        this.registerActivity();
         this.activeAttackAnimation = animationName;
         this.playAnimation(animationName, 60, false);
     }
@@ -210,6 +238,7 @@ class Character extends AnimatedDrawableObject {
         }
         this.health = Math.max(0, this.health - damage);
         this.lastDamageTime = GAME_CLOCK.now();
+        this.registerActivity();
     }
 
     /** @returns {boolean} Whether Sharky can currently receive damage. */
