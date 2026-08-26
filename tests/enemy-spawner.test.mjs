@@ -8,7 +8,10 @@ import {
 const context = createScriptContext();
 loadProjectScripts(
     context,
-    ['js/systems/enemy-spawner.class.js'],
+    [
+        'js/systems/enemy-spawn-position-finder.class.js',
+        'js/systems/enemy-spawner.class.js'
+    ],
     'globalThis.EnemySpawnerExport = EnemySpawner;'
 );
 
@@ -76,7 +79,11 @@ function createSpawner(level) {
         integer: () => 0,
         pickWeighted: (entries) => entries[0]
     };
-    const factory = { create: () => createActiveEnemy() };
+    const factory = {
+        create: (type, x, y) => ({
+            ...createActiveEnemy(), type, x, y
+        })
+    };
     return new context.EnemySpawnerExport(level, factory, random);
 }
 
@@ -155,4 +162,15 @@ test('escaped and completed enemies are removed', () => {
     spawner.removeExpiredEnemies({ left: 0 });
 
     assert.equal(level.enemies.length, 1);
+});
+
+test('spawned enemies start beyond the visible camera area', () => {
+    const level = createLevel();
+    const spawner = createSpawner(level);
+    const player = { x: 100, y: 100, width: 78, height: 48 };
+    const bounds = { left: 0, right: 960, top: 0, bottom: 540 };
+    const wasSpawned = spawner.spawnEnemy(player, bounds);
+
+    assert.equal(wasSpawned, true);
+    assert.ok(level.enemies[0].x > bounds.right);
 });

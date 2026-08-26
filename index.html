@@ -56,6 +56,7 @@
 
             <div class="hero-content">
                 <p class="eyebrow">Sharky Projekt</p>
+
                 <h1>Sharky - Jump and Swim</h1>
 
                 <p class="hero-text">
@@ -87,7 +88,8 @@
                 </div>
             </div>
 
-            <nav class="main-menu-navigation" aria-label="Hauptmenü">
+            <nav class="main-menu-navigation"
+                aria-label="Hauptmenü">
                 <button data-main-panel="settingsPanel">
                     <span>Einstellungen</span>
                     <small>Audio und Anzeige</small>
@@ -103,7 +105,8 @@
                     <small>Das bedrohte Riff</small>
                 </button>
 
-                <button data-display-action="theme" aria-pressed="true">
+                <button data-display-action="theme"
+                    aria-pressed="true">
                     <span data-display-label>
                         Darstellung: Dunkel
                     </span>
@@ -358,6 +361,7 @@
                     <div class="instruction-grid attack-instruction-grid">
                         <article class="instruction-card instruction-visual-card">
                             <kbd class="large-key">E</kbd>
+
                             <h4>Flossenschlag</h4>
 
                             <p>
@@ -381,6 +385,7 @@
 
                         <article class="instruction-card instruction-visual-card">
                             <kbd class="large-key">F</kbd>
+
                             <h4>Giftangriff</h4>
 
                             <p>
@@ -422,11 +427,11 @@
 
                 <div id="storyText" class="story-text">
                     <p>
-                        Tief unter der Wasseroberfläche liegt ein altes
-                        Riff, das seit Generationen von friedlichen
-                        Meeresbewohnern bewohnt wird. Zwischen leuchtenden
-                        Korallen, geheimen Höhlen und stillen Strömungen
-                        hat Sharky sein Zuhause gefunden.
+                        Tief unter der Wasseroberfläche liegt ein altes Riff,
+                        das seit Generationen von friedlichen Meeresbewohnern
+                        bewohnt wird. Zwischen leuchtenden Korallen, geheimen
+                        Höhlen und stillen Strömungen hat Sharky sein Zuhause
+                        gefunden.
                     </p>
 
                     <p>
@@ -438,16 +443,15 @@
 
                     <p>
                         Sharky bleibt keine Wahl. Mit Flossenschlag,
-                        Blasenfalle und Giftattacke macht er sich auf den
-                        Weg, um das Riff zu schützen. Jede gesammelte
-                        Münze, jede Giftflasche und jedes Upgrade bringt
-                        ihn näher an sein Ziel.
+                        Blasenfalle und Giftattacke macht er sich auf den Weg,
+                        um das Riff zu schützen. Jede gesammelte Münze, jede
+                        Giftflasche und jedes Upgrade bringt ihn näher an
+                        sein Ziel.
                     </p>
 
                     <p>
                         Wenn Sharky scheitert, wird das Riff verstummen.
-                        Wenn er es schafft, kann die Tiefsee wieder
-                        aufatmen.
+                        Wenn er es schafft, kann die Tiefsee wieder aufatmen.
                     </p>
                 </div>
 
@@ -503,8 +507,7 @@
                     <h2>Spiel pausiert</h2>
 
                     <p>
-                        Atme kurz durch. Auch Haie brauchen mal eine
-                        Sekunde.
+                        Atme kurz durch. Auch Haie brauchen mal eine Sekunde.
                     </p>
 
                     <div class="menu-actions">
@@ -548,8 +551,7 @@
                             <h3>Flossen-Turbo</h3>
 
                             <p>
-                                Sharky schwimmt schneller durch die
-                                Strömung.
+                                Sharky schwimmt schneller durch die Strömung.
                             </p>
 
                             <button class="secondary-button"
@@ -769,7 +771,9 @@
                     </button>
                 </div>
 
-                <canvas id="gameCanvas" width="960" height="540">
+                <canvas id="gameCanvas"
+                    width="960"
+                    height="540">
                     Dein Browser unterstützt kein Canvas.
                 </canvas>
 
@@ -816,43 +820,58 @@
     <script src="js/config/game-config.js"></script>
     <script src="js/config/level-config.js"></script>
     <script src="js/config/asset-config.js"></script>
+
     <script src="js/core/game-clock.class.js"></script>
+
     <script src="js/systems/audio-manager.class.js?v=audio-3"></script>
+
     <script src="js/ui/story-narrator.class.js"></script>
     <script src="js/ui/screen-manager.class.js"></script>
     <script src="js/ui/main-menu-controller.class.js"></script>
     <script src="js/ui/display-settings-controller.class.js"></script>
     <script src="js/ui/ui-controller.class.js?v=ui-5"></script>
     <script src="js/ui/debug-checklist.class.js"></script>
+
     <script src="js/core/drawable-object.class.js"></script>
     <script src="js/core/movable-object.class.js"></script>
     <script src="js/core/animated-drawable-object.class.js"></script>
+    <script src="js/core/random-generator.class.js"></script>
+
     <script src="js/entities/world/background-object.class.js"></script>
     <script src="js/entities/world/collectible-object.class.js"></script>
+    <script src="js/entities/world/finish-object.class.js"></script>
+
     <script src="js/systems/enemy-movement-controller.class.js"></script>
     <script src="js/entities/enemies/enemy.class.js"></script>
-    <script src="js/core/random-generator.class.js"></script>
     <script src="js/systems/enemy-factory.class.js"></script>
     <script src="js/systems/enemy-spawner.class.js"></script>
     <script src="js/systems/boss-movement-controller.class.js"></script>
     <script src="js/entities/enemies/endboss.class.js"></script>
-    <script src="js/entities/world/finish-object.class.js"></script>
+
     <script src="js/entities/attacks/attack-object.class.js"></script>
     <script src="js/entities/attacks/fin-slap.class.js"></script>
     <script src="js/entities/attacks/poison-shot.class.js"></script>
     <script src="js/entities/attacks/bubble-trap.class.js"></script>
+
     <script src="js/systems/attack-manager.class.js"></script>
     <script src="js/entities/player/character.class.js"></script>
+
     <script src="js/game/level.class.js"></script>
     <script src="js/game/camera.class.js"></script>
+
     <script src="js/input/keyboard.class.js"></script>
     <script src="js/input/mobile-controls.class.js"></script>
+
     <script src="js/systems/collision-manager.class.js"></script>
+
     <script src="js/levels/level-one.js"></script>
     <script src="js/levels/level-two.js"></script>
+
     <script src="js/game/game-state.class.js"></script>
+    <script src="js/game/game-status-renderer.class.js"></script>
     <script src="js/game/game-renderer.class.js"></script>
     <script src="js/game/game.class.js"></script>
+
     <script src="js/main.js"></script>
 </body>
 
