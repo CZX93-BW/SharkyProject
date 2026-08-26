@@ -53,6 +53,7 @@ class UiController {
         this.bindStartLevelButtons();
         this.bindMainPanelButtons();
         this.bindClosePanelButtons();
+        this.bindPanelBackdropListeners();
         this.bindStoryButtons();
     }
 
@@ -84,6 +85,23 @@ class UiController {
                 this.closeMainMenuPanels();
             });
         });
+    }
+
+    /** Registers closing through clicks on panel backdrops. */
+    bindPanelBackdropListeners() {
+        const panels = document.querySelectorAll('.main-menu-panel');
+        panels.forEach((panel) => {
+            panel.addEventListener('click', (event) => {
+                this.closePanelFromBackdrop(event);
+            });
+        });
+    }
+
+    /** @param {MouseEvent} event - Main-menu panel click event. */
+    closePanelFromBackdrop(event) {
+        if (event.target === event.currentTarget) {
+            this.closeMainMenuPanels();
+        }
     }
 
     /** Registers story narration listeners. */

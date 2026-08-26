@@ -12,6 +12,7 @@ test('required game and touch controls exist in the interface', () => {
         'gameCanvas',
         'pausePlayButton',
         'openSettingsButton',
+        'orientationNotice',
         'mobileJoystick',
         'mobileJoystickKnob'
     ];
@@ -30,11 +31,46 @@ test('required game and touch controls exist in the interface', () => {
 
 test('responsive styles cover mobile landscape and reduced motion', () => {
     const responsiveCss = readProjectFile('styles/responsive.css');
+    const orientationCss = readProjectFile('styles/orientation.css');
     const menuCss = readProjectFile('styles/menu-screen.css');
 
     assert.match(responsiveCss, /orientation:\s*landscape/);
     assert.match(responsiveCss, /prefers-reduced-motion:\s*reduce/);
     assert.match(menuCss, /orientation:\s*landscape/);
+    assert.match(orientationCss, /orientation:\s*portrait/);
+    assert.match(orientationCss, /html\.has-touch-controls/);
+});
+
+test('browser scripts contain no console output calls', () => {
+    const html = readProjectFile('index.html');
+    const scriptPaths = extractBrowserScriptPaths(html);
+
+    scriptPaths.forEach((scriptPath) => {
+        const script = readProjectFile(scriptPath);
+        assert.doesNotMatch(script, /console\s*\./, scriptPath);
+    });
+});
+
+test('main-menu panels close only through their backdrop', () => {
+    const panel = createFakePanel();
+    const document = createPanelDocument(panel);
+    const context = createScriptContext({ document });
+
+    loadProjectScripts(
+        context,
+        ['js/ui/ui-controller.class.js'],
+        'this.UiController = UiController;'
+    );
+
+    const controller = new context.UiController({}, {}, {}, {});
+    let closeCount = 0;
+    controller.closeMainMenuPanels = () => closeCount++;
+    controller.bindPanelBackdropListeners();
+
+    panel.click(panel);
+    panel.click({});
+
+    assert.equal(closeCount, 1);
 });
 
 test('compact audio button toggles music and effects together', () => {
@@ -142,4 +178,43 @@ function createFakeAudioManager() {
         getMusicVolumePercent: () => 40,
         getSoundVolumePercent: () => 40
     };
+}
+
+/** @returns {Object} Minimal clickable panel implementation. */
+function createFakePanel() {
+    let clickListener = null;
+
+    return {
+        addEventListener: (type, callback) => {
+            clickListener = callback;
+        },
+        click(target) {
+            clickListener({
+                target,
+                currentTarget: this
+            });
+        }
+    };
+}
+
+/**
+ * @param {Object} panel - Main-menu panel element.
+ * @returns {Object} Minimal panel document implementation.
+ */
+function createPanelDocument(panel) {
+    return {
+        querySelectorAll: (selector) => {
+            return selector === '.main-menu-panel' ? [panel] : [];
+        }
+    };
+}
+
+/**
+ * @param {string} html - Interface HTML source.
+ * @returns {string[]} Local browser script paths without cache parameters.
+ */
+function extractBrowserScriptPaths(html) {
+    return [...html.matchAll(/<script\s+src="([^"]+)"/g)]
+        .map((match) => match[1].split('?')[0])
+        .filter((path) => path.startsWith('js/'));
 }
