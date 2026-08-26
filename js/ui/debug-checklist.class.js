@@ -1,6 +1,6 @@
 'use strict';
 
-/** Runs browser-visible development checks for required game systems. */
+/** Evaluates development checks for required game systems. */
 class DebugChecklist {
     /**
      * @param {Game} game - Active game controller.
@@ -13,24 +13,17 @@ class DebugChecklist {
         this.storyNarrator = storyNarrator;
     }
 
-    /** Prints the checklist when debug mode is active. */
+    /** @returns {Object[]} Debug results when debug mode is active. */
     run() {
         if (!this.shouldRun()) {
-            return;
+            return [];
         }
-
-        this.printHeadline();
-        console.table(this.createResults());
+        return this.createResults();
     }
 
     /** @returns {boolean} Whether the checklist should run. */
     shouldRun() {
         return this.game.gameState.debugMode;
-    }
-
-    /** Prints the checklist heading. */
-    printHeadline() {
-        console.info('Sharky Debug Checklist');
     }
 
     /** @returns {Object[]} Evaluated checklist results. */

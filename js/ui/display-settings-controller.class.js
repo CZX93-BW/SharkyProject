@@ -43,12 +43,10 @@ class DisplaySettingsController {
     /** Uses the modern or legacy media query listener. */
     bindThemePreferenceChange() {
         const callback = () => this.applySystemThemeIfUnstored();
-
         if (this.themeMediaQuery.addEventListener) {
             this.themeMediaQuery.addEventListener('change', callback);
             return;
         }
-
         this.themeMediaQuery.addListener?.(callback);
     }
 
@@ -57,7 +55,6 @@ class DisplaySettingsController {
         if (action === 'theme') {
             this.toggleTheme();
         }
-
         if (action === 'fullscreen') {
             this.toggleFullscreen();
         }
@@ -95,11 +92,9 @@ class DisplaySettingsController {
     applyTheme(theme, shouldStore) {
         const safeTheme = theme === 'light' ? 'light' : 'dark';
         this.root.dataset.theme = safeTheme;
-
         if (shouldStore) {
             this.storeTheme(safeTheme);
         }
-
         this.updateControls();
     }
 
@@ -118,25 +113,29 @@ class DisplaySettingsController {
         }
     }
 
-    /** @param {string} theme - Validated theme to persist. */
+    /**
+     * @param {string} theme - Validated theme to persist.
+     * @returns {boolean} Whether storage succeeded.
+     */
     storeTheme(theme) {
         try {
             window.localStorage.setItem(this.themeStorageKey, theme);
+            return true;
         } catch (error) {
-            console.warn('[DisplaySettings] Theme could not be stored.');
+            return false;
         }
     }
 
-    /** Enters or exits browser fullscreen mode. */
+    /** @returns {Promise<boolean>} Whether fullscreen switching succeeded. */
     async toggleFullscreen() {
         if (!this.isFullscreenSupported()) {
-            return;
+            return false;
         }
-
         try {
             await this.changeFullscreenState();
+            return true;
         } catch (error) {
-            console.warn('[DisplaySettings] Fullscreen request failed.');
+            return false;
         }
     }
 
@@ -146,7 +145,6 @@ class DisplaySettingsController {
             await document.exitFullscreen();
             return;
         }
-
         await this.root.requestFullscreen();
     }
 
@@ -183,7 +181,6 @@ class DisplaySettingsController {
             this.updateThemeButton(button);
             return;
         }
-
         this.updateFullscreenButton(button);
     }
 
@@ -203,7 +200,6 @@ class DisplaySettingsController {
         const isCompact = button.dataset.displayCompact === 'true';
         const label = isCompact ? '⛶' :
             `Vollbild: ${isActive ? 'An' : 'Aus'}`;
-
         this.setButtonText(button, label);
         button.setAttribute('aria-pressed', String(isActive));
         button.setAttribute(
@@ -223,7 +219,6 @@ class DisplaySettingsController {
             label.textContent = text;
             return;
         }
-
         button.textContent = text;
     }
 }
