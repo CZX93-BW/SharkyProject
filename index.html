@@ -16,10 +16,26 @@
     <link rel="stylesheet" href="styles/game.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/responsive.css">
+    <link rel="stylesheet" href="styles/orientation.css">
     <link rel="stylesheet" href="styles/menu-screen.css">
 </head>
 
 <body>
+    <aside id="orientationNotice"
+        class="orientation-notice"
+        role="alert"
+        aria-live="polite">
+        <div class="orientation-device" aria-hidden="true">
+            <span></span>
+        </div>
+
+        <h1>Gerät drehen</h1>
+
+        <p>
+            Sharky kann auf Mobilgeräten nur im Querformat gespielt werden.
+        </p>
+    </aside>
+
     <!-- Main Menu Screen -->
     <main id="mainMenuScreen" class="main-menu-screen">
         <section class="main-menu-hero">

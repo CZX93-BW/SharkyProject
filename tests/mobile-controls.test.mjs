@@ -15,13 +15,17 @@ function createMobileEnvironment(options) {
 
     loadProjectScripts(
         context,
-        ['js/config/game-config.js', 'js/input/mobile-controls.class.js'],
+        [
+            'js/config/game-config.js',
+            'js/input/mobile-controls.class.js'
+        ],
         'globalThis.MobileControlsExport = MobileControls;'
     );
 
     return {
         controls: new context.MobileControlsExport(environment.keyboard),
-        appliedStates: environment.appliedStates
+        appliedStates: environment.appliedStates,
+        elements: environment.elements
     };
 }
 
@@ -41,6 +45,7 @@ function createMobileDependencies(options) {
     return {
         appliedStates,
         browser: { document, navigator, window },
+        elements,
         keyboard
     };
 }
@@ -59,15 +64,32 @@ function createMediaQuery(matches) {
 /** @returns {Object} Joystick elements required by the controller. */
 function createControlElements() {
     return {
-        mobileJoystick: {
-            addEventListener: () => {},
+        mobileJoystick: createEventElement({
             clientWidth: 116,
             setPointerCapture: () => {}
-        },
-        mobileJoystickKnob: {
-            addEventListener: () => {},
+        }),
+        mobileJoystickKnob: createEventElement({
             clientWidth: 46,
             style: {}
+        }),
+        mobileAttackButton: createEventElement({
+            dataset: { mobileAction: 'slap' }
+        })
+    };
+}
+
+/**
+ * @param {Object} values - Element properties.
+ * @returns {Object} Element with recorded event listeners.
+ */
+function createEventElement(values) {
+    const listeners = {};
+
+    return {
+        ...values,
+        listeners,
+        addEventListener: (type, callback) => {
+            listeners[type] = callback;
         }
     };
 }
@@ -87,7 +109,10 @@ function createDocument(elements, appliedStates) {
             }
         },
         getElementById: (id) => elements[id],
-        querySelectorAll: () => []
+        querySelectorAll: (selector) => {
+            return selector === '[data-mobile-action]' ?
+                [elements.mobileAttackButton] : [];
+        }
     };
 }
 
@@ -152,4 +177,21 @@ test('touch controls remain hidden above the supported width', () => {
         environment.controls.shouldEnableTouchControls(),
         false
     );
+});
+
+test('touch controls suppress context menus', () => {
+    const environment = createMobileEnvironment({
+        width: 900,
+        touchPoints: 5,
+        hasCoarsePointer: true
+    });
+    let preventionCount = 0;
+    const event = {
+        preventDefault: () => preventionCount++
+    };
+
+    environment.elements.mobileJoystick.listeners.contextmenu(event);
+    environment.elements.mobileAttackButton.listeners.contextmenu(event);
+
+    assert.equal(preventionCount, 2);
 });

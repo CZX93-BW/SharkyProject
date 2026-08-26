@@ -5,34 +5,50 @@ class MobileControls {
     /** @param {Keyboard} keyboard - Shared game input state. */
     constructor(keyboard) {
         this.keyboard = keyboard;
-        this.joystickArea = document.getElementById('mobileJoystick');
-        this.joystickKnob = document.getElementById('mobileJoystickKnob');
+        this.joystickArea =
+            document.getElementById('mobileJoystick');
+        this.joystickKnob =
+            document.getElementById('mobileJoystickKnob');
         this.activePointerId = null;
-        this.coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+        this.coarsePointerQuery =
+            window.matchMedia('(pointer: coarse)');
         this.maximumTouchLayoutWidth = 1180;
         this.initializeAvailability();
         this.bindControlEvents();
     }
 
-    /** Detects touch layouts and keeps their visibility synchronized. */
+    /** Detects touch layouts and synchronizes their visibility. */
     initializeAvailability() {
         this.updateAvailability();
-        window.addEventListener('resize', () => this.updateAvailability());
+        window.addEventListener(
+            'resize',
+            () => this.updateAvailability()
+        );
 
         if (this.coarsePointerQuery.addEventListener) {
-            this.coarsePointerQuery.addEventListener(
-                'change',
-                () => this.updateAvailability()
-            );
+            this.bindModernPointerQuery();
             return;
         }
 
+        this.bindLegacyPointerQuery();
+    }
+
+    /** Registers the modern media-query change listener. */
+    bindModernPointerQuery() {
+        this.coarsePointerQuery.addEventListener(
+            'change',
+            () => this.updateAvailability()
+        );
+    }
+
+    /** Registers the legacy media-query change listener. */
+    bindLegacyPointerQuery() {
         this.coarsePointerQuery.addListener?.(
             () => this.updateAvailability()
         );
     }
 
-    /** Applies the touch-control class only to suitable devices. */
+    /** Applies the touch-control class to suitable devices. */
     updateAvailability() {
         const isEnabled = this.shouldEnableTouchControls();
         document.documentElement.classList.toggle(
@@ -49,8 +65,11 @@ class MobileControls {
      * @returns {boolean} Whether touch controls suit the device and width.
      */
     shouldEnableTouchControls() {
-        const hasTouchPoints = navigator.maxTouchPoints > 0;
-        const hasCoarsePointer = this.coarsePointerQuery.matches;
+        const hasTouchPoints =
+            navigator.maxTouchPoints > 0;
+        const hasCoarsePointer =
+            this.coarsePointerQuery.matches;
+
         return (hasTouchPoints || hasCoarsePointer) &&
             window.innerWidth <= this.maximumTouchLayoutWidth;
     }
@@ -70,7 +89,7 @@ class MobileControls {
         });
     }
 
-    /** Registers joystick and attack listeners when required elements exist. */
+    /** Registers listeners when required elements exist. */
     bindControlEvents() {
         if (!this.hasRequiredElements()) {
             return;
@@ -80,7 +99,7 @@ class MobileControls {
         this.bindAttackButtons();
     }
 
-    /** @returns {HTMLElement|null} Last required control element or null. */
+    /** @returns {HTMLElement|null} Last required element or null. */
     hasRequiredElements() {
         return this.joystickArea && this.joystickKnob;
     }
@@ -91,17 +110,25 @@ class MobileControls {
             'pointerdown',
             (event) => this.startJoystick(event)
         );
+
+        this.joystickArea.addEventListener(
+            'contextmenu',
+            (event) => this.preventContextMenu(event)
+        );
+
         this.bindJoystickWindowEvents();
     }
 
-    /** Registers window-level joystick movement and release listeners. */
+    /** Registers window-level joystick lifecycle listeners. */
     bindJoystickWindowEvents() {
         window.addEventListener('pointermove', (event) => {
             this.moveJoystick(event);
         });
+
         window.addEventListener('pointerup', (event) => {
             this.stopJoystick(event);
         });
+
         window.addEventListener('pointercancel', (event) => {
             this.stopJoystick(event);
         });
@@ -115,7 +142,7 @@ class MobileControls {
         this.updateJoystick(event);
     }
 
-    /** @param {PointerEvent} event - Joystick pointer-move event. */
+    /** @param {PointerEvent} event - Joystick move event. */
     moveJoystick(event) {
         if (event.pointerId !== this.activePointerId) {
             return;
@@ -125,7 +152,7 @@ class MobileControls {
         this.updateJoystick(event);
     }
 
-    /** @param {PointerEvent} event - Joystick pointer-release event. */
+    /** @param {PointerEvent} event - Joystick release event. */
     stopJoystick(event) {
         if (event.pointerId !== this.activePointerId) {
             return;
@@ -136,11 +163,14 @@ class MobileControls {
         this.resetJoystickKnob();
     }
 
-    /** @param {PointerEvent} event - Current joystick pointer event. */
+    /** @param {PointerEvent} event - Current joystick event. */
     updateJoystick(event) {
-        const rectangle = this.joystickArea.getBoundingClientRect();
-        const center = this.getJoystickCenter(rectangle);
-        const limitedDelta = this.getLimitedDelta(event, center);
+        const rectangle =
+            this.joystickArea.getBoundingClientRect();
+        const center =
+            this.getJoystickCenter(rectangle);
+        const limitedDelta =
+            this.getLimitedDelta(event, center);
 
         this.updateMobileMovement(limitedDelta);
         this.moveJoystickKnob(limitedDelta);
@@ -158,26 +188,33 @@ class MobileControls {
     }
 
     /**
-     * @param {PointerEvent} event - Current joystick pointer event.
+     * @param {PointerEvent} event - Current pointer event.
      * @param {Object} center - Joystick center coordinates.
-     * @returns {Object} Pointer delta restricted to the joystick radius.
+     * @returns {Object} Delta restricted to the joystick radius.
      */
     getLimitedDelta(event, center) {
-        const delta = this.getPointerDelta(event, center);
-        const distance = Math.hypot(delta.x, delta.y);
-        const maxDistance = this.getMaximumJoystickDistance();
+        const delta =
+            this.getPointerDelta(event, center);
+        const distance =
+            Math.hypot(delta.x, delta.y);
+        const maxDistance =
+            this.getMaximumJoystickDistance();
 
         if (distance <= maxDistance) {
             return delta;
         }
 
-        return this.getNormalizedDelta(delta, distance, maxDistance);
+        return this.getNormalizedDelta(
+            delta,
+            distance,
+            maxDistance
+        );
     }
 
     /**
-     * @param {PointerEvent} event - Current joystick pointer event.
+     * @param {PointerEvent} event - Current pointer event.
      * @param {Object} center - Joystick center coordinates.
-     * @returns {Object} Raw pointer distance from the joystick center.
+     * @returns {Object} Raw pointer distance from the center.
      */
     getPointerDelta(event, center) {
         return {
@@ -189,7 +226,7 @@ class MobileControls {
     /**
      * @param {Object} delta - Raw pointer delta.
      * @param {number} distance - Raw pointer distance.
-     * @param {number} maxDistance - Maximum joystick travel distance.
+     * @param {number} maxDistance - Maximum travel distance.
      * @returns {Object} Delta scaled to the maximum distance.
      */
     getNormalizedDelta(delta, distance, maxDistance) {
@@ -201,42 +238,52 @@ class MobileControls {
         };
     }
 
-    /** @param {Object} delta - Limited joystick pointer delta. */
+    /** @param {Object} delta - Limited joystick delta. */
     updateMobileMovement(delta) {
-        const maxDistance = this.getMaximumJoystickDistance();
+        const maxDistance =
+            this.getMaximumJoystickDistance();
+
         this.keyboard.setMobileMovement(
             delta.x / maxDistance,
             delta.y / maxDistance
         );
     }
 
-    /** @returns {number} Safe travel radius for the responsive control size. */
+    /** @returns {number} Safe joystick travel radius. */
     getMaximumJoystickDistance() {
-        const areaRadius = this.joystickArea.clientWidth / 2;
-        const knobRadius = this.joystickKnob.clientWidth / 2;
+        const areaRadius =
+            this.joystickArea.clientWidth / 2;
+        const knobRadius =
+            this.joystickKnob.clientWidth / 2;
+
         return Math.min(
             GAME_CONFIG.mobileJoystickMaxDistance,
             Math.max(1, areaRadius - knobRadius - 4)
         );
     }
 
-    /** @param {Object} delta - Limited joystick pointer delta. */
+    /** @param {Object} delta - Limited joystick delta. */
     moveJoystickKnob(delta) {
         this.joystickKnob.style.transform =
             `translate(${delta.x}px, ${delta.y}px)`;
     }
 
-    /** Restores the joystick knob to its neutral visual position. */
+    /** Restores the joystick knob to its neutral position. */
     resetJoystickKnob() {
         if (this.joystickKnob) {
-            this.joystickKnob.style.transform = 'translate(0, 0)';
+            this.joystickKnob.style.transform =
+                'translate(0, 0)';
         }
     }
 
-    /** Registers pointer listeners for all mobile attack buttons. */
+    /** Registers listeners for all mobile attack buttons. */
     bindAttackButtons() {
-        const attackButtons = document.querySelectorAll('[data-mobile-action]');
-        attackButtons.forEach((button) => this.bindAttackButton(button));
+        const attackButtons =
+            document.querySelectorAll('[data-mobile-action]');
+
+        attackButtons.forEach((button) => {
+            this.bindAttackButton(button);
+        });
     }
 
     /** @param {HTMLElement} button - Mobile attack button. */
@@ -244,28 +291,55 @@ class MobileControls {
         button.addEventListener('pointerdown', (event) => {
             this.startAttack(event, button);
         });
-        ['pointerup', 'pointercancel', 'pointerleave'].forEach((eventName) => {
+
+        this.bindAttackReleaseEvents(button);
+
+        button.addEventListener('contextmenu', (event) => {
+            this.preventContextMenu(event);
+        });
+    }
+
+    /** @param {HTMLElement} button - Mobile attack button. */
+    bindAttackReleaseEvents(button) {
+        const releaseEvents = [
+            'pointerup',
+            'pointercancel',
+            'pointerleave'
+        ];
+
+        releaseEvents.forEach((eventName) => {
             button.addEventListener(eventName, (event) => {
                 this.stopAttack(event, button);
             });
         });
     }
 
-    /**
-     * @param {PointerEvent} event - Attack pointer-down event.
-     * @param {HTMLElement} button - Pressed mobile attack button.
-     */
-    startAttack(event, button) {
+    /** @param {Event} event - Context-menu event to suppress. */
+    preventContextMenu(event) {
         event.preventDefault();
-        this.keyboard.setMobileAction(button.dataset.mobileAction, true);
     }
 
     /**
-     * @param {PointerEvent} event - Attack pointer-release event.
-     * @param {HTMLElement} button - Released mobile attack button.
+     * @param {PointerEvent} event - Attack pointer-down event.
+     * @param {HTMLElement} button - Pressed attack button.
+     */
+    startAttack(event, button) {
+        event.preventDefault();
+        this.keyboard.setMobileAction(
+            button.dataset.mobileAction,
+            true
+        );
+    }
+
+    /**
+     * @param {PointerEvent} event - Attack release event.
+     * @param {HTMLElement} button - Released attack button.
      */
     stopAttack(event, button) {
         event.preventDefault();
-        this.keyboard.setMobileAction(button.dataset.mobileAction, false);
+        this.keyboard.setMobileAction(
+            button.dataset.mobileAction,
+            false
+        );
     }
 }
