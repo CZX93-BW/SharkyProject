@@ -126,3 +126,13 @@ test('boss bar appears only after the boss introduction', () => {
     environment.renderer.draw(gameState);
     assert.equal(environment.context.drawnImages.length, 7);
 });
+
+test('boss bar follows a resized canvas edge', () => {
+    const environment = createRendererEnvironment();
+    const gameState = createGameState();
+
+    environment.renderer.canvas.width = 1180;
+    environment.renderer.draw(gameState);
+
+    assert.equal(environment.renderer.statusBars.bossHealth.x, 975);
+});

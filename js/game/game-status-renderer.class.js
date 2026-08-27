@@ -86,9 +86,15 @@ class GameStatusRenderer {
 
     /** @param {GameState} gameState - Current game state. */
     draw(gameState) {
+        this.updateResponsivePositions();
         this.updateStatusBars(gameState);
         this.drawPlayerStatusBars();
         this.drawBossStatusBar(gameState.activeLevel.endboss);
+    }
+
+    /** Keeps edge-aligned status bars synchronized with canvas resizing. */
+    updateResponsivePositions() {
+        this.statusBars.bossHealth.x = this.canvas.width - 205;
     }
 
     /** @param {GameState} gameState - Current game state. */

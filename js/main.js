@@ -19,10 +19,46 @@ function initializeApplication() {
     initializeMainMenu();
     initializeDisplaySettings();
     new MobileControls(keyboard);
+    initializeCanvasViewport(canvas);
     sharkyGame = createGame(canvas, keyboard);
     applyDebugModeState();
     createUiController();
     runDebugChecklist();
+}
+
+/** @param {HTMLCanvasElement} canvas - Responsive gameplay canvas. */
+function initializeCanvasViewport(canvas) {
+    updateCanvasViewport(canvas);
+    window.addEventListener('resize', () => {
+        updateCanvasViewport(canvas);
+    });
+}
+
+/** @param {HTMLCanvasElement} canvas - Canvas to resize safely. */
+function updateCanvasViewport(canvas) {
+    const nextWidth = getCanvasViewportWidth();
+    if (canvas.width !== nextWidth) {
+        canvas.width = nextWidth;
+    }
+    if (canvas.height !== GAME_CONFIG.canvasHeight) {
+        canvas.height = GAME_CONFIG.canvasHeight;
+    }
+}
+
+/** @returns {number} Logical width matching the active viewport ratio. */
+function getCanvasViewportWidth() {
+    if (!usesTouchLandscapeViewport()) {
+        return GAME_CONFIG.canvasWidth;
+    }
+    const ratio = window.innerWidth / Math.max(1, window.innerHeight);
+    return Math.round(GAME_CONFIG.canvasHeight * ratio);
+}
+
+/** @returns {boolean} Whether mobile landscape rendering is active. */
+function usesTouchLandscapeViewport() {
+    const root = document.documentElement;
+    return root.classList.contains('has-touch-controls') &&
+        window.matchMedia('(orientation: landscape)').matches;
 }
 
 /** Creates managers shared by the game and interface controllers. */

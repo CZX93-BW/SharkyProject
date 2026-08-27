@@ -1,4 +1,4 @@
-'use strict';
+
 
 /** Applies visibility and disabled states to all major interface screens. */
 class ScreenManager {
@@ -59,10 +59,9 @@ class ScreenManager {
      * @param {boolean} isGameScreen - Whether gameplay currently owns the UI.
      */
     setGameScreenState(isGameScreen) {
-        document.documentElement.classList.toggle(
-            'is-game-screen',
-            isGameScreen
-        );
+        const root = document.documentElement;
+        root.classList.toggle('is-game-screen', isGameScreen);
+        root.classList.toggle('is-main-menu-screen', !isGameScreen);
     }
 
     /** Shows the pause overlay. */

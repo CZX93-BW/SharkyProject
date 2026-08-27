@@ -186,8 +186,10 @@
 
 @media (max-height: 620px) and (orientation: landscape) {
     .main-menu-screen {
-        min-height: 100dvh;
-        overflow-y: auto;
+        width: 100%;
+        height: 100dvh;
+        min-height: 0;
+        overflow: hidden;
     }
 
     .main-menu-hero {
@@ -195,9 +197,11 @@
             minmax(0, 1fr)
             minmax(210px, 0.42fr);
         align-content: center;
-        min-height: 100dvh;
+        height: 100%;
+        min-height: 0;
         gap: 18px;
         padding: 14px 20px;
+        overflow: hidden;
     }
 
     .hero-content h1 {
@@ -499,16 +503,35 @@
     }
 }
 
-/* Touch gameplay viewport lock */
+/* Touch viewport ownership */
 
 @media (max-width: 1180px) and (orientation: landscape) {
     html.is-game-screen,
-    html.is-game-screen body {
+    html.is-game-screen body,
+    html.is-main-menu-screen,
+    html.is-main-menu-screen body {
         width: 100%;
         height: 100%;
         min-height: 0;
         overflow: hidden;
         overscroll-behavior: none;
+    }
+
+    html.is-main-menu-screen .main-menu-screen {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    html.is-main-menu-screen .main-menu-hero {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
     }
 
     html.is-game-screen .page-layout {
@@ -520,6 +543,7 @@
         min-height: 0;
         overflow: hidden;
         padding: 0;
+        background: #052638;
     }
 
     html.is-game-screen .game-header {
@@ -528,15 +552,15 @@
 
     html.is-game-screen .game-card,
     html.is-game-screen.is-fullscreen .game-card {
-        width: min(100vw, calc(100dvh * 16 / 9));
-        height: min(100dvh, calc(100vw * 9 / 16));
+        width: 100%;
+        height: 100%;
         max-width: none;
-        max-height: 100dvh;
+        max-height: none;
         padding: 0;
         overflow: hidden;
         border: 0;
         border-radius: 0;
-        background: transparent;
+        background: #052638;
         box-shadow: none;
     }
 
@@ -563,7 +587,36 @@
     }
 
     .hero-actions {
+        display: flex;
+        flex-wrap: nowrap;
         gap: 8px;
+        margin-top: 8px;
+    }
+
+    .large-button {
+        min-width: 0;
+        min-height: 36px;
+        flex: 1;
+        padding: 6px 10px;
+        font-size: 0.72rem;
+    }
+
+    .large-button small,
+    .main-menu-navigation small {
+        display: none;
+    }
+
+    .main-menu-navigation {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        padding: 6px;
+    }
+
+    .main-menu-navigation button,
+    .main-menu-navigation a {
+        min-width: 0;
+        padding: 6px 8px;
+        font-size: 0.68rem;
     }
 
     .mobile-controls {
@@ -605,6 +658,29 @@
 }
 
 @media (max-height: 280px) and (orientation: landscape) {
+    .main-menu-hero {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(170px, 0.7fr);
+        gap: 8px;
+        padding: 5px 8px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(1.5rem, 7vw, 2.2rem);
+    }
+
+    .main-menu-navigation {
+        gap: 3px;
+        padding: 4px;
+    }
+
+    .main-menu-navigation button,
+    .main-menu-navigation a {
+        padding: 4px 6px;
+        font-size: 0.62rem;
+    }
+
     .menu-content,
     .ingame-dialog-card,
     #settingsPanel .panel-card {

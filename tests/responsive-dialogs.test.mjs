@@ -12,7 +12,7 @@ test('landscape dialogs avoid unnecessary scrollbars', () => {
     );
     assert.match(
         landscapeCss,
-        /\.ingame-dialog-card \.settings-control-list\s*\{[^}]*grid-template-columns:\s*repeat\(2,/
+        /\.ingame-dialog-card \.settings-control-list,[\s\S]*?\{[^}]*grid-template-columns:\s*repeat\(2,/
     );
     assert.match(
         landscapeCss,
@@ -27,6 +27,28 @@ test('scroll fallback is limited to extremely short viewports', () => {
         css,
         /@media \(max-height:\s*280px\) and \(orientation:\s*landscape\)/
     );
+});
+
+test('touch screens own the complete landscape viewport', () => {
+    const css = readProjectFile('styles/responsive.css');
+    const screenManager = readProjectFile(
+        'js/ui/screen-manager.class.js'
+    );
+    const mainScript = readProjectFile('js/main.js');
+
+    assert.match(
+        css,
+        /html\.is-game-screen body,[\s\S]*?overflow:\s*hidden;/
+    );
+    assert.match(
+        css,
+        /html\.is-main-menu-screen \.main-menu-screen\s*\{[^}]*overflow:\s*hidden;/s
+    );
+    assert.match(
+        screenManager,
+        /classList\.toggle\(\s*'is-game-screen'/
+    );
+    assert.match(mainScript, /getCanvasViewportWidth/);
 });
 
 /**
