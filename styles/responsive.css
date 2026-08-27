@@ -155,7 +155,10 @@
     .mobile-controls {
         gap: 12px;
         padding: 12px 10px max(12px, env(safe-area-inset-bottom));
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.34));
+        background: linear-gradient(
+            transparent,
+            rgba(0, 0, 0, 0.34)
+        );
     }
 
     .mobile-action-group {
@@ -188,7 +191,9 @@
     }
 
     .main-menu-hero {
-        grid-template-columns: minmax(0, 1fr) minmax(210px, 0.42fr);
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(210px, 0.42fr);
         align-content: center;
         min-height: 100dvh;
         gap: 18px;
@@ -306,7 +311,10 @@
     .mobile-controls {
         gap: 14px;
         padding: 8px 12px max(8px, env(safe-area-inset-bottom));
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.28));
+        background: linear-gradient(
+            transparent,
+            rgba(0, 0, 0, 0.28)
+        );
     }
 
     .mobile-action-group {
@@ -334,14 +342,125 @@
     .menu-overlay,
     .ingame-dialog {
         inset: 6px;
-        align-items: start;
-        overflow-y: auto;
+        align-items: center;
+        overflow: hidden;
+        padding: 8px;
     }
 
     .menu-content,
     .ingame-dialog-card {
-        margin: auto 0;
-        padding: 16px;
+        max-height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 12px;
+    }
+
+    .menu-content h2,
+    .ingame-dialog-card h2 {
+        font-size: clamp(1.2rem, 4vw, 1.7rem);
+    }
+
+    .menu-content > p {
+        margin: 6px 0;
+        font-size: 0.76rem;
+        line-height: 1.3;
+    }
+
+    .menu-content .eyebrow,
+    .ingame-dialog-card .eyebrow {
+        margin-bottom: 2px;
+        font-size: 0.62rem;
+    }
+
+    .menu-actions {
+        gap: 6px;
+        margin-top: 10px;
+    }
+
+    .menu-actions .primary-button,
+    .menu-actions .secondary-button {
+        padding: 7px 12px;
+        font-size: 0.72rem;
+    }
+
+    .dialog-header {
+        margin-bottom: 6px;
+    }
+
+    .ingame-dialog-card > p {
+        display: none;
+    }
+
+    .ingame-dialog-card .settings-control-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 10px;
+        margin: 8px 0;
+    }
+
+    .ingame-dialog-card .settings-toggle-button {
+        min-width: 0;
+        padding: 7px 10px;
+        font-size: 0.72rem;
+    }
+
+    .ingame-dialog-card .range-control {
+        min-width: 0;
+        gap: 2px;
+        font-size: 0.7rem;
+    }
+
+    .ingame-dialog-card .settings-section {
+        margin-top: 8px;
+        padding-top: 8px;
+    }
+
+    .ingame-dialog-card .settings-section h3 {
+        font-size: 0.8rem;
+    }
+
+    .ingame-dialog-card .compact-control-list {
+        margin-top: 6px;
+    }
+
+    .shop-content > p {
+        display: none;
+    }
+
+    .shop-content .shop-wallet {
+        margin: 4px 0 8px;
+        padding: 5px 10px;
+        font-size: 0.72rem;
+    }
+
+    .shop-content .shop-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        margin-bottom: 0;
+    }
+
+    .shop-content .shop-item {
+        gap: 5px;
+        min-height: 0;
+        padding: 8px;
+    }
+
+    .shop-content .shop-item h3 {
+        font-size: 0.8rem;
+    }
+
+    .shop-content .shop-item p {
+        font-size: 0.66rem;
+        line-height: 1.2;
+    }
+
+    .shop-content .shop-item .secondary-button {
+        padding: 6px 8px;
+        font-size: 0.64rem;
+    }
+
+    #winScreen .menu-content::before {
+        width: 70px;
+        margin-bottom: 4px;
     }
 }
 
@@ -378,6 +497,21 @@
     .mobile-joystick-knob {
         width: 28px;
         height: 28px;
+    }
+
+    .shop-content .shop-item p {
+        display: none;
+    }
+
+    #winScreen .menu-content::before {
+        display: none;
+    }
+}
+
+@media (max-height: 280px) and (orientation: landscape) {
+    .menu-content,
+    .ingame-dialog-card {
+        overflow-y: auto;
     }
 }
 
