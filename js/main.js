@@ -20,6 +20,7 @@ function initializeApplication() {
     initializeDisplaySettings();
     new MobileControls(keyboard);
     sharkyGame = createGame(canvas, keyboard);
+    applyDebugModeState();
     createUiController();
     runDebugChecklist();
 }
@@ -54,6 +55,14 @@ function createGame(canvas, keyboard) {
         keyboard,
         handleGameStatusUpdate,
         audioManager
+    );
+}
+
+/** Synchronizes document-level debug visibility with the game state. */
+function applyDebugModeState() {
+    document.documentElement.classList.toggle(
+        'is-debug-mode',
+        sharkyGame.gameState.debugMode
     );
 }
 

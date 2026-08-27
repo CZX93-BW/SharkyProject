@@ -41,6 +41,24 @@ test('responsive styles cover mobile landscape and reduced motion', () => {
     assert.match(orientationCss, /html\.has-touch-controls/);
 });
 
+test('text status display is visible only in debug mode', () => {
+    const gameCss = readProjectFile('styles/game.css');
+    const mainScript = readProjectFile('js/main.js');
+
+    assert.match(
+        gameCss,
+        /\.game-hud\s*\{[^}]*display:\s*none;/s
+    );
+    assert.match(
+        gameCss,
+        /html\.is-debug-mode\s+\.game-hud\s*\{[^}]*display:\s*flex;/s
+    );
+    assert.match(
+        mainScript,
+        /classList\.toggle\(\s*'is-debug-mode'/
+    );
+});
+
 test('browser scripts contain no console output calls', () => {
     const html = readProjectFile('index.html');
     const scriptPaths = extractBrowserScriptPaths(html);
