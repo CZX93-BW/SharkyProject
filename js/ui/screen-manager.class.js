@@ -4,6 +4,7 @@
 class ScreenManager {
     /** Restores the complete main-menu screen state. */
     showMainMenuScreen() {
+        this.setGameScreenState(false);
         this.closeMainMenuPanels();
         this.hideGameShell();
         this.showMainMenu();
@@ -14,6 +15,7 @@ class ScreenManager {
 
     /** Restores the active gameplay screen state. */
     showGameScreen() {
+        this.setGameScreenState(true);
         this.hideMainMenu();
         this.showGameShell();
         this.hidePauseScreen();
@@ -51,6 +53,16 @@ class ScreenManager {
     /** Hides the gameplay shell. */
     hideGameShell() {
         this.hideElement('gameShell');
+    }
+
+    /**
+     * @param {boolean} isGameScreen - Whether gameplay currently owns the UI.
+     */
+    setGameScreenState(isGameScreen) {
+        document.documentElement.classList.toggle(
+            'is-game-screen',
+            isGameScreen
+        );
     }
 
     /** Shows the pause overlay. */
