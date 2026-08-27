@@ -3,19 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Sharky ist ein responsives 2D-Unterwasserspiel mit Vanilla JavaScript, OOP und HTML5 Canvas.">
     <meta name="theme-color" content="#052638">
     <meta name="color-scheme" content="dark light">
-
     <title>Sharky - Jump and Swim</title>
-
-    <link rel="icon"
-        href="assets/icons/favicon.svg"
-        type="image/svg+xml">
-
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/main-menu.css">
     <link rel="stylesheet" href="styles/layout.css">
@@ -34,9 +28,7 @@
         <div class="orientation-device" aria-hidden="true">
             <span></span>
         </div>
-
         <h1>Gerät drehen</h1>
-
         <p>
             Sharky kann auf Mobilgeräten nur im Querformat gespielt werden.
         </p>
@@ -56,17 +48,13 @@
 
             <div class="hero-content">
                 <p class="eyebrow">Sharky Projekt</p>
-
                 <h1>Sharky - Jump and Swim</h1>
-
                 <p class="hero-text">
-                    Tauche ein in Sharkys Riff, sammle Münzen, nutze
-                    Giftflaschen und verteidige die Tiefsee gegen
-                    gefährliche Gegner.
+                    Tauche ein in Sharkys Riff, sammle Münzen, nutze Giftflaschen
+                    und verteidige die Tiefsee gegen gefährliche Gegner.
                 </p>
 
-                <div class="hero-feature-list"
-                    aria-label="Spiel-Highlights">
+                <div class="hero-feature-list" aria-label="Spiel-Highlights">
                     <span>2 Riffzonen</span>
                     <span>3 Angriffe</span>
                     <span>Shop-Upgrades</span>
@@ -88,8 +76,7 @@
                 </div>
             </div>
 
-            <nav class="main-menu-navigation"
-                aria-label="Hauptmenü">
+            <nav class="main-menu-navigation" aria-label="Hauptmenü">
                 <button data-main-panel="settingsPanel">
                     <span>Einstellungen</span>
                     <small>Audio und Anzeige</small>
@@ -105,19 +92,14 @@
                     <small>Das bedrohte Riff</small>
                 </button>
 
-                <button data-display-action="theme"
-                    aria-pressed="true">
-                    <span data-display-label>
-                        Darstellung: Dunkel
-                    </span>
+                <button data-display-action="theme" aria-pressed="true">
+                    <span data-display-label>Darstellung: Dunkel</span>
                     <small>Farbschema wechseln</small>
                 </button>
 
                 <button data-display-action="fullscreen"
                     aria-pressed="false">
-                    <span data-display-label>
-                        Vollbild: Aus
-                    </span>
+                    <span data-display-label>Vollbild: Aus</span>
                     <small>Ansicht vergrößern</small>
                 </button>
 
@@ -154,12 +136,10 @@
                 <div class="panel-grid">
                     <article class="panel-option">
                         <h3>Level 1</h3>
-
                         <p>
                             Das erste Riff. Ideal zum Starten, Sammeln und
                             Kämpfen.
                         </p>
-
                         <button class="primary-button"
                             data-start-level="1">
                             Level 1 starten
@@ -168,12 +148,10 @@
 
                     <article class="panel-option">
                         <h3>Level 2</h3>
-
                         <p>
                             Die tiefere Riffzone. Aktuell als Testzugang
                             verfügbar.
                         </p>
-
                         <button class="secondary-button"
                             data-start-level="2">
                             Level 2 testen
@@ -218,7 +196,6 @@
                     <label class="range-control"
                         for="mainMusicVolumeSlider">
                         <span>Musiklautstärke</span>
-
                         <input id="mainMusicVolumeSlider"
                             type="range"
                             min="0"
@@ -234,7 +211,6 @@
                     <label class="range-control"
                         for="mainSoundVolumeSlider">
                         <span>Soundlautstärke</span>
-
                         <input id="mainSoundVolumeSlider"
                             type="range"
                             min="0"
@@ -306,7 +282,6 @@
                             <img class="arrow-key-image"
                                 src="assets/img/ui/Key/arrow keys.png"
                                 alt="Vier Pfeiltasten">
-
                             <p>
                                 Bewege Sharky mit den Pfeiltasten durch das
                                 Riff.
@@ -322,7 +297,6 @@
                                 <kbd>S</kbd>
                                 <kbd>D</kbd>
                             </div>
-
                             <p>
                                 Alternativ kannst du auf dem Desktop W, A,
                                 S und D verwenden.
@@ -337,7 +311,6 @@
 
                             <div>
                                 <h4>Touch-Steuerung</h4>
-
                                 <p>
                                     Auf Smartphones und Tablets bewegst du
                                     Sharky mit dem Joystick links.
@@ -361,9 +334,7 @@
                     <div class="instruction-grid attack-instruction-grid">
                         <article class="instruction-card instruction-visual-card">
                             <kbd class="large-key">E</kbd>
-
                             <h4>Flossenschlag</h4>
-
                             <p>
                                 Kurzer Nahkampfangriff gegen normale Gegner
                                 und den Boss.
@@ -374,9 +345,7 @@
                             <img class="space-key-image"
                                 src="assets/img/ui/Key/Space Bar key.png"
                                 alt="Leertaste">
-
                             <h4>Blasenfalle</h4>
-
                             <p>
                                 Fängt kleine Gegner und verhindert ihren
                                 Berührungsschaden.
@@ -385,9 +354,7 @@
 
                         <article class="instruction-card instruction-visual-card">
                             <kbd class="large-key">F</kbd>
-
                             <h4>Giftangriff</h4>
-
                             <p>
                                 Verbraucht eine Giftflasche und verursacht
                                 Schaden über Zeit.
@@ -505,7 +472,6 @@
                 <div class="menu-content">
                     <p class="eyebrow">Pause</p>
                     <h2>Spiel pausiert</h2>
-
                     <p>
                         Atme kurz durch. Auch Haie brauchen mal eine Sekunde.
                     </p>
@@ -535,7 +501,6 @@
                 <div class="menu-content shop-content">
                     <p class="eyebrow">Riff-Shop</p>
                     <h2>Bereite Sharky vor</h2>
-
                     <p>
                         Das erste Riff ist geschafft. Nutze gesammelte
                         Münzen, um Sharky für die nächste Tiefe zu stärken.
@@ -549,11 +514,9 @@
                     <div class="shop-grid">
                         <article class="shop-item">
                             <h3>Flossen-Turbo</h3>
-
                             <p>
                                 Sharky schwimmt schneller durch die Strömung.
                             </p>
-
                             <button class="secondary-button"
                                 data-upgrade="speedBoost">
                                 Kaufen · 2 Münzen
@@ -562,12 +525,10 @@
 
                         <article class="shop-item">
                             <h3>Starke Schuppen</h3>
-
                             <p>
                                 Sharky startet mit mehr Leben ins nächste
                                 Level.
                             </p>
-
                             <button class="secondary-button"
                                 data-upgrade="extraHealth">
                                 Kaufen · 3 Münzen
@@ -576,11 +537,9 @@
 
                         <article class="shop-item">
                             <h3>Gift-Tasche</h3>
-
                             <p>
                                 Sharky kann mehr Giftflaschen tragen.
                             </p>
-
                             <button class="secondary-button"
                                 data-upgrade="poisonCapacity">
                                 Kaufen · 2 Münzen
@@ -608,7 +567,6 @@
                 <div class="menu-content">
                     <p class="eyebrow">Mission gescheitert</p>
                     <h2>Sharky braucht eine Pause</h2>
-
                     <p>
                         Die Tiefsee war diesmal etwas bissig.
                         Versuch es nochmal.
@@ -634,7 +592,6 @@
                 <div class="menu-content">
                     <p class="eyebrow">Mission geschafft</p>
                     <h2>Riff gesichert</h2>
-
                     <p>
                         Sharky hat beide Riffzonen gemeistert.
                         Die Tiefsee kann aufatmen.
@@ -686,7 +643,6 @@
                         <label class="range-control"
                             for="musicVolumeSlider">
                             <span>Musiklautstärke</span>
-
                             <input id="musicVolumeSlider"
                                 type="range"
                                 min="0"
@@ -702,7 +658,6 @@
                         <label class="range-control"
                             for="soundVolumeSlider">
                             <span>Soundlautstärke</span>
-
                             <input id="soundVolumeSlider"
                                 type="range"
                                 min="0"
@@ -771,9 +726,7 @@
                     </button>
                 </div>
 
-                <canvas id="gameCanvas"
-                    width="960"
-                    height="540">
+                <canvas id="gameCanvas" width="960" height="540">
                     Dein Browser unterstützt kein Canvas.
                 </canvas>
 
@@ -820,58 +773,48 @@
     <script src="js/config/game-config.js"></script>
     <script src="js/config/level-config.js"></script>
     <script src="js/config/asset-config.js"></script>
-
     <script src="js/core/game-clock.class.js"></script>
-
     <script src="js/systems/audio-manager.class.js?v=audio-3"></script>
-
     <script src="js/ui/story-narrator.class.js"></script>
     <script src="js/ui/screen-manager.class.js"></script>
     <script src="js/ui/main-menu-controller.class.js"></script>
     <script src="js/ui/display-settings-controller.class.js"></script>
-    <script src="js/ui/ui-controller.class.js?v=ui-5"></script>
+    <script src="js/ui/ui-audio-controls.class.js"></script>
+    <script src="js/ui/ui-status-controller.class.js"></script>
+    <script src="js/ui/ui-event-binder.class.js"></script>
+    <script src="js/ui/ui-controller.class.js?v=ui-6"></script>
     <script src="js/ui/debug-checklist.class.js"></script>
-
     <script src="js/core/drawable-object.class.js"></script>
     <script src="js/core/movable-object.class.js"></script>
     <script src="js/core/animated-drawable-object.class.js"></script>
-    <script src="js/core/random-generator.class.js"></script>
-
     <script src="js/entities/world/background-object.class.js"></script>
     <script src="js/entities/world/collectible-object.class.js"></script>
-    <script src="js/entities/world/finish-object.class.js"></script>
-
     <script src="js/systems/enemy-movement-controller.class.js"></script>
     <script src="js/entities/enemies/enemy.class.js"></script>
+    <script src="js/core/random-generator.class.js"></script>
     <script src="js/systems/enemy-factory.class.js"></script>
+    <script src="js/systems/enemy-spawn-position-finder.class.js"></script>
     <script src="js/systems/enemy-spawner.class.js"></script>
     <script src="js/systems/boss-movement-controller.class.js"></script>
     <script src="js/entities/enemies/endboss.class.js"></script>
-
+    <script src="js/entities/world/finish-object.class.js"></script>
     <script src="js/entities/attacks/attack-object.class.js"></script>
     <script src="js/entities/attacks/fin-slap.class.js"></script>
     <script src="js/entities/attacks/poison-shot.class.js"></script>
     <script src="js/entities/attacks/bubble-trap.class.js"></script>
-
     <script src="js/systems/attack-manager.class.js"></script>
     <script src="js/entities/player/character.class.js"></script>
-
     <script src="js/game/level.class.js"></script>
     <script src="js/game/camera.class.js"></script>
-
     <script src="js/input/keyboard.class.js"></script>
     <script src="js/input/mobile-controls.class.js"></script>
-
     <script src="js/systems/collision-manager.class.js"></script>
-
     <script src="js/levels/level-one.js"></script>
     <script src="js/levels/level-two.js"></script>
-
     <script src="js/game/game-state.class.js"></script>
     <script src="js/game/game-status-renderer.class.js"></script>
     <script src="js/game/game-renderer.class.js"></script>
     <script src="js/game/game.class.js"></script>
-
     <script src="js/main.js"></script>
 </body>
 

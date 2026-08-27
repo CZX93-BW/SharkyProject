@@ -44,7 +44,6 @@ test('responsive styles cover mobile landscape and reduced motion', () => {
 test('browser scripts contain no console output calls', () => {
     const html = readProjectFile('index.html');
     const scriptPaths = extractBrowserScriptPaths(html);
-
     scriptPaths.forEach((scriptPath) => {
         const script = readProjectFile(scriptPath);
         assert.doesNotMatch(script, /console\s*\./, scriptPath);
@@ -55,21 +54,17 @@ test('main-menu panels close only through their backdrop', () => {
     const panel = createFakePanel();
     const document = createPanelDocument(panel);
     const context = createScriptContext({ document });
-
     loadProjectScripts(
         context,
-        ['js/ui/ui-controller.class.js'],
+        getUiControllerScripts(),
         'this.UiController = UiController;'
     );
-
     const controller = new context.UiController({}, {}, {}, {});
     let closeCount = 0;
     controller.closeMainMenuPanels = () => closeCount++;
     controller.bindPanelBackdropListeners();
-
     panel.click(panel);
     panel.click({});
-
     assert.equal(closeCount, 1);
 });
 
@@ -80,7 +75,7 @@ test('compact audio button toggles music and effects together', () => {
 
     loadProjectScripts(
         context,
-        ['js/ui/ui-controller.class.js'],
+        getUiControllerScripts(),
         'this.UiController = UiController;'
     );
 
@@ -167,6 +162,7 @@ function createFakeAudioManager() {
     let soundEnabled = true;
 
     return {
+        unlock: () => {},
         isMusicEnabled: () => musicEnabled,
         isSoundEnabled: () => soundEnabled,
         toggleMusic: () => {
@@ -180,19 +176,23 @@ function createFakeAudioManager() {
     };
 }
 
+/** @returns {string[]} UI controller scripts in dependency order. */
+function getUiControllerScripts() {
+    return [
+        'js/ui/ui-audio-controls.class.js',
+        'js/ui/ui-status-controller.class.js',
+        'js/ui/ui-event-binder.class.js',
+        'js/ui/ui-controller.class.js'
+    ];
+}
+
 /** @returns {Object} Minimal clickable panel implementation. */
 function createFakePanel() {
     let clickListener = null;
-
     return {
-        addEventListener: (type, callback) => {
-            clickListener = callback;
-        },
+        addEventListener: (type, callback) => clickListener = callback,
         click(target) {
-            clickListener({
-                target,
-                currentTarget: this
-            });
+            clickListener({ target, currentTarget: this });
         }
     };
 }
