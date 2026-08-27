@@ -46,7 +46,7 @@ function listFiles(directory) {
 function validateRequiredFiles() {
     const requiredFiles = [
         'index.html',
-        'imprint.html',
+        'legal.html',
         'README.md',
         'robots.txt',
         'tests',
@@ -58,7 +58,7 @@ function validateRequiredFiles() {
 
 /** Checks every HTML entry point and its local references. */
 function validateHtmlFiles() {
-    ['index.html', 'imprint.html'].forEach((file) => validateHtmlFile(file));
+    ['index.html', 'legal.html'].forEach((file) => validateHtmlFile(file));
 }
 
 /** @param {string} file - Root-relative HTML file path. */
@@ -107,7 +107,8 @@ function validateDuplicateScripts(file, content) {
         addError(`${file}: duplicate script ${script}`);
     });
 
-    if (file === 'index.html' && scripts.at(-1) !== 'js/main.js') {
+    const finalScript = scripts.at(-1)?.split(/[?#]/)[0];
+    if (file === 'index.html' && finalScript !== 'js/main.js') {
         addError('index.html: js/main.js must be the final script');
     }
 }
