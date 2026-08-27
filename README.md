@@ -27,6 +27,7 @@ bekämpfe Gegner und besiege die Endbosse.
 <br>
 
 [Über das Projekt](#über-das-projekt) ·
+[Screenshots](#screenshots) ·
 [Features](#features) ·
 [Steuerung](#steuerung) ·
 [Installation](#lokale-einrichtung) ·
@@ -35,6 +36,16 @@ bekämpfe Gegner und besiege die Endbosse.
 </div>
 
 ---
+
+## Screenshots
+
+### Hauptmenü
+
+![Sharky Hauptmenü](assets/img/readme/sharky-main-menu.png)
+
+### Gameplay
+
+![Sharky Gameplay mit Gegnern und Sammelobjekten](assets/img/readme/sharky-gameplay.png)
 
 ## Über das Projekt
 
@@ -158,8 +169,9 @@ Ein Upgrade kann nur gekauft werden, wenn genügend Münzen vorhanden sind.
 - Game-Over-Screen
 - Gewinnbildschirm
 - kompakter Ingame-Schnellzugriff
-- Impressumsseite
+- kombinierte Seite für Impressum und Datenschutz
 - optionales Vorlesen der Geschichte
+- Debuganzeigen nur im aktivierten Debugmodus
 
 ### Audio
 
@@ -444,6 +456,7 @@ SharkyProject/
 │   ├── fonts/
 │   ├── icons/
 │   └── img/
+│       └── readme/
 ├── docs/
 │   ├── architecture/
 │   ├── engineering/
@@ -464,7 +477,7 @@ SharkyProject/
 ├── styles/
 ├── tests/
 ├── index.html
-├── imprint.html
+├── legal.html
 ├── package.json
 ├── README.md
 └── robots.txt
@@ -500,7 +513,7 @@ Eine vollständige Navigation steht unter
 | Dokument | Inhalt |
 | --- | --- |
 | [Entwicklungskonventionen](docs/engineering/conventions.md) | JavaScript-, JSDoc- und Strukturregeln |
-| [Tests und Validierung](docs/engineering/testing-validation.md) | 42 Tests, Validator und manuelle Prüfungen |
+| [Tests und Validierung](docs/engineering/testing-validation.md) | Tests, Validator und manuelle Prüfungen |
 | [Styling und Barrierefreiheit](docs/engineering/styling-accessibility.md) | CSS-Struktur, Breakpoints und Accessibility |
 
 ### Betrieb
@@ -554,7 +567,7 @@ Für die Laufzeit werden benötigt:
 
 ```text
 index.html
-imprint.html
+legal.html
 robots.txt
 assets/
 js/
