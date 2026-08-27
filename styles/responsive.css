@@ -355,8 +355,24 @@
         padding: 12px;
     }
 
+    #settingsPanel {
+        align-items: center;
+        overflow: hidden;
+        padding: 8px;
+    }
+
+    #settingsPanel .panel-card {
+        width: min(100%, 520px);
+        max-height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 12px;
+        background: var(--color-surface-light);
+    }
+
     .menu-content h2,
-    .ingame-dialog-card h2 {
+    .ingame-dialog-card h2,
+    #settingsPanel .panel-card h2 {
         font-size: clamp(1.2rem, 4vw, 1.7rem);
     }
 
@@ -367,7 +383,8 @@
     }
 
     .menu-content .eyebrow,
-    .ingame-dialog-card .eyebrow {
+    .ingame-dialog-card .eyebrow,
+    #settingsPanel .eyebrow {
         margin-bottom: 2px;
         font-size: 0.62rem;
     }
@@ -383,43 +400,57 @@
         font-size: 0.72rem;
     }
 
-    .dialog-header {
+    .dialog-header,
+    #settingsPanel .panel-header {
         margin-bottom: 6px;
     }
 
-    .ingame-dialog-card > p {
+    .ingame-dialog-card > p,
+    #settingsPanel .panel-card > p {
         display: none;
     }
 
-    .ingame-dialog-card .settings-control-list {
+    .ingame-dialog-card .settings-control-list,
+    #settingsPanel .settings-control-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 6px 10px;
         margin: 8px 0;
     }
 
-    .ingame-dialog-card .settings-toggle-button {
+    .ingame-dialog-card .settings-toggle-button,
+    #settingsPanel .settings-toggle-button {
         min-width: 0;
         padding: 7px 10px;
         font-size: 0.72rem;
     }
 
-    .ingame-dialog-card .range-control {
+    .ingame-dialog-card .range-control,
+    #settingsPanel .range-control {
         min-width: 0;
         gap: 2px;
         font-size: 0.7rem;
     }
 
-    .ingame-dialog-card .settings-section {
+    .ingame-dialog-card .settings-section,
+    #settingsPanel .settings-section {
         margin-top: 8px;
         padding-top: 8px;
     }
 
-    .ingame-dialog-card .settings-section h3 {
+    .ingame-dialog-card .settings-section h3,
+    #settingsPanel .settings-section h3 {
         font-size: 0.8rem;
     }
 
-    .ingame-dialog-card .compact-control-list {
+    .ingame-dialog-card .compact-control-list,
+    #settingsPanel .compact-control-list {
         margin-top: 6px;
+    }
+
+    #settingsPanel .panel-card > .text-button {
+        display: block;
+        margin: 8px auto 0;
+        font-size: 0.72rem;
     }
 
     .shop-content > p {
@@ -510,7 +541,8 @@
 
 @media (max-height: 280px) and (orientation: landscape) {
     .menu-content,
-    .ingame-dialog-card {
+    .ingame-dialog-card,
+    #settingsPanel .panel-card {
         overflow-y: auto;
     }
 }
