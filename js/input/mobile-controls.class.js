@@ -70,8 +70,8 @@ class MobileControls {
         const hasCoarsePointer =
             this.coarsePointerQuery.matches;
 
-        return (hasTouchPoints || hasCoarsePointer) &&
-            window.innerWidth <= this.maximumTouchLayoutWidth;
+        return hasCoarsePointer || (hasTouchPoints &&
+            window.innerWidth <= this.maximumTouchLayoutWidth);
     }
 
     /** Clears active touch input when controls become unavailable. */

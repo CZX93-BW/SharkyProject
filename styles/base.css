@@ -70,7 +70,6 @@
 
 :root[data-theme="light"] .main-menu-navigation button,
 :root[data-theme="light"] .main-menu-navigation a,
-:root[data-theme="light"] .hero-feature-list span,
 :root[data-theme="light"] .panel-option,
 :root[data-theme="light"] .instruction-card,
 :root[data-theme="light"] .story-quote,
@@ -138,14 +137,8 @@ html.is-fullscreen .game-card {
     border-radius: 0;
 }
 
-@media (max-width: 1180px) {
-    html.has-touch-controls .mobile-controls {
-        display: flex;
-    }
-
-    html:not(.has-touch-controls) .mobile-controls {
-        display: none;
-    }
+html.has-touch-controls .mobile-controls {
+    display: flex;
 }
 
 * {
