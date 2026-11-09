@@ -366,12 +366,17 @@ Dadurch sollen identische Quellstände zu identischen Testergebnissen führen.
 | `enemy-spawner.test.mjs` | 5 | Gegnerbudgets, Spawnlimits und Spawnpositionen |
 | `game-clock.test.mjs` | 2 | Pause und korrekte Spiellaufzeit |
 | `game-lifecycle.test.mjs` | 3 | Tod, Todesanimation und Restart |
-| `game-status-renderer.test.mjs` | 2 | Statusanzeige und Bosslebensanzeige |
-| `interface.test.mjs` | 5 | HTML, Responsive-Regeln, Konsolenausgaben und UI-Verhalten |
+| `game-status-renderer.test.mjs` | 3 | Statusanzeige und Bosslebensanzeige |
+| `interface.test.mjs` | 6 | HTML, Responsive-Regeln, Konsolenausgaben und UI-Verhalten |
 | `keyboard.test.mjs` | 3 | Desktop-Steuerung und Fokusverlust |
 | `level-config.test.mjs` | 4 | Levelvalidierung und Schwierigkeitswerte |
 | `mobile-controls.test.mjs` | 4 | Sichtbarkeit und Verhalten der Touch-Steuerung |
-| **Gesamt** | **42** | Automatisierte Unit- und Regressionstests |
+| `game-renderer.test.mjs` | 2 | Debug-Ebenen und Laufzeitdarstellung |
+| `legal-page.test.mjs` | 4 | Impressum und Navigation |
+| `menu-screen.test.mjs` | 1 | Tastenbelegung in der Anleitung |
+| `responsive-dialogs.test.mjs` | 3 | Querformat und Dialoglayout |
+| `review-gameplay.test.mjs` | 10 | Neustart, Shop, Felsen, Schlagphasen und Projektile |
+| **Gesamt** | **64** | Automatisierte Unit- und Regressionstests |
 
 ## Audio-Manager
 
@@ -510,7 +515,7 @@ Konfigurationsänderungen.
 
 1. Touch-Steuerelemente werden auf einem geeigneten mobilen Viewport aktiviert.
 2. Auf Desktopgeräten bleiben sie ausgeblendet.
-3. Oberhalb der unterstützten Bildschirmbreite bleiben sie ausgeblendet.
+3. Große Tablets mit primärem Touch-Zeiger behalten die Steuerung im Querformat.
 4. Kontextmenüs werden auf den Touch-Steuerelementen unterdrückt.
 
 Die tatsächliche Bedienbarkeit muss zusätzlich auf einem echten Smartphone oder
@@ -522,12 +527,12 @@ Der zuletzt bestätigte Stand umfasst:
 
 | Prüfung | Ergebnis |
 | --- | ---: |
-| Testdateien | 12 |
-| Automatisierte Tests | 42 |
-| Erfolgreich | 42 |
+| Testdateien | 17 |
+| Automatisierte Tests | 64 |
+| Erfolgreich | 64 |
 | Fehlgeschlagen | 0 |
 | HTML-Skriptreferenzen | 46 |
-| Stylesheets | 8 |
+| Stylesheets | 9 |
 | Konfigurierte Assets | 202 |
 
 Die Zahlen beschreiben einen konkreten geprüften Projektstand. Nach späteren
@@ -725,7 +730,7 @@ Die aktuelle Qualitätssicherung erkennt zuverlässig:
 - fehlende konfigurierte Assets
 - ungültige lokale Links in der Stamm-README
 - unerwünschte Entwicklungsartefakte
-- Regressionen in 42 definierten Spielfällen
+- Regressionen in 64 definierten Spielfällen
 
 ## Was nicht vollständig automatisiert geprüft wird
 
