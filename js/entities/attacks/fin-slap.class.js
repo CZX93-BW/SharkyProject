@@ -6,7 +6,8 @@ class FinSlap extends AttackObject {
     constructor(player) {
         super({
             x: player.x, y: player.y,
-            width: GAME_CONFIG.finSlapWidth, height: GAME_CONFIG.finSlapHeight,
+            width: GAME_CONFIG.finSlapReach + GAME_CONFIG.finSlapBodyOverlap,
+            height: GAME_CONFIG.finSlapHeight,
             damage: GAME_CONFIG.finSlapDamage, type: 'finSlap'
         });
         this.player = player;
@@ -20,8 +21,9 @@ class FinSlap extends AttackObject {
             this.expire();
             return;
         }
-        const tip = player.direction === 1 ? player.x + player.width + 5 : player.x - 5;
-        this.x = player.direction === 1 ? tip - this.width : tip;
+        this.x = player.direction === 1 ?
+            player.x + player.width - GAME_CONFIG.finSlapBodyOverlap :
+            player.x - GAME_CONFIG.finSlapReach;
         this.y = player.y + 9;
     }
 
@@ -31,6 +33,20 @@ class FinSlap extends AttackObject {
         return frame >= 4 && frame <= 6 && super.isActive();
     }
 
-    /** The character sprite supplies the visual for this attack. */
-    drawFallback() {}
+    /** @param {CanvasRenderingContext2D} context - Draws the water sweep at its active reach. */
+    drawFallback(context) {
+        if (!this.isActive()) {
+            return;
+        }
+        const right = this.player.direction === 1;
+        const centerX = right ? this.player.x + this.player.width : this.player.x;
+        context.save();
+        context.beginPath();
+        context.ellipse(centerX, this.y + this.height / 2, GAME_CONFIG.finSlapReach,
+            this.height / 2, right ? 0 : Math.PI, -Math.PI / 2, Math.PI / 2);
+        context.strokeStyle = 'rgba(177, 240, 255, 0.72)';
+        context.lineWidth = 2;
+        context.stroke();
+        context.restore();
+    }
 }

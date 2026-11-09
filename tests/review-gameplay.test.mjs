@@ -87,7 +87,7 @@ for (const direction of [-1, 1]) {
         player.updateAnimation();
         player.x += 15;
         slap.update();
-        assertTipContacts(slap, target, direction, combat);
+        assertMeleeReach(player, slap, target, combat);
         world.tick(180);
         player.updateAnimation();
         slap.update();
@@ -108,11 +108,14 @@ function prepareStrike(direction) {
     return { world, player, slap, target, combat: new world.CollisionManager(), state };
 }
 
-/** Checks a narrow miss, a hit and repeated contact during the same swing. */
-function assertTipContacts(slap, target, direction, combat) {
-    placeAtTip(slap, target, direction, 4);
+/** Checks melee reach from Sharky's body, independently of the attack rectangle. */
+function assertMeleeReach(player, slap, target, combat) {
+    const direction = player.direction;
+    const front = direction === 1 ? player.x + player.width : player.x;
+    placeAtEdge(front, target, direction, 40);
     assert.equal(combat.canAttackHitTarget(slap, target), false);
-    placeAtTip(slap, target, direction, -2);
+    placeAtEdge(front, target, direction, 24);
+    assert.equal(combat.canEnemyDamagePlayer(player, target), false);
     combat.checkAttackTarget(slap, target);
     assert.equal(target.health, target.maxHealth - slap.damage);
     assert.equal(combat.canAttackHitTarget(slap, target), false);
@@ -120,8 +123,13 @@ function assertTipContacts(slap, target, direction, combat) {
 
 /** Places the nearest edge of the enemy body at a signed distance from the fin. */
 function placeAtTip(slap, target, direction, gap) {
-    const body = target.getCombatBounds();
     const tip = direction === 1 ? slap.x + slap.width : slap.x;
+    placeAtEdge(tip, target, direction, gap);
+}
+
+/** Aligns the near edge of a target's combat body relative to a world position. */
+function placeAtEdge(tip, target, direction, gap) {
+    const body = target.getCombatBounds();
     const edge = direction === 1 ? body.x : body.x + body.width;
     target.x += tip + direction * gap - edge;
 }

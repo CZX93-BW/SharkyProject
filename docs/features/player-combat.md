@@ -416,7 +416,7 @@ classDiagram
 
 | Wert | Flossenschlag | Giftangriff | Blasenfalle |
 | --- | ---: | ---: | ---: |
-| Breite | `19` | `44` | `58` |
+| Breite | `46` | `44` | `58` |
 | Höhe | `24` | `22` | `58` |
 | Geschwindigkeit | `0` | `8` | `6` |
 | Lebensdauer | bis zum Animationsende | `1500 ms` | `1600 ms` |
@@ -437,11 +437,9 @@ Eigenschaften:
 - kann mehrere unterschiedliche Ziele treffen
 - kann dasselbe Ziel nur einmal treffen
 
-Die technische Hitbox besitzt aktuell kein eigenes sichtbares Angriffsbild.
-Die sichtbare Darstellung erfolgt über Sharkys Flossenschlaganimation.
-
-Wenn kein Angriffssprite konfiguriert ist, bleibt die technische Hitbox
-bewusst unsichtbar.
+Die Trefferfläche reicht 32 logische Canvas-Pixel vor Sharkys Körper und
+überlappt ihn um 14 Pixel. Während der drei aktiven Schlagbilder zeigt ein
+kurzer Wasserbogen die Reichweite in Blickrichtung.
 
 ## Giftangriff
 
