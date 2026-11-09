@@ -490,14 +490,10 @@ Der Ablauf ist:
 9. Framezeit zurücksetzen
 10. Musik und Animationsschleife neu starten
 
-Ein Restart behält den bestehenden Sitzungsfortschritt bei:
-
-- Münzen
-- Giftflaschen
-- gekaufte Upgrades
-
-Ein vollständiger neuer Start über `Game.start()` setzt diese Werte dagegen
-zurück.
+Beim erneuten Versuch beginnen Münzen und Gift bei null. Gekaufte Upgrades
+gelten für die laufende Sitzung. Beim regulären Wechsel vom Shop in Level 2
+werden Inventar und Upgrades übernommen. „Nochmal spielen“ auf dem Siegbildschirm
+startet eine neue Sitzung in Level 1.
 
 ## Rückkehr zum Hauptmenü
 

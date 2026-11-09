@@ -109,7 +109,7 @@
     }
 
     .game-hud span {
-        font-size: 0.78rem;
+        font-size: 1rem;
     }
 
     #statusDisplay {
@@ -143,7 +143,7 @@
 
     .control-hint {
         border-radius: 18px;
-        font-size: 0.82rem;
+        font-size: 1rem;
     }
 
     #gameCanvas {
@@ -159,18 +159,6 @@
             transparent,
             rgba(0, 0, 0, 0.34)
         );
-    }
-
-    .mobile-action-group {
-        grid-template-columns: repeat(2, 52px);
-        gap: 6px;
-    }
-
-    .mobile-action-button {
-        min-width: 52px;
-        min-height: 46px;
-        padding: 6px;
-        font-size: 0.74rem;
     }
 
     .mobile-joystick {
@@ -210,7 +198,7 @@
 
     .hero-text {
         margin-top: 10px;
-        font-size: 0.9rem;
+        font-size: 1rem;
         line-height: 1.35;
     }
 
@@ -219,8 +207,7 @@
     }
 
     .hero-feature-list span {
-        padding: 5px 8px;
-        font-size: 0.72rem;
+        font-size: 1rem;
     }
 
     .hero-actions {
@@ -242,7 +229,7 @@
     .main-menu-navigation button,
     .main-menu-navigation a {
         padding: 8px 10px;
-        font-size: 0.82rem;
+        font-size: 1rem;
     }
 
     .page-layout {
@@ -295,7 +282,7 @@
     .game-hud span {
         padding: 5px 7px;
         background: rgba(2, 14, 22, 0.64);
-        font-size: 0.68rem;
+        font-size: 1rem;
         backdrop-filter: blur(6px);
     }
 
@@ -309,7 +296,7 @@
     .icon-button {
         width: 34px;
         height: 34px;
-        font-size: 0.78rem;
+        font-size: 1rem;
     }
 
     .mobile-controls {
@@ -323,18 +310,6 @@
             transparent,
             rgba(0, 0, 0, 0.28)
         );
-    }
-
-    .mobile-action-group {
-        grid-template-columns: repeat(2, 48px);
-        gap: 5px;
-    }
-
-    .mobile-action-button {
-        min-width: 48px;
-        min-height: 42px;
-        padding: 5px;
-        font-size: 0.68rem;
     }
 
     .mobile-joystick {
@@ -386,7 +361,7 @@
 
     .menu-content > p {
         margin: 6px 0;
-        font-size: 0.76rem;
+        font-size: 1rem;
         line-height: 1.3;
     }
 
@@ -394,7 +369,7 @@
     .ingame-dialog-card .eyebrow,
     #settingsPanel .eyebrow {
         margin-bottom: 2px;
-        font-size: 0.62rem;
+        font-size: 1rem;
     }
 
     .menu-actions {
@@ -405,7 +380,7 @@
     .menu-actions .primary-button,
     .menu-actions .secondary-button {
         padding: 7px 12px;
-        font-size: 0.72rem;
+        font-size: 1rem;
     }
 
     .dialog-header,
@@ -429,14 +404,14 @@
     #settingsPanel .settings-toggle-button {
         min-width: 0;
         padding: 7px 10px;
-        font-size: 0.72rem;
+        font-size: 1rem;
     }
 
     .ingame-dialog-card .range-control,
     #settingsPanel .range-control {
         min-width: 0;
         gap: 2px;
-        font-size: 0.7rem;
+        font-size: 1rem;
     }
 
     .ingame-dialog-card .settings-section,
@@ -447,7 +422,7 @@
 
     .ingame-dialog-card .settings-section h3,
     #settingsPanel .settings-section h3 {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .ingame-dialog-card .compact-control-list,
@@ -458,7 +433,7 @@
     #settingsPanel .panel-card > .text-button {
         display: block;
         margin: 8px auto 0;
-        font-size: 0.72rem;
+        font-size: 1rem;
     }
 
     .shop-content > p {
@@ -468,7 +443,7 @@
     .shop-content .shop-wallet {
         margin: 4px 0 8px;
         padding: 5px 10px;
-        font-size: 0.72rem;
+        font-size: 1rem;
     }
 
     .shop-content .shop-grid {
@@ -484,17 +459,17 @@
     }
 
     .shop-content .shop-item h3 {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .shop-content .shop-item p {
-        font-size: 0.66rem;
+        font-size: 1rem;
         line-height: 1.2;
     }
 
     .shop-content .shop-item .secondary-button {
         padding: 6px 8px;
-        font-size: 0.64rem;
+        font-size: 1rem;
     }
 
     #winScreen .menu-content::before {
@@ -505,7 +480,8 @@
 
 /* Touch viewport ownership */
 
-@media (max-width: 1180px) and (orientation: landscape) {
+@media (max-width: 1180px) and (orientation: landscape),
+       (pointer: coarse) and (orientation: landscape) {
     html.is-game-screen,
     html.is-game-screen body,
     html.is-main-menu-screen,
@@ -582,7 +558,10 @@
 
 @media (max-height: 430px) and (orientation: landscape) {
     .hero-feature-list,
-    .hero-text {
+    .hero-text,
+    .hero-content .eyebrow,
+    .ingame-dialog-card > p,
+    #settingsPanel .panel-card > p {
         display: none;
     }
 
@@ -598,16 +577,11 @@
         min-height: 36px;
         flex: 1;
         padding: 6px 10px;
-        font-size: 0.72rem;
-    }
-
-    .large-button small,
-    .main-menu-navigation small {
-        display: none;
+        font-size: 1rem;
     }
 
     .main-menu-navigation {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
         gap: 4px;
         padding: 6px;
     }
@@ -616,7 +590,7 @@
     .main-menu-navigation a {
         min-width: 0;
         padding: 6px 8px;
-        font-size: 0.68rem;
+        font-size: 1rem;
     }
 
     .mobile-controls {
@@ -625,17 +599,6 @@
             max(8px, env(safe-area-inset-right))
             max(5px, env(safe-area-inset-bottom))
             max(8px, env(safe-area-inset-left));
-    }
-
-    .mobile-action-group {
-        grid-template-columns: repeat(2, 44px);
-        gap: 4px;
-    }
-
-    .mobile-action-button {
-        min-width: 44px;
-        min-height: 38px;
-        font-size: 0.64rem;
     }
 
     .mobile-joystick {
@@ -661,7 +624,7 @@
     .main-menu-hero {
         grid-template-columns:
             minmax(0, 1fr)
-            minmax(170px, 0.7fr);
+            minmax(265px, 1fr);
         gap: 8px;
         padding: 5px 8px;
     }
@@ -671,6 +634,7 @@
     }
 
     .main-menu-navigation {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 3px;
         padding: 4px;
     }
@@ -678,7 +642,7 @@
     .main-menu-navigation button,
     .main-menu-navigation a {
         padding: 4px 6px;
-        font-size: 0.62rem;
+        font-size: 1rem;
     }
 
     .menu-content,

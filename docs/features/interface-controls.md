@@ -484,27 +484,10 @@ Dies verhindert beispielsweise dauerhaftes Schwimmen nach:
 
 ## Touch-Erkennung
 
-`MobileControls` aktiviert die mobile Steuerung nur, wenn:
-
-1. mindestens ein Touchpunkt oder ein grober Pointer erkannt wird
-2. die Fensterbreite höchstens `1180 px` beträgt
-
-Die Prüfung lautet sinngemäß:
-
-```text
-(maxTouchPoints > 0 oder pointer: coarse)
-und
-window.innerWidth ≤ 1180
-```
-
-Geeignete Geräte erhalten am Root-Element:
-
-```text
-has-touch-controls
-```
-
-Desktopgeräte ohne Touch beziehungsweise Geräte oberhalb der unterstützten
-Breite zeigen keine mobilen Steuerelemente.
+Bei einem groben primären Zeiger (`pointer: coarse`) stehen die Steuerelemente
+auch auf großen Tablets zur Verfügung. Bei Geräten mit feinem Zeiger werden
+zusätzlich Touchpunkte und eine Fensterbreite bis 1180 px vorausgesetzt.
+Passende Geräte erhalten die Klasse `has-touch-controls`.
 
 ## Reaktion auf Geräteänderungen
 
@@ -530,18 +513,9 @@ Die Touch-Steuerung ist standardmäßig ausgeblendet:
 }
 ```
 
-Sie wird nur unter folgenden Bedingungen sichtbar:
-
-```css
-@media (max-width: 1180px) {
-    html.has-touch-controls .mobile-controls {
-        display: flex;
-    }
-}
-```
-
-Die Sichtbarkeit hängt damit sowohl von JavaScript-Geräteerkennung als auch vom
-CSS-Breakpoint ab.
+Die Klasse `has-touch-controls` blendet den Joystick und die drei Angriffstasten
+ein. Jede Angriffstaste ist mindestens 62 × 50 CSS-Pixel groß. Zwischen den
+Tasten liegen 8 CSS-Pixel.
 
 ## Mobiler Joystick
 
@@ -679,7 +653,7 @@ Die Controls werden abhängig von Breite und Höhe verkleinert.
 | --- | ---: |
 | Joystick | `116 × 116` |
 | Joystickknopf | `46 × 46` |
-| Angriffstaste mindestens | `62 × 54` |
+| Angriffstaste mindestens | `62 × 50` |
 
 ### Bis `520 px` Breite
 
@@ -687,7 +661,7 @@ Die Controls werden abhängig von Breite und Höhe verkleinert.
 | --- | ---: |
 | Joystick | `88 × 88` |
 | Joystickknopf | `34 × 34` |
-| Angriffstaste mindestens | `52 × 46` |
+| Angriffstaste mindestens | `62 × 50` |
 
 ### Landscape bis `620 px` Höhe
 
@@ -695,7 +669,7 @@ Die Controls werden abhängig von Breite und Höhe verkleinert.
 | --- | ---: |
 | Joystick | `82 × 82` |
 | Joystickknopf | `32 × 32` |
-| Angriffstaste mindestens | `48 × 42` |
+| Angriffstaste mindestens | `62 × 50` |
 
 ### Landscape bis `430 px` Höhe
 
@@ -703,11 +677,11 @@ Die Controls werden abhängig von Breite und Höhe verkleinert.
 | --- | ---: |
 | Joystick | `72 × 72` |
 | Joystickknopf | `28 × 28` |
-| Angriffstaste mindestens | `44 × 38` |
+| Angriffstaste mindestens | `62 × 50` |
 
 ## Hochformat-Hinweis
 
-Geeignete Touchgeräte bis `1180 px` Breite zeigen im Hochformat einen
+Geeignete Touchgeräte zeigen im Hochformat einen
 bildschirmfüllenden Hinweis:
 
 ```text
@@ -718,7 +692,7 @@ Sharky kann auf Mobilgeräten nur im Querformat gespielt werden.
 Die Anzeige wird durch folgende Kombination aktiviert:
 
 ```css
-@media (max-width: 1180px) and (orientation: portrait) {
+@media (orientation: portrait) {
     html.has-touch-controls .orientation-notice {
         display: grid;
     }
@@ -855,8 +829,7 @@ Automatisierte Tests sichern insbesondere ab:
 - Die Escape-Taste ist nicht als allgemeine Schließen- oder Pausefunktion
   registriert.
 - Canvas-Spielobjekte sind nicht einzeln über Screenreader erreichbar.
-- Die Touchsteuerung ist für Querformat und eine maximale Breite von `1180 px`
-  vorgesehen.
+- Die Touchsteuerung ist für das Querformat vorgesehen.
 - Geräteerkennung über Touchpunkte und Pointer-Media-Query kann bei einzelnen
   Hybridgeräten abweichend reagieren.
 - Speech-Synthesis-Stimmen und Aussprache hängen vom verwendeten Browser und

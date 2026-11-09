@@ -112,12 +112,8 @@
 }
 
 .hero-feature-list span {
-    padding: 8px 12px;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
     color: var(--color-text);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
 }
 
@@ -169,27 +165,6 @@
 .main-menu-navigation a:hover {
     color: #021018;
     background: var(--color-primary);
-}
-
-.main-menu-navigation [
-    data-main-panel="howToPlayPanel"
-]::before {
-    width: 25px;
-    height: 25px;
-    flex: 0 0 25px;
-    background:
-        url("../assets/icons/controller-icon.png")
-        center / contain no-repeat;
-    content: "";
-}
-
-.main-menu-navigation [
-    data-main-panel="howToPlayPanel"
-]:hover::before,
-:root[data-theme="light"] .main-menu-navigation [
-    data-main-panel="howToPlayPanel"
-]::before {
-    filter: brightness(0) saturate(100%);
 }
 
 .main-menu-panel {

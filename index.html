@@ -66,13 +66,11 @@
                     <button class="primary-button large-button"
                         data-start-level="1">
                         <span>Spiel starten</span>
-                        <small>Direkt mit Level 1 beginnen</small>
                     </button>
 
                     <button class="secondary-button large-button"
                         data-main-panel="levelSelectPanel">
                         <span>Level auswählen</span>
-                        <small>Riffzone selbst bestimmen</small>
                     </button>
                 </div>
             </div>
@@ -80,33 +78,27 @@
             <nav class="main-menu-navigation" aria-label="Hauptmenü">
                 <button data-main-panel="settingsPanel">
                     <span>Einstellungen</span>
-                    <small>Audio und Anzeige</small>
                 </button>
 
                 <button data-main-panel="howToPlayPanel">
                     <span>Anleitung</span>
-                    <small>Steuerung und Angriffe</small>
                 </button>
 
                 <button data-main-panel="storyPanel">
                     <span>Geschichte</span>
-                    <small>Das bedrohte Riff</small>
                 </button>
 
                 <button data-display-action="theme" aria-pressed="true">
                     <span data-display-label>Darstellung: Dunkel</span>
-                    <small>Farbschema wechseln</small>
                 </button>
 
                 <button data-display-action="fullscreen"
                     aria-pressed="false">
                     <span data-display-label>Vollbild: Aus</span>
-                    <small>Ansicht vergrößern</small>
                 </button>
 
                 <a href="legal.html">
-                    <span>Impressum &amp; Datenschutz</span>
-                    <small>Rechtliche Hinweise</small>
+                    <span>Impressum</span>
                 </a>
             </nav>
         </section>
@@ -599,7 +591,7 @@
                     </p>
 
                     <div class="menu-actions">
-                        <button id="winRestartButton"
+                        <button id="winRestartButton" data-start-level="1"
                             class="primary-button">
                             Nochmal spielen
                         </button>

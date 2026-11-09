@@ -82,6 +82,7 @@ function createTarget(x) {
         y: 0,
         width: 40,
         height: 40,
+        getCombatBounds() { return this; },
         health: 100,
         isDefeated: false,
         takeDamage(damage) {
@@ -104,7 +105,7 @@ function createFinSlap(x) {
         height: 40,
         type: 'finSlap',
         damage: 28,
-        hasHit: (target) => hitTargets.has(target),
+        canHit: (target) => !hitTargets.has(target),
         registerHit: (target) => hitTargets.add(target)
     };
 }

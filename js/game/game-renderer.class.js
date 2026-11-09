@@ -165,21 +165,23 @@ class GameRenderer {
     /** @param {Enemy[]} enemies - Current standard enemies. */
     drawDebugEnemies(enemies) {
         enemies.forEach((enemy) => {
-            this.drawDebugHitbox(enemy);
+            this.drawDebugHitbox(enemy.getCombatBounds());
         });
     }
 
     /** @param {Endboss|null} endboss - Current level boss. */
     drawDebugEndboss(endboss) {
         if (endboss && !endboss.isDefeated) {
-            this.drawDebugHitbox(endboss);
+            this.drawDebugHitbox(endboss.getCombatBounds());
         }
     }
 
     /** @param {AttackObject[]} attacks - Active attacks. */
     drawDebugAttacks(attacks) {
         attacks.forEach((attack) => {
-            this.drawDebugArea(attack);
+            if (attack.isActive()) {
+                this.drawDebugArea(attack);
+            }
         });
     }
 

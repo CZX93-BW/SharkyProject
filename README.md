@@ -19,7 +19,7 @@ bekämpfe Gegner und besiege die Endbosse.
 [![CSS3](https://img.shields.io/badge/CSS3-Responsive-1572B6?style=for-the-badge&logo=css3&logoColor=ffffff)](#tech-stack)
 [![OOP](https://img.shields.io/badge/Architecture-OOP-29D3FF?style=for-the-badge)](#architektur)
 
-[![Tests](https://img.shields.io/badge/Tests-42%20passed-22C55E?style=flat-square)](#qualitätssicherung)
+[![Tests](https://img.shields.io/badge/Tests-64%20passed-22C55E?style=flat-square)](#qualitätssicherung)
 [![Assets](https://img.shields.io/badge/Assets-202%20validated-29ABE2?style=flat-square)](#qualitätssicherung)
 [![Responsive](https://img.shields.io/badge/Responsive-Mobile%20%7C%20Tablet%20%7C%20Desktop-29ABE2?style=flat-square)](#responsive-design)
 [![Node](https://img.shields.io/badge/Node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=ffffff)](#lokale-einrichtung)
@@ -73,7 +73,7 @@ organisiert.
 | Darstellung | HTML5 Canvas und responsive HTML-Oberfläche |
 | Level | 2 spielbare Riffzonen |
 | Eingabe | Tastatur und mobile Touch-Steuerung |
-| Qualitätssicherung | 42 Tests in 12 Testdateien |
+| Qualitätssicherung | 64 Tests in 17 Testdateien |
 | Build-Schritt | Nicht erforderlich |
 | Laufzeit-Backend | Nicht erforderlich |
 | Zielgeräte | Desktop, Tablet und Smartphone im Querformat |
@@ -90,7 +90,8 @@ organisiert.
 - Endboss in jedem Level
 - Shop zwischen Level 1 und Level 2
 - Game-Over- und Gewinnbildschirm
-- Restart ohne Neuladen der Seite
+- Neustart im aktuellen Level mit leeren Münz- und Giftanzeigen und den gekauften Upgrades
+- „Nochmal spielen“ nach dem Sieg beginnt wieder in Level 1
 - Rückkehr zum Hauptmenü aus mehreren Spielzuständen
 - Pause und Fortsetzen mit korrekter Spielzeit
 
@@ -313,7 +314,7 @@ Wichtige Breakpoints:
 
 | Bedingung | Anpassung |
 | --- | --- |
-| bis 1180 px | geeignete Touch-Steuerung und Hochformat-Hinweis |
+| primärer Touch-Zeiger | Touch-Steuerung und Hochformat-Hinweis auch auf großen Tablets |
 | bis 980 px | einspaltiges Hauptmenü |
 | bis 900 px | einspaltige Karten und Anleitungen |
 | bis 760 px | kompaktes Seiten-, HUD- und Dialoglayout |
@@ -416,12 +417,12 @@ Der zuletzt bestätigte Projektstand:
 
 | Prüfung | Ergebnis |
 | --- | ---: |
-| Testdateien | 12 |
-| Automatisierte Tests | 42 |
-| Erfolgreich | 42 |
+| Testdateien | 17 |
+| Automatisierte Tests | 64 |
+| Erfolgreich | 64 |
 | Fehlgeschlagen | 0 |
 | HTML-Skriptreferenzen | 46 |
-| Stylesheets | 8 |
+| Stylesheets | 9 |
 | Konfigurierte Assets | 202 |
 | Projektvalidierung | erfolgreich |
 

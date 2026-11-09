@@ -259,13 +259,17 @@ class Character extends AnimatedDrawableObject {
 
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
     draw(context) {
+        context.save();
+        if (this.isInvulnerable() && this.isAlive()) {
+            context.globalAlpha *= GAME_CLOCK.now() % 160 < 80 ? 0.55 : 1;
+        }
         if (this.isImageReady()) {
             this.drawCharacterImage(context);
-            this.drawDamageIndicator(context);
-            return;
+        } else {
+            super.draw(context);
+            this.drawFallbackDetails(context);
         }
-        super.draw(context);
-        this.drawFallbackDetails(context);
+        context.restore();
     }
 
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
@@ -349,7 +353,6 @@ class Character extends AnimatedDrawableObject {
     drawFallbackDetails(context) {
         this.drawTail(context);
         this.drawEye(context);
-        this.drawDamageIndicator(context);
     }
 
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
@@ -371,21 +374,6 @@ class Character extends AnimatedDrawableObject {
         context.beginPath();
         context.arc(eyeX, eyeY, 5, 0, Math.PI * 2);
         context.fill();
-    }
-
-    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    drawDamageIndicator(context) {
-        if (!this.isInvulnerable()) {
-            return;
-        }
-        context.strokeStyle = '#ffffff';
-        context.lineWidth = 3;
-        context.strokeRect(
-            this.x - 4,
-            this.y - 4,
-            this.width + 8,
-            this.height + 8
-        );
     }
 
     /** @returns {number} Horizontal eye position for the facing direction. */

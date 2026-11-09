@@ -71,26 +71,10 @@
 
 .hero-actions .large-button {
     display: grid;
-    justify-items: start;
-    min-width: 230px;
-    gap: 3px;
+    place-items: center;
+    min-width: 0;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    text-align: left;
-}
-
-.hero-actions small,
-.main-menu-navigation small {
-    font-size: 0.72rem;
-    font-weight: 400;
-    opacity: 0.78;
-}
-
-.main-menu-navigation button,
-.main-menu-navigation a {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    text-align: left;
+    text-align: center;
 }
 
 .main-menu-navigation button:focus-visible,
@@ -306,12 +290,7 @@ kbd {
         padding: 16px;
     }
 
-    .hero-actions small,
-    .main-menu-navigation small {
-        display: none;
-    }
-
     .hero-actions .large-button {
-        min-width: 140px;
+        min-width: 0;
     }
 }

@@ -122,7 +122,7 @@ class BossMovementController {
         this.boss.y += deltaY;
         this.keepInsideBounds(bounds);
 
-        if (!this.boss.isTouchingSolidArea(solidAreas)) {
+        if (!this.boss.findSolidArea(solidAreas)) {
             return true;
         }
 

@@ -166,7 +166,7 @@ test('touch controls remain hidden on desktop devices', () => {
     assert.equal(environment.appliedStates.at(-1).state, false);
 });
 
-test('touch controls remain hidden above the supported width', () => {
+test('large tablets keep touch controls in landscape', () => {
     const environment = createMobileEnvironment({
         width: 1280,
         touchPoints: 5,
@@ -175,7 +175,7 @@ test('touch controls remain hidden above the supported width', () => {
 
     assert.equal(
         environment.controls.shouldEnableTouchControls(),
-        false
+        true
     );
 });
 
