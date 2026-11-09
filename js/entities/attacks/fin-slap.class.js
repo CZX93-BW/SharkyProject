@@ -1,67 +1,36 @@
 'use strict';
 
-/**
- * Represents the short-lived hitbox of the player's melee fin attack.
- *
- * @extends AttackObject
- */
+/** Tracks the visible fin during the contact frames of Sharky's swipe. */
 class FinSlap extends AttackObject {
-    /**
-     * Creates a fin-slap hitbox beside the player.
-     *
-     * @param {Character} player - Character performing the fin slap.
-     */
+    /** @param {Character} player - Character performing the slap. */
     constructor(player) {
-        super(FinSlap.createConfig(player));
+        super({
+            x: player.x, y: player.y,
+            width: GAME_CONFIG.finSlapWidth, height: GAME_CONFIG.finSlapHeight,
+            damage: GAME_CONFIG.finSlapDamage, type: 'finSlap'
+        });
+        this.player = player;
+        this.update();
     }
 
-    /**
-     * Creates the shared attack configuration for a fin slap.
-     *
-     * @param {Character} player - Character performing the fin slap.
-     * @returns {Object} Fin-slap configuration.
-     */
-    static createConfig(player) {
-        return {
-            x: FinSlap.getStartX(player),
-            y: player.y - 4,
-            width: GAME_CONFIG.finSlapWidth,
-            height: GAME_CONFIG.finSlapHeight,
-            type: 'finSlap',
-            damage: GAME_CONFIG.finSlapDamage,
-            direction: player.direction,
-            duration: GAME_CONFIG.finSlapDuration,
-            fallbackColor: GAME_CONFIG.finSlapFallbackColor,
-            imagePath: ASSET_CONFIG.attacks.finSlap
-        };
-    }
-
-    /**
-     * Calculates the horizontal spawn position beside the player.
-     *
-     * @param {Character} player - Character performing the fin slap.
-     * @returns {number} Horizontal spawn position.
-     */
-    static getStartX(player) {
-        if (player.direction === 1) {
-            return player.x + player.width - 4;
-        }
-        return player.x - GAME_CONFIG.finSlapWidth + 4;
-    }
-
-    /**
-     * Updates the lifetime of the stationary melee hitbox.
-     *
-     * @returns {void}
-     */
+    /** Follows the current facing direction until the swing ends or is interrupted. */
     update() {
-        this.expireWhenDurationIsOver();
+        const player = this.player;
+        if (player.currentAnimation !== 'finSlap' || player.isAnimationFinished()) {
+            this.expire();
+            return;
+        }
+        const tip = player.direction === 1 ? player.x + player.width + 5 : player.x - 5;
+        this.x = player.direction === 1 ? tip - this.width : tip;
+        this.y = player.y + 9;
     }
 
-    /**
-     * Keeps the technical melee hitbox invisible without an image.
-     *
-     * @returns {void}
-     */
+    /** @returns {boolean} Whether animation frames five through seven show fin contact. */
+    isActive() {
+        const frame = this.player.currentFrameIndex;
+        return frame >= 4 && frame <= 6 && super.isActive();
+    }
+
+    /** The character sprite supplies the visual for this attack. */
     drawFallback() {}
 }

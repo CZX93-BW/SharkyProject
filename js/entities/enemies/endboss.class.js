@@ -334,17 +334,7 @@ class Endboss extends Enemy {
         this.playAnimation('floating', 125);
     }
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    draw(context) {
-        if (this.isDefeated && this.isAnimationFinished()) {
-            return;
-        }
-        this.drawEndboss(context);
-        if (!this.isDefeated) {
-            this.drawStatusIndicators(context);
-        }
-    }
-    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    drawEndboss(context) {
+    drawEnemy(context) {
         if (this.isImageReady()) {
             this.drawEnemyImage(context);
             return;

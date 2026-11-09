@@ -178,17 +178,18 @@ class Enemy extends AnimatedDrawableObject {
     updateMovementWithSolidAreas(solidAreas) {
         const previousPosition = { x: this.x, y: this.y };
         this.movementController.update();
-        if (this.isTouchingSolidArea(solidAreas)) {
+        const obstacle = this.findSolidArea(solidAreas);
+        if (obstacle) {
             this.restorePosition(previousPosition);
-            this.movementController.handleObstacle();
+            this.movementController.avoidObstacle(obstacle);
         }
     }
     /**
      * @param {Array<DrawableObject>} solidAreas - Blocking world objects.
-     * @returns {boolean} Whether the enemy overlaps a solid object.
+     * @returns {Object|undefined} First blocking area at the current position.
      */
-    isTouchingSolidArea(solidAreas) {
-        return solidAreas.some((solidArea) => {
+    findSolidArea(solidAreas) {
+        return solidAreas.find((solidArea) => {
             return this.x + this.width > solidArea.x &&
                 this.x < solidArea.x + solidArea.width &&
                 this.y + this.height > solidArea.y &&
@@ -295,14 +296,32 @@ class Enemy extends AnimatedDrawableObject {
         this.damage = this.baseDamage;
         this.playPufferAnimation('swim');
     }
+    /** @returns {Object} Damageable body inside the transparent sprite margins. */
+    getCombatBounds() {
+        const inset = GAME_CONFIG.enemyCombatInsets[this.type] ||
+            GAME_CONFIG.enemyCombatInsets.jellyFish;
+        const bottom = this.isInflated ? 0.05 : inset.bottom;
+        return {
+            x: this.x + this.width * inset.side,
+            y: this.y + this.height * inset.top,
+            width: this.width * (1 - 2 * inset.side),
+            height: this.height * (1 - inset.top - bottom)
+        };
+    }
+
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
     draw(context) {
         if (this.isDefeated && this.isAnimationFinished()) {
             return;
         }
+        context.save();
+        if (this.isHurt() && !this.isDefeated) {
+            context.globalAlpha *= 0.58;
+        }
         this.drawEnemy(context);
-        if (!this.isDefeated) {
-            this.drawStatusIndicators(context);
+        context.restore();
+        if (this.isTrapped() && !this.isDefeated) {
+            this.drawTrapBubble(context);
         }
     }
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
@@ -361,39 +380,17 @@ class Enemy extends AnimatedDrawableObject {
         context.stroke();
     }
     /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    drawStatusIndicators(context) {
-        this.drawHurtIndicator(context);
-        this.drawTrapIndicator(context);
-        this.drawPoisonIndicator(context);
-    }
-    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    drawHurtIndicator(context) {
-        if (!this.isHurt()) {
-            return;
-        }
-        context.strokeStyle = '#ffffff';
-        context.lineWidth = 3;
-        context.strokeRect(this.x - 4, this.y - 4,
-            this.width + 8, this.height + 8);
-    }
-    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    drawTrapIndicator(context) {
-        if (!this.isTrapped()) {
-            return;
-        }
-        context.strokeStyle = 'rgba(169, 236, 255, 0.9)';
-        context.lineWidth = 4;
-        context.strokeRect(this.x - 5, this.y - 5,
-            this.width + 10, this.height + 10);
-    }
-    /** @param {CanvasRenderingContext2D} context - Canvas rendering context. */
-    drawPoisonIndicator(context) {
-        if (!this.isPoisoned()) {
-            return;
-        }
-        context.strokeStyle = '#9dff57';
-        context.lineWidth = 3;
-        context.strokeRect(this.x - 9, this.y - 9,
-            this.width + 18, this.height + 18);
+    drawTrapBubble(context) {
+        const radius = Math.max(this.width, this.height) / 2 + 5;
+        context.save();
+        context.beginPath();
+        context.arc(this.x + this.width / 2, this.y + this.height / 2,
+            radius, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(118, 218, 255, 0.18)';
+        context.strokeStyle = 'rgba(192, 246, 255, 0.9)';
+        context.lineWidth = 2;
+        context.fill();
+        context.stroke();
+        context.restore();
     }
 }

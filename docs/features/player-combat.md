@@ -289,7 +289,7 @@ Während dieses Zeitraums:
 
 - wird kein weiterer Schaden angenommen
 - läuft die Hurt-Animation
-- erscheint ein weißer Rahmen um die Spieler-Hitbox
+- blinkt Sharkys Sprite während der Unverwundbarkeit
 
 Die Unverwundbarkeit verwendet die pausierbare Spielzeit. Während einer Pause
 läuft sie nicht ab.
@@ -381,7 +381,7 @@ Zusätzlich zur Eingabeflanke besitzt jeder Angriff eine eigene Abklingzeit.
 
 | Angriff | Cooldown |
 | --- | ---: |
-| Flossenschlag | `420 ms` |
+| Flossenschlag | `480 ms` |
 | Giftangriff | `650 ms` |
 | Blasenfalle | `850 ms` |
 
@@ -416,11 +416,11 @@ classDiagram
 
 | Wert | Flossenschlag | Giftangriff | Blasenfalle |
 | --- | ---: | ---: | ---: |
-| Breite | `82` | `44` | `58` |
-| Höhe | `56` | `22` | `58` |
+| Breite | `19` | `44` | `58` |
+| Höhe | `24` | `22` | `58` |
 | Geschwindigkeit | `0` | `8` | `6` |
-| Lebensdauer | `150 ms` | `1500 ms` | `1600 ms` |
-| Cooldown | `420 ms` | `650 ms` | `850 ms` |
+| Lebensdauer | bis zum Animationsende | `1500 ms` | `1600 ms` |
+| Cooldown | `480 ms` | `650 ms` | `850 ms` |
 | Direktschaden | `28` | `10` | `0` |
 | Ressource | keine | eine Giftflasche | keine |
 
@@ -430,10 +430,10 @@ classDiagram
 
 Eigenschaften:
 
-- bewegt sich nicht
+- folgt der Position der Flosse
 - richtet sich nach Sharkys Blickrichtung
 - verursacht `28` Schaden
-- bleibt `150 ms` aktiv
+- trifft während der Bilder 5 bis 7 der achtteiligen Animation
 - kann mehrere unterschiedliche Ziele treffen
 - kann dasselbe Ziel nur einmal treffen
 

@@ -33,7 +33,7 @@ Das Spiel besitzt zwei spielbare Riffzonen.
 | maximal aktive Gegner | `5` | `7` |
 | Gegnerbudget | `12` | `18` |
 | Münzen | `5` | `5` |
-| Giftflaschen | `2` | `3` |
+| Giftflaschen | `3` | `3` |
 | Barrieren | `2` | `2` |
 | Bossleben | `180` | `240` |
 | Bossschaden | `35` | `45` |
@@ -175,6 +175,7 @@ Münzen befinden sich bei:
 Giftflaschen befinden sich bei:
 
 ```text
+(480, 295)
 (780, 210)
 (1580, 260)
 ```
@@ -383,8 +384,9 @@ Berührt ein Gegner anschließend einen festen Bereich:
 1. wird die alte Position wiederhergestellt
 2. der Movement Controller reagiert auf das Hindernis
 
-Bei `waveLeft` wird die Wellenphase verändert. Bei `verticalDrift` wird die
-vertikale Richtung umgekehrt.
+Kugelfisch und Qualle schwimmen zur näheren freien Kante des Hindernisses.
+Sobald der ganze Körper am Felsen vorbei ist, setzen sie ihr Bewegungsmuster
+auf der neuen Höhe fort.
 
 ## Spriteausrichtung
 
@@ -448,8 +450,7 @@ aktiven Sammlung.
 
 ## Hurt-Anzeige
 
-Nach erhaltenem Schaden erscheint für kurze Zeit ein weißer Rahmen um den
-Gegner.
+Nach einem Treffer erscheint der Gegner kurz halbtransparent.
 
 Die Dauer wird über folgenden Wert gesteuert:
 
@@ -468,7 +469,7 @@ Während `isTrapped()` aktiv ist:
 - wird keine Bewegung ausgeführt
 - kann kein Kontaktschaden entstehen
 - bleibt der Gegner weiterhin angreifbar
-- erscheint ein hellblauer Rahmen
+- umschließt eine durchscheinende, runde Blase den Gegner
 
 Die konfigurierte Fangdauer der Blasenfalle beträgt:
 
@@ -487,7 +488,7 @@ Ein Giftangriff speichert im Gegner:
 - Tickintervall
 - Zeitpunkt des nächsten Ticks
 
-Während des Effekts erscheint ein grüner Rahmen.
+Jeder Gifttick löst die reguläre Trefferreaktion aus.
 
 Ein Tick ruft die normale Schadensmethode des Gegners auf. Dadurch kann Gift
 einen Gegner oder Endboss besiegen.

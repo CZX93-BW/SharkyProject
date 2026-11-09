@@ -272,7 +272,6 @@ const ASSET_CONFIG = {
 
     /** Contains visual assets for player attacks. */
     attacks: {
-        finSlap: '',
         poisonShot:
             'assets/img/sharky/4.Attack/Bubble trap/Poisoned Bubble (for whale).png',
         bubbleTrap:

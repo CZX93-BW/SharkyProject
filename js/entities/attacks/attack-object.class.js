@@ -77,13 +77,18 @@ class AttackObject extends MovableObject {
     }
 
     /**
-     * Checks whether this attack has already hit a target.
+     * Checks the attack lifetime and its previous hits.
      *
      * @param {Object} target - Target to check.
-     * @returns {boolean} Whether the target has already been registered.
+     * @returns {boolean} Whether this attack can still hit the target.
      */
-    hasHit(target) {
-        return this.hitTargets.has(target);
+    canHit(target) {
+        return this.isActive() && !this.hitTargets.has(target);
+    }
+
+    /** @returns {boolean} Whether the current frame can deal a hit. */
+    isActive() {
+        return !this.isExpired;
     }
 
     /**

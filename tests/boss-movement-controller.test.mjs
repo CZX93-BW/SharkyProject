@@ -76,7 +76,7 @@ function createBossMovementValues() {
 /** @returns {Object} Collision methods required by the controller. */
 function createBossBehavior() {
     return {
-        isTouchingSolidArea: () => false,
+        findSolidArea: () => undefined,
         restorePosition(previousPosition) {
             this.x = previousPosition.x;
             this.y = previousPosition.y;

@@ -133,7 +133,7 @@ class CollisionManager {
      */
     canEnemyDamagePlayer(player, enemy) {
         return enemy.canDealContactDamage() &&
-            this.isOverlapping(player, enemy);
+            this.isOverlapping(player, enemy.getCombatBounds());
     }
 
     /**
@@ -300,9 +300,9 @@ class CollisionManager {
      * @returns {boolean} Whether this attack may hit this target.
      */
     canAttackHitTarget(attack, target) {
-        return !attack.hasHit(target) &&
+        return attack.canHit(target) &&
             !target.isDefeated &&
-            this.isOverlapping(attack, target);
+            this.isOverlapping(attack, target.getCombatBounds());
     }
 
     /**

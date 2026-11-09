@@ -110,6 +110,7 @@ function createLevelOneCollectibles() {
         createLevelOneCoin(1040, 230),
         createLevelOneCoin(1460, 310),
         createLevelOneCoin(1900, 230),
+        createLevelOnePoisonBottle(480, 295),
         createLevelOnePoisonBottle(780, 210),
         createLevelOnePoisonBottle(1580, 260)
     ];

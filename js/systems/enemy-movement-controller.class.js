@@ -9,12 +9,9 @@ class EnemyMovementController {
     constructor(enemy, config = {}) {
         this.enemy = enemy;
         this.profile = config.profile || 'waveLeft';
-        this.horizontalSpeed =
-            config.horizontalSpeed || GAME_CONFIG.enemySpeed;
-        this.verticalSpeed =
-            config.verticalSpeed || GAME_CONFIG.enemySpeed;
-        this.verticalRange =
-            config.verticalRange || GAME_CONFIG.enemyPatrolRange;
+        this.horizontalSpeed = config.horizontalSpeed || GAME_CONFIG.enemySpeed;
+        this.verticalSpeed = config.verticalSpeed || GAME_CONFIG.enemySpeed;
+        this.verticalRange = config.verticalRange || GAME_CONFIG.enemyPatrolRange;
         this.waveAmplitude = config.waveAmplitude || 0;
         this.waveFrequency = config.waveFrequency || 0;
         this.spriteFacing = config.spriteFacing || 'left';
@@ -27,6 +24,7 @@ class EnemyMovementController {
 
     /** Restores movement state to the enemy's current spawn position. */
     reset() {
+        this.detour = null;
         this.originY = this.enemy.startY;
         this.wavePhase = this.initialPhase;
         this.verticalDirection = this.initialVerticalDirection;
@@ -46,6 +44,10 @@ class EnemyMovementController {
 
     /** Advances the configured movement strategy by one game frame. */
     update() {
+        if (this.detour) {
+            this.followDetour();
+            return;
+        }
         if (this.profile === 'verticalDrift') {
             this.updateVerticalDrift();
             return;
@@ -84,13 +86,32 @@ class EnemyMovementController {
         }
     }
 
-    /** Changes the vertical route after hitting a solid object. */
-    handleObstacle() {
-        if (this.profile === 'waveLeft') {
-            this.wavePhase = Math.PI - this.wavePhase;
+    /** @param {Object} rock - Solid area encountered on the leftward route. */
+    avoidObstacle(rock) {
+        const above = rock.y - this.enemy.height;
+        const below = rock.y + rock.height;
+        const fitsBelow = below + this.enemy.height <= this.worldBottom;
+        const closerBelow = Math.abs(below - this.enemy.y) <
+            Math.abs(above - this.enemy.y);
+        const useBelow = fitsBelow && (above < this.worldTop || closerBelow);
+        this.detour = { y: useBelow ? below : above, left: rock.x };
+    }
+
+    /** Clears the nearest open edge, then passes the rock before resuming patrol. */
+    followDetour() {
+        const distance = this.detour.y - this.enemy.y;
+        const speed = Math.max(this.horizontalSpeed, this.verticalSpeed);
+        if (distance !== 0) {
+            this.enemy.y += Math.sign(distance) * Math.min(speed, Math.abs(distance));
             return;
         }
-        this.verticalDirection *= -1;
+        this.enemy.x -= speed;
+        if (this.enemy.x + this.enemy.width <= this.detour.left) {
+            this.detour = null;
+            this.originY = this.enemy.y;
+            this.wavePhase = 0;
+            this.updateVerticalBounds();
+        }
     }
 
     /**
