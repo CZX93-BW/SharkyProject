@@ -118,7 +118,7 @@ class UiEventBinder {
 
     /** Registers every available game restart listener. */
     bindRestartButtons() {
-        ['restartButton', 'gameOverRestartButton', 'winRestartButton']
+        ['restartButton', 'gameOverRestartButton']
             .forEach((buttonId) => {
                 this.bindButton(buttonId, () => {
                     this.controller.restartGame();

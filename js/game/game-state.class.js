@@ -22,8 +22,7 @@ class GameState {
 
     /** Initializes collectible inventory and shop progress. */
     initializeSessionState() {
-        this.coins = 0;
-        this.poisonBottles = 0;
+        this.resetInventory();
         this.upgrades = this.createDefaultUpgrades();
     }
 
@@ -76,8 +75,9 @@ class GameState {
         this.startLevel(levelNumber);
     }
 
-    /** Restarts the currently selected level. */
+    /** Starts a fresh attempt with empty pockets and the owned shop upgrades. */
     restartCurrentLevel() {
+        this.resetInventory();
         this.startLevel(this.currentLevel);
     }
 
@@ -90,6 +90,12 @@ class GameState {
         this.isPaused = false;
         this.resetPlayer();
         this.resetLevel();
+    }
+
+    /** Empties both collectible counters before a fresh attempt. */
+    resetInventory() {
+        this.coins = 0;
+        this.poisonBottles = 0;
     }
 
     /** Clears collectible inventory and purchased upgrades. */
