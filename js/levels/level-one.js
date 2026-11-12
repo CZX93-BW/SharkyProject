@@ -25,15 +25,20 @@ function createLevelOne() {
 /** @returns {BarrierObject[]} All solid barrier objects for level one. */
 function createLevelOneBarriers() {
     return [
-        createLevelOneFloorBarrier(),
-        createLevelOneVerticalBarrier()
+        createLevelOneFloorBarrier(650),
+        createLevelOneVerticalBarrier(1160),
+        createLevelOneFloorBarrier(3000),
+        createLevelOneVerticalBarrier(2400)
     ];
 }
 
-/** @returns {BarrierObject} Floor rock barrier. */
-function createLevelOneFloorBarrier() {
+/**
+ * @param {number} x - Horizontal world position.
+ * @returns {BarrierObject} Floor rock barrier.
+ */
+function createLevelOneFloorBarrier(x) {
     return new BarrierObject({
-        x: 650,
+        x,
         y: 470,
         width: 280,
         height: 130,
@@ -46,10 +51,13 @@ function createLevelOneFloorBarrier() {
     });
 }
 
-/** @returns {BarrierObject} Vertical rock barrier. */
-function createLevelOneVerticalBarrier() {
+/**
+ * @param {number} x - Horizontal world position.
+ * @returns {BarrierObject} Vertical rock barrier.
+ */
+function createLevelOneVerticalBarrier(x) {
     return new BarrierObject({
-        x: 1160,
+        x,
         y: 190,
         width: 100,
         height: 270,
@@ -86,6 +94,7 @@ function createLevelOneLayer(layerName, fallbackColor, scrollFactor, opacity) {
     return new BackgroundObject(0, 0, world.width, world.height, {
         imagePath: ASSET_CONFIG.backgrounds.levelOne[layerName],
         fallbackColor,
+        tileWidth: world.backgroundTileWidth,
         scrollFactor,
         opacity
     });
@@ -106,13 +115,15 @@ function createLevelOneSolidAreas() {
 function createLevelOneCollectibles() {
     return [
         createLevelOneCoin(310, 210),
-        createLevelOneCoin(620, 300),
-        createLevelOneCoin(1040, 230),
-        createLevelOneCoin(1460, 310),
-        createLevelOneCoin(1900, 230),
+        createLevelOneCoin(1120, 135),
+        createLevelOneCoin(2080, 330),
+        createLevelOneCoin(3040, 165),
+        createLevelOneCoin(4030, 305),
         createLevelOnePoisonBottle(480, 295),
-        createLevelOnePoisonBottle(780, 210),
-        createLevelOnePoisonBottle(1580, 260)
+        createLevelOnePoisonBottle(1580, 260),
+        createLevelOnePoisonBottle(2520, 180),
+        createLevelOnePoisonBottle(3500, 300),
+        createLevelOnePoisonBottle(4180, 190)
     ];
 }
 

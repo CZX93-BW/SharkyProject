@@ -24,15 +24,20 @@ function createLevelTwo() {
 /** @returns {BarrierObject[]} All solid barrier objects for level two. */
 function createLevelTwoBarriers() {
     return [
-        createLevelTwoFloorBarrier(),
-        createLevelTwoVerticalBarrier()
+        createLevelTwoFloorBarrier(1320),
+        createLevelTwoVerticalBarrier(1940),
+        createLevelTwoFloorBarrier(3160),
+        createLevelTwoVerticalBarrier(4230)
     ];
 }
 
-/** @returns {BarrierObject} Floor rock barrier. */
-function createLevelTwoFloorBarrier() {
+/**
+ * @param {number} x - Horizontal world position.
+ * @returns {BarrierObject} Floor rock barrier.
+ */
+function createLevelTwoFloorBarrier(x) {
     return new BarrierObject({
-        x: 1320,
+        x,
         y: 440,
         width: 340,
         height: 150,
@@ -45,10 +50,13 @@ function createLevelTwoFloorBarrier() {
     });
 }
 
-/** @returns {BarrierObject} Vertical rock barrier. */
-function createLevelTwoVerticalBarrier() {
+/**
+ * @param {number} x - Horizontal world position.
+ * @returns {BarrierObject} Vertical rock barrier.
+ */
+function createLevelTwoVerticalBarrier(x) {
     return new BarrierObject({
-        x: 1940,
+        x,
         y: 170,
         width: 110,
         height: 300,
@@ -85,6 +93,7 @@ function createLevelTwoLayer(layerName, fallbackColor, scrollFactor, opacity) {
     return new BackgroundObject(0, 0, world.width, world.height, {
         imagePath: ASSET_CONFIG.backgrounds.levelTwo[layerName],
         fallbackColor,
+        tileWidth: world.backgroundTileWidth,
         scrollFactor,
         opacity
     });
@@ -105,13 +114,15 @@ function createLevelTwoSolidAreas() {
 function createLevelTwoCollectibles() {
     return [
         createLevelTwoCoin(420, 230),
-        createLevelTwoCoin(820, 320),
-        createLevelTwoCoin(1340, 260),
-        createLevelTwoCoin(1880, 210),
-        createLevelTwoCoin(2380, 340),
-        createLevelTwoPoisonBottle(1040, 220),
-        createLevelTwoPoisonBottle(2040, 280),
-        createLevelTwoPoisonBottle(2520, 250)
+        createLevelTwoCoin(1510, 350),
+        createLevelTwoCoin(2660, 185),
+        createLevelTwoCoin(3680, 350),
+        createLevelTwoCoin(4720, 170),
+        createLevelTwoPoisonBottle(820, 320),
+        createLevelTwoPoisonBottle(1830, 220),
+        createLevelTwoPoisonBottle(2830, 310),
+        createLevelTwoPoisonBottle(3920, 200),
+        createLevelTwoPoisonBottle(4900, 320)
     ];
 }
 

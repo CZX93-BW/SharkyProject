@@ -151,10 +151,9 @@ class DebugChecklist {
 
     /** @returns {boolean} Whether both spawners use their level limits. */
     hasConfiguredEnemySpawners() {
-        return Boolean(LEVELS[1].enemySpawner) &&
-            Boolean(LEVELS[2].enemySpawner) &&
-            LEVELS[1].enemySpawner.config.maxActiveEnemies === 5 &&
-            LEVELS[2].enemySpawner.config.maxActiveEnemies === 7;
+        return Object.values(LEVELS).every((level) =>
+            level.enemySpawner?.config === level.config.spawner
+        );
     }
 
     /** @returns {Object} Scalable enemy-movement check. */

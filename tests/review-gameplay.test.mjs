@@ -51,7 +51,7 @@ function enterLevelTwoWithUpgrades() {
 
 for (const number of [1, 2]) {
     for (const type of ['pufferFish', 'jellyFish']) {
-        test(type + ' clears both rocks in level ' + number, () => {
+        test(type + ' clears every rock in level ' + number, () => {
             const world = createWorld();
             const level = new world.GameState().getLevelByNumber(number);
             const factory = createFactory(world, level);

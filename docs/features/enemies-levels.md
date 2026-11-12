@@ -26,15 +26,15 @@ Das Spiel besitzt zwei spielbare Riffzonen.
 
 | Eigenschaft | Level 1 | Level 2 |
 | --- | ---: | ---: |
-| Weltbreite | `2400` | `2800` |
+| Weltbreite | `4800` | `5600` |
 | Welthöhe | `720` | `720` |
 | Bodenhöhe | `120` | `130` |
-| Startgegner | `4` | `4` |
-| maximal aktive Gegner | `5` | `7` |
-| Gegnerbudget | `12` | `18` |
+| Startgegner | `4` | `6` |
+| maximal aktive Gegner | `5` | `10` |
+| Gegnerbudget | `24` | `54` |
 | Münzen | `5` | `5` |
-| Giftflaschen | `3` | `3` |
-| Barrieren | `2` | `2` |
+| Giftflaschen | `5` | `5` |
+| Barrieren | `4` | `4` |
 | Bossleben | `180` | `240` |
 | Bossschaden | `35` | `45` |
 
@@ -128,6 +128,7 @@ Die verwendeten Scrollfaktoren sind in beiden Leveln:
 | Front | `0.85` |
 | Floor | `1` |
 
+Jede Ebene wiederholt ihr Motiv an der Levelmitte horizontal gespiegelt.
 Level 2 verwendet eigene Hintergrunddateien und dunklere Fallbackfarben.
 
 ## Boden und feste Bereiche
@@ -148,8 +149,8 @@ y = 720 - 130
 
 Zusätzlich enthalten beide Level:
 
-- eine größere Bodenbarriere
-- eine vertikale Felsbarriere
+- zwei Bodenbarrieren
+- zwei vertikale Felsbarrieren
 
 Die sichtbaren Barrieren liefern über `getSolidArea()` eigene technische
 Kollisionsflächen. Transparente Bildränder werden über `collisionInset`
@@ -166,18 +167,20 @@ Münzen befinden sich bei:
 
 ```text
 (310, 210)
-(620, 300)
-(1040, 230)
-(1460, 310)
-(1900, 230)
+(1120, 135)
+(2080, 330)
+(3040, 165)
+(4030, 305)
 ```
 
 Giftflaschen befinden sich bei:
 
 ```text
 (480, 295)
-(780, 210)
 (1580, 260)
+(2520, 180)
+(3500, 300)
+(4180, 190)
 ```
 
 ### Level 2
@@ -186,18 +189,20 @@ Münzen befinden sich bei:
 
 ```text
 (420, 230)
-(820, 320)
-(1340, 260)
-(1880, 210)
-(2380, 340)
+(1510, 350)
+(2660, 185)
+(3680, 350)
+(4720, 170)
 ```
 
 Giftflaschen befinden sich bei:
 
 ```text
-(1040, 220)
-(2040, 280)
-(2520, 250)
+(820, 320)
+(1830, 220)
+(2830, 310)
+(3920, 200)
+(4900, 320)
 ```
 
 Der Spawner berücksichtigt aktive Sammelobjekte bei der Positionssuche. Neue
@@ -532,11 +537,11 @@ Seine Aufgaben sind:
 
 | Einstellung | Level 1 | Level 2 |
 | --- | ---: | ---: |
-| Anfangspopulation | `4` | `4` |
-| maximal aktiv | `5` | `7` |
-| Gesamtbudget | `12` | `18` |
-| Mindestintervall | `3200 ms` | `2600 ms` |
-| Maximalintervall | `5200 ms` | `4400 ms` |
+| Anfangspopulation | `4` | `6` |
+| maximal aktiv | `5` | `10` |
+| Gesamtbudget | `24` | `54` |
+| Mindestintervall | `3200 ms` | `1733 ms` |
+| Maximalintervall | `5200 ms` | `2933 ms` |
 | Mindestabstand Spieler | `320` | `300` |
 | Mindestabstand Gegner | `120` | `110` |
 | Abstand hinter Viewport | `160` | `150` |
@@ -584,7 +589,7 @@ Beispiel für Level 1:
 
 ```text
 maximal gleichzeitig aktiv: 5
-maximal insgesamt erzeugt:  12
+maximal insgesamt erzeugt:  24
 ```
 
 Dadurch kann das Level Gegner nacherzeugen, ohne endlos neue Gegner zu
@@ -689,7 +694,7 @@ Faktor `1.4`.
 
 | Eigenschaft | Level 1 | Level 2 |
 | --- | ---: | ---: |
-| X-Position | `1980` | `2300` |
+| X-Position | `4380` | `5100` |
 | Y-Position | `250` | `230` |
 | Breite | `210` | `210` |
 | Höhe | `168` | `168` |
@@ -881,8 +886,8 @@ Positionen:
 
 | Level | X | Y |
 | --- | ---: | ---: |
-| Level 1 | `2280` | `430` |
-| Level 2 | `2680` | `420` |
+| Level 1 | `4680` | `430` |
+| Level 2 | `5480` | `420` |
 
 Solange der Boss lebt, wird das Ziel:
 

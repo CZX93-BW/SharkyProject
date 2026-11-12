@@ -50,12 +50,12 @@ function createVerticalMovement(horizontalSpeed, verticalSpeed, verticalRange) {
 const LEVEL_CONFIG = {
     1: {
         number: 1,
-        world: { width: 2400, height: 720, floorHeight: 120 },
+        world: { width: 4800, backgroundTileWidth: 2400, height: 720, floorHeight: 120 },
         finish: { rightOffset: 120, bottomOffset: 290 },
         spawner: {
             initialCount: 4,
             maxActiveEnemies: 5,
-            totalEnemyBudget: 12,
+            totalEnemyBudget: 24,
             spawnInterval: { min: 3200, max: 5200 },
             minimumPlayerDistance: 320,
             minimumEnemyDistance: 120,
@@ -89,13 +89,13 @@ const LEVEL_CONFIG = {
     },
     2: {
         number: 2,
-        world: { width: 2800, height: 720, floorHeight: 130 },
+        world: { width: 5600, backgroundTileWidth: 2800, height: 720, floorHeight: 130 },
         finish: { rightOffset: 120, bottomOffset: 300 },
         spawner: {
-            initialCount: 4,
-            maxActiveEnemies: 7,
-            totalEnemyBudget: 18,
-            spawnInterval: { min: 2600, max: 4400 },
+            initialCount: 6,
+            maxActiveEnemies: 10,
+            totalEnemyBudget: 54,
+            spawnInterval: { min: 1733, max: 2933 },
             minimumPlayerDistance: 300,
             minimumEnemyDistance: 110,
             viewportOffset: 150,
@@ -131,6 +131,7 @@ const LEVEL_CONFIG = {
 /** @type {string[]} Required positive numeric level paths. */
 const REQUIRED_LEVEL_NUMBER_PATHS = [
     'number', 'world.width', 'world.height', 'world.floorHeight',
+    'world.backgroundTileWidth',
     'finish.rightOffset', 'finish.bottomOffset', 'spawner.initialCount',
     'spawner.maxActiveEnemies', 'spawner.totalEnemyBudget',
     'spawner.spawnInterval.min', 'spawner.spawnInterval.max',

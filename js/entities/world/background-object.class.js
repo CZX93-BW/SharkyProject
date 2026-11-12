@@ -18,6 +18,7 @@ class BackgroundObject extends DrawableObject {
     constructor(x, y, width, height, config = {}) {
         super(x, y, width, height);
         this.fallbackColor = config.fallbackColor || '#06354f';
+        this.tileWidth = config.tileWidth ?? width;
         this.scrollFactor = config.scrollFactor ?? 1;
         this.opacity = config.opacity ?? 1;
         this.loadImage(config.imagePath);
@@ -52,23 +53,36 @@ class BackgroundObject extends DrawableObject {
      */
     drawImageWithCamera(context, camera) {
         const source = this.getCoverSource();
-        context.drawImage(
-            this.image,
-            source.x,
-            source.y,
-            source.width,
-            source.height,
-            this.getScreenX(camera),
-            this.getScreenY(camera),
-            this.width,
-            this.height
-        );
+        const origin = Math.floor(this.getScreenX(camera));
+        const y = this.getScreenY(camera);
+        const firstTile = Math.max(0, Math.floor(-origin / this.tileWidth));
+        for (let tile = firstTile; tile * this.tileWidth < this.width; tile++) {
+            const x = origin + tile * this.tileWidth;
+            if (x >= context.canvas.width) break;
+            this.drawTile(context, source, x, y, tile % 2 === 1);
+        }
+    }
+
+    /**
+     * @param {CanvasRenderingContext2D} context - Active drawing context.
+     * @param {Object} source - Source rectangle for a single tile.
+     * @param {number} x - Left screen edge.
+     * @param {number} y - Top screen edge.
+     * @param {boolean} mirrored - Whether to join matching image edges.
+     */
+    drawTile(context, source, x, y, mirrored) {
+        context.save();
+        context.translate(mirrored ? x + this.tileWidth : x, y);
+        context.scale(mirrored ? -1 : 1, 1);
+        context.drawImage(this.image, source.x, source.y, source.width, source.height,
+            0, 0, this.tileWidth, this.height);
+        context.restore();
     }
 
     /** @returns {Object} Image source rectangle covering the target area. */
     getCoverSource() {
         const imageRatio = this.image.naturalWidth / this.image.naturalHeight;
-        const targetRatio = this.width / this.height;
+        const targetRatio = this.tileWidth / this.height;
         if (imageRatio > targetRatio) {
             return this.getHorizontalCrop(targetRatio);
         }
