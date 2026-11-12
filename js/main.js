@@ -28,15 +28,19 @@ function initializeApplication() {
 
 /** @param {HTMLCanvasElement} canvas - Responsive gameplay canvas. */
 function initializeCanvasViewport(canvas) {
-    updateCanvasViewport(canvas);
-    window.addEventListener('resize', () => {
-        updateCanvasViewport(canvas);
-    });
+    const touchLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape)');
+    const resize = () => updateCanvasViewport(canvas, touchLandscape.matches);
+    resize();
+    window.addEventListener('resize', resize);
+    touchLandscape.addEventListener?.('change', resize);
 }
 
-/** @param {HTMLCanvasElement} canvas - Canvas to resize safely. */
-function updateCanvasViewport(canvas) {
-    const nextWidth = getCanvasViewportWidth();
+/**
+ * @param {HTMLCanvasElement} canvas - Responsive gameplay canvas.
+ * @param {boolean} fillViewport - Whether the touch layout fills the window.
+ */
+function updateCanvasViewport(canvas, fillViewport) {
+    const nextWidth = getCanvasViewportWidth(fillViewport);
     if (canvas.width !== nextWidth) {
         canvas.width = nextWidth;
     }
@@ -45,20 +49,16 @@ function updateCanvasViewport(canvas) {
     }
 }
 
-/** @returns {number} Logical width matching the active viewport ratio. */
-function getCanvasViewportWidth() {
-    if (!usesTouchLandscapeViewport()) {
+/**
+ * @param {boolean} fillViewport - Whether the touch layout fills the window.
+ * @returns {number} Logical width for the active game layout.
+ */
+function getCanvasViewportWidth(fillViewport) {
+    if (!fillViewport) {
         return GAME_CONFIG.canvasWidth;
     }
     const ratio = window.innerWidth / Math.max(1, window.innerHeight);
     return Math.round(GAME_CONFIG.canvasHeight * ratio);
-}
-
-/** @returns {boolean} Whether mobile landscape rendering is active. */
-function usesTouchLandscapeViewport() {
-    const root = document.documentElement;
-    return root.classList.contains('has-touch-controls') &&
-        window.matchMedia('(orientation: landscape)').matches;
 }
 
 /** Creates managers shared by the game and interface controllers. */

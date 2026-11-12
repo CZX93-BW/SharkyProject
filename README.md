@@ -319,7 +319,8 @@ Wichtige Breakpoints:
 | bis 900 px | einspaltige Karten und Anleitungen |
 | bis 760 px | kompaktes Seiten-, HUD- und Dialoglayout |
 | bis 520 px | kleinere Touch-Steuerung |
-| bis 620 px Höhe im Querformat | bildschirmfüllendes Spiellayout |
+| Touch als primäre Eingabe im Querformat | Spielfläche füllt das Fenster, auch auf großen Tablets |
+| Desktop mit Maus oder Trackpad | Spielkarte im Fenster, Vollbild über den Vollbild-Button |
 | bis 430 px Höhe im Querformat | stark reduziertes mobiles Layout |
 
 Zusätzlich berücksichtigt die Anwendung:

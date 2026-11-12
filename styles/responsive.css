@@ -172,7 +172,7 @@
     }
 }
 
-@media (max-height: 620px) and (orientation: landscape) {
+@media (max-height: 620px) and (pointer: coarse) and (orientation: landscape) {
     .main-menu-screen {
         width: 100%;
         height: 100dvh;
@@ -480,8 +480,7 @@
 
 /* Touch viewport ownership */
 
-@media (max-width: 1180px) and (orientation: landscape),
-       (pointer: coarse) and (orientation: landscape) {
+@media (pointer: coarse) and (orientation: landscape) {
     html.is-game-screen,
     html.is-game-screen body,
     html.is-main-menu-screen,
@@ -556,7 +555,7 @@
     }
 }
 
-@media (max-height: 430px) and (orientation: landscape) {
+@media (max-height: 430px) and (pointer: coarse) and (orientation: landscape) {
     .hero-feature-list,
     .hero-text,
     .hero-content .eyebrow,
@@ -620,7 +619,7 @@
     }
 }
 
-@media (max-height: 280px) and (orientation: landscape) {
+@media (max-height: 280px) and (pointer: coarse) and (orientation: landscape) {
     .main-menu-hero {
         grid-template-columns:
             minmax(0, 1fr)

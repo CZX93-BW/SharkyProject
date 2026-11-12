@@ -25,11 +25,11 @@ test('scroll fallback is limited to extremely short viewports', () => {
 
     assert.match(
         css,
-        /@media \(max-height:\s*280px\) and \(orientation:\s*landscape\)/
+        /@media \(max-height:\s*280px\) and \(pointer: coarse\) and \(orientation:\s*landscape\)/
     );
 });
 
-test('touch screens own the complete landscape viewport', () => {
+test('only touch landscape uses automatic viewport sizing, including short windows', () => {
     const css = readProjectFile('styles/responsive.css');
     const screenManager = readProjectFile(
         'js/ui/screen-manager.class.js'
@@ -48,7 +48,11 @@ test('touch screens own the complete landscape viewport', () => {
         screenManager,
         /classList\.toggle\(\s*'is-game-screen'/
     );
-    assert.match(mainScript, /getCanvasViewportWidth/);
+    const touchLandscape = '(pointer: coarse) and (orientation: landscape)';
+    assert.ok(css.includes('@media ' + touchLandscape + ' {'));
+    assert.doesNotMatch(css, /@media \(max-width:\s*1180px\) and \(orientation: landscape\)/);
+    assert.ok(css.includes('@media (max-height: 620px) and ' + touchLandscape + ' {'));
+    assert.ok(mainScript.includes(touchLandscape));
 });
 
 /**
@@ -57,10 +61,10 @@ test('touch screens own the complete landscape viewport', () => {
  */
 function getLandscapeRules(css) {
     const start = css.indexOf(
-        '@media (max-height: 620px) and (orientation: landscape)'
+        '@media (max-height: 620px)'
     );
     const end = css.indexOf(
-        '@media (max-height: 430px) and (orientation: landscape)'
+        '@media (max-height: 430px)'
     );
 
     return css.slice(start, end);
