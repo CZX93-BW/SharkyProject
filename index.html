@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/main-menu.css">
     <link rel="stylesheet" href="styles/layout.css">
-    <link rel="stylesheet" href="styles/game.css">
+    <link rel="stylesheet" href="styles/game.css?v=2">
     <link rel="stylesheet" href="styles/components.css">
-    <link rel="stylesheet" href="styles/responsive.css?v=responsive-4">
+    <link rel="stylesheet" href="styles/responsive.css?v=responsive-5">
     <link rel="stylesheet" href="styles/orientation.css">
     <link rel="stylesheet" href="styles/menu-screen.css">
 </head>
@@ -120,9 +120,7 @@
                 </div>
 
                 <p>
-                    Starte direkt mit Level 1 oder teste Level 2 für die
-                    Entwicklung. Später kann Level 2 sauber über den Shop
-                    freigeschaltet werden.
+                    Starte im ersten Riff oder wähle Level 2 direkt aus.
                 </p>
 
                 <div class="panel-grid">
@@ -141,12 +139,11 @@
                     <article class="panel-option">
                         <h3>Level 2</h3>
                         <p>
-                            Die tiefere Riffzone. Aktuell als Testzugang
-                            verfügbar.
+                            Im zweiten Riff warten mehr Gegner und ein stärkerer Boss.
                         </p>
                         <button class="secondary-button"
                             data-start-level="2">
-                            Level 2 testen
+                            Level 2 starten
                         </button>
                     </article>
                 </div>
@@ -498,11 +495,12 @@
             </section>
 
             <!-- Shop Screen -->
-            <section id="shopScreen"
+            <section id="shopScreen" role="dialog" aria-modal="true"
+                aria-labelledby="shopScreenTitle"
                 class="menu-overlay hidden">
                 <div class="menu-content shop-content">
                     <p class="eyebrow">Riff-Shop</p>
-                    <h2>Bereite Sharky vor</h2>
+                    <h2 id="shopScreenTitle">Bereite Sharky vor</h2>
                     <p>
                         Das erste Riff ist geschafft. Nutze gesammelte
                         Münzen, um Sharky für die nächste Tiefe zu stärken.
@@ -564,11 +562,12 @@
             </section>
 
             <!-- Game Over Screen -->
-            <section id="gameOverScreen"
+            <section id="gameOverScreen" role="dialog" aria-modal="true"
+                aria-labelledby="gameOverScreenTitle"
                 class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission gescheitert</p>
-                    <h2>Sharky braucht eine Pause</h2>
+                    <h2 id="gameOverScreenTitle">Sharky braucht eine Pause</h2>
                     <p>
                         Die Tiefsee war diesmal etwas bissig.
                         Versuch es nochmal.
@@ -589,11 +588,12 @@
             </section>
 
             <!-- Win Screen -->
-            <section id="winScreen"
+            <section id="winScreen" role="dialog" aria-modal="true"
+                aria-labelledby="winScreenTitle"
                 class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Mission geschafft</p>
-                    <h2>Riff gesichert</h2>
+                    <h2 id="winScreenTitle">Riff gesichert</h2>
                     <p>
                         Sharky hat beide Riffzonen gemeistert.
                         Die Tiefsee kann aufatmen.
@@ -698,17 +698,19 @@
                     <span id="statusDisplay">Status: Menü</span>
                 </div>
 
-                <div class="ingame-control-rail">
-                    <button id="pausePlayButton"
-                        class="icon-button"
-                        aria-label="Spiel pausieren oder fortsetzen">
-                        ⏸
-                    </button>
-                </div>
+                <div class="canvas-stage">
+                    <div class="ingame-control-rail">
+                        <button id="pausePlayButton"
+                            class="icon-button"
+                            aria-label="Spiel pausieren oder fortsetzen">
+                            ⏸
+                        </button>
+                    </div>
 
-                <canvas id="gameCanvas" tabindex="-1" aria-label="Sharky-Spielfeld" width="960" height="540">
-                    Dein Browser unterstützt kein Canvas.
-                </canvas>
+                    <canvas id="gameCanvas" tabindex="-1" aria-label="Sharky-Spielfeld" width="960" height="540">
+                        Dein Browser unterstützt kein Canvas.
+                    </canvas>
+                </div>
 
                 <!-- Mobile Controls -->
                 <div class="mobile-controls"
@@ -754,15 +756,15 @@
     <script src="js/config/level-config.js"></script>
     <script src="js/config/asset-config.js"></script>
     <script src="js/core/game-clock.class.js"></script>
-    <script src="js/systems/audio-manager.class.js?v=audio-3"></script>
+    <script src="js/systems/audio-manager.class.js?v=audio-4"></script>
     <script src="js/ui/story-narrator.class.js"></script>
-    <script src="js/ui/screen-manager.class.js?v=screen-2"></script>
+    <script src="js/ui/screen-manager.class.js?v=screen-3"></script>
     <script src="js/ui/main-menu-controller.class.js"></script>
     <script src="js/ui/display-settings-controller.class.js"></script>
     <script src="js/ui/ui-audio-controls.class.js"></script>
-    <script src="js/ui/ui-status-controller.class.js"></script>
+    <script src="js/ui/ui-status-controller.class.js?v=2"></script>
     <script src="js/ui/ui-event-binder.class.js"></script>
-    <script src="js/ui/ui-controller.class.js?v=ui-6"></script>
+    <script src="js/ui/ui-controller.class.js?v=ui-7"></script>
     <script src="js/ui/debug-checklist.class.js"></script>
     <script src="js/core/drawable-object.class.js"></script>
     <script src="js/core/movable-object.class.js"></script>
@@ -796,7 +798,7 @@
     <script src="js/game/game-status-renderer.class.js?v=status-2"></script>
     <script src="js/game/game-renderer.class.js"></script>
     <script src="js/game/game.class.js"></script>
-    <script src="js/main.js?v=main-3"></script>
+    <script src="js/main.js?v=main-4"></script>
 </body>
 
 </html>

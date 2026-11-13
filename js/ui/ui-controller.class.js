@@ -28,6 +28,7 @@ class UiController {
     /** Registers interface events and restores the main-menu state. */
     initialize() {
         this.eventBinder.bindApplicationEvents();
+        window.addEventListener('resize', () => this.pauseInPortrait());
         this.initializeStoryButtons();
         this.audioControls.updateAudioControls();
         this.screenManager.showMainMenuScreen();
@@ -117,6 +118,9 @@ class UiController {
     buySelectedUpgrade(event) {
         const upgradeName = event.currentTarget.dataset.upgrade;
         this.game.purchaseUpgrade(upgradeName);
+        if (event.currentTarget.disabled) {
+            document.getElementById('continueLevelTwoButton').focus();
+        }
     }
 
     /** Unlocks browser audio after user interaction. */
@@ -131,6 +135,16 @@ class UiController {
             return;
         }
         this.pauseGameIfPlaying();
+    }
+
+    /** @returns {boolean} Whether the touch orientation notice covers the game. */
+    isOrientationNoticeVisible() {
+        return document.getElementById('orientationNotice').offsetWidth > 0;
+    }
+
+    /** Pauses an active session while the device needs to be rotated. */
+    pauseInPortrait() {
+        if (this.isOrientationNoticeVisible()) this.pauseGameIfPlaying();
     }
 
     /** Pauses only while the game is actively playing. */
@@ -149,6 +163,7 @@ class UiController {
 
     /** Resumes gameplay and hides pause-related overlays. */
     resumeGame() {
+        if (this.isOrientationNoticeVisible()) return;
         this.game.resume();
         this.screenManager.hidePauseScreen();
         this.screenManager.hideIngameSettingsDialog();
@@ -207,5 +222,6 @@ class UiController {
         this.screenManager.setIngameControlDisabled(false);
         this.panelOpener = null;
         document.getElementById('gameCanvas').focus();
+        this.pauseInPortrait();
     }
 }

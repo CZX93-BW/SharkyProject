@@ -5,8 +5,9 @@ const AUDIO_SETTINGS_KEY = 'sharkyAudioSettings';
 
 /** Controls music tracks, sound effects, muting, and persistent volume values. */
 class AudioManager {
-    /** Creates all audio elements and restores the saved user preferences. */
-    constructor() {
+    /** @param {Function} [isGamePaused] - Whether gameplay music must remain paused. */
+    constructor(isGamePaused = () => false) {
+        this.isGamePaused = isGamePaused;
         const settings = this.loadSettings();
         this.initializeSettings(settings);
         this.isUnlocked = false;
@@ -276,7 +277,7 @@ class AudioManager {
     /** @param {HTMLAudioElement|null} music - Track to validate.
      * @returns {boolean} Whether it may play. */
     canPlayMusic(music) {
-        return Boolean(this.isUnlocked && this.musicEnabled &&
+        return Boolean(this.isUnlocked && !this.isGamePaused() && this.musicEnabled &&
             !this.muted && music);
     }
 

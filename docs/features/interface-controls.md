@@ -27,6 +27,8 @@ Für die drei Angriffstasten werden separate Pointer-Ereignisse verwendet. Damit
 
 Beim Öffnen eines Dialogs wird ein Bedienelement im Dialog fokussiert. Tab und Umschalt+Tab wechseln zwischen den erreichbaren Elementen. Beim Schließen der Hauptmenü-Panels wird der Auslöser wieder fokussiert. Nach Spielstart oder Fortsetzen erhält das Canvas mit `tabindex="-1"` den Fokus.
 
+Beim Drehen eines Touchgeräts ins Hochformat pausiert ein laufendes Spiel. Nach der Rückkehr ins Querformat wird mit **Weiter** fortgesetzt. Beim Eintritt in Shop, Niederlage oder Sieg wird die Hauptaktion des Dialogs fokussiert.
+
 In der Spielansicht bleibt die Pause unterhalb der Bossleiste erreichbar. Aus den Spieleinstellungen führt Esc zurück zur Pause und von dort weiter ins Spiel. Bei aktivem Browser-Vollbild wird die Behandlung von Esc dem Browser überlassen. Ein Klick auf den Hintergrund schließt das jeweils dafür vorgesehene Panel. Ein Klick auf Inhalte innerhalb der Karte zählt dabei nicht als Hintergrundklick.
 
 ## Hauptmenü und Geschichte

@@ -63,7 +63,7 @@ function getCanvasViewportWidth(fillViewport) {
 
 /** Creates managers shared by the game and interface controllers. */
 function createCoreManagers() {
-    audioManager = new AudioManager();
+    audioManager = new AudioManager(() => sharkyGame?.gameState.status === 'paused');
     storyNarrator = new StoryNarrator('storyText');
     screenManager = new ScreenManager();
 }

@@ -164,6 +164,74 @@
     }
 }
 
+/* Windowed desktop gameplay */
+
+@media (pointer: fine) and (orientation: landscape) and (max-height: 850px) {
+    html.is-game-screen:not(.is-fullscreen) .page-layout {
+        height: 100dvh;
+        padding: clamp(4px, 2vh, 16px);
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .game-card {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        max-height: 100%;
+        padding: clamp(8px, 2vh, 20px);
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .game-header h1 {
+        font-size: clamp(2rem, 5vh, 4rem);
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .game-area {
+        min-height: 0;
+        background: transparent;
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .canvas-stage {
+        position: relative;
+        display: grid;
+        grid-area: 2 / 1;
+        place-self: center;
+        height: 100%;
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: var(--border-radius-medium);
+        overflow: hidden;
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .canvas-stage > * {
+        grid-area: 1 / 1;
+    }
+
+    .game-card :is(.menu-overlay, .ingame-dialog) {
+        align-items: safe center;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 520px) and (pointer: fine) and (orientation: landscape) {
+    html.is-game-screen:not(.is-fullscreen) .game-area {
+        grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .canvas-stage {
+        display: contents;
+    }
+
+    html.is-game-screen:not(.is-fullscreen) .canvas-stage .ingame-control-rail {
+        grid-area: 2 / 1;
+    }
+
+    html.is-game-screen:not(.is-fullscreen) #gameCanvas {
+        grid-area: 3 / 1;
+        place-self: center;
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
 @media (max-height: 620px) and (pointer: coarse) and (orientation: landscape) {
     .main-menu-screen {
         width: 100%;

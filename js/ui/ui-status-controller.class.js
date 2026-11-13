@@ -18,17 +18,18 @@ class UiStatusController {
     handleGameStatusUpdate(gameState) {
         this.updateGameHud(gameState);
         this.updateShopHud(gameState);
-        this.updateStatusScreens(gameState);
         this.updateIngameControlButtons(gameState);
-        this.playStatusSoundIfNeeded(gameState.status);
+        this.handleStatusChange(gameState.status);
     }
 
     /** @param {string} status - Current game status. */
-    playStatusSoundIfNeeded(status) {
+    handleStatusChange(status) {
         if (status === this.previousGameStatus) {
             return;
         }
         this.previousGameStatus = status;
+        this.screenManager.hideStatusScreens();
+        this.showStatusScreen(status);
         this.playStatusSound(status);
     }
 
@@ -129,12 +130,6 @@ class UiStatusController {
             gameOver: 'Verloren',
             levelComplete: 'Geschafft'
         };
-    }
-
-    /** @param {GameState} gameState - Current game state. */
-    updateStatusScreens(gameState) {
-        this.screenManager.hideStatusScreens();
-        this.showStatusScreen(gameState.status);
     }
 
     /** @param {string} status - Current game status. */

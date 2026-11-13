@@ -9,6 +9,10 @@
     background: #052638;
 }
 
+.canvas-stage {
+    display: contents;
+}
+
 .game-hud {
     grid-area: 1 / 1;
     display: none;

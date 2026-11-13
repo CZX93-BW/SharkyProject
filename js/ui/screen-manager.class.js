@@ -100,17 +100,27 @@ class ScreenManager {
 
     /** Shows the between-level shop screen. */
     showShopScreen() {
-        this.showElement('shopScreen');
+        this.showStatusDialog('shopScreen', 'continueLevelTwoButton');
     }
 
     /** Shows the game-over screen. */
     showGameOverScreen() {
-        this.showElement('gameOverScreen');
+        this.showStatusDialog('gameOverScreen', 'gameOverRestartButton');
     }
 
     /** Shows the final win screen. */
     showWinScreen() {
-        this.showElement('winScreen');
+        this.showStatusDialog('winScreen', 'winRestartButton');
+    }
+
+    /**
+     * @param {string} dialogId - Status dialog to display.
+     * @param {string} buttonId - Primary action receiving keyboard focus.
+     */
+    showStatusDialog(dialogId, buttonId) {
+        this.showElement(dialogId);
+        this.setGameBackgroundInert(true);
+        document.getElementById(buttonId).focus();
     }
 
     /** Hides shop, game-over, and win screens. */

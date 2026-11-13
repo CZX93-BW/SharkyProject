@@ -6,7 +6,7 @@ Musik und kurze Effekte werden mit HTML-Audioelementen abgespielt. Für Einstell
 
 Die Dateien für Spielmusik, Bossmusik und Effekte werden in der [Assetkonfiguration](../../js/config/asset-config.js) registriert. Beim ersten Bedienimpuls wird die Wiedergabe freigegeben. Im [AudioManager](../../js/systems/audio-manager.class.js) werden der gewünschte Musiktitel und die erlaubte Wiedergabe getrennt verwaltet. Ein Titel kann damit bereits ausgewählt sein, bevor die Wiedergabe nach Benutzerinteraktion möglich ist.
 
-Beim Levelstart wird die Spielmusik ausgewählt. In der Spielschleife wird der letzte beobachtete Bosszustand gespeichert. Bei Eintritt in die Einführung werden der Introeffekt und die Bossmusik ausgelöst. Beim Tod des Bosses wird auf die Spielmusik zurückgeschaltet. Durch den Vergleich mit dem vorigen Zustand wird der Effekt nur beim Zustandswechsel abgespielt. In der Pause werden Musik und aktive Effekte angehalten. [Audioübergänge in Game](../../js/game/game.class.js)
+Beim Levelstart wird die Spielmusik ausgewählt. In der Spielschleife wird der letzte beobachtete Bosszustand gespeichert. Bei Eintritt in die Einführung werden der Introeffekt und die Bossmusik ausgelöst. Beim Tod des Bosses wird auf die Spielmusik zurückgeschaltet. Durch den Vergleich mit dem vorigen Zustand wird der Effekt nur beim Zustandswechsel abgespielt. In der Pause werden Musik und aktive Effekte angehalten. Wird die Musik dort wieder eingeschaltet, wird der gewählte Titel erst beim Fortsetzen weitergespielt. [Audioübergänge in Game](../../js/game/game.class.js)
 
 ## Effekte und gespeicherte Werte
 
