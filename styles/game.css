@@ -1,19 +1,16 @@
 /* Game Area */
 
 .game-area {
-    --control-rail-top: 16px;
-
+    display: grid;
+    grid-template: auto minmax(0, 1fr) / minmax(0, 1fr);
     position: relative;
     overflow: hidden;
     border-radius: var(--border-radius-medium);
     background: #052638;
 }
 
-html.is-debug-mode .game-area {
-    --control-rail-top: 82px;
-}
-
 .game-hud {
+    grid-area: 1 / 1;
     display: none;
     align-items: center;
     flex-wrap: wrap;
@@ -39,6 +36,7 @@ html.is-debug-mode .game-hud {
 }
 
 #gameCanvas {
+    grid-area: 2 / 1;
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -49,11 +47,12 @@ html.is-debug-mode .game-hud {
 
 .ingame-control-rail {
     position: absolute;
-    top: var(--control-rail-top);
-    right: 16px;
+    grid-area: 2 / 1;
+    --boss-bar-bottom: calc(100% * 60 / 540);
+    top: max(calc(var(--boss-bar-bottom) + 6px), env(safe-area-inset-top));
+    right: max(8px, env(safe-area-inset-right));
     z-index: 8;
     display: grid;
-    gap: 10px;
 }
 
 .icon-button {
@@ -68,6 +67,12 @@ html.is-debug-mode .game-hud {
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
     cursor: pointer;
     backdrop-filter: blur(10px);
+}
+
+.ingame-control-rail .icon-button,
+.pause-options .icon-button {
+    width: 44px;
+    height: 44px;
 }
 
 .icon-button:hover {

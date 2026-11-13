@@ -259,3 +259,38 @@ kbd {
         overflow-wrap: anywhere;
     }
 }
+
+/* Compact start menu navigation */
+
+.menu-icon {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .menu-tools {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(44px, 4.5rem));
+        justify-content: space-evenly;
+    }
+
+    .menu-tools :is(button, a) > span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .menu-icon {
+        display: block;
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: currentColor;
+    }
+
+    .menu-tools [aria-pressed="true"] .icon-off,
+    .menu-tools [aria-pressed="false"] .icon-on {
+        display: none;
+    }
+}

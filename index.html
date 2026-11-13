@@ -67,14 +67,37 @@
             </div>
 
             <nav class="menu-tools" aria-label="Spieloptionen und Rechtliches">
-                <button type="button" data-main-panel="settingsPanel">Einstellungen</button>
+                <button type="button" data-main-panel="settingsPanel">
+                    <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path fill-rule="evenodd" d="M10 1h4l.8 3 2 .9 2.8-1.4 2.2 3.3-2 2.2.5 2.2 2.7 1.4-1 3.9-3.1-.1-1.6 1.6.1 3.1-3.9 1-1.4-2.7-2.2-.5-2.2 2-3.3-2.2 1.4-2.8-.9-2L1 13.9V10l3-.8 1-2-1-2.7 2.6-2.2 2.7 1.3ZM12 7.8a4.2 4.2 0 1 0 0 8.4 4.2 4.2 0 1 0 0-8.4Z"/>
+                    </svg>
+                    <span>Einstellungen</span>
+                </button>
                 <button type="button" data-display-action="theme" aria-pressed="true">
+                    <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path class="icon-on" d="M19.8 15.4A8.6 8.6 0 0 1 9 4.2a.8.8 0 0 0-1-1A10 10 0 1 0 21 16.4a.8.8 0 0 0-1.2-1Z"/>
+                        <g class="icon-off">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+                        </g>
+                    </svg>
                     <span data-display-label>Darstellung: Dunkel</span>
                 </button>
                 <button type="button" data-display-action="fullscreen" aria-pressed="false">
+                    <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path class="icon-off" d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/>
+                            <path class="icon-on" d="M3 8h5V3m8 0v5h5m0 8h-5v5m-8 0v-5H3"/>
+                        </g>
+                    </svg>
                     <span data-display-label>Vollbild: Aus</span>
                 </button>
-                <a href="legal.html">Impressum</a>
+                <a href="legal.html">
+                    <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M5 3h9l5 5v13H5zM14 3v6h5M8.5 13h7m-7 4h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Impressum</span>
+                </a>
             </nav>
         </section>
 
@@ -440,10 +463,6 @@
                 <div class="menu-content">
                     <p class="eyebrow">Pause</p>
                     <h2>Spiel pausiert</h2>
-                    <p>
-                        Atme kurz durch. Auch Haie brauchen mal eine Sekunde.
-                    </p>
-
                     <div class="menu-actions">
                         <button id="resumeButton"
                             class="primary-button">
@@ -459,6 +478,16 @@
                             class="secondary-button">
                             Hauptmenü
                         </button>
+                    </div>
+
+                    <div class="pause-options" role="group" aria-label="Spieloptionen">
+                        <button id="musicToggleButton" class="icon-button"
+                            aria-label="Audio ausschalten" aria-pressed="true"></button>
+                        <button id="openSettingsButton" class="secondary-button">
+                            Einstellungen
+                        </button>
+                        <button class="secondary-button" data-display-action="fullscreen"
+                            aria-pressed="false">Vollbild: Aus</button>
                     </div>
                 </div>
             </section>
@@ -664,28 +693,7 @@
                     <span id="statusDisplay">Status: Menü</span>
                 </div>
 
-                <div class="ingame-control-rail"
-                    aria-label="Schnellzugriff im Spiel">
-                    <button id="musicToggleButton"
-                        class="icon-button"
-                        aria-label="Audio an oder aus"
-                        aria-pressed="true">
-                    </button>
-
-                    <button id="openSettingsButton"
-                        class="icon-button"
-                        aria-label="Einstellungen öffnen">
-                        ⚙
-                    </button>
-
-                    <button class="icon-button"
-                        data-display-action="fullscreen"
-                        data-display-compact="true"
-                        aria-label="Vollbild aktivieren"
-                        aria-pressed="false">
-                        ⛶
-                    </button>
-
+                <div class="ingame-control-rail">
                     <button id="pausePlayButton"
                         class="icon-button"
                         aria-label="Spiel pausieren oder fortsetzen">

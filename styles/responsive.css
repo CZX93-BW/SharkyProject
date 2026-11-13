@@ -90,13 +90,6 @@
         display: none;
     }
 
-    .ingame-control-rail {
-        top: 8px;
-        right: 8px;
-        grid-template-columns: repeat(2, 38px);
-        gap: 6px;
-    }
-
     .icon-button {
         width: 38px;
         height: 38px;
@@ -122,6 +115,31 @@
 
     #gameCanvas {
         min-height: 0;
+    }
+}
+
+@media (max-width: 520px) and (pointer: fine) {
+    .game-area {
+        grid-template: auto auto auto / minmax(0, 1fr);
+    }
+
+    .ingame-control-rail {
+        position: static;
+        grid-area: 2 / 1;
+        justify-self: end;
+        margin: 4px 8px;
+    }
+
+    #gameCanvas {
+        grid-area: 3 / 1;
+    }
+
+    #pauseScreen,
+    #ingameSettingsDialog {
+        position: fixed;
+        inset: 0;
+        align-items: safe center;
+        overflow-y: auto;
     }
 }
 
@@ -206,13 +224,6 @@
         background: rgba(2, 14, 22, 0.64);
         font-size: 1rem;
         backdrop-filter: blur(6px);
-    }
-
-    .ingame-control-rail {
-        top: 6px;
-        right: 6px;
-        grid-template-columns: repeat(2, 34px);
-        gap: 5px;
     }
 
     .icon-button {

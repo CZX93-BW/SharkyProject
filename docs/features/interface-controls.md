@@ -54,7 +54,11 @@ Das Hauptmenü enthält:
 | Geschichte | zeigt und optional liest den Storytext |
 | Darstellung | wechselt zwischen Hell und Dunkel |
 | Vollbild | aktiviert oder beendet Vollbild |
-| Impressum | öffnet `imprint.html` |
+| Impressum | öffnet `legal.html` |
+
+Bis 1024 CSS-Pixel Fensterbreite zeigt die untere Hauptmenüleiste
+Zahnrad, Mond oder Sonne, Vollbildsymbol und Dokument an. Die Textnamen
+bleiben für Screenreader verfügbar.
 
 ## Hauptmenü-Panels
 
@@ -151,18 +155,12 @@ des verfügbaren Platzes ausgeblendet werden.
 
 ## Ingame-Schnellzugriff
 
-Rechts über der Spielfläche befindet sich eine Gruppe runder
-Schnellzugriffsschaltflächen.
+Im laufenden Spiel öffnet die Pausentaste das Pausemenü. Sie sitzt rechts
+unter der Boss-Lebensleiste. In schmalen Fenstern mit Maus bis 520 CSS-Pixel
+Breite erhält sie eine eigene Zeile oberhalb des Canvas.
 
-| Schaltfläche | Funktion |
-| --- | --- |
-| Audio | Musik und Soundeffekte gemeinsam umschalten |
-| Einstellungen | Ingame-Einstellungsdialog öffnen |
-| Vollbild | Vollbildmodus wechseln |
-| Pause/Play | Spiel pausieren oder fortsetzen |
-
-Die Schaltflächen liegen als DOM-Elemente über dem Canvas und bleiben dadurch
-unabhängig vom sichtbaren Kameraausschnitt erreichbar.
+Das Pausemenü bündelt Audio, Einstellungen und Vollbild. Nach dem Schließen
+der Einstellungen bleibt das Spiel pausiert. „Weiter“ setzt es fort.
 
 ## Pause
 
@@ -190,28 +188,9 @@ Das Pause-Overlay bietet:
 
 ## Ingame-Einstellungen
 
-Beim Öffnen des Einstellungsdialogs speichert `UiController`, ob das Spiel zuvor
-aktiv lief.
-
-### Öffnen während `playing`
-
-- das Spiel wird pausiert
-- der Dialog wird geöffnet
-- beim Schließen wird das Spiel fortgesetzt
-
-### Öffnen während eines bereits pausierten Zustands
-
-- der bestehende Pausenzustand bleibt erhalten
-- beim Schließen erfolgt keine automatische Fortsetzung
-
-Dafür verwendet der Controller:
-
-```js
-wasPlayingBeforeSettings
-```
-
-Dadurch verändert das Schließen der Einstellungen nicht versehentlich einen
-zuvor bewusst gesetzten Pausenzustand.
+„Einstellungen“ öffnet aus der Pause den Einstellungsdialog. Beim Schließen
+erscheint das Pausemenü und der Fokus kehrt zur Schaltfläche „Einstellungen“
+zurück. Erst „Weiter“ setzt das Spiel fort.
 
 ## Statusscreens
 

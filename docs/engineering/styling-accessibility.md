@@ -343,15 +343,8 @@ Der Spielheader wechselt in eine vertikale Darstellung:
 }
 ```
 
-Die Ingame-Steuerung wird kompakter und zweispaltig:
-
-```css
-.ingame-control-rail {
-    top: 8px;
-    right: 8px;
-    grid-template-columns: repeat(2, 38px);
-}
-```
+Die Pausentaste hat eine Bedienfläche von 44 × 44 CSS-Pixeln. Bei schmalen
+Mausfenstern bis 520 CSS-Pixel Breite steht sie oberhalb des Canvas.
 
 Der ausführliche Status wird ausgeblendet:
 

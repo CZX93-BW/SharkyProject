@@ -13,7 +13,6 @@ class UiController {
         this.audioManager = audioManager;
         this.storyNarrator = storyNarrator;
         this.screenManager = screenManager;
-        this.wasPlayingBeforeSettings = false;
         this.createUiServices();
     }
 
@@ -141,6 +140,7 @@ class UiController {
     pauseGame() {
         this.game.pause();
         this.screenManager.showPauseScreen();
+        document.getElementById('resumeButton')?.focus();
     }
 
     /** Resumes gameplay and hides pause-related overlays. */
@@ -148,6 +148,7 @@ class UiController {
         this.game.resume();
         this.screenManager.hidePauseScreen();
         this.screenManager.hideIngameSettingsDialog();
+        document.getElementById('pausePlayButton')?.focus();
     }
 
     /** Restarts the current level and restores the game screen. */
@@ -164,37 +165,18 @@ class UiController {
         this.showMainMenuScreen();
     }
 
-    /** Opens settings and remembers the previous gameplay state. */
+    /** Opens settings from the pause menu and focuses its close button. */
     openIngameSettingsDialog() {
-        this.wasPlayingBeforeSettings = this.isGamePlaying();
-        this.pauseGameForSettingsIfNeeded();
+        this.screenManager.hidePauseScreen();
         this.screenManager.showIngameSettingsDialog();
+        document.getElementById('closeSettingsButton')?.focus();
     }
 
-    /** @returns {boolean} Whether gameplay is currently active. */
-    isGamePlaying() {
-        return this.game.gameState.status === 'playing';
-    }
-
-    /** Pauses gameplay when settings open during active play. */
-    pauseGameForSettingsIfNeeded() {
-        if (this.wasPlayingBeforeSettings) {
-            this.game.pause();
-        }
-    }
-
-    /** Closes settings and restores the previous gameplay state. */
+    /** Returns to the pause menu with gameplay still paused. */
     closeIngameSettingsDialog() {
         this.screenManager.hideIngameSettingsDialog();
-        this.resumeGameAfterSettingsIfNeeded();
-        this.wasPlayingBeforeSettings = false;
-    }
-
-    /** Resumes gameplay when settings caused the pause. */
-    resumeGameAfterSettingsIfNeeded() {
-        if (this.wasPlayingBeforeSettings) {
-            this.game.resume();
-        }
+        this.screenManager.showPauseScreen();
+        document.getElementById('openSettingsButton')?.focus();
     }
 
     /** @param {GameState} gameState - Updated game state. */
