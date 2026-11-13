@@ -2,8 +2,9 @@
 
 /** Combines keyboard and mobile inputs into one normalized game input state. */
 class Keyboard {
-    /** Creates all input states and registers keyboard lifecycle listeners. */
-    constructor() {
+    /** @param {Function} [isPlaying] - Whether gameplay owns keyboard input. */
+    constructor(isPlaying = () => true) {
+        this.isPlaying = isPlaying;
         this.pressedKeys = {};
         this.mobileMovement = this.createMobileMovement();
         this.mobileActions = this.createMobileActions();
@@ -70,21 +71,26 @@ class Keyboard {
 
     /** @param {KeyboardEvent} event - Browser key-down event. */
     handleKeyDown(event) {
-        this.preventBrowserMovement(event);
-        this.setKeyState(event.code, true);
+        if (this.ownsKey(event)) {
+            event.preventDefault();
+            if (!event.repeat) this.setKeyState(event.code, true);
+        }
     }
 
     /** @param {KeyboardEvent} event - Browser key-up event. */
     handleKeyUp(event) {
-        this.preventBrowserMovement(event);
+        if (this.ownsKey(event)) event.preventDefault();
         this.setKeyState(event.code, false);
     }
 
-    /** @param {KeyboardEvent} event - Keyboard event to inspect. */
-    preventBrowserMovement(event) {
-        if (this.isGameKey(event.code)) {
-            event.preventDefault();
-        }
+    /**
+     * @param {KeyboardEvent} event - Keyboard event to inspect.
+     * @returns {boolean} Whether gameplay should consume this key.
+     */
+    ownsKey(event) {
+        return this.isPlaying() && this.isGameKey(event.code) &&
+            !event.altKey && !event.ctrlKey && !event.metaKey &&
+            !event.target.closest?.('button, a, input, select, textarea, [contenteditable]');
     }
 
     /**

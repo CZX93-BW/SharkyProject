@@ -12,7 +12,7 @@ window.addEventListener('load', initializeApplication);
 
 /** Creates and connects every application controller after the page loads. */
 function initializeApplication() {
-    const keyboard = new Keyboard();
+    const keyboard = new Keyboard(() => sharkyGame?.gameState.status === 'playing');
     const canvas = document.getElementById('gameCanvas');
 
     createCoreManagers();

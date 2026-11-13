@@ -14,6 +14,53 @@ class UiEventBinder {
         this.bindIngameControlButtons();
         this.controller.audioControls.bindControls();
         this.bindInterfaceClickSound();
+        this.bindDialogNavigation();
+    }
+
+    /** Registers keyboard navigation and game-dialog backdrop actions. */
+    bindDialogNavigation() {
+        document.addEventListener('keydown', (event) => this.handleDialogKey(event));
+        this.bindBackdrop(document.getElementById('ingameSettingsDialog'),
+            () => this.controller.closeIngameSettingsDialog());
+        this.bindBackdrop(document.getElementById('pauseScreen'),
+            () => this.controller.resumeGame());
+    }
+
+    /** @param {KeyboardEvent} event - Browser navigation key. */
+    handleDialogKey(event) {
+        if (event.key !== 'Escape' && event.key !== 'Tab') return;
+        const dialog = document.querySelector('[aria-modal="true"]:not(.hidden)');
+        if (event.key === 'Tab') {
+            if (dialog) this.wrapDialogFocus(dialog, event);
+        } else if (!event.repeat && !event.defaultPrevented && !document.fullscreenElement) {
+            this.handleEscape(dialog);
+        }
+    }
+
+    /** @param {HTMLElement|null} dialog - Currently visible dialog. */
+    handleEscape(dialog) {
+        if (dialog?.matches('.main-menu-panel')) {
+            this.controller.closeMainMenuPanels();
+        } else if (dialog?.id === 'ingameSettingsDialog') {
+            this.controller.closeIngameSettingsDialog();
+        } else {
+            this.controller.togglePauseState();
+        }
+    }
+
+    /**
+     * @param {HTMLElement} dialog - Active dialog.
+     * @param {KeyboardEvent} event - Forward or backward tab navigation.
+     */
+    wrapDialogFocus(dialog, event) {
+        const controls = [...dialog.querySelectorAll('button:enabled, input:enabled, a[href]')]
+            .filter((control) => control.getClientRects().length);
+        const first = controls[0];
+        const last = controls.at(-1);
+        if (first && document.activeElement === (event.shiftKey ? first : last)) {
+            event.preventDefault();
+            (event.shiftKey ? last : first).focus();
+        }
     }
 
     /** Plays the interface click sound for active buttons and links. */
@@ -78,17 +125,22 @@ class UiEventBinder {
     bindPanelBackdropListeners() {
         const panels = document.querySelectorAll('.main-menu-panel');
         panels.forEach((panel) => {
-            panel.addEventListener('click', (event) => {
-                this.closePanelFromBackdrop(event);
-            });
+            this.bindBackdrop(panel, () => this.controller.closeMainMenuPanels());
         });
     }
 
-    /** @param {MouseEvent} event - Main-menu panel click event. */
-    closePanelFromBackdrop(event) {
-        if (event.target === event.currentTarget) {
-            this.controller.closeMainMenuPanels();
-        }
+    /**
+     * @param {HTMLElement} panel - Dialog backdrop.
+     * @param {Function} close - Closes the current dialog.
+     */
+    bindBackdrop(panel, close) {
+        let startedOutside = true;
+        panel.addEventListener('pointerdown', (event) => {
+            startedOutside = event.target === panel;
+        });
+        panel.addEventListener('click', (event) => {
+            if (startedOutside && event.target === panel) close();
+        });
     }
 
     /** Registers story narration listeners. */

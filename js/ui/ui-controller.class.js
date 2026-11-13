@@ -79,6 +79,7 @@ class UiController {
     /** @param {Event} event - Main-menu panel selection event. */
     openSelectedPanel(event) {
         const panelId = event.currentTarget.dataset.mainPanel;
+        this.panelOpener = event.currentTarget;
         this.openMainMenuPanel(panelId);
     }
 
@@ -86,12 +87,15 @@ class UiController {
     openMainMenuPanel(panelId) {
         this.stopStory();
         this.screenManager.openMainMenuPanel(panelId);
+        document.getElementById(panelId).querySelector('[data-close-panel]').focus();
     }
 
     /** Stops narration and closes every main-menu panel. */
     closeMainMenuPanels() {
         this.stopStory();
         this.screenManager.closeMainMenuPanels();
+        this.panelOpener?.focus();
+        this.panelOpener = null;
     }
 
     /** @param {Event} event - Level-selection click event. */
@@ -148,7 +152,7 @@ class UiController {
         this.game.resume();
         this.screenManager.hidePauseScreen();
         this.screenManager.hideIngameSettingsDialog();
-        document.getElementById('pausePlayButton')?.focus();
+        document.getElementById('gameCanvas').focus();
     }
 
     /** Restarts the current level and restores the game screen. */
@@ -193,6 +197,7 @@ class UiController {
     showMainMenuScreen() {
         this.closeMainMenuPanels();
         this.screenManager.showMainMenuScreen();
+        document.querySelector('.menu-launch [data-start-level]').focus();
     }
 
     /** Stops narration and restores active gameplay controls. */
@@ -200,5 +205,7 @@ class UiController {
         this.stopStory();
         this.screenManager.showGameScreen();
         this.screenManager.setIngameControlDisabled(false);
+        this.panelOpener = null;
+        document.getElementById('gameCanvas').focus();
     }
 }

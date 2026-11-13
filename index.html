@@ -102,13 +102,14 @@
         </section>
 
         <!-- Level Selection Panel -->
-        <section id="levelSelectPanel"
+        <section id="levelSelectPanel" role="dialog" aria-modal="true"
+            aria-labelledby="levelSelectPanelTitle"
             class="main-menu-panel hidden">
             <div class="panel-card">
                 <div class="panel-header">
                     <div>
                         <p class="eyebrow">Levelauswahl</p>
-                        <h2>Wähle deine Riffzone</h2>
+                        <h2 id="levelSelectPanelTitle">Wähle deine Riffzone</h2>
                     </div>
 
                     <button class="icon-button small-icon-button"
@@ -157,13 +158,14 @@
         </section>
 
         <!-- Settings Panel -->
-        <section id="settingsPanel"
+        <section id="settingsPanel" role="dialog" aria-modal="true"
+            aria-labelledby="settingsPanelTitle"
             class="main-menu-panel hidden">
             <div class="panel-card">
                 <div class="panel-header">
                     <div>
                         <p class="eyebrow">Einstellungen</p>
-                        <h2>Spielgefühl</h2>
+                        <h2 id="settingsPanelTitle">Spielgefühl</h2>
                     </div>
 
                     <button class="icon-button small-icon-button"
@@ -235,13 +237,14 @@
         </section>
 
         <!-- Instructions Panel -->
-        <section id="howToPlayPanel"
+        <section id="howToPlayPanel" role="dialog" aria-modal="true"
+            aria-labelledby="howToPlayPanelTitle"
             class="main-menu-panel hidden">
             <div class="panel-card wide-panel-card">
                 <div class="panel-header">
                     <div>
                         <p class="eyebrow">Anleitung</p>
-                        <h2>So steuerst du Sharky</h2>
+                        <h2 id="howToPlayPanelTitle">So steuerst du Sharky</h2>
                     </div>
 
                     <button class="icon-button small-icon-button"
@@ -367,13 +370,14 @@
         </section>
 
         <!-- Story Panel -->
-        <section id="storyPanel"
+        <section id="storyPanel" role="dialog" aria-modal="true"
+            aria-labelledby="storyPanelTitle"
             class="main-menu-panel hidden">
             <div class="panel-card story-card wide-panel-card">
                 <div class="panel-header">
                     <div>
                         <p class="eyebrow">Geschichte</p>
-                        <h2>Sharkys Riff ist in Gefahr</h2>
+                        <h2 id="storyPanelTitle">Sharkys Riff ist in Gefahr</h2>
                     </div>
 
                     <button class="icon-button small-icon-button"
@@ -458,11 +462,12 @@
             </header>
 
             <!-- Pause Screen -->
-            <section id="pauseScreen"
+            <section id="pauseScreen" role="dialog" aria-modal="true"
+                aria-labelledby="pauseScreenTitle"
                 class="menu-overlay hidden">
                 <div class="menu-content">
                     <p class="eyebrow">Pause</p>
-                    <h2>Spiel pausiert</h2>
+                    <h2 id="pauseScreenTitle">Spiel pausiert</h2>
                     <div class="menu-actions">
                         <button id="resumeButton"
                             class="primary-button">
@@ -609,14 +614,14 @@
             </section>
 
             <!-- Ingame Settings Dialog -->
-            <section id="ingameSettingsDialog"
-                class="ingame-dialog hidden"
-                aria-label="Spieleinstellungen">
+            <section id="ingameSettingsDialog" role="dialog" aria-modal="true"
+                aria-labelledby="ingameSettingsDialogTitle"
+                class="ingame-dialog hidden">
                 <div class="ingame-dialog-card">
                     <div class="dialog-header">
                         <div>
                             <p class="eyebrow">Einstellungen</p>
-                            <h2>Spieloptionen</h2>
+                            <h2 id="ingameSettingsDialogTitle">Spieloptionen</h2>
                         </div>
 
                         <button id="closeSettingsButton"
@@ -701,7 +706,7 @@
                     </button>
                 </div>
 
-                <canvas id="gameCanvas" width="960" height="540">
+                <canvas id="gameCanvas" tabindex="-1" aria-label="Sharky-Spielfeld" width="960" height="540">
                     Dein Browser unterstützt kein Canvas.
                 </canvas>
 

@@ -16,6 +16,7 @@ class ScreenManager {
     /** Restores the active gameplay screen state. */
     showGameScreen() {
         this.setGameScreenState(true);
+        this.closeMainMenuPanels();
         this.hideMainMenu();
         this.showGameShell();
         this.hidePauseScreen();
@@ -27,12 +28,14 @@ class ScreenManager {
     openMainMenuPanel(panelId) {
         this.closeMainMenuPanels();
         this.showElement(panelId);
+        document.querySelector('.main-menu-hero').inert = true;
     }
 
     /** Hides every main-menu content panel. */
     closeMainMenuPanels() {
         const panels = document.querySelectorAll('.main-menu-panel');
         panels.forEach((panel) => panel.classList.add('hidden'));
+        document.querySelector('.main-menu-hero').inert = false;
     }
 
     /** Shows the main-menu container. */
@@ -67,21 +70,32 @@ class ScreenManager {
     /** Shows the pause overlay. */
     showPauseScreen() {
         this.showElement('pauseScreen');
+        this.setGameBackgroundInert(true);
     }
 
     /** Hides the pause overlay. */
     hidePauseScreen() {
         this.hideElement('pauseScreen');
+        this.setGameBackgroundInert(false);
     }
 
     /** Shows the in-game settings dialog. */
     showIngameSettingsDialog() {
         this.showElement('ingameSettingsDialog');
+        this.setGameBackgroundInert(true);
     }
 
     /** Hides the in-game settings dialog. */
     hideIngameSettingsDialog() {
         this.hideElement('ingameSettingsDialog');
+        this.setGameBackgroundInert(false);
+    }
+
+    /** @param {boolean} inert - Whether a gameplay dialog owns focus. */
+    setGameBackgroundInert(inert) {
+        document.querySelectorAll('.game-header, .game-area').forEach((area) => {
+            area.inert = inert;
+        });
     }
 
     /** Shows the between-level shop screen. */
