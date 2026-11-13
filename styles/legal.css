@@ -38,10 +38,6 @@
     margin-bottom: 1rem;
 }
 
-.home-link-arrow {
-    display: none;
-}
-
 .legal-introduction {
     max-width: 720px;
     margin: 18px 0 0;
@@ -197,9 +193,14 @@
         min-width: 44px;
     }
 
-    .home-link-arrow {
-        display: inline;
-        font: 700 1.5rem/1 var(--font-main);
+    .legal-home-link::before {
+        content: "";
+        width: 1.875rem;
+        height: 1.5rem;
+        background-color: currentColor;
+        clip-path: polygon(0 52%, 47% 0, 55% 5%, 52% 29%,
+            96% 23%, 100% 32%, 96% 66%, 49% 72%, 46% 100%, 39% 98%);
+        forced-color-adjust: none;
     }
 
     .home-link-label {
