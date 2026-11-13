@@ -157,6 +157,66 @@ kbd {
     border: 0;
 }
 
+@media (min-width: 1024px) {
+    #howToPlayPanel .panel-card {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        gap: 12px 24px;
+        width: min(100%, 1320px);
+        max-height: calc(100dvh - 48px);
+        padding: clamp(20px, 2.5vw, 32px);
+    }
+
+    #howToPlayPanel .panel-card > :not(.instruction-section) {
+        grid-column: 1 / -1;
+        margin-block: 0;
+    }
+
+    #howToPlayPanel .instruction-section {
+        min-width: 0;
+        margin: 0;
+    }
+
+    #howToPlayPanel .instruction-title-image {
+        width: auto;
+        max-width: 100%;
+        height: 48px;
+        object-fit: contain;
+    }
+
+    #howToPlayPanel .instruction-grid {
+        margin: 12px 0 0;
+    }
+
+    #howToPlayPanel .instruction-card {
+        padding: 12px;
+    }
+
+    #howToPlayPanel .wasd-keyboard {
+        grid-template-columns: repeat(3, 36px);
+        grid-template-rows: repeat(2, 36px);
+        min-height: 88px;
+    }
+
+    #howToPlayPanel .wasd-keyboard kbd {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    #howToPlayPanel .arrow-key-image {
+        height: 88px;
+    }
+
+    #howToPlayPanel .instruction-joystick {
+        width: 64px;
+        height: 64px;
+    }
+
+    #howToPlayPanel .text-button {
+        justify-self: start;
+    }
+}
+
 @media (max-width: 900px) {
     .movement-instruction-grid,
     .attack-instruction-grid {

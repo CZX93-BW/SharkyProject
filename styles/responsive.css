@@ -267,7 +267,7 @@
     .ingame-dialog-card {
         max-height: 100%;
         margin: 0;
-        overflow: hidden;
+        overflow-y: auto;
         padding: 12px;
     }
 
@@ -281,7 +281,7 @@
         width: min(100%, 520px);
         max-height: 100%;
         margin: 0;
-        overflow: hidden;
+        overflow-y: auto;
         padding: 12px;
         background: var(--color-surface-light);
     }
@@ -521,11 +521,14 @@
     }
 }
 
-@media (max-height: 280px) and (pointer: coarse) and (orientation: landscape) {
-    .menu-content,
-    .ingame-dialog-card,
-    #settingsPanel .panel-card {
-        overflow-y: auto;
+@media (pointer: coarse) {
+    :is(.panel-card, .menu-content, .ingame-dialog-card) {
+        scrollbar-width: none;
+        overscroll-behavior-y: contain;
+    }
+
+    :is(.panel-card, .menu-content, .ingame-dialog-card)::-webkit-scrollbar {
+        display: none;
     }
 }
 

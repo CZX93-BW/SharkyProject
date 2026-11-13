@@ -20,13 +20,13 @@ test('landscape dialogs avoid unnecessary scrollbars', () => {
     );
 });
 
-test('scroll fallback is limited to extremely short viewports', () => {
+test('touch dialog cards can scroll without a visible scrollbar', () => {
     const css = readProjectFile('styles/responsive.css');
+    const landscapeCss = getLandscapeRules(css);
 
-    assert.match(
-        css,
-        /@media \(max-height:\s*280px\) and \(pointer: coarse\) and \(orientation:\s*landscape\)/
-    );
+    assert.match(landscapeCss, /\.ingame-dialog-card\s*\{[^}]*overflow-y:\s*auto;/);
+    assert.match(landscapeCss, /#settingsPanel \.panel-card\s*\{[^}]*overflow-y:\s*auto;/);
+    assert.match(css, /@media \(pointer: coarse\)\s*\{[^}]*scrollbar-width:\s*none;/);
 });
 
 test('only touch landscape uses automatic viewport sizing, including short windows', () => {
