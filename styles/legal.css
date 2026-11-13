@@ -27,6 +27,16 @@
     margin-bottom: 42px;
 }
 
+.legal-header .legal-home-link {
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    margin: 0 0 1rem;
+    font: 700 1rem var(--font-main);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
 .legal-introduction {
     max-width: 720px;
     margin: 18px 0 0;
@@ -241,6 +251,7 @@
         background: #ffffff;
     }
 
+    .legal-home-link,
     .legal-navigation,
     .legal-footer {
         display: none;

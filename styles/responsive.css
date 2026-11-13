@@ -19,19 +19,6 @@
 
 /* Responsive Layout */
 
-@media (max-width: 980px) {
-    .main-menu-hero {
-        grid-template-columns: 1fr;
-        align-content: center;
-        gap: 34px;
-    }
-
-    .main-menu-navigation {
-        width: min(100%, 640px);
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 @media (max-width: 900px) {
     .shop-grid,
     .panel-grid,
@@ -49,18 +36,6 @@
         overflow-x: hidden;
     }
 
-    .main-menu-hero {
-        padding: 18px;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(2.8rem, 16vw, 4.4rem);
-    }
-
-    .main-menu-navigation {
-        grid-template-columns: 1fr;
-    }
-
     .main-menu-panel {
         padding: 12px;
     }
@@ -69,8 +44,7 @@
         padding: 22px;
     }
 
-    .story-actions,
-    .hero-actions {
+    .story-actions {
         display: grid;
     }
 
@@ -178,58 +152,6 @@
         height: 100dvh;
         min-height: 0;
         overflow: hidden;
-    }
-
-    .main-menu-hero {
-        grid-template-columns:
-            minmax(0, 1fr)
-            minmax(210px, 0.42fr);
-        align-content: center;
-        height: 100%;
-        min-height: 0;
-        gap: 18px;
-        padding: 14px 20px;
-        overflow: hidden;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(2rem, 8vw, 4rem);
-    }
-
-    .hero-text {
-        margin-top: 10px;
-        font-size: 1rem;
-        line-height: 1.35;
-    }
-
-    .hero-feature-list {
-        margin-top: 10px;
-    }
-
-    .hero-feature-list span {
-        font-size: 1rem;
-    }
-
-    .hero-actions {
-        margin-top: 14px;
-    }
-
-    .large-button {
-        min-width: 140px;
-        min-height: 42px;
-    }
-
-    .main-menu-navigation {
-        grid-template-columns: 1fr;
-        gap: 7px;
-        width: 100%;
-        padding: 10px;
-    }
-
-    .main-menu-navigation button,
-    .main-menu-navigation a {
-        padding: 8px 10px;
-        font-size: 1rem;
     }
 
     .page-layout {
@@ -556,40 +478,9 @@
 }
 
 @media (max-height: 430px) and (pointer: coarse) and (orientation: landscape) {
-    .hero-feature-list,
-    .hero-text,
-    .hero-content .eyebrow,
     .ingame-dialog-card > p,
     #settingsPanel .panel-card > p {
         display: none;
-    }
-
-    .hero-actions {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 8px;
-        margin-top: 8px;
-    }
-
-    .large-button {
-        min-width: 0;
-        min-height: 36px;
-        flex: 1;
-        padding: 6px 10px;
-        font-size: 1rem;
-    }
-
-    .main-menu-navigation {
-        grid-template-columns: 1fr;
-        gap: 4px;
-        padding: 6px;
-    }
-
-    .main-menu-navigation button,
-    .main-menu-navigation a {
-        min-width: 0;
-        padding: 6px 8px;
-        font-size: 1rem;
     }
 
     .mobile-controls {
@@ -620,30 +511,6 @@
 }
 
 @media (max-height: 280px) and (pointer: coarse) and (orientation: landscape) {
-    .main-menu-hero {
-        grid-template-columns:
-            minmax(0, 1fr)
-            minmax(265px, 1fr);
-        gap: 8px;
-        padding: 5px 8px;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(1.5rem, 7vw, 2.2rem);
-    }
-
-    .main-menu-navigation {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 3px;
-        padding: 4px;
-    }
-
-    .main-menu-navigation button,
-    .main-menu-navigation a {
-        padding: 4px 6px;
-        font-size: 1rem;
-    }
-
     .menu-content,
     .ingame-dialog-card,
     #settingsPanel .panel-card {

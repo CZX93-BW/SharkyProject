@@ -47,59 +47,34 @@
                 <span class="bubble bubble-four"></span>
             </div>
 
-            <div class="hero-content">
-                <p class="eyebrow">Sharky Projekt</p>
-                <h1>Sharky - Jump and Swim</h1>
-                <p class="hero-text">
-                    Tauche ein in Sharkys Riff, sammle Münzen, nutze Giftflaschen
-                    und verteidige die Tiefsee gegen gefährliche Gegner.
-                </p>
+            <div class="menu-launch">
+                <h1><span>Sharky</span> Jump and Swim</h1>
+                <p class="menu-intro">Erkunde zwei Riffzonen, sammle Giftflaschen
+                    und stell dich den Gegnern der Tiefsee.</p>
 
-                <div class="hero-feature-list" aria-label="Spiel-Highlights">
-                    <span>2 Riffzonen</span>
-                    <span>3 Angriffe</span>
-                    <span>Shop-Upgrades</span>
-                    <span>Mobile Controls</span>
-                </div>
-
-                <div class="hero-actions">
-                    <button class="primary-button large-button"
-                        data-start-level="1">
-                        <span>Spiel starten</span>
+                <div class="launch-actions">
+                    <button type="button" class="launch-play" data-start-level="1">
+                        Spiel starten
                     </button>
-
-                    <button class="secondary-button large-button"
-                        data-main-panel="levelSelectPanel">
-                        <span>Level auswählen</span>
+                    <button type="button" data-main-panel="levelSelectPanel">
+                        Level auswählen
                     </button>
                 </div>
+                <nav class="menu-guide" aria-label="Spiel entdecken">
+                    <button type="button" data-main-panel="howToPlayPanel">Anleitung</button>
+                    <button type="button" data-main-panel="storyPanel">Geschichte</button>
+                </nav>
             </div>
 
-            <nav class="main-menu-navigation" aria-label="Hauptmenü">
-                <button data-main-panel="settingsPanel">
-                    <span>Einstellungen</span>
-                </button>
-
-                <button data-main-panel="howToPlayPanel">
-                    <span>Anleitung</span>
-                </button>
-
-                <button data-main-panel="storyPanel">
-                    <span>Geschichte</span>
-                </button>
-
-                <button data-display-action="theme" aria-pressed="true">
+            <nav class="menu-tools" aria-label="Spieloptionen und Rechtliches">
+                <button type="button" data-main-panel="settingsPanel">Einstellungen</button>
+                <button type="button" data-display-action="theme" aria-pressed="true">
                     <span data-display-label>Darstellung: Dunkel</span>
                 </button>
-
-                <button data-display-action="fullscreen"
-                    aria-pressed="false">
+                <button type="button" data-display-action="fullscreen" aria-pressed="false">
                     <span data-display-label>Vollbild: Aus</span>
                 </button>
-
-                <a href="legal.html">
-                    <span>Impressum</span>
-                </a>
+                <a href="legal.html">Impressum</a>
             </nav>
         </section>
 
@@ -695,7 +670,6 @@
                         class="icon-button"
                         aria-label="Audio an oder aus"
                         aria-pressed="true">
-                        🔊
                     </button>
 
                     <button id="openSettingsButton"

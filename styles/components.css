@@ -35,7 +35,7 @@
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     color: var(--color-text);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
 }
 
@@ -134,8 +134,6 @@ button {
 .text-button,
 .mobile-action-button,
 .settings-toggle-button,
-.main-menu-navigation button,
-.main-menu-navigation a,
 .back-link {
     font-family: var(--font-display);
     font-weight: 400;

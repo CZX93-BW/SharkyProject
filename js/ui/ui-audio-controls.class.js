@@ -179,7 +179,6 @@ class UiAudioControls {
     /** @param {HTMLButtonElement} button - Compact audio control. */
     applyMusicToggleButtonState(button) {
         const isEnabled = this.areAllAudioChannelsEnabled();
-        button.textContent = isEnabled ? '🔊' : '🔇';
         button.classList.toggle('is-active', isEnabled);
         button.setAttribute('aria-pressed', String(isEnabled));
         button.setAttribute(

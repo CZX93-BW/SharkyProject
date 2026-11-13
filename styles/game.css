@@ -30,7 +30,7 @@ html.is-debug-mode .game-hud {
     padding: 6px 10px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.1);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
 }
 
@@ -87,10 +87,6 @@ html.is-debug-mode .game-hud {
 }
 
 /* Audio Icons */
-
-#musicToggleButton {
-    font-size: 0;
-}
 
 #musicToggleButton::before {
     width: 27px;
