@@ -137,6 +137,10 @@ html.has-touch-controls .mobile-controls {
     display: flex;
 }
 
+main[hidden] {
+    display: none;
+}
+
 * {
     box-sizing: border-box;
 }

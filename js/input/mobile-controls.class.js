@@ -193,22 +193,13 @@ class MobileControls {
      * @returns {Object} Delta restricted to the joystick radius.
      */
     getLimitedDelta(event, center) {
-        const delta =
-            this.getPointerDelta(event, center);
-        const distance =
-            Math.hypot(delta.x, delta.y);
-        const maxDistance =
-            this.getMaximumJoystickDistance();
-
+        const delta = this.getPointerDelta(event, center);
+        const distance = Math.hypot(delta.x, delta.y);
+        const maxDistance = this.getMaximumJoystickDistance();
         if (distance <= maxDistance) {
             return delta;
         }
-
-        return this.getNormalizedDelta(
-            delta,
-            distance,
-            maxDistance
-        );
+        return this.getNormalizedDelta(delta, distance, maxDistance);
     }
 
     /**

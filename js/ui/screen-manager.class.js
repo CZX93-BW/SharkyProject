@@ -40,22 +40,22 @@ class ScreenManager {
 
     /** Shows the main-menu container. */
     showMainMenu() {
-        this.showElement('mainMenuScreen');
+        document.getElementById('mainMenuScreen').hidden = false;
     }
 
     /** Hides the main-menu container. */
     hideMainMenu() {
-        this.hideElement('mainMenuScreen');
+        document.getElementById('mainMenuScreen').hidden = true;
     }
 
     /** Shows the gameplay shell. */
     showGameShell() {
-        this.showElement('gameShell');
+        document.getElementById('gameShell').hidden = false;
     }
 
     /** Hides the gameplay shell. */
     hideGameShell() {
-        this.hideElement('gameShell');
+        document.getElementById('gameShell').hidden = true;
     }
 
     /**

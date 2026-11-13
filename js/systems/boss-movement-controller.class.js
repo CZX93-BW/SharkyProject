@@ -60,6 +60,18 @@ class BossMovementController {
     }
 
     /**
+     * @param {Character} player - Target to face and approach.
+     * @param {number} speed - Movement distance per simulation step.
+     * @param {Object[]} solidAreas - Blocking world rectangles.
+     * @param {Object|null} bounds - Optional level boundaries.
+     */
+    moveTowardsPlayer(player, speed, solidAreas, bounds) {
+        const target = this.getPlayerTargetPoint(player);
+        this.facePlayer(player);
+        this.moveTowardsPoint(target.x, target.y, speed, solidAreas, bounds);
+    }
+
+    /**
      * @param {number} targetX - Horizontal target position.
      * @param {number} targetY - Vertical target position.
      * @param {number} speed - Movement distance for this frame.
@@ -76,13 +88,8 @@ class BossMovementController {
             return false;
         }
 
-        const step = Math.min(speed, distance);
-        return this.moveWithCollision(
-            deltaX / distance * step,
-            deltaY / distance * step,
-            solidAreas,
-            bounds
-        );
+        const fraction = Math.min(speed, distance) / distance;
+        return this.moveWithCollision(deltaX * fraction, deltaY * fraction, solidAreas, bounds);
     }
 
     /**

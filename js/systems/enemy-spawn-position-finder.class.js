@@ -13,7 +13,12 @@ class EnemySpawnPositionFinder {
         this.maximumPlacementAttempts = 120;
     }
 
-    /** @returns {Object|null} Safe spawn position or null. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @returns {Object|null} Safe spawn position or null.
+     */
     find(typeConfig, player, visibleBounds) {
         const horizontalRange = this.getHorizontalSpawnRange(
             visibleBounds, typeConfig
@@ -26,7 +31,13 @@ class EnemySpawnPositionFinder {
         );
     }
 
-    /** @returns {Object|null} Safe randomized or fallback position. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {Object} horizontalRange - Minimum and maximum spawn x coordinates.
+     * @returns {Object|null} Safe randomized or fallback position.
+     */
     findPositionInRange(typeConfig, player, visibleBounds, horizontalRange) {
         const position = this.findRandomSpawnPosition(
             typeConfig, player, visibleBounds, horizontalRange
@@ -36,7 +47,13 @@ class EnemySpawnPositionFinder {
         );
     }
 
-    /** @returns {Object|null} Random safe position or null. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {Object} range - Minimum and maximum coordinates to search.
+     * @returns {Object|null} Random safe position or null.
+     */
     findRandomSpawnPosition(typeConfig, player, visibleBounds, range) {
         for (let attempt = 0;
             attempt < this.maximumPlacementAttempts;
@@ -51,7 +68,13 @@ class EnemySpawnPositionFinder {
         return null;
     }
 
-    /** @returns {Object|null} Valid fallback position or null. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {Object} range - Minimum and maximum coordinates to search.
+     * @returns {Object|null} Valid fallback position or null.
+     */
     findFallbackSpawnPosition(typeConfig, player, visibleBounds, range) {
         const verticalRange = this.getVerticalSpawnRange(
             typeConfig, visibleBounds
@@ -66,7 +89,11 @@ class EnemySpawnPositionFinder {
         );
     }
 
-    /** @returns {number[]} Search values including the upper limit. */
+    /**
+     * @param {Object} range - Minimum and maximum coordinates to search.
+     * @param {number} step - Distance between search positions.
+     * @returns {number[]} Search values including the upper limit.
+     */
     createSearchValues(range, step) {
         const values = [];
         for (let value = range.minimum;
@@ -86,7 +113,13 @@ class EnemySpawnPositionFinder {
         values.push(...values.splice(0, startIndex));
     }
 
-    /** @returns {Object|null} First valid grid position or null. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Character} player - Current player.
+     * @param {number[]} xValues - Candidate x coordinates.
+     * @param {number[]} yValues - Candidate y coordinates.
+     * @returns {Object|null} First valid grid position or null.
+     */
     findValidGridCandidate(typeConfig, player, xValues, yValues) {
         for (const x of xValues) {
             for (const y of yValues) {
@@ -99,7 +132,12 @@ class EnemySpawnPositionFinder {
         return null;
     }
 
-    /** @returns {Object} Rectangular spawn candidate. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {number} x - Spawn x coordinate.
+     * @param {number} y - Spawn y coordinate.
+     * @returns {Object} Rectangular spawn candidate.
+     */
     createGridCandidate(typeConfig, x, y) {
         return {
             x,
@@ -109,7 +147,11 @@ class EnemySpawnPositionFinder {
         };
     }
 
-    /** @returns {Object|null} Horizontal spawn range or null. */
+    /**
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @returns {Object|null} Horizontal spawn range or null.
+     */
     getHorizontalSpawnRange(visibleBounds, typeConfig) {
         const minimum = visibleBounds.right + this.config.viewportOffset;
         const maximum = this.level.width -
@@ -120,7 +162,12 @@ class EnemySpawnPositionFinder {
         return { minimum, maximum };
     }
 
-    /** @returns {Object} Randomized rectangular spawn candidate. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Object} horizontalRange - Minimum and maximum spawn x coordinates.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @returns {Object} Randomized rectangular spawn candidate.
+     */
     createCandidate(typeConfig, horizontalRange, visibleBounds) {
         const verticalRange = this.getVerticalSpawnRange(
             typeConfig, visibleBounds
@@ -134,7 +181,11 @@ class EnemySpawnPositionFinder {
         return this.createGridCandidate(typeConfig, x, y);
     }
 
-    /** @returns {Object} Valid vertical spawn range. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @returns {Object} Valid vertical spawn range.
+     */
     getVerticalSpawnRange(typeConfig, visibleBounds) {
         const margin = this.getMovementVerticalMargin(typeConfig.movement);
         const minimum = this.getMinimumY(visibleBounds, margin);
@@ -146,7 +197,11 @@ class EnemySpawnPositionFinder {
         };
     }
 
-    /** @returns {number} Minimum safe vertical spawn coordinate. */
+    /**
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {number} margin - Vertical clearance for enemy movement.
+     * @returns {number} Minimum safe vertical spawn coordinate.
+     */
     getMinimumY(visibleBounds, margin) {
         return Math.max(
             20 + margin,
@@ -154,7 +209,13 @@ class EnemySpawnPositionFinder {
         );
     }
 
-    /** @returns {number} Maximum safe vertical spawn coordinate. */
+    /**
+     * @param {Object} typeConfig - Size and movement settings for this enemy type.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {number} margin - Vertical clearance for enemy movement.
+     * @param {number} minimum - Lowest allowed numeric y value.
+     * @returns {number} Maximum safe vertical spawn coordinate.
+     */
     getMaximumY(typeConfig, visibleBounds, margin, minimum) {
         const floorY = this.level.height -
             this.level.config.world.floorHeight;
@@ -164,7 +225,10 @@ class EnemySpawnPositionFinder {
         return Math.max(minimum, Math.min(cameraMaximum, floorMaximum));
     }
 
-    /** @returns {number} Required vertical movement margin. */
+    /**
+     * @param {Object} movement - Movement profile for the enemy type.
+     * @returns {number} Required vertical movement margin.
+     */
     getMovementVerticalMargin(movement) {
         if (movement.profile === 'waveLeft') {
             return movement.waveAmplitude;
@@ -172,7 +236,11 @@ class EnemySpawnPositionFinder {
         return movement.verticalRange / 2;
     }
 
-    /** @returns {boolean} Whether every safety rule is satisfied. */
+    /**
+     * @param {Object} candidate - Proposed enemy rectangle.
+     * @param {Character} player - Current player.
+     * @returns {boolean} Whether every safety rule is satisfied.
+     */
     isValidSpawnPosition(candidate, player) {
         return this.isInsidePlayableArea(candidate) &&
             this.hasSafePlayerDistance(candidate, player) &&
@@ -183,7 +251,10 @@ class EnemySpawnPositionFinder {
             !this.overlapsObject(candidate, this.level.endboss);
     }
 
-    /** @returns {boolean} Whether the candidate is inside the world. */
+    /**
+     * @param {Object} candidate - Proposed enemy rectangle.
+     * @returns {boolean} Whether the candidate is inside the world.
+     */
     isInsidePlayableArea(candidate) {
         const floorY = this.level.height -
             this.level.config.world.floorHeight;
@@ -193,7 +264,11 @@ class EnemySpawnPositionFinder {
             candidate.y + candidate.height <= floorY;
     }
 
-    /** @returns {boolean} Whether the candidate is far from the player. */
+    /**
+     * @param {Object} candidate - Proposed enemy rectangle.
+     * @param {Character} player - Current player.
+     * @returns {boolean} Whether the candidate is far from the player.
+     */
     hasSafePlayerDistance(candidate, player) {
         const candidateX = candidate.x + candidate.width / 2;
         const candidateY = candidate.y + candidate.height / 2;
@@ -221,14 +296,22 @@ class EnemySpawnPositionFinder {
         });
     }
 
-    /** @returns {boolean} Whether the candidate overlaps any area. */
+    /**
+     * @param {Object} candidate - Proposed enemy rectangle.
+     * @param {Object[]} areas - World rectangles to check.
+     * @returns {boolean} Whether the candidate overlaps any area.
+     */
     overlapsAny(candidate, areas) {
         return areas.some((area) => {
             return this.overlapsObject(candidate, area);
         });
     }
 
-    /** @returns {boolean} Whether the candidate overlaps an object. */
+    /**
+     * @param {Object} candidate - Proposed enemy rectangle.
+     * @param {Object|null} object - World object to check, if present.
+     * @returns {boolean} Whether the candidate overlaps an object.
+     */
     overlapsObject(candidate, object) {
         if (!object) {
             return false;

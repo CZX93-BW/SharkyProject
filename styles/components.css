@@ -299,7 +299,7 @@ button:disabled {
     transition: transform 140ms ease-out, box-shadow 140ms ease-out;
 }
 
-:is(.main-menu-hero, .game-card) :is(button, a):focus-visible {
+:is(.main-menu-screen, .game-card) :is(button, a, input):focus-visible {
     outline: 3px solid currentColor;
     outline-offset: 2px;
 }

@@ -58,13 +58,11 @@ class RandomGenerator {
         if (!entries.length) {
             return null;
         }
-
         const totalWeight = this.getTotalWeight(entries, weightSelector);
         let threshold = this.next() * totalWeight;
 
         for (const entry of entries) {
             threshold -= weightSelector(entry);
-
             if (threshold <= 0) {
                 return entry;
             }

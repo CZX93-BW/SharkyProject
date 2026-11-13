@@ -26,7 +26,12 @@ class EnemySpawner {
         this.hasCreatedInitialPopulation = false;
     }
 
-    /** Updates cleanup, initial population, and timed spawning. */
+    /**
+     * Updates cleanup, initial population, and timed spawning.
+     * @param {Character|null} player - Current player.
+     * @param {Object|null} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {number} [currentTime=GAME_CLOCK.now()] - Simulation timestamp in milliseconds.
+     */
     update(player, visibleBounds, currentTime = GAME_CLOCK.now()) {
         if (!player || !visibleBounds) {
             return;
@@ -38,14 +43,24 @@ class EnemySpawner {
         this.spawnTimedEnemyIfPossible(player, visibleBounds, currentTime);
     }
 
-    /** Creates the initial population once per attempt. */
+    /**
+     * Creates the initial population once per attempt.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {number} currentTime - Simulation timestamp in milliseconds.
+     */
     createInitialPopulationIfNeeded(player, visibleBounds, currentTime) {
         if (!this.hasCreatedInitialPopulation) {
             this.createInitialPopulation(player, visibleBounds, currentTime);
         }
     }
 
-    /** Creates one scheduled enemy when every limit permits it. */
+    /**
+     * Creates one scheduled enemy when every limit permits it.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {number} currentTime - Simulation timestamp in milliseconds.
+     */
     spawnTimedEnemyIfPossible(player, visibleBounds, currentTime) {
         if (!this.canSpawnEnemy(player, currentTime)) {
             return;
@@ -54,7 +69,12 @@ class EnemySpawner {
         this.scheduleNextSpawn(currentTime);
     }
 
-    /** Creates the configured initial enemy population. */
+    /**
+     * Creates the configured initial enemy population.
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @param {number} currentTime - Simulation timestamp in milliseconds.
+     */
     createInitialPopulation(player, visibleBounds, currentTime) {
         while (this.shouldCreateInitialEnemy()) {
             if (!this.spawnEnemy(player, visibleBounds)) {
@@ -71,7 +91,11 @@ class EnemySpawner {
             this.hasRemainingBudget();
     }
 
-    /** @returns {boolean} Whether one timed enemy may be created. */
+    /**
+     * @param {Character} player - Current player.
+     * @param {number} currentTime - Simulation timestamp in milliseconds.
+     * @returns {boolean} Whether one timed enemy may be created.
+     */
     canSpawnEnemy(player, currentTime) {
         return !this.shouldPauseSpawning(player) &&
             this.level.enemies.length < this.config.maxActiveEnemies &&
@@ -84,7 +108,10 @@ class EnemySpawner {
         return this.spawnedCount < this.config.totalEnemyBudget;
     }
 
-    /** @returns {boolean} Whether spawning should pause. */
+    /**
+     * @param {Character} player - Current player.
+     * @returns {boolean} Whether spawning should pause.
+     */
     shouldPauseSpawning(player) {
         if (!this.config.pauseDuringBoss) {
             return false;
@@ -94,13 +121,20 @@ class EnemySpawner {
             this.level.hasActiveEndboss();
     }
 
-    /** @returns {boolean} Whether the player entered the boss zone. */
+    /**
+     * @param {Character} player - Current player.
+     * @returns {boolean} Whether the player entered the boss zone.
+     */
     isPlayerInsideBossZone(player) {
         const bossZoneStart = this.level.width - this.config.bossZoneBuffer;
         return player.x + player.width >= bossZoneStart;
     }
 
-    /** @returns {boolean} Whether an enemy was spawned. */
+    /**
+     * @param {Character} player - Current player.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @returns {boolean} Whether an enemy was spawned.
+     */
     spawnEnemy(player, visibleBounds) {
         for (const type of this.createSpawnTypeOrder()) {
             const typeConfig = this.level.config.enemyTypes[type];
@@ -115,7 +149,11 @@ class EnemySpawner {
         return false;
     }
 
-    /** Adds one enemy at a validated world position. */
+    /**
+     * Adds one enemy at a validated world position.
+     * @param {string} type - Configured enemy type.
+     * @param {Object} position - Validated spawn coordinates.
+     */
     addEnemy(type, position) {
         this.level.enemies.push(this.factory.create(
             type, position.x, position.y
@@ -159,12 +197,19 @@ class EnemySpawner {
         });
     }
 
-    /** @returns {boolean} Whether the enemy death animation completed. */
+    /**
+     * @param {Enemy} enemy - Spawned enemy to inspect.
+     * @returns {boolean} Whether the enemy death animation completed.
+     */
     hasCompletedDeath(enemy) {
         return enemy.isDefeated && enemy.isAnimationFinished();
     }
 
-    /** @returns {boolean} Whether the enemy escaped past the camera edge. */
+    /**
+     * @param {Enemy} enemy - Spawned enemy to inspect.
+     * @param {Object} visibleBounds - Visible camera bounds in world coordinates.
+     * @returns {boolean} Whether the enemy escaped past the camera edge.
+     */
     hasEscapedLeft(enemy, visibleBounds) {
         return enemy.x + enemy.width <
             visibleBounds.left - this.config.despawnBuffer;
