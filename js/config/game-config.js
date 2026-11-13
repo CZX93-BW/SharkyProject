@@ -10,6 +10,8 @@
 const GAME_CONFIG = {
     canvasWidth: 960,
     canvasHeight: 540,
+    simulationStepMs: 1000 / 60,
+    maxStepsPerFrame: 6,
     playerStartX: 120,
     playerStartY: 250,
     playerWidth: 78,

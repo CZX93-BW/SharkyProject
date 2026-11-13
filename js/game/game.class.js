@@ -47,7 +47,8 @@ class Game {
     /** Initializes animation-loop timing state. */
     initializeLoopState() {
         this.animationFrameId = null;
-        this.lastFrameTime = 0;
+        this.lastFrameTime = null;
+        this.pendingTimeMs = 0;
         this.previousBossState = '';
     }
 
@@ -74,7 +75,7 @@ class Game {
         this.resetBossAudio();
         this.resetFrameTime();
         this.notifyStatusUpdate();
-        this.runGameLoop();
+        this.runGameLoop(performance.now());
     }
 
     /** @param {string} upgradeName - Name of the requested shop upgrade. */
@@ -97,6 +98,7 @@ class Game {
     resume() {
         GAME_CLOCK.resume();
         this.gameState.resume();
+        this.resetFrameTime();
         this.audioManager?.playMusic();
         this.notifyStatusUpdate();
     }
@@ -143,14 +145,15 @@ class Game {
 
     /** Resets frame timing and the displayed frame rate. */
     resetFrameTime() {
-        this.lastFrameTime = 0;
+        this.lastFrameTime = null;
+        this.pendingTimeMs = 0;
         this.gameState.setFramesPerSecond(0);
     }
 
-    /** @param {number} [currentTime=0] - Animation frame timestamp. */
-    runGameLoop(currentTime = 0) {
-        this.updateFrameData(currentTime);
-        this.update();
+    /** @param {number} currentTime - Animation frame timestamp. */
+    runGameLoop(currentTime) {
+        const elapsed = this.getFrameDuration(currentTime);
+        this.advanceSimulation(elapsed);
         this.renderCurrentState();
         this.notifyStatusUpdate();
         if (this.shouldContinueLoop()) {
@@ -179,19 +182,30 @@ class Game {
         );
     }
 
-    /** @param {number} currentTime - Current animation frame timestamp. */
-    updateFrameData(currentTime) {
-        if (this.lastFrameTime > 0) {
-            this.updateFramesPerSecond(currentTime);
-        }
+    /**
+     * @param {number} currentTime - Animation frame timestamp.
+     * @returns {number} Elapsed render time in milliseconds.
+     */
+    getFrameDuration(currentTime) {
+        const elapsed = Math.max(0, currentTime - (this.lastFrameTime ?? currentTime));
         this.lastFrameTime = currentTime;
+        if (elapsed > 0) {
+            this.gameState.setFramesPerSecond(Math.round(1000 / elapsed));
+        }
+        return elapsed;
     }
 
-    /** @param {number} currentTime - Current animation frame timestamp. */
-    updateFramesPerSecond(currentTime) {
-        const frameDuration = currentTime - this.lastFrameTime;
-        const framesPerSecond = Math.round(1000 / frameDuration);
-        this.gameState.setFramesPerSecond(framesPerSecond);
+    /** @param {number} elapsed - Elapsed render time in milliseconds. */
+    advanceSimulation(elapsed) {
+        if (!this.canUpdateGame()) return;
+        const step = GAME_CONFIG.simulationStepMs;
+        this.pendingTimeMs += Math.min(elapsed, step * GAME_CONFIG.maxStepsPerFrame);
+        const steps = Math.floor((this.pendingTimeMs + 1e-7) / step);
+        this.pendingTimeMs = Math.max(0, this.pendingTimeMs - steps * step);
+        for (let index = 0; index < steps && this.canUpdateGame(); index++) {
+            GAME_CLOCK.advance(step);
+            this.update();
+        }
     }
 
     /** Updates all active gameplay systems for one frame. */

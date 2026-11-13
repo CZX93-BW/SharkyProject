@@ -7,35 +7,12 @@ import {
 
 /** @returns {Object} Character and controllable gameplay time. */
 function createCharacterEnvironment() {
-    const timeSource = { dateTime: 1000, animationTime: 100 };
-    const context = createCharacterContext(timeSource);
+    const context = createScriptContext({ Image: class {} });
     loadCharacterScripts(context);
     return {
         character: new context.CharacterExport(),
-        advance: (milliseconds) => advanceTime(timeSource, milliseconds)
+        advance: (milliseconds) => context.clock.advance(milliseconds)
     };
-}
-
-/** @param {Object} timeSource - Mutable time-source values. */
-function createCharacterContext(timeSource) {
-    class FakeDate extends Date {
-        static now() {
-            return timeSource.dateTime;
-        }
-    }
-
-    class FakeImage {
-        constructor() {
-            this.complete = false;
-            this.naturalWidth = 0;
-        }
-    }
-
-    return createScriptContext({
-        Date: FakeDate,
-        Image: FakeImage,
-        performance: { now: () => timeSource.animationTime }
-    });
 }
 
 /** @param {vm.Context} context - Character test context. */
@@ -51,17 +28,8 @@ function loadCharacterScripts(context) {
             'js/core/animated-drawable-object.class.js',
             'js/entities/player/character.class.js'
         ],
-        'globalThis.CharacterExport = Character;'
+        'globalThis.CharacterExport = Character; globalThis.clock = GAME_CLOCK;'
     );
-}
-
-/**
- * @param {Object} timeSource - Mutable time-source values.
- * @param {number} milliseconds - Time increment.
- */
-function advanceTime(timeSource, milliseconds) {
-    timeSource.dateTime += milliseconds;
-    timeSource.animationTime += milliseconds;
 }
 
 /** @returns {Object} Inactive keyboard interface. */

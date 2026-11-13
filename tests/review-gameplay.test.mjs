@@ -4,17 +4,15 @@ import { createScriptContext, loadProjectScripts, readProjectFile } from './test
 
 /** Loads the game's real scripts in page order with a controllable animation clock. */
 function createWorld() {
-    let time = 1000;
     const context = createScriptContext({
         Image: class {},
-        window: { location: { search: '' } },
-        performance: { now: () => time }
+        window: { location: { search: '' } }
     });
     const paths = [...readProjectFile('index.html').matchAll(/<script src="([^"?]+)/g)]
         .map((match) => match[1]).filter((path) => path !== 'js/main.js');
     loadProjectScripts(context, paths, 'this.api = { GameState, EnemyFactory, FinSlap, ' +
-        'RandomGenerator, PoisonShot, BubbleTrap, CollisionManager };');
-    return { ...context.api, tick: (ms) => { time += ms; } };
+        'RandomGenerator, PoisonShot, BubbleTrap, CollisionManager, GAME_CLOCK };');
+    return { ...context.api, tick: (ms) => context.api.GAME_CLOCK.advance(ms) };
 }
 
 /** Creates reproducible enemies from the actual level configuration. */

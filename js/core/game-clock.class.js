@@ -1,85 +1,39 @@
 'use strict';
 
-/**
- * Provides gameplay and animation timestamps that exclude paused periods.
- * The clock keeps game logic deterministic across pause and resume cycles.
- */
+/** Measures active simulation time for gameplay timers and sprite animations. */
 class GameClock {
-    /**
-     * Creates an active game clock without accumulated pause durations.
-     */
+    /** Preserves the timestamp range used by cooldowns at the start of a run. */
     constructor() {
+        this.startedAt = Date.now();
+        this.elapsedMs = 0;
         this.isPaused = false;
-        this.pausedDateTime = 0;
-        this.pausedAnimationTime = 0;
-        this.totalDatePause = 0;
-        this.totalAnimationPause = 0;
     }
 
-    /**
-     * Returns gameplay time excluding active and completed pauses.
-     *
-     * @returns {number} Gameplay timestamp in milliseconds.
-     */
-    now() {
-        const realTime = this.isPaused
-            ? this.pausedDateTime
-            : Date.now();
-
-        return realTime - this.totalDatePause;
-    }
-
-    /**
-     * Returns animation time excluding active and completed pauses.
-     *
-     * @returns {number} Animation timestamp in milliseconds.
-     */
-    animationNow() {
-        const realTime = this.isPaused
-            ? this.pausedAnimationTime
-            : performance.now();
-
-        return realTime - this.totalAnimationPause;
-    }
-
-    /**
-     * Freezes the gameplay and animation timestamps once.
-     *
-     * @returns {void}
-     */
-    pause() {
-        if (this.isPaused) {
-            return;
-        }
-
-        this.isPaused = true;
-        this.pausedDateTime = Date.now();
-        this.pausedAnimationTime = performance.now();
-    }
-
-    /**
-     * Resumes both clocks without counting the paused duration.
-     *
-     * @returns {void}
-     */
-    resume() {
+    /** @param {number} milliseconds - Duration of the next simulation step. */
+    advance(milliseconds) {
         if (!this.isPaused) {
-            return;
+            this.elapsedMs += milliseconds;
         }
-
-        this.addCompletedPause();
-        this.isPaused = false;
     }
 
-    /**
-     * Adds the current pause duration to both accumulated offsets.
-     *
-     * @returns {void}
-     */
-    addCompletedPause() {
-        this.totalDatePause += Date.now() - this.pausedDateTime;
-        this.totalAnimationPause +=
-            performance.now() - this.pausedAnimationTime;
+    /** @returns {number} Gameplay timestamp in milliseconds. */
+    now() {
+        return this.startedAt + this.elapsedMs;
+    }
+
+    /** @returns {number} Active animation time in milliseconds. */
+    animationNow() {
+        return this.elapsedMs;
+    }
+
+    /** Freezes gameplay and animation timers. */
+    pause() {
+        this.isPaused = true;
+    }
+
+    /** Allows subsequent simulation steps to advance time again. */
+    resume() {
+        this.isPaused = false;
     }
 }
 

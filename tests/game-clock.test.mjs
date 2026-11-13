@@ -5,78 +5,29 @@ import {
     loadProjectScripts
 } from './test-helpers.mjs';
 
-/** @returns {Object} Controllable clock and time-source interface. */
-function createClockEnvironment() {
-    const timeSource = createTimeSource();
-    const context = createClockContext(timeSource);
-
-    loadProjectScripts(
-        context,
-        ['js/core/game-clock.class.js'],
-        'globalThis.GameClockExport = GameClock;'
-    );
-
-    return createClockControls(context.GameClockExport, timeSource);
-}
-
-/** @returns {Object} Mutable wall-clock and animation timestamps. */
-function createTimeSource() {
-    return {
-        dateTime: 1000,
-        animationTime: 100
-    };
-}
-
-/**
- * @param {Object} timeSource - Mutable source timestamps.
- * @returns {vm.Context} Script context backed by the source timestamps.
- */
-function createClockContext(timeSource) {
-    class FakeDate extends Date {
-        static now() {
-            return timeSource.dateTime;
-        }
-    }
-
-    return createScriptContext({
-        Date: FakeDate,
-        performance: { now: () => timeSource.animationTime }
-    });
-}
-
-/**
- * @param {Function} GameClock - Game clock constructor.
- * @param {Object} timeSource - Mutable source timestamps.
- * @returns {Object} Clock and method for advancing source time.
- */
-function createClockControls(GameClock, timeSource) {
-    return {
-        clock: new GameClock(),
-        advance(dateDelta, animationDelta) {
-            timeSource.dateTime += dateDelta;
-            timeSource.animationTime += animationDelta;
-        }
-    };
-}
+const context = createScriptContext();
+loadProjectScripts(context, ['js/core/game-clock.class.js'], 'this.Clock = GameClock;');
 
 test('gameplay time remains frozen during pause', () => {
-    const environment = createClockEnvironment();
-    environment.advance(250, 25);
-    environment.clock.pause();
-    environment.advance(5000, 500);
+    const clock = new context.Clock();
+    const start = clock.now();
+    clock.advance(25);
+    clock.pause();
+    clock.advance(500);
 
-    assert.equal(environment.clock.now(), 1250);
-    assert.equal(environment.clock.animationNow(), 125);
+    assert.equal(clock.now() - start, 25);
+    assert.equal(clock.animationNow(), 25);
 });
 
 test('resume excludes the completed pause duration', () => {
-    const environment = createClockEnvironment();
-    environment.advance(250, 25);
-    environment.clock.pause();
-    environment.advance(5000, 500);
-    environment.clock.resume();
-    environment.advance(100, 10);
+    const clock = new context.Clock();
+    const start = clock.now();
+    clock.advance(25);
+    clock.pause();
+    clock.advance(500);
+    clock.resume();
+    clock.advance(10);
 
-    assert.equal(environment.clock.now(), 1350);
-    assert.equal(environment.clock.animationNow(), 135);
+    assert.equal(clock.now() - start, 35);
+    assert.equal(clock.animationNow(), 35);
 });
