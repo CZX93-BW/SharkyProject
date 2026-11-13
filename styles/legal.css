@@ -27,14 +27,19 @@
     margin-bottom: 42px;
 }
 
-.legal-header .legal-home-link {
+.legal-home-link {
     align-items: center;
-    gap: 0.6rem;
+    justify-content: center;
     min-height: 44px;
-    margin: 0 0 1rem;
-    font: 700 1rem var(--font-main);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    margin-top: 0;
+}
+
+.legal-header .legal-home-link {
+    margin-bottom: 1rem;
+}
+
+.home-link-arrow {
+    display: none;
 }
 
 .legal-introduction {
@@ -184,6 +189,22 @@
 
 .legal-footer .back-link {
     margin-top: 0;
+}
+
+@media screen and (max-width: 600px),
+    screen and (pointer: coarse) and (max-height: 600px) and (orientation: landscape) {
+    .legal-home-link {
+        min-width: 44px;
+    }
+
+    .home-link-arrow {
+        display: inline;
+        font: 700 1.5rem/1 var(--font-main);
+    }
+
+    .home-link-label {
+        display: none;
+    }
 }
 
 @media (max-width: 600px) {
